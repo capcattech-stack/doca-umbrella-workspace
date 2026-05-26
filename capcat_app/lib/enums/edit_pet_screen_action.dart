@@ -1,0 +1,1 @@
+enum EditPetScreenAction { create, edit }
