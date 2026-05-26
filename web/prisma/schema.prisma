@@ -1,0 +1,110 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Idea {
+  id          String     @id @default(uuid())
+  idea_code   String     @unique
+  pin_code    String
+  raw_idea    String
+  status      String     @default("NEGOTIATING") // NEGOTIATING, PENDING_REVIEW, REJECTED, APPROVED
+  doc_type    String     @default("NONE")        // NONE, USER_STORY, FEATURE_BRIEF, PRD
+  doc_url     String?
+  ai_insights String?
+  created_at  DateTime   @default(now())
+  updated_at  DateTime   @updatedAt
+  
+  ChatLog     ChatLog[]
+  Attachment  Attachment[]
+}
+
+model ChatLog {
+  id         String   @id @default(uuid())
+  idea_id    String
+  role       String   // USER, SYSTEM, AI_ADVISOR
+  content    String
+  created_at DateTime @default(now())
+
+  Idea       Idea     @relation(fields: [idea_id], references: [id])
+}
+
+model AdminSetting {
+  id              Int      @id @default(1)
+  cost_per_manday Int      @default(1000000)
+  opex_multiplier Float    @default(0.15)
+  updated_at      DateTime @updatedAt
+}
+
+model AgentConfig {
+  id                String   @id @default(uuid())
+  agent_id          String   @unique
+  name              String
+  model_name        String   @default("gpt-4o")
+  api_key_encrypted String?  
+  system_prompt     String
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
+}
+
+model Attachment {
+  id         String   @id @default(uuid())
+  idea_id    String
+  file_name  String
+  file_url   String
+  file_type  String   // IMAGE, DOCUMENT
+  created_at DateTime @default(now())
+
+  Idea       Idea     @relation(fields: [idea_id], references: [id])
+}
+
+// Next-Auth Models
+model Account {
+  id                 String  @id @default(cuid())
+  userId             String
+  type               String
+  provider           String
+  providerAccountId  String
+  refresh_token      String?
+  access_token       String?
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String?
+  session_state      String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  role          String    @default("ADMIN") // Default role ADMIN since only whitelisted emails can login
+  accounts      Account[]
+  sessions      Session[]
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}

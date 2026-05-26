@@ -1,0 +1,39 @@
+{
+  "name": "personatwin-skill",
+  "version": "4.0.0",
+  "description": "Synthetic User Testing Cloud based on The Mom Test principles. Simulates ruthlessly honest user feedback for product managers using the 5P Framework and industry-aware personas.",
+  "main": "SKILL.md",
+  "scripts": {
+    "lint": "npx markdownlint-cli **/*.md",
+    "test": "cd tests && npx promptfoo eval"
+  },
+  "skills": {
+    "personatwin": "SKILL.md"
+  },
+  "author": "PersonaTwin Team (datht-work)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/datht-work/PersonaTwin-skill.git"
+  },
+  "bugs": {
+    "url": "https://github.com/datht-work/PersonaTwin-skill/issues"
+  },
+  "homepage": "https://skills.sh/datht-work/personatwin-skill",
+  "keywords": [
+    "product-management",
+    "user-testing",
+    "the-mom-test",
+    "synthetic-users",
+    "ai-agent",
+    "persona-simulation",
+    "skill-md",
+    "validation",
+    "agent-skill"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "markdownlint-cli": "^0.40.0",
+    "promptfoo": "latest",
+    "better-sqlite3": "^11.0.0"
+  }
+}

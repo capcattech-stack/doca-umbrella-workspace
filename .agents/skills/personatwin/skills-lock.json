@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "skills": {
+    "personatwin": {
+      "source": "datht-work/personatwin-skill",
+      "sourceType": "github",
+      "computedHash": "26ecedbf7f554a1f99e1f87373a49f9ffc91326737864c42c2b816377ac6c479"
+    }
+  }
+}

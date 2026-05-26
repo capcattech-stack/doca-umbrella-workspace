@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Forge - Luồng Thảo Luận</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .page-container {
+            max-width: 720px;
+            width: 100%;
+            margin: 40px auto;
+            padding: 0 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .idea-header {
+            border-bottom: 1px solid var(--color-border);
+            padding-bottom: 16px;
+            margin-bottom: 24px;
+        }
+
+        .idea-title { font-size: 32px; font-weight: 700; margin-bottom: 8px; }
+        .meta-row { display: flex; gap: 16px; font-size: 13px; color: var(--color-text-muted); align-items: center; }
+        
+        .badge {
+            background: var(--color-bg-secondary);
+            border: 1px solid var(--color-border);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 12px;
+            color: var(--color-text-main);
+        }
+        .badge.blue { background: var(--color-accent-blue-bg); color: var(--color-accent-blue); border-color: #BAE6FD; }
+
+        .thread {
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            padding-bottom: 40px;
+        }
+
+        .comment {
+            display: flex;
+            gap: 12px;
+        }
+
+        .avatar {
+            width: 28px; height: 28px;
+            border-radius: 4px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 12px; font-weight: 600;
+            flex-shrink: 0;
+        }
+        .avatar.user { background: #E9E9E7; color: var(--color-text-main); }
+        .avatar.ai { background: var(--color-accent-blue-bg); color: var(--color-accent-blue); }
+
+        .comment-body { flex: 1; }
+        .comment-author { font-size: 14px; font-weight: 600; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
+        .comment-time { font-size: 12px; font-weight: 400; color: var(--color-text-muted); }
+        .comment-text { font-size: 15px; color: var(--color-text-main); line-height: 1.6; }
+
+        .system-action {
+            display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--color-text-muted);
+            margin-left: 40px;
+        }
+        
+        .system-action::before {
+            content: ''; width: 4px; height: 4px; border-radius: 50%; background: var(--color-text-muted);
+        }
+
+        .input-area {
+            margin-top: 20px;
+            border-top: 1px solid var(--color-border);
+            padding-top: 20px;
+            display: flex;
+            gap: 12px;
+        }
+
+        .chat-input {
+            flex: 1;
+            background: var(--color-bg-secondary);
+            border: 1px solid transparent;
+            border-radius: var(--radius-md);
+            padding: 10px 14px;
+            font-size: 14px;
+            transition: border 0.2s, background 0.2s;
+        }
+        .chat-input:focus {
+            background: var(--color-bg);
+            border-color: var(--color-accent-blue);
+        }
+
+        .btn-icon {
+            background: transparent; border: none; font-size: 16px; cursor: pointer; color: var(--color-text-muted);
+            display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 4px;
+        }
+        .btn-icon:hover { background: var(--color-bg-hover); color: var(--color-text-main); }
+        .btn-send { background: var(--color-accent-blue); color: white; }
+        .btn-send:hover { background: #2693C0; color: white;}
+
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a href="index.html" class="logo">
+            <div class="logo-icon"></div>
+            Product Forge
+        </a>
+        <div style="display: flex; gap: 12px;">
+            <button class="btn-secondary">Chia sẻ</button>
+            <button class="btn-secondary">...</button>
+        </div>
+    </header>
+    
+    <main class="page-container">
+        <div class="idea-header">
+            <h1 class="idea-title">Tích hợp vòng quay may mắn khi mua trên 500k</h1>
+            <div class="meta-row">
+                <span>#IDEA-826</span>
+                <span class="badge blue" id="statusBadge">Đang phản biện</span>
+                <span>Tạo lúc 10:24 AM</span>
+            </div>
+        </div>
+
+        <div class="thread" id="chatContainer">
+            <!-- User initial -->
+            <div class="comment">
+                <div class="avatar user">U</div>
+                <div class="comment-body">
+                    <div class="comment-author">Business User <span class="comment-time">10:24 AM</span></div>
+                    <div class="comment-text">Tôi muốn thêm tính năng vòng quay may mắn trên ứng dụng. Khách mua trên 500k sẽ được quay.</div>
+                </div>
+            </div>
+            
+            <div class="system-action">Hội đồng (Tech + Market + Product) đang hội ý nội bộ...</div>
+            
+            <!-- AI reply -->
+            <div class="comment">
+                <div class="avatar ai">AI</div>
+                <div class="comment-body">
+                    <div class="comment-author">Cố vấn Sản phẩm <span class="comment-time">10:25 AM</span></div>
+                    <div class="comment-text">
+                        Chào anh, đây là một ý tưởng rất hay để tăng tỷ lệ giữ chân khách hàng!<br><br>Tuy nhiên, hội đồng kỹ thuật (Tech Agent) vừa báo rằng hệ thống của chúng ta thỉnh thoảng có độ trễ đồng bộ đơn hàng từ máy POS lên App khoảng 2 phút. Anh có đồng ý là khách hàng sẽ nhận được <b>Lượt Quay sau 2 phút</b> thay vì quay ngay lập tức tại quầy không ạ?
+                    </div>
+                </div>
+            </div>
+
+            <!-- User reply -->
+            <div class="comment">
+                <div class="avatar user">U</div>
+                <div class="comment-body">
+                    <div class="comment-author">Business User <span class="comment-time">10:26 AM</span></div>
+                    <div class="comment-text">Vậy thì trải nghiệm tại quầy không được tốt lắm nhỉ. Thế nếu chuyển lượt quay đó thành mã QR in trên hóa đơn, khách quét mã trên App để quay thì sao?</div>
+                </div>
+            </div>
+
+            <div class="system-action">Product Agent đang phân tích độ khả thi của QR Code...</div>
+
+            <!-- AI reply -->
+            <div class="comment">
+                <div class="avatar ai">AI</div>
+                <div class="comment-body">
+                    <div class="comment-author">Cố vấn Sản phẩm <span class="comment-time">10:27 AM</span></div>
+                    <div class="comment-text">
+                        Tuyệt vời! Giải pháp in mã QR trên hóa đơn hoàn toàn khả thi và phù hợp với hệ thống POS hiện tại (Tech Agent đã xác nhận).<br><br>
+                        Để ý tưởng này có thể chốt thành tài liệu PRD, anh vui lòng cho biết: <span style="background: var(--color-accent-yellow-bg); padding: 0 4px; border-radius: 2px;">Quỹ quà tặng cho vòng quay này do Finviet tài trợ hay do các Brand tự tài trợ ạ?</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="input-area" id="inputArea">
+            <button class="btn-icon">📎</button>
+            <input type="text" class="chat-input" id="chatInput" placeholder="Trả lời Cố vấn...">
+            <button class="btn-icon btn-send" onclick="finishChat()">↑</button>
+        </div>
+    </main>
+
+    <script>
+        function finishChat() {
+            const container = document.getElementById('chatContainer');
+            const input = document.getElementById('chatInput');
+            const val = input.value.trim() || "Chương trình do Finviet tài trợ để kích cầu chung.";
+            
+            container.innerHTML += `
+                <div class="comment">
+                    <div class="avatar user">U</div>
+                    <div class="comment-body">
+                        <div class="comment-author">Business User <span class="comment-time">Vừa xong</span></div>
+                        <div class="comment-text">${val}</div>
+                    </div>
+                </div>
+                <div class="system-action">Đang tổng hợp Tài liệu Yêu cầu (PRD)...</div>
+            `;
+            input.value = "";
+            window.scrollTo(0, document.body.scrollHeight);
+
+            setTimeout(() => {
+                document.getElementById('statusBadge').innerText = "Đã ra PRD";
+                document.getElementById('statusBadge').className = "badge";
+                document.getElementById('statusBadge').style.background = "#E8F5E9";
+                document.getElementById('statusBadge').style.color = "#2E7D32";
+                document.getElementById('statusBadge').style.borderColor = "#C8E6C9";
+
+                container.innerHTML += `
+                    <div class="comment">
+                        <div class="avatar ai">AI</div>
+                        <div class="comment-body">
+                            <div class="comment-author">Cố vấn Sản phẩm <span class="comment-time">Vừa xong</span></div>
+                            <div class="comment-text">
+                                Cảm ơn anh! Hội đồng đã nhất trí thông qua. Hệ thống đã tự động soạn thảo xong tài liệu Đặc tả Yêu cầu (PRD) cho luồng <b>"Quét QR trên hóa đơn để quay thưởng"</b>.<br><br>
+                                <button class="btn-secondary" style="margin-top: 12px; display: inline-flex; align-items: center; gap: 6px;">
+                                    <span style="font-size: 16px;">📄</span> Mở tài liệu PRD
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                document.getElementById('inputArea').style.display = 'none';
+                window.scrollTo(0, document.body.scrollHeight);
+            }, 1500);
+        }
+    </script>
+</body>
+</html>
