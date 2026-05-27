@@ -8,6 +8,19 @@
 
 ---
 
+## 🌌 Ba Đối Tượng Tham Chiếu Tinh Thần (The Spiritual Trinity)
+
+Để giữ cho định vị sản phẩm luôn sắc bén và đi đúng quỹ đạo, mọi tính năng tương tác của Capcat bắt buộc phải kế thừa tinh hoa từ 3 biểu tượng huyền thoại:
+
+1. **Tamagotchi (Thập niên 90) - Sự Chăm Sóc & Trách Nhiệm Cảm Xúc:**
+   * *Giá trị cốt lõi:* Cảm giác gắn kết sinh ra từ sự chăm sóc và trách nhiệm hàng ngày. Người dùng tự nguyện dành thời gian cho ăn, dọn dẹp, vuốt ve và cảm thấy lo lắng, nhớ nhung khi bỏ bê chú thú cưng ảo của mình. Capcat kế thừa điều này bằng cách biến việc ghi nhận chăm sóc thực tế ngoài đời (cho ăn, đi dạo) thành năng lượng, niềm vui và sự phản hồi sống động của Boss ảo trên app.
+2. **SimSimi (Thập niên 2000) - Sự Hài Hước Bất Ngờ & Khía Hóm Hỉnh:**
+   * *Giá trị cốt lõi:* Sự bất ngờ tạo ra Dopamine tức thì. Những câu trả lời "khịa" dí dỏm, ngáo ngơ, không theo khuôn mẫu của chú gà vàng SimSimi đã từng làm rung chuyển thế giới ảo. Capcat kế thừa tinh thần này để tạo ra một Boss AI có cá tính cực kỳ sống động, dám trêu chọc, tranh luận vui vẻ và giận dỗi "Sen" thay vì chỉ biết vâng lời ngoan ngoãn như một robot công nghiệp.
+3. **Neko Atsume / Nintendogs (Thập niên 2000 - 2010) - Sự Chữa Lành Yên Bình & Tri Kỷ Thấu Hiểu:**
+   * *Giá trị cốt lõi:* Sự hiện diện âm thầm nhưng đầy xoa dịu. Không có áp lực phải chiến thắng, không có nhiệm vụ căng thẳng, chỉ có sự bình yên khi nhìn thấy Boss ảo vui vẻ và lắng nghe những lời thì thầm ấm áp (`whisper`) lúc đêm muộn. Capcat là nơi trú ẩn an lành, xoa dịu mọi giông bão tâm lý của con người sau một ngày dài mệt mỏi trong thế giới thực.
+
+---
+
 ## 🧭 1. Triết Lý Thiết Kế Cốt Lõi (Core Philosophy)
 
 Mọi dòng code được viết, mọi giao diện được vẽ, và mọi tính năng được đề xuất cho **Capcat** đều phải được soi chiếu qua kính lúp của **3 Không - 3 Có**:
