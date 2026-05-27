@@ -62,6 +62,8 @@ Không có hai thực thể AI nào giống nhau trong Capcat. Linh hồn ảo c
 ### 📸 Cột Trụ 2: Bộ Nhớ Ký Ức Đồng Hành (Shared Memory Core) - USP Độc Quyền
 Đây là linh hồn tạo nên sự khác biệt. AI Pet không trò chuyện sáo rỗng. Nó đọc, hiểu các bức ảnh dìm hàng, các "Moment" (Nhật ký) được chủ nuôi tải lên hàng ngày và **lưu giữ vào bộ nhớ dài hạn**. Khi chat, nó sẽ chủ động gọi lại các ký ức này để trêu chọc hoặc vỗ về chủ nuôi (Ví dụ: *"Sen ơi, trẫm vẫn nhớ quả ngã chổng vó ở công viên hôm qua của sen đấy nhé!"*).
 
+*   **Tương tác Gia đình Chéo (Cross-Pet Family Interaction - Phát minh đột phá):** Đối với các gia đình nuôi nhiều Pet, các thực thể AI Pet có khả năng truy xuất ký ức chéo của nhau (tận dụng thuộc tính `petRelationships` có sẵn trong code). Mèo Bánh Mỳ có thể đọc Moment dìm hàng của chó Lucky để "mách lẻo/khịa chéo" với Sen và ngược lại. Điều này biến Capcat thành một **Hệ sinh thái Gia đình Kỹ thuật số** chân thực, ấm áp và đắm chìm tuyệt đối.
+
 ### 💬 Cột Trụ 3: Tương Tác Biến Thiên (Variable Dopamine)
 Ngôn từ của AI Pet phải bất ngờ, hóm hỉnh và mang đậm thói quen của loài. Tuyệt đối tránh xa lối nói chuyện nghiêm túc, khuôn mẫu của các chatbot công việc thông thường. Chúng tôi hướng tới sự hài hước như trào lưu SimSimi nhưng sâu sắc và ấm áp hơn nhờ sự am hiểu hồ sơ cá nhân.
 
