@@ -9,9 +9,13 @@ Tài liệu này đặc tả chi tiết danh sách **EPICS, User Stories và Ti�
 
 ```mermaid
 graph TD
-    MVP[CAPCAT MVP BACKLOG] --> E1[EPIC 1: THIẾT LẬP THẦN THÁI BOSS]
+    MVP[CAPCAT MVP BACKLOG] --> E0[EPIC 0: ĐĂNG NHẬP MỘT CHẠM Google SSO]
+    MVP --> E1[EPIC 1: THIẾT LẬP THẦN THÁI BOSS]
     MVP --> E2[EPIC 2: PHÒNG CHAT TRI KỶ AI]
     MVP --> E3[EPIC 3: BUFFET KÝ ỨC TINDER GAME]
+    
+    E0 --> US01[US-0.1: Đăng nhập một chạm Google SSO]
+    E0 --> US02[US-0.2: Tự động Đăng nhập & Auto-login]
     
     E1 --> US11[US-1.1: Đăng ký Boss]
     E1 --> US12[US-1.2: Chọn Cá tính AI]
@@ -25,6 +29,31 @@ graph TD
     E3 --> US32[US-3.2: Vuốt Tinder nạp ký ức]
     E3 --> US33[US-3.3: Meme Card ghép khung]
 ```
+
+---
+
+## 🔐 EPIC 0: ĐĂNG NHẬP MỘT CHẠM (ONE-TAP GOOGLE SSO AUTHENTICATION)
+
+### US-0.1: Đăng nhập Nhanh chóng qua Google SSO (Single Sign-On)
+*   **Phát biểu:** 
+    *   *Là một:* Người dùng bận rộn (Sen),
+    *   *Tôi muốn:* Đăng nhập vào app bằng tài khoản Google của mình chỉ với một chạm,
+    *   *Để:* Tôi có thể sử dụng ngay ứng dụng mà không cần qua các bước điền form đăng ký email/mật khẩu phiền phức.
+*   **Tiêu chí Nghiệm thu (Acceptance Criteria):**
+    *   **AC-1 (Sleek Auth UI):** Hiển thị màn hình Chào mừng (Welcome Screen) mang phong cách thương hiệu sắc sảo, có nút bấm nổi bật **"Đăng nhập bằng Google"** tích hợp logo Google chuẩn.
+    *   **AC-2 (Google SDK Integration):** Khi nhấn nút, app kích hoạt hộp thoại xác thực bảo mật của Google SDK. Nhận về hồ sơ người dùng (Tên hiển thị, Email, Ảnh đại diện Google).
+    *   **AC-3 (State Synchronization):** Đồng bộ tài khoản Google vừa đăng nhập với hệ thống **Firebase Authentication** để quản lý phiên và bảo mật người dùng.
+*   **Technical Context (Alan):** Sử dụng các package đã có sẵn trong `pubspec.yaml`: `google_sign_in` và `firebase_auth`.
+
+### US-0.2: Duy trì phiên đăng nhập & Tự động đăng nhập (Auto-login)
+*   **Phát biểu:**
+    *   *Là một:* Người dùng cũ quay lại app,
+    *   *Tôi muốn:* Ứng dụng tự động đăng nhập thẳng vào màn hình chính mà không bắt tôi phải bấm lại nút đăng nhập,
+    *   *Để:* Tôi tiết kiệm thời gian tiếp cận Boss ảo.
+*   **Tiêu chí Nghiệm thu (Acceptance Criteria):**
+    *   **AC-1 (Token Caching):** Lưu an toàn Session Token của người dùng xuống Secure Storage cục bộ sau khi đăng nhập thành công.
+    *   **AC-2 (Splash Verification):** Tại màn hình Splash Screen, app tự động kiểm tra tính hợp lệ của token/Firebase Auth. Nếu hợp lệ -> chuyển thẳng vào Home Screen. Nếu hết hạn -> dẫn về Welcome Screen.
+*   **Technical Context (Benny):** Tận dụng `[old]auth_check_screen.dart` để tái cấu trúc luồng check auth bằng Riverpod state.
 
 ---
 
