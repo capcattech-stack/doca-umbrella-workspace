@@ -93,4 +93,22 @@ Từ nay về sau, trước khi bắt tay vào code bất kỳ tính năng mới
 > **Định mức phê duyệt:** Tính năng chỉ được thông qua và đưa vào lộ trình phát triển khi đạt **3/3 điểm ĐỒNG Ý**. Nếu chỉ đạt 2/3, tính năng sẽ bị hoãn lại vô thời hạn để tối ưu hoá tinh thần sản phẩm.
 
 ---
+
+## 🌸 5. Thẩm Mỹ "Tiểu Thuyết Chữa Lành Nhật Bản" (Iyashikei Design & Tone)
+
+Để xoa dịu sâu sắc tâm hồn cô đơn của người trẻ đô thị vào ban đêm, Capcat lấy cảm hứng nghệ thuật tối cao từ dòng **tiểu thuyết chữa lành Nhật Bản (Iyashikei)** (như tác phẩm của Haruki Murakami, Keigo Higashino, Genki Kawamura). Đây là linh hồn thẩm mỹ bất biến của toàn bộ ứng dụng:
+
+### 🎨 5.1. Ngôn Ngữ Thiết Kế Thị Giác (Visual Design)
+*   **Tông màu hoài niệm (Cozy Earthy Palette):** Sử dụng các gam màu gỗ ấm, giấy tái chế, trắng kem, nâu nhạt và vàng dịu của ánh đèn đêm. Tuyệt đối tránh xa các màu sắc lòe loẹt, chói mắt của ứng dụng công nghiệp.
+*   **Bo góc Glassmorphism (Kính mờ):** Tạo cảm giác nhẹ nhàng, lãng đãng và mờ ảo như sương mù buổi sớm tại các thị trấn nhỏ Nhật Bản.
+*   **Nét vẽ Sketch mộc mạc (Watercolor Chibi):** Chú thú cưng ảo (Lottie) được phác họa bằng những nét vẽ tay mộc mạc, màu nước tinh tế, mang lại cảm giác ấm áp, thủ công và chân thành thay vì nét vẽ vector 3D lạnh lùng.
+
+### ✍️ 5.2. Ngôn Ngữ Trị Liệu & Lời Thì Thầm (Iyashikei AI Voice & Whisper)
+*   **Tính chiêm nghiệm sâu sắc:** Lời thì thầm (`whisper`) lúc đêm muộn của Boss AI sẽ mang tính lãng đãng, nhiều suy tư và giàu chất thơ nhẹ nhàng (Ví dụ: *"Sen ơi, trăng đêm nay thật đẹp. Dưới mái nhà này, có trẫm đang ngủ khò và có Sen đang thức, thế là đủ yên bình rồi..."*).
+*   **Nhịp độ chậm rãi (Slow-paced Life):** Tránh các câu từ thúc ép, hối hả. Mọi câu hỏi trắc nghiệm hay lời chọc ghẹo đều được diễn đạt một cách tự nhiên, hóm hỉnh và chậm rãi để mang lại cảm giác xoa dịu sau một ngày dài mệt mỏi.
+
+### 🎵 5.3. Âm Thanh Chữa Lành (Ambient Healing Audio)
+*   **Lo-fi Ghibli & Ambient Sound:** Tích hợp nhạc nền lo-fi acoustic nhẹ nhàng cùng các âm thanh tự nhiên (tiếng mưa rơi rào rạt ngoài hiên, tiếng Boss thở khò khò cục bộ) để tạo ra một **góc trú ẩn tĩnh lặng** an lành nhất cho Sen.
+
+---
 *Bản tuyên ngôn này là Hiến pháp tối cao của dự án Capcat. Được phê chuẩn bởi CPO Sophia cùng Đội ngũ Sáng lập.*
