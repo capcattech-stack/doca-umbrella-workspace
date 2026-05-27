@@ -1,54 +1,77 @@
-# Tổng quan Dự án: Capcat App (flutter_chat_mock_app)
+# Tổng quan Dự án: Capcat App (flutter_chat_mock_app) - Soul of Pet
 
-Tài liệu này cung cấp cái nhìn tổng quan về kiến trúc, công nghệ và cấu trúc thư mục của dự án ứng dụng Flutter `capcat_app`.
+Tài liệu này cung cấp cái nhìn tổng quan về kiến trúc, công nghệ và cấu trúc thư mục của dự án ứng dụng Flutter `capcat_app` theo định hướng chiến lược mới **"Capcat: Soul of Pet"**.
+
+---
 
 ## 1. Thông tin chung
 - **Tên dự án (pubspec):** `flutter_chat_mock_app`
 - **Nền tảng:** Ứng dụng di động (Flutter) có khả năng biên dịch đa nền tảng (Android, iOS, Web, macOS, Linux, Windows).
-- **Mục tiêu:** Xây dựng một ứng dụng có tính năng chat thời gian thực (real-time chat), kết nối mạng, xác thực người dùng và hiển thị đa phương tiện (ảnh, lottie, svg,...).
+- **Mục tiêu tối cao:** Xây dựng một ứng dụng giải trí và kết nối cảm xúc chữa lành, biến chiếc điện thoại thành cầu nối giúp chủ nuôi trò chuyện, chơi đùa với linh hồn kỹ thuật số độc bản của chính chú thú cưng thực tế của họ.
+- **Kim chỉ nam phát triển:** Tuân thủ nghiêm ngặt Bản tuyên ngôn sứ mệnh tại [Document/04_VISION_MANIFESTO.md](file:///Users/macinia/Capcat%20Project/Document/04_VISION_MANIFESTO.md).
 
-## 2. Công nghệ & Thư viện sử dụng (Tech Stack)
+---
 
-Dự án sử dụng các công nghệ hiện đại và phổ biến nhất trong hệ sinh thái Flutter:
+## 2. Các Tính năng Trọng tâm (MVP Features)
 
-- **Quản lý trạng thái (State Management):** `flutter_riverpod`
-- **Kết nối mạng & Real-time:** 
-  - `dio` & `http` cho REST API.
-  - `socket_io_client` & `web_socket_channel` cho real-time chat/kết nối.
-- **Xác thực (Authentication) & Backend (BaaS):** 
-  - `firebase_core`, `firebase_auth`
-  - `google_sign_in`
-- **Lưu trữ cục bộ (Local Storage):**
-  - `shared_preferences` (lưu cài đặt nhỏ)
-  - `flutter_secure_storage` (lưu token, dữ liệu nhạy cảm)
-- **Xử lý Đa phương tiện & File:**
-  - `image_picker`, `file_picker`, `flutter_image_compress` (chọn và nén ảnh/file)
-  - `cached_network_image`, `flutter_cache_manager` (hiển thị và cache ảnh mạng)
-  - `flutter_svg`, `lottie`, `photo_view` (hiển thị đồ họa và xem ảnh)
-- **Đa ngôn ngữ (Localization):** `flutter_localizations`, `intl`
-- **Tiện ích khác:** `permission_handler` (cấp quyền), `url_launcher` (mở link), `shimmer` (hiệu ứng loading), `connectivity_plus` & `internet_connection_checker` (kiểm tra mạng).
+Dự án tập trung vào 4 phân hệ chính giải quyết triệt để bài toán cảm xúc của người dùng:
 
-## 3. Kiến trúc Cấu trúc Thư mục (`lib/`)
+1.  **Hồ sơ sinh học & Cá tính động (`PetDetail` & `PetPersona`):**
+    *   Quản lý thông tin Boss (loài, giống, độ tuổi, cân nặng).
+    *   Thiết lập linh hồn AI của Boss thông qua cấu hình tính cách (chảnh chọe, lười biếng, ngáo ngơ, trung thành), tông giọng và cách xưng hô riêng.
+2.  **Nhật ký ký ức đồng hành (`Moments Feed`):**
+    *   Nơi chủ nuôi tải lên hình ảnh dìm hàng, ghi chép nhanh khoảnh khắc hàng ngày của Boss.
+    *   **Bộ nhớ RAG:** AI sẽ đọc hình ảnh và nội dung nhật ký để ghi nhớ vào bộ não ảo của Boss, phục vụ cho việc trò chuyện cá nhân hoá sau này.
+3.  **Trò chuyện thời gian thực tương tác (`Real-time Chat Companion`):**
+    *   Kênh kết nối trực tiếp với linh hồn ảo của Boss sử dụng `socket_io_client` & `web_socket_channel`.
+    *   Ngôn từ hài hước, biến thiên bất ngờ mang lại Dopamine tức thì, khơi gợi cảm xúc giống như trào lưu nuôi thú ảo Tamagotchi hay SimSimi xưa.
+4.  **Trợ lý ảo ẩn hiện toàn cục (`AssistantHost`):**
+    *   Lớp phủ giao diện (Overlay Widget) thông minh giúp Boss ảo có thể "xuất hiện" nhanh ở bất kỳ màn hình nào thông qua Floating Action Button (FAB) động, gửi các lời thì thầm ngọt ngào/hài hước (`whisper`) cho chủ nuôi.
 
-Dự án áp dụng mô hình kiến trúc phân lớp (phong cách Feature-based/Layer-based) nhằm đảm bảo clean code và dễ mở rộng:
+---
 
-- **`models/`**: Chứa các class dữ liệu (Data models), định nghĩa các thực thể trong app (ví dụ: User, Message, ChatRoom...).
-- **`providers/`**: Chứa các file quản lý state của Riverpod, kết nối giao diện với dữ liệu.
-- **`repositories/`**: Chứa các class xử lý logic giao tiếp với Backend/Services (ẩn đi chi tiết về Dio, Firebase).
-- **`services/`**: Các service cốt lõi của hệ thống (ví dụ: AuthService, SocketService, StorageService).
-- **`screens/`**: Chứa các màn hình giao diện chính của ứng dụng.
-- **`widgets/`**: Các thành phần UI có thể tái sử dụng (reusable components) như nút bấm, input, card,...
-- **`routes/`**: Cấu hình điều hướng (navigation/routing) trong ứng dụng.
-- **`storage/`**: Xử lý việc lưu trữ local (Secure Storage, Shared Prefs).
-- **`theme/`**: Cấu hình màu sắc, typography và chủ đề chung (dark/light mode).
-- **`utils/`**: Các hàm tiện ích, định dạng ngày tháng, hằng số (constants).
-- **`l10n/`**: Các file liên quan đến đa ngôn ngữ.
-- **`gen/`**: Thư mục sinh code tự động (ví dụ: gen assets, font,...).
-- **`assistant/`, `config/`, `data/`, `enums/`**: Các file cấu hình, dữ liệu tĩnh, và hằng số phân loại.
+## 3. Công nghệ & Thư viện sử dụng (Tech Stack)
 
-## 4. Định hướng Tiếp theo
+Dự án ứng dụng các thư viện tối tân nhất trong hệ sinh thái Flutter để tối ưu hóa trải nghiệm cảm xúc:
 
-Dựa trên cấu trúc này, ứng dụng đã có sẵn một "khung xương" rất vững chắc cho một ứng dụng có tính tương tác cao (như chat hoặc mạng xã hội). Khi phát triển tiếp, chúng ta sẽ:
-- Dựa vào `Riverpod` để duy trì luồng dữ liệu (Data flow).
-- Mở rộng các `repositories` nếu thêm API mới.
-- Tạo các feature mới trong `screens` và tái sử dụng component tại `widgets`.
+- **Quản lý trạng thái (State Management):** `flutter_riverpod` (quản lý đồng bộ trạng thái chat, bộ nhớ Boss, cảm xúc).
+- **Kết nối mạng & Real-time Sockets:** 
+  - `dio` & `http` cho các luồng REST API nạp ảnh, đăng nhật ký.
+  - `socket_io_client` & `web_socket_channel` duy trì kết nối chat tức thì dưới 1 giây.
+- **Xác thực & Bảo mật cục bộ:**
+  - `firebase_core`, `firebase_auth`, `google_sign_in` quản lý tài khoản người dùng nhanh gọn qua 1 chạm.
+  - `flutter_secure_storage` & `shared_preferences` lưu trữ an toàn Token bảo mật và cấu hình cá tính Boss.
+- **Hiệu ứng đồ họa & Đa phương tiện:**
+  - `flutter_svg`, `lottie` hiển thị hoạt ảnh Boss sinh động, các biểu cảm ngộ nghĩnh.
+  - `cached_network_image` tải và lưu đệm hình ảnh mượt mà, tránh chờ đợi.
+  - `shimmer` tạo hiệu ứng Skeleton Loading sang trọng khi chờ AI tải câu trả lời.
+  - `photo_view` phóng to thu nhỏ hình ảnh dìm hàng của Boss trong nhật ký.
+- **Đa ngôn ngữ (Localization):** `flutter_localizations`, `intl` phục vụ đa dạng ngôn ngữ giao tiếp.
+
+---
+
+## 4. Kiến trúc Cấu trúc Thư mục (`lib/`)
+
+Mã nguồn được tổ chức theo mô hình Clean Architecture phân lớp rõ ràng:
+
+- **`models/`**: Định nghĩa cấu trúc dữ liệu (`PetDetail`, `PetPersona`, `Message`, `Moment`).
+- **`providers/`**: Trái tim State Management của Riverpod điều phối luồng dữ liệu (ví dụ: `nanny_chat_provider.dart` xử lý kết nối chat với AI).
+- **`repositories/`**: Giao tiếp lấy dữ liệu từ Local Database hoặc Remote API.
+- **`services/`**: Các service cốt lõi (Auth, Socket, Media Service).
+- **`screens/`**: Giao diện các màn hình chính (Splash, Home, Chat, Profile, My Pets).
+- **`widgets/`**: Các UI Component dùng chung (nút bấm hiệu ứng `tap_effect`, loading overlay).
+- **`assistant/`**: Trợ lý ảo toàn cục chứa FAB động và Overlay Host (`assistant_host.dart`).
+- **`theme/`**: Định nghĩa font chữ `Quicksand` & `Motterdam` hiện đại cùng bảng màu tươi sáng, giàu cảm xúc.
+- **`utils/`**: Các hàm tiện ích, định dạng, quản lý Toast hiển thị.
+- **`l10n/`**: Cấu hình đa ngôn ngữ Việt/Anh.
+- **`gen/`**: Thư mục chứa tài nguyên sinh tự động (Assets, Fonts).
+- **`config/`, `data/`, `enums/`**: Các hằng số, cấu hình IP server và dữ liệu tĩnh.
+
+---
+
+## 5. Định hướng Kỹ thuật tiếp theo
+
+Dựa trên cấu trúc kiến trúc vững chắc này, bước tiếp theo đội ngũ sẽ:
+1.  **Cấu hình Prompt thông minh (System Prompt):** Định hình ngôn từ của AI Chat trong `providers/` để bám sát 4 loại tính cách trong `PetPersona`.
+2.  **Liên kết Moments với Chat Memory:** Viết logic đẩy dữ liệu nhật ký mới đăng vào ngữ cảnh chat của AI.
+3.  **Tích hợp vật phẩm ảo (Gacha/Tamagotchi):** Bổ sung các widget cửa hàng vật phẩm ảo để kích hoạt mô hình kinh doanh Giao dịch nhỏ (Micro-transaction).
