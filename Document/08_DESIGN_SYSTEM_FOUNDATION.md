@@ -84,25 +84,26 @@ Tránh tuyệt đối các tông màu đỏ chói hay xanh neon. Toàn bộ thô
 
 ## ✍️ 3. Hệ Thống Kiểu Chữ (Typography Tokens System)
 
-Để truyền tải cảm xúc trọn vẹn như một cuốn tiểu thuyết, Capcat áp dụng 3 nhóm font chữ riêng biệt:
+Để đạt được sự nhẹ nhàng, tinh tế và dễ chịu tối đa cho võng mạc, hệ thống kiểu chữ của Capcat sử dụng cấu trúc **phối hợp các Font không chân (Sans-serif) bo góc mềm mại**, chỉ sử dụng font có chân (Serif) làm điểm nhấn thơ ca cực kỳ giới hạn.
 
-1.  **Quicksand (Google Fonts):** Font Sans-serif bo cong tròn đầu thân thiện, ấm áp và cực kỳ dễ thương. Sử dụng làm font chữ tương tác mặc định cho giao diện nút bấm, danh mục, và chat hằng ngày.
-2.  **Playfair Display / Noto Serif JP:** Font chữ Serif cổ điển mang phong cách văn học. Sử dụng cho các tiêu đề lớn, các câu triết lý ngẫu nhiên (`whisper`), tiêu đề cuốn sổ nhật ký ký ức.
-3.  **Outfit / Inter:** Font chữ Modern Sans-serif tinh tế, khoảng cách ký tự hoàn hảo. Dành riêng cho các thông số kỹ thuật, số đếm (Ví dụ: 26s, 0.5kg, 22:00) hoặc các màn hình cài đặt cấu hình hệ thống.
+1.  **Quicksand (Google Fonts - Primary Sans-serif):** Font không chân có các góc bo tròn đầu (rounded terminals) cực kỳ thân thiện, ấm áp và dễ thương. Đóng vai trò là linh hồn giao tiếp chủ đạo cho các tiêu đề lớn, nút bấm tương tác và tin nhắn trò chuyện của Boss & Sen.
+2.  **Nunito (Google Fonts - Secondary Sans-serif):** Font không chân có tỷ lệ hoàn hảo, bo góc nhẹ nhàng, cực kỳ thanh lịch và dễ đọc ở các đoạn văn dài. Sử dụng cho các phần mô tả hoạt động, nhãn phụ và trang cài đặt.
+3.  **Outfit (Google Fonts - Numeric Sans-serif):** Font không chân mang phong cách hình học tối giản (geometric). Sử dụng riêng để hiển thị các con số kỹ thuật, cân nặng, thời gian đi dạo để đảm bảo tính hiện đại, sắc nét và sang trọng.
+4.  **Playfair Display / Noto Serif JP (Serif - Accent Font Only):** Font có chân cổ điển sang trọng. **Tuyệt đối giới hạn** chỉ sử dụng cho các câu triết lý ngẫu nhiên lúc đêm muộn (`whisperItalic`) hoặc trích dẫn thơ ca đặc biệt để tạo cảm giác tự sự lãng mạn như một cuốn tiểu thuyết chữa lành.
 
 ### Bảng Phân Cấp Kiểu Chữ Chuẩn (Typography Hierarchy Scale)
 
 | Token Name | Font Family | Size (sp/dp) | Weight | Line Height | Usage / Áp dụng thực tế |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| `displayLarge` | *Playfair Display* | `32` | Bold (700) | `1.2` | Tiêu đề chương, Tên Pet ở Dashboard |
-| `headlineLarge` | *Playfair Display* | `24` | Bold (700) | `1.3` | Tiêu đề của Thẻ Ký ức (Moments Card) |
-| `titleLarge` | *Quicksand* | `20` | SemiBold (600) | `1.4` | Tên người dùng, Tiêu đề phần Chat |
-| `bodyLarge` | *Quicksand* | `16` | Medium (500) | `1.5` | Nội dung tin nhắn chat của Boss & Sen |
-| `bodyMedium` | *Quicksand* | `14` | Regular (400) | `1.5` | Nội dung mô tả hoạt động chăm sóc thường nhật |
-| `whisperItalic`| *Playfair Display* | `15` | Medium Italic (500) | `1.6` | Lời thì thầm chiêm nghiệm lúc đêm muộn |
-| `numericLabel` | *Outfit* | `13` | SemiBold (600) | `1.2` | Số cân nặng, số phút đi dạo, mốc thời gian |
-| `buttonText` | *Quicksand* | `15` | SemiBold (600) | `1.0` | Chữ hiển thị trên các nút bấm bo góc tròn |
-| `captionText` | *Inter* | `12` | Regular (400) | `1.4` | Dấu mốc thời gian phụ (Time Stamp), chú thích |
+| `displayLarge` | *Quicksand* | `32` | Bold (700) | `1.2` | Tiêu đề chương lớn hoan nghênh, Tên Pet ở Dashboard |
+| `headlineLarge` | *Quicksand* | `24` | Bold (700) | `1.3` | Tiêu đề của Thẻ Ký ức (Moments Card) |
+| `titleLarge` | *Quicksand* | `20` | SemiBold (600) | `1.4` | Tên người dùng, Tiêu đề phần Chat, Tiêu đề Popup |
+| `bodyLarge` | *Quicksand* | `16` | Medium (500) | `1.5` | Nội dung tin nhắn chat thân mật của Boss & Sen |
+| `bodyMedium` | *Nunito* | `14` | Regular (400) | `1.5` | Nội dung mô tả hoạt động chăm sóc thường nhật, thẻ phụ |
+| `whisperItalic`| *Playfair Display* | `15` | Medium Italic (500) | `1.6` | **[Điểm nhấn Serif đặc biệt]** Lời thì thầm chiêm nghiệm đêm muộn |
+| `numericLabel` | *Outfit* | `13` | SemiBold (600) | `1.2` | Số cân nặng, số phút đi dạo, mốc thời gian hiển thị |
+| `buttonText` | *Quicksand* | `15` | SemiBold (600) | `1.0` | Chữ hiển thị trên các nút bấm bo góc tròn chính |
+| `captionText` | *Nunito* | `12` | Regular (400) | `1.4` | Dấu mốc thời gian phụ (Time Stamp), chú thích chú giải |
 
 ---
 
@@ -210,7 +211,7 @@ Hệ thống thiết kế Iyashikei không chỉ nằm ở thị giác, nó tác
 Kỹ sư nên triển khai mã nguồn thành 3 file độc lập để quản lý tập trung:
 
 1.  `app_theme.dart`: Chứa định nghĩa `ThemeData` cho Light và Dark mode của ứng dụng, ánh xạ trực tiếp các mã màu của `Capcat Design System`.
-2.  `app_text_styles.dart`: Khai báo hệ thống font chữ phân cấp rõ ràng (`Quicksand`, `Playfair Display`, `Outfit`), thiết lập đúng trọng số (weights) và khoảng giãn dòng (`height`).
+2.  `app_text_styles.dart`: Khai báo hệ thống font chữ phân cấp rõ ràng (`Quicksand`, `Nunito`, `Outfit`, và điểm nhấn `Playfair Display`), thiết lập đúng trọng số (weights) và khoảng giãn dòng (`height`).
 3.  `app_decorations.dart`: Định nghĩa sẵn các cấu trúc `BoxDecoration` mẫu cho hiệu ứng Kính mờ (Glassmorphic Container), bo góc lớn `Radius.cozyCard`, và đổ bóng tán xạ mờ ảo `Cozy Shadows`.
 
 ### 8.2. Tài liệu mô tả cách lập trình mẫu (Implementation Reference):
@@ -255,6 +256,34 @@ Kỹ sư có thể tạo ra các class tĩnh (static classes) như sau:
 *   **Khai báo Kiểu Chữ (`AppTextStyles`):**
     ```dart
     class AppTextStyles {
+      // Font không chân chính: Thân thiện, tròn trịa dễ thương
+      static const TextStyle chatBubbleText = TextStyle(
+        fontFamily: 'Quicksand',
+        fontSize: 16.0,
+        fontWeight: FontWeight.w500,
+        height: 1.5,
+        color: AppColors.deepObsidian,
+      );
+
+      // Font không chân phụ: Thanh lịch, dễ đọc cho nội dung dài
+      static const TextStyle bodyTextDescription = TextStyle(
+        fontFamily: 'Nunito',
+        fontSize: 14.0,
+        fontWeight: FontWeight.w400,
+        height: 1.5,
+        color: AppColors.deepObsidian,
+      );
+
+      // Font không chân số học: Hiện đại, hình học sắc nét
+      static const TextStyle numericStats = TextStyle(
+        fontFamily: 'Outfit',
+        fontSize: 13.0,
+        fontWeight: FontWeight.w600,
+        height: 1.2,
+        color: AppColors.deepObsidian,
+      );
+
+      // Font có chân duy nhất: Dành riêng cho lời thì thầm tự sự đặc biệt
       static const TextStyle whisperItalic = TextStyle(
         fontFamily: 'Playfair Display',
         fontSize: 15.0,
