@@ -31,44 +31,50 @@ graph LR
 
 ## 🎨 2. Hệ Thống Màu Sắc (Color Tokens System)
 
-Bảng màu được chia làm hai chủ đề chính: **Cozy Dark (Bóng Đêm Tĩnh Lặng)** là chủ đề mặc định của ứng dụng để xoa dịu võng mạc vào ban đêm, và **Cozy Light (Nắng Sớm Ngoại Ô)** làm chủ đề phụ sáng sủa, ấm áp.
+Dựa trên triết lý trải nghiệm của **26seconds**, hệ thống màu sắc được cấu trúc thành **Chủ đề Sáng (Cozy Light) làm chủ đạo** cho toàn bộ app (Trang chủ, Thư viện, Chat, Cài đặt), và **Chủ đề Tối (Cozy Dark) chuyên biệt** dành riêng cho các trải nghiệm có chiều sâu cảm xúc cao, game tương tác, postcard lưu niệm hoặc vé tàu hành trình (Boarding Pass).
 
 ### 2.1. Danh Sách Mã Màu Bản Sắc (Brand Palette)
 
-| Token Name | Hex Code | HSL Value | Ý Nghĩa Nghệ Thuật & Ứng Dụng |
+| Token Name | Hex Code | HSL Value | Ý Nghĩa Thẩm Mỹ & Ứng Dụng |
 | :--- | :--- | :--- | :--- |
-| `Dark Slate` | `#0D0D0D` | `hsl(0, 0%, 5%)` | Bóng đêm vô cực ngoài cửa sổ, nền sâu nhất của app |
-| `Deep Charcoal` | `#121212` | `hsl(0, 0%, 7%)` | Nền phụ của các khu vực chat, tạo chiều sâu 3D |
-| `Milk Beige` | `#F5F5F0` | `hsl(60, 13%, 95%)` | Màu trang giấy nhật ký cổ điển, màu thẻ bài chính |
-| `Deep Obsidian` | `#1C1C1E` | `hsl(240, 2%, 11%)` | Chữ chính trên nền Milk Beige, rõ ràng nhưng không gắt |
+| **MÀU SÁNG CHỦ ĐẠO** | | | *(Dành cho luồng chính: Trang chủ, Thư viện, Chat)* |
+| `Pure White` | `#FFFFFF` | `hsl(0, 0%, 100%)` | Nền ứng dụng chính, sạch sẽ, rộng rãi, chuẩn Muji |
+| `Oatmeal Background`| `#F8F9FA` | `hsl(210, 17%, 98%)`| Nền phụ hoặc nền lưới cho các thẻ danh mục |
+| `Soft Milk Beige` | `#F5F5F0` | `hsl(60, 13%, 95%)` | Bề mặt giấy thủ công, làm màu nền của thẻ Moments |
+| `Deep Obsidian` | `#1C1C1E` | `hsl(240, 2%, 11%)` | Chữ chính trên nền sáng, rõ nét nhưng rất dịu mắt |
+| `Charcoal Black` | `#121212` | `hsl(0, 0%, 7%)` | Các nút hành động chính (Primary Button), tạo tương phản cao |
+| **MÀU TỐI CHUYÊN BIỆT**| | | *(Dành cho: Game quẹt thẻ, Postcard, Boarding Pass, Premium)*|
+| `Dark Slate` | `#0D0D0D` | `hsl(0, 0%, 5%)` | Bóng đêm vô cực làm nền chính cho Game quẹt thẻ, Postcard |
+| `Ticket Charcoal` | `#1E1F24` | `hsl(228, 9%, 13%)` | Màu thẻ Ticket, Boarding Pass (Bo góc `28px` cực kỳ sang trọng) |
+| `Neon Healing Green`| `#76C123` | `hsl(88, 69%, 45%)` | Màu nhấn phát sáng cho mục tiêu, mốc đo lường và nút Premium |
 | `Cat Pastel Peach` | `#FFD1BA` | `hsl(20, 100%, 86%)` | Màu nhấn đặc trưng của Boss Mèo (Bánh Mỳ), ấm áp |
 | `Dog Pastel Sage` | `#E8F5E9` | `hsl(120, 38%, 94%)` | Màu nhấn đặc trưng của Boss Chó (Lucky), thanh bình |
-| `Warm Amber Light` | `#FFF9C4` | `hsl(54, 100%, 89%)` | Ánh đèn ngủ ấm áp, vạt nắng xiên nhẹ dịu |
-| `Soft Card Ivory` | `#FCFCF9` | `hsl(60, 20%, 98%)` | Thẻ bài phụ trong chế độ Sáng (Cozy Light) |
+| `Warm Amber Light` | `#FFF9C4` | `hsl(54, 100%, 89%)` | Ánh đèn ngủ ấm áp ban đêm, vạt nắng xiên nhẹ dịu |
 
 ---
 
 ### 2.2. Đặc Tả Giao Diện Đa Theme (Theme Specs Mapping)
 
 ```
-Cozy Dark Mode (Mặc Định - Deep Night)
+1. Cozy Light Mode (CHỦ ĐẠO - Mặc Định Hệ Thống)
 +-----------------------------------------------------------------------+
-|  BACKGROUND (Nền ứng dụng)           -->  Dark Slate (#0D0D0D)         |
-|  SURFACE CARD (Thẻ bài lớn)          -->  Milk Beige (#F5F5F0)         |
-|  TEXT ON SURFACE (Chữ trên thẻ)      -->  Deep Obsidian (#1C1C1E)      |
-|  TEXT ON BACKGROUND (Chữ trên nền)   -->  Milk Beige (#F5F5F0)         |
-|  PRIMARY CHAT BUBBLE (Sen nói)       -->  Cat Pastel Peach (#FFD1BA)   |
-|  SECONDARY CHAT BUBBLE (Pet trả lời)  -->  Soft Card Ivory (#FCFCF9)    |
-+-----------------------------------------------------------------------+
-
-Cozy Light Mode (Nắng Sớm - Warm Sunrise)
-+-----------------------------------------------------------------------+
-|  BACKGROUND (Nền ứng dụng)           -->  Milk Beige (#F5F5F0)         |
-|  SURFACE CARD (Thẻ bài lớn)          -->  Soft Card Ivory (#FCFCF9)    |
+|  BACKGROUND (Nền ứng dụng)           -->  Pure White (#FFFFFF)        |
+|  SURFACE CARD (Thẻ bài lớn)          -->  Soft Milk Beige (#F5F5F0)   |
 |  TEXT ON SURFACE (Chữ trên thẻ)      -->  Deep Obsidian (#1C1C1E)      |
 |  TEXT ON BACKGROUND (Chữ trên nền)   -->  Deep Obsidian (#1C1C1E)      |
+|  PRIMARY BUTTON (Nút bấm chính)      -->  Charcoal Black (#121212)     |
 |  PRIMARY CHAT BUBBLE (Sen nói)       -->  Cat Pastel Peach (#FFD1BA)   |
-|  SECONDARY CHAT BUBBLE (Pet trả lời)  -->  Deep Charcoal (#121212)      |
+|  SECONDARY CHAT BUBBLE (Pet trả lời)  -->  Soft Milk Beige (#F5F5F0)   |
++-----------------------------------------------------------------------+
+
+2. Cozy Dark Mode (CHUYÊN BIỆT - Màn hình Game quẹt thẻ, Postcard, Ticket)
++-----------------------------------------------------------------------+
+|  BACKGROUND (Nền ứng dụng)           -->  Dark Slate (#0D0D0D)         |
+|  SURFACE TICKET (Khung thẻ game/vé)  -->  Ticket Charcoal (#1E1F24)    |
+|  ACCENT TARGET (Điểm nhấn trạng thái)-->  Neon Healing Green (#76C123)  |
+|  TEXT ON SURFACE (Chữ trên thẻ vé)   -->  Pure White (#FFFFFF)        |
+|  TEXT ON BACKGROUND (Chữ trên nền)   -->  Soft Milk Beige (#F5F5F0)   |
+|  PRIMARY BUTTON (Nút hành động tối)  -->  Pure White (#FFFFFF)        |
 +-----------------------------------------------------------------------+
 ```
 
@@ -221,31 +227,53 @@ Kỹ sư có thể tạo ra các class tĩnh (static classes) như sau:
 *   **Khai báo Màu Sắc (`AppColors`):**
     ```dart
     class AppColors {
-      static const Color darkSlate = Color(0xFF0D0D0D);
-      static const Color deepCharcoal = Color(0xFF121212);
+      // Cozy Light (Chủ đạo hệ thống)
+      static const Color pureWhite = Color(0xFFFFFFFF);
+      static const Color oatmealBg = Color(0xFFF8F9FA);
       static const Color milkBeige = Color(0xFFF5F5F0);
       static const Color deepObsidian = Color(0xFF1C1C1E);
+      static const Color charcoalBlack = Color(0xFF121212);
+
+      // Cozy Dark (Chuyên biệt: Game quẹt thẻ, Postcard, Boarding Pass)
+      static const Color darkSlate = Color(0xFF0D0D0D);
+      static const Color ticketCharcoal = Color(0xFF1E1F24);
+      static const Color neonGreen = Color(0xFF76C123);
       static const Color catPeach = Color(0xFFFFD1BA);
       static const Color dogSage = Color(0xFFE8F5E9);
       static const Color warmAmber = Color(0xFFFFF9C4);
-      static const Color softIvory = Color(0xFFFCFCF9);
     }
     ```
 
 *   **Khai báo Bo Góc & Độ Mờ (`AppDecorations`):**
     ```dart
     class AppDecorations {
-      static const double radiusCard = 26.0;
+      static const double radiusCard = 28.0;
       static const double radiusButton = 16.0;
       
-      static final BoxDecoration cozyCardDecoration = BoxDecoration(
-        color: AppColors.milkBeige,
+      // Trang trí thẻ bài ở chế độ Sáng chủ đạo
+      static final BoxDecoration lightCardDecoration = BoxDecoration(
+        color: AppColors.pureWhite,
+        borderRadius: BorderRadius.circular(radiusCard),
+        border: Border.all(color: const Color(0xFFEAEAEA), width: 1.0),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFF1C1C1E).withOpacity(0.03),
+            blurRadius: 24,
+            spreadRadius: 0,
+            offset: const Offset(0, 8),
+          )
+        ],
+      );
+
+      // Trang trí thẻ Ticket/Postcard ở chế độ Tối chuyên biệt
+      static final BoxDecoration darkTicketDecoration = BoxDecoration(
+        color: AppColors.ticketCharcoal,
         borderRadius: BorderRadius.circular(radiusCard),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFFFFD1BA).withOpacity(0.04),
+            color: const Color(0xFFFFD1BA).withOpacity(0.03),
             blurRadius: 30,
-            spreadRadius: 2,
+            spreadRadius: 0,
             offset: const Offset(0, 10),
           )
         ],
