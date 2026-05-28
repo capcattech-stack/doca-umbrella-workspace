@@ -89,6 +89,35 @@ Tránh tuyệt đối các tông màu đỏ chói hay xanh neon. Toàn bộ thô
 
 ---
 
+### 2.4. Phân Cấp Màu Sắc Nút Bấm (Button Color Hierarchy Specs)
+
+Để đảm bảo tính nhất quán trực quan y hệt như cấu trúc tinh tế của **26seconds**, hệ thống nút bấm của Capcat được phân chia thành 3 lớp rõ rệt:
+
+#### A. Trong Chủ Đề Sáng (Cozy Light - Chủ Đạo)
+1.  **Nút Bấm Chính (Primary Button):**
+    *   *Màu nền:* `Charcoal Black` (`#121212`) - Đen than đá sẫm tuyệt đối.
+    *   *Màu chữ:* `Pure White` (`#FFFFFF`) dùng font `Quicksand Bold`.
+    *   *Ứng dụng:* Dành cho các hành động quyết định như "Đăng nhập", "Bắt đầu ngay", "Kế tiếp".
+2.  **Nút Bấm Phụ (Secondary Button):**
+    *   *Màu nền:* `Oatmeal Background` (`#F8F9FA`) kết hợp đường viền mảnh `1px` màu `#EAEAEA`.
+    *   *Màu chữ:* `Deep Obsidian` (`#1C1C1E`) dùng font `Quicksand Medium`.
+    *   *Ứng dụng:* Dành cho các hành động bổ trợ như "Bỏ qua", "Quay lại", "Hủy bỏ".
+3.  **Nút Tương Tác Cảm Xúc (Sensory Pet Buttons):**
+    *   *Nút tương tác Mèo:* Nền hồng pastel `Sakura Pink` (`#FCAFAF` với độ mờ 20%), chữ `Deep Obsidian` sẫm. Dành riêng cho nút cưng nựng mèo ("Cho mèo ăn", "Vuốt ve Bánh Mỳ").
+    *   *Nút tương tác Chó:* Nền xanh pastel `Matcha Green` (`#8FA882` với độ mờ 15%), chữ `Deep Obsidian` sẫm. Dành riêng cho nút cưng nựng chó ("Đi dạo cùng Lucky", "Chải lông").
+
+#### B. Trong Chủ Đề Tối (Cozy Dark - Chuyên Biệt)
+1.  **Nút Bấm Chính (Primary Button):**
+    *   *Màu nền:* `Pure White` (`#FFFFFF`).
+    *   *Màu chữ:* `Charcoal Black` (`#121212`) dùng font `Quicksand Bold`.
+    *   *Ứng dụng:* Cho các hành động nổi bật nhất trong bóng đêm (Ví dụ: Nút Premium "Mua Capcat Premium").
+2.  **Nút Bấm Phụ (Secondary Button):**
+    *   *Màu nền:* Kính mờ `Glassmorphism` (`Colors.white.withOpacity(0.08)`) viền mỏng gradient.
+    *   *Màu chữ:* `Soft Milk Beige` (`#F5F5F0`) dùng font `Quicksand Medium`.
+    *   *Ứng dụng:* Dành cho các lựa chọn bổ trợ hoặc các tag lọc trong game quẹt thẻ.
+
+---
+
 ## ✍️ 3. Hệ Thống Kiểu Chữ (Typography Tokens System)
 
 Để đạt được sự nhẹ nhàng, tinh tế và dễ chịu tối đa cho võng mạc, hệ thống kiểu chữ của Capcat sử dụng cấu trúc **phối hợp các Font không chân (Sans-serif) bo góc mềm mại**, chỉ sử dụng font có chân (Serif) làm điểm nhấn thơ ca cực kỳ giới hạn.
