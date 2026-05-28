@@ -47,9 +47,10 @@ Dựa trên triết lý trải nghiệm của **26seconds**, hệ thống màu s
 | `Dark Slate` | `#0D0D0D` | `hsl(0, 0%, 5%)` | Bóng đêm vô cực làm nền chính cho Game quẹt thẻ, Postcard |
 | `Ticket Charcoal` | `#1E1F24` | `hsl(228, 9%, 13%)` | Màu thẻ Ticket, Boarding Pass (Bo góc `28px` cực kỳ sang trọng) |
 | `Neon Healing Green`| `#76C123` | `hsl(88, 69%, 45%)` | Màu nhấn phát sáng cho mục tiêu, mốc đo lường và nút Premium |
-| `Cat Pastel Peach` | `#FFD1BA` | `hsl(20, 100%, 86%)` | Màu nhấn đặc trưng của Boss Mèo (Bánh Mỳ), ấm áp |
-| `Dog Pastel Sage` | `#E8F5E9` | `hsl(120, 38%, 94%)` | Màu nhấn đặc trưng của Boss Chó (Lucky), thanh bình |
 | `Warm Amber Light` | `#FFF9C4` | `hsl(54, 100%, 89%)` | Ánh đèn ngủ ấm áp ban đêm, vạt nắng xiên nhẹ dịu |
+| **MÀU NHẤN TRUYỀN THỐNG NHẬT BẢN** | | | *(Ý nghĩa văn hóa tâm hồn - Emotional & Functional Accents)* |
+| `Sakura Pink` | `#FCAFAF` | `hsl(350, 93%, 84%)` | **Hồng Anh Đào:** Gợi sự ấm áp, yêu thương tri kỷ, dành riêng cho **Boss Mèo**, tim thân mật, và các nút cưng nựng. |
+| `Matcha Green` | `#8FA882` | `hsl(100, 20%, 58%)` | **Xanh Matcha (Earthy Zen):** Gợi sự bình yên tĩnh lặng của trà đạo, dành riêng cho **Boss Chó**, tiến trình đi dạo và mốc y khoa Safe-Vet. |
 
 ---
 
@@ -238,9 +239,11 @@ Kỹ sư có thể tạo ra các class tĩnh (static classes) như sau:
       static const Color darkSlate = Color(0xFF0D0D0D);
       static const Color ticketCharcoal = Color(0xFF1E1F24);
       static const Color neonGreen = Color(0xFF76C123);
-      static const Color catPeach = Color(0xFFFFD1BA);
-      static const Color dogSage = Color(0xFFE8F5E9);
       static const Color warmAmber = Color(0xFFFFF9C4);
+
+      // Màu Nhấn Truyền Thống Nhật Bản (Emotional Accents)
+      static const Color sakuraPink = Color(0xFFFCAFAF); // Hồng Anh Đào (Mèo)
+      static const Color matchaGreen = Color(0xFF8FA882); // Xanh Matcha (Chó, Trà Đạo)
     }
     ```
 
