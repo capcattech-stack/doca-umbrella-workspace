@@ -12,13 +12,15 @@
 
 ```mermaid
 graph TD
-    A[1. Đăng ký / Đăng nhập] -->|Google SSO thành công| B[2. Trang Chủ Dashboard]
+    Splash[0. Màn hình Splash Ký Ức] -->|Bấm Bước Vào| A[1. Đăng ký / Đăng nhập]
+    A -->|Google SSO thành công| B[2. Trang Chủ Dashboard]
     B -->|Click Đăng ký Pet mới| C[3. Trang Tạo Profile Pet]
     C -->|Hoàn tất| D[4. Trang Profile Pet]
     B -->|Chọn Pet & click Chat| E[5. Phòng Chat Tri Kỷ]
     B -->|Chạm góc lưu niệm| F[6. Hộp Ký Ức]
     B -->|Chọn Game Ký ức| G[7. Buffet Ký Ức Tinder Game]
     
+    style Splash fill:#fff9c4,stroke:#fbc02d,stroke-width:2px
     style A fill:#ffebee,stroke:#c62828,stroke-width:1px
     style B fill:#fff9c4,stroke:#fbc02d,stroke-width:2px
     style C fill:#e8f5e9,stroke:#2e7d32,stroke-width:1px
@@ -296,3 +298,46 @@ graph TD
 *   **Ràng buộc Token Thiết kế:**
     *   **Thẻ bài chính (Top Card):** Cấu hình `BorderRadius.circular(28.0)`, bề mặt `Milk Beige` cực mịn màng, viền trong tinh tế `#EAEAEA`.
     *   **Phản hồi xúc giác:** Gạt sang phải kích hoạt nhịp rung giật nhẹ `Light Impact Haptic` đơn lập báo hiệu lưu trữ thành công.
+
+---
+
+## 📸 8. Màn Hình Khởi Động "Mỗi Ngày Một Món Quà Ký Ức" (Cozy Personal Splash Screen)
+
+*   **Không gian mỹ thuật:** Nền sáng ấm sữa tinh khiết (`#FFFFFF`). Ở trung tâm là một khung thẻ ảnh Polaroid lớn bo góc cực mượt (`28px`) hiển thị ngẫu nhiên một bức ảnh dìm hàng lịch sử của chính Boss cưng được vẽ bằng nét vẽ tay màu nước chibi. Phía dưới là lời thoại thì thầm ấm áp, trêu ghẹo của Boss để mang lại tiếng cười cho Sen ngay giây đầu tiên. Ở dưới cùng là nút bấm đen sâu nổi bật để vào app.
+*   **Tham chiếu Thiết kế Trực quan (Mỹ thuật bởi Maya):**
+    ![Cozy Splash Screen Mockup](file:///Users/macinia/.gemini/antigravity-ide/brain/b3b3cb16-efd9-443f-b053-9dc6f5a6c2a5/cozy_splash_screen_mockup_1779981258699.png)
+*   **Bối cảnh Wireframe:**
+
+```
++-------------------------------------------------------+
+|  [ 22:00 ]                                     [ 90%] |
+|                                                       |
+|      +-----------------------------------------+      |
+|      |                                         |      |
+|      |  +-----------------------------------+  |      |
+|      |  |                                   |  |      |
+|      |  |            [ HÌNH ẢNH ]           |  |      | <-- Khung Polaroid
+|      |  |             [ DÌM HÀNG ]          |  |      |     (Độ bo góc 28px)
+|      |  |                                   |  |      |     Nền Pure White
+|      |  +-----------------------------------+  |      |
+|      |                                         |      |
+|      |          Sen về rồi đó à?               |      | <-- Tên/Câu chào serif
+|      |    Hôm nay trẫm đợi Sen hơi             |      |
+|      |          lâu đấy nhé!                   |      |
+|      |                                         |      |
+|      +-----------------------------------------+      |
+|                                                       |
+|                                                       |
+|                +-----------------------+              |
+|                |       Bước vào        |              | <-- Nút bấm chính
+|                +-----------------------+              |     Charcoal Black (#121212)
+|                                                       |
++-------------------------------------------------------+
+```
+
+*   **Ràng buộc Token Thiết kế:**
+    *   **Nền Splash:** `Pure White` (`#FFFFFF`).
+    *   **Thẻ Polaroid:** `Pure White` (`#FFFFFF`), bo góc `28px`, border mảnh `1px` màu `#EAEAEA`, đổ bóng tán xạ mờ `rgba(28,28,30, 0.03)`.
+    *   **Câu nói của Pet:** Sắc chữ `Deep Obsidian` (`#1C1C1E`), font `Playfair Display Italic` (`whisperItalic` ở kích cỡ `16sp`).
+    *   **Nút bấm "Bước vào":** Nền `Charcoal Black` (`#121212`), chữ `Pure White` (`#FFFFFF`) dùng font `Quicksand Bold`.
+
