@@ -303,41 +303,43 @@ graph TD
 
 ## 📸 8. Màn Hình Khởi Động "Mỗi Ngày Một Món Quà Ký Ức" (Cozy Personal Splash Screen)
 
-*   **Không gian mỹ thuật:** Nền sáng ấm sữa tinh khiết (`#FFFFFF`). Ở trung tâm là một khung thẻ ảnh Polaroid lớn bo góc cực mượt (`28px`) hiển thị ngẫu nhiên một bức ảnh dìm hàng lịch sử của chính Boss cưng được vẽ bằng nét vẽ tay màu nước chibi. Phía dưới là lời thoại thì thầm ấm áp, trêu ghẹo của Boss để mang lại tiếng cười cho Sen ngay giây đầu tiên. Ở dưới cùng là nút bấm đen sâu nổi bật để vào app.
+*   **Không gian mỹ thuật:** Giao diện Onboarding đỉnh cao lấy cảm hứng từ ứng dụng **500px**. Toàn bộ màn hình là một bức ảnh vẽ tay màu nước (Watercolor Chibi) phóng to **Full-screen** của chính Boss cưng (Bánh Mỳ đang ngủ dưới đèn bàn). Bức ảnh được phủ một lớp gradient tối che mờ nhẹ (`Dark Vignette Overlay` làm mờ sâu dần về phía đáy) giúp cho các thông tin và nút tương tác trên bề mặt đạt độ tương phản và chiều sâu thị giác tuyệt đối.
 *   **Tham chiếu Thiết kế Trực quan (Mỹ thuật bởi Maya):**
-    ![Cozy Splash Screen Mockup](file:///Users/macinia/.gemini/antigravity-ide/brain/b3b3cb16-efd9-443f-b053-9dc6f5a6c2a5/cozy_splash_screen_mockup_1779981258699.png)
+    ![Cozy Splash Screen Full Mockup](file:///Users/macinia/.gemini/antigravity-ide/brain/b3b3cb16-efd9-443f-b053-9dc6f5a6c2a5/full_screen_cozy_splash_1779981469397.png)
 *   **Bối cảnh Wireframe:**
 
 ```
 +-------------------------------------------------------+
 |  [ 22:00 ]                                     [ 90%] |
 |                                                       |
-|      +-----------------------------------------+      |
-|      |                                         |      |
-|      |  +-----------------------------------+  |      |
-|      |  |                                   |  |      |
-|      |  |            [ HÌNH ẢNH ]           |  |      | <-- Khung Polaroid
-|      |  |             [ DÌM HÀNG ]          |  |      |     (Độ bo góc 28px)
-|      |  |                                   |  |      |     Nền Pure White
-|      |  +-----------------------------------+  |      |
-|      |                                         |      |
-|      |          Sen về rồi đó à?               |      | <-- Tên/Câu chào serif
-|      |    Hôm nay trẫm đợi Sen hơi             |      |
-|      |          lâu đấy nhé!                   |      |
-|      |                                         |      |
-|      +-----------------------------------------+      |
 |                                                       |
+|                     ( HÌNH ẢNH PET )                  |
+|                     (  FULL SCREEN  )                 |
 |                                                       |
-|                +-----------------------+              |
-|                |       Bước vào        |              | <-- Nút bấm chính
-|                +-----------------------+              |     Charcoal Black (#121212)
+|                  ====================                 |
+|                  Vùng che phủ tối dần                 |
+|                  ====================                 |
 |                                                       |
+|            'Sen về rồi đó à? Hôm nay trẫm             | <-- Câu thoại màu trắng
+|              đợi Sen hơi lâu đấy nhé!'                |     (Font serif nghiêng)
+|                                                       |
+|                     o  o  ●  o  o                     | <-- Điểm chỉ trang (Dots)
+|                                                       |
+|         +-------------------+   +------------------+  |
+|         |     Bước vào      |   |     Xem lại      |  | <-- 2 Nút bo tròn 28px
+|         +-------------------+   +------------------+  |     (Trắng vs Kính mờ)
+|                                                       |
+|              Kỷ niệm ngày 28/05/2026 của Bánh Mỳ      | <-- Ghi nhận bản quyền ảnh
 +-------------------------------------------------------+
 ```
 
 *   **Ràng buộc Token Thiết kế:**
-    *   **Nền Splash:** `Pure White` (`#FFFFFF`).
-    *   **Thẻ Polaroid:** `Pure White` (`#FFFFFF`), bo góc `28px`, border mảnh `1px` màu `#EAEAEA`, đổ bóng tán xạ mờ `rgba(28,28,30, 0.03)`.
-    *   **Câu nói của Pet:** Sắc chữ `Deep Obsidian` (`#1C1C1E`), font `Playfair Display Italic` (`whisperItalic` ở kích cỡ `16sp`).
-    *   **Nút bấm "Bước vào":** Nền `Charcoal Black` (`#121212`), chữ `Pure White` (`#FFFFFF`) dùng font `Quicksand Bold`.
+    *   **Nền tảng chính:** Ảnh Pet vẽ tay màu nước toàn màn hình (`BoxFit.cover`).
+    *   **Lớp phủ mờ tối (Vignette Shader):** Áp dụng một `BackdropFilter` với `ImageFilter.blur(sigmaX: 2.0, sigmaY: 2.0)` kết hợp `Container` có dải màu `LinearGradient` từ trong suốt ở đỉnh xuống màu đen tuyền phủ bóng sâu (`Colors.black.withOpacity(0.85)`) ở đáy màn hình.
+    *   **Lời thoại của Boss:** Màu trắng tinh khiết (`#FFFFFF`), font chữ có chân lãng mạn `Playfair Display Italic` (`whisperItalic`), kích cỡ `16sp`, căn lề căn giữa hoàn hảo.
+    *   **Chỉ số trang (Page Indicators):** Gồm 5 dấu chấm nhỏ, màu trắng sữa mờ (`Colors.white.withOpacity(0.3)`), chấm active tô đậm trắng hoàn toàn.
+    *   **Bộ đôi Nút bấm bo tròn cực cao (BorderRadius 28px - Chiều cao 50dp):**
+        *   *Nút chính ("Bước vào"):* Nền trắng tinh khiết (`#FFFFFF`), chữ đen than đá (`#121212`) dùng font `Quicksand Bold`.
+        *   *Nút phụ ("Xem lại"):* Nền trong suốt kính mờ, viền mảnh `1px` màu trắng (`Colors.white`), chữ màu trắng (`#FFFFFF`) dùng font `Quicksand Medium`.
+    *   **Dòng ghi nhận (Credit Text):** Kích thước siêu nhỏ `11sp` màu trắng mờ 50% (`Colors.white.withOpacity(0.5)`), ghi nhận: *"Kỷ niệm ngày 28/05/2026 của Bánh Mỳ"* (Tương đương phong cách *"Photo by Kiem Lam"* tinh tế của 500px).
 
