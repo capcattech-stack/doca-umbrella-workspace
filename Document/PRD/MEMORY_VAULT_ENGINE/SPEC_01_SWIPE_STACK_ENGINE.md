@@ -47,7 +47,7 @@ Chúng ta thiết kế Custom Card Swiper Stack sử dụng các API cử chỉ 
 *   **Ý nghĩa:** Đồng ý tải ảnh lên máy chủ và công khai vào nhật ký *Moments Feed*.
 *   **Hiệu ứng thị giác:** Nhãn mác viền hồng sẫm chữ **"MĂM MĂM"** mờ dần hiện lên.
 *   **Phản hồi xúc giác (Haptic):** Rung nhẹ `HapticFeedback.lightImpact()` khi thẻ bay đi.
-*   **Hành dung hệ thống:**
+*   **Hành động hệ thống:**
     1. Cộng **+5 Điểm Thân Mật (Intimacy Points)** cho Pet.
     2. Đưa ảnh vào hàng đợi tải lên ngầm (`Background Upload Queue`).
     3. Boss ảo nháy mắt và hiện bóng thoại khịa hài hước chuẩn cá tính.
@@ -80,9 +80,9 @@ Chúng ta thiết kế Custom Card Swiper Stack sử dụng các API cử chỉ 
 
 ---
 
-## ⚙️ 4. Cơ Chế Kích Hoạt Buffet Ký Ức & Phân Hệ Chữa Lành (Iyashikei Trigger Mechanics)
+## ⚙️ 4. Cơ Chế Kích Hoạt Buffet Ký Ức (Tinder Game Trigger Mechanics)
 
-Để đảm bảo Buffet Ký Ức diễn ra tự nhiên, kích thích Sen nạp "tài sản kỷ niệm" làm RAG context cho Cozy Chat mà không gây cảm giác áp lực, hệ thống tích hợp bộ ba điểm vào linh hoạt cùng **Ràng buộc Quyền Riêng tư Tuyệt đối**:
+Để đảm bảo Buffet Ký Ức diễn ra tự nhiên, kích thích Sen nạp "tài sản kỷ niệm" làm RAG context cho Cozy Chat mà không gây cảm giác áp lực hay phiền toái, hệ thống chỉ tích hợp đúng **3 Điểm Vào MVP Cốt Lõi** cùng **Ràng buộc Quyền Riêng tư Tuyệt đối**:
 
 > 🔒 **Ràng buộc Quyền Riêng Tư cục bộ (Privacy Scan Constraint):** Trình quét ngầm SQLite và động cơ vuốt bài (Swipe Game) **chỉ lọc và hiển thị các bức ảnh thô chứa thú cưng** (chó, mèo) đã qua nhận diện của ML Kit (SPEC-02). Tuyệt đối KHÔNG tự động hiển thị các ảnh riêng tư khác (con người, hóa đơn, tài liệu) để loại bỏ hoàn toàn cảm giác bị xâm phạm đời tư.
 
@@ -98,16 +98,7 @@ Chúng ta thiết kế Custom Card Swiper Stack sử dụng các API cử chỉ 
     Khi Sen click vào link trong khung chat, hệ thống lập tức mở stack 10-15 ảnh Pet thô được lọc ngầm sẵn từ SQLite Cache.
 *   **Mục tiêu:** Tận dụng thời gian rảnh rỗi của chủ nuôi, tạo trải nghiệm trò chuyện tương tác tự nhiên thay vì gửi push notification khô khan gây phiền hà.
 
-### 4.3. Kịch bản 3: Chạm Mốc Thân Mật (Intimacy Milestone Celebrations) — [XOAY TRỤC TRỊ LIỆU]
-*   **Điểm kích hoạt:** Khi chỉ số Intimacy của Boss ảo đạt mốc cấp độ mới (Cấp 3, Cấp 5, Cấp 10).
-*   **Hành vi (Món quà tinh thần - KHÔNG bắt vuốt ảnh):**
-    1.  **Lễ hội Chibi & Dấu chân ấm:** Khi đạt cấp mới, app phát hoạt ảnh một chú mèo Chibi nhảy nhót tung pháo hoa, hoặc Boss cào màn hình để lại các **dấu chân mèo nhỏ** ngộ nghĩnh trên mặt kính.
-    2.  **Mở khóa "Linh Hồn Bí Mật" (Secret Gift Box):** Mở ra hộp quà chứa:
-        *   **Bằng Khen Sen Ngoan:** Thẻ Polaroid retro do Boss vẽ tay ngộ nghĩnh vinh danh Sen xuất sắc hạng Nhất (cho phép nhấn share nhanh lên Instagram/Facebook Stories).
-        *   **Câu thoại độc quyền:** Mở khóa vĩnh viễn 1 câu thoại/sticker ẩn tương ứng với cấp độ (Ví dụ Bánh Mỳ chảnh chọe khẽ nói: *"Hừm... Tuy Sen ngốc nghếch nhưng trẫm chỉ cho phép một mình Sen ôm trẫm thôi đó..."*).
-*   **Mục tiêu:** Tôn vinh nỗ lực của chủ nuôi bằng phần thưởng cảm xúc thuần túy, tuyệt đối không giao thêm nhiệm vụ bắt vuốt ảnh thô khi họ đang ăn mừng.
-
-### 4.4. Kịch bản 4: Điểm Vào Cố Định (Permanent Entry Point)
+### 4.3. Kịch bản 3: Điểm Vào Cố Định (Permanent Entry Point)
 *   **Điểm kích hoạt:** Sen chủ động bấm chơi bất kỳ lúc nào họ có hứng thú làm giàu tài sản kỷ niệm.
 *   **Hành vi:** Bố trí một **Nút gỗ retro "Lục Hòm Ảnh Cũ"** nằm ở vị trí trang trọng trong giao diện Hộp Ký Ức (hoặc phần cài đặt). Khi Sen chạm vào, hệ thống quét nhanh SQLite Cache và hiển thị Tinder Swipe Stack gồm 10-15 ảnh Pet thô ngẫu nhiên chưa được phân loại.
 
@@ -175,8 +166,7 @@ class CozyCardSwiper extends StatelessWidget {
 
 1.  **AC-1 (Swipe Up Physics):** Kéo thẻ bài thẳng đứng hướng lên trên -> Thẻ bài bay thẳng đứng mượt mà ở 60 FPS, kích hoạt đúng hoạt ảnh hạt pháo hoa vàng lấp lánh khi bay qua ngưỡng 35%.
 2.  **AC-2 (Swipe Up Limit):** Nếu người dùng đã dùng hết 1 lượt Kỷ Niệm Vàng trong tuần, khi cố tình vuốt lên lần thứ 2 -> Hệ thống tự động đẩy nhẹ thẻ bài lò xo hồi về vị trí cũ và hiển thị thông báo nhẹ nhàng của Boss: *"Kỷ niệm vàng tuần này trẫm đã ghi dấu rồi Sen ơi, hãy để dành bức ảnh tuyệt vời này cho tuần sau nhé!"*.
-3.  **AC-3 (Milestone Frictionless):** Xác minh khi kích hoạt kịch bản *Intimacy Milestone* -> Hệ thống tuyệt đối KHÔNG tự động hiển thị stack vuốt nạp ảnh thô, mà hiển thị đúng hoạt ảnh chúc mừng Chibi và mở khóa secret soul reward.
-4.  **AC-4 (Privacy & Entry Point Integrity):**
+3.  **AC-3 (Privacy & Entry Point Integrity):**
     *   Xác minh Tinder Stack KHÔNG BAO GIỜ tự động nạp ảnh không chứa chó/mèo (được lọc bởi ML Kit).
     *   Xác minh click vào nút gỗ "Lục Hòm Ảnh Cũ" ở Hộp Ký Ức mở đúng Tinder Stack vuốt ảnh thú cưng ngẫu nhiên.
     *   Xác minh click deep-link `capcat://swipe_game` trong hội thoại chat cuối tuần mở trực tiếp Tinder Stack.
