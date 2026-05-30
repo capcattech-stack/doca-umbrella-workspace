@@ -39,6 +39,46 @@ Nhóm màu lông chuẩn nào có giá trị $d$ **nhỏ nhất** sẽ được 
 
 ---
 
+### 2.2. Quy trình Xử lý Lỗi Ảnh & Tự động tạo Chibi Avatar (Error & Skip Fallback Flow)
+
+Để đảm bảo trải nghiệm người dùng tối giản và không gây ức chế khi ảnh chụp bị mờ, góc khuất hoặc vô tình tải nhầm ảnh không phải chó mèo (selfie, phong cảnh), hệ thống thiết kế luồng xử lý ngoại lệ thông minh:
+
+```
+[ Sen Chọn/Chụp Ảnh Boss ]
+           |
+   (ML Kit Quét Offline)
+           |
+           +---> [CÓ nhãn Dog/Cat] ---------> Tiến hành trích xuất màu lông & Giống loài
+           |
+           +---> [KHÔNG CÓ nhãn Dog/Cat] ---> Hiện Hộp thoại cảnh báo dễ thương
+                                                     |
+             +---------------------------------------+---------------------------------------+
+             |                                                                               |
+    [Nút 1: Chọn ảnh khác]                                                          [Nút 2: Bỏ qua và dùng Chibi]
+             |                                                                               |
+    Mở lại Gallery/Camera                                                Tự động gán Chibi Avatar cục bộ (0đ)
+                                                                         dựa trên Loài, Giống và Màu lông Sen mô tả
+```
+
+#### A. Hộp thoại cảnh báo dễ thương (Friendly Warning Dialog)
+Khi ML Kit xác định ảnh không chứa nhãn `"Dog"`, `"Puppy"`, `"Cat"`, `"Kitten"` với độ tin cậy `confidence >= 0.50`, hệ thống sẽ trượt lên một Dialog Wabi-Sabi phẳng mang lời nhắn ngọt ngào từ Boss ảo:
+> *"Ủa Sen ơi, trẫm nhìn hình này chưa ra bóng dáng bạn chó mèo nào cả... Sen chụp lại ảnh rõ mặt trẫm hoặc chọn ảnh khác xem sao nhé! 🥺"*
+*   **Nút 1 - Chọn ảnh khác:** Quay lại màn hình thư viện ảnh/camera để chọn lại.
+*   **Nút 2 - Bỏ qua & Dùng ảnh đại diện Chibi:** Chuyển tiếp Sen trực tiếp sang bước điền mô tả, app sẽ tự động "vẽ" (gán) ảnh đại diện Chibi cực cute.
+
+#### B. Cơ chế Tự động Tạo Chibi Avatar 0đ (Zero-Cost Chibi Avatar Auto-Generation)
+Để duy trì **chi phí 0đ vĩnh viễn** và **độ trễ 0ms** (không gọi DALL-E hay Midjourney server), Capcat chuẩn bị sẵn **Kho Avatar Chibi Dễ Thương Cục Bộ (Local Chibi Presets)** được vẽ tay nghệ thuật.
+
+Hệ thống sẽ **tự động ghép nối (Render) ảnh đại diện hoàn hảo** dựa trên thông số Sen nhập:
+
+$$\text{Avatar Path} = \text{assets/chibi/} + \text{species} + \text{"\_"} + \text{breed} + \text{"\_"} + \text{coat\_color} + \text{".png"}$$
+
+*   *Ví dụ 1:* Sen chọn Loài = `Cat`, Giống = `British Shorthair` (ALN), Màu lông = `Silver Tabby` (Xám mướp) $\rightarrow$ App tự động gán ảnh đại diện cực xinh: `assets/chibi/cat_british_shorthair_silver_tabby.png`.
+*   *Ví dụ 2:* Sen chọn Loài = `Dog`, Giống = `Corgi`, Màu lông = `Cream Gold` (Vàng kem) $\rightarrow$ App tự động gán: `assets/chibi/dog_corgi_cream_gold.png`.
+*   *Trường hợp không khớp giống đặc thù:* Hệ thống tự động fallback về avatar chibi đáng yêu chung của loài đó (Ví dụ: `assets/chibi/cat_default_ginger_orange.png`).
+
+---
+
 ## 3. THIẾT KẾ ENUM MÀU LÔNG VÀ SIÊU NĂNG LỰC (`PetCoatColor`)
 
 Dưới đây là bảng định nghĩa cấu trúc dữ liệu Enum `PetCoatColor` tích hợp sẵn mã RGB chuẩn và các thuộc tính cá nhân hóa vui nhộn phục vụ luồng hiển thị:
