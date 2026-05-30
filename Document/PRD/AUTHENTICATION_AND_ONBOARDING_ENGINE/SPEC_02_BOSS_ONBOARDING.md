@@ -1,4 +1,4 @@
-# SPECIFICATION 02: PHÒNG KHAI SINH BOSS ẢO
+# SPECIFICATION 02: ĐÓN BOSS VỀ NHÀ
 ## (NEW BOSS ONBOARDING & PROFILING)
 *(Phiên bản: 3.0 - Giai đoạn: MVP - Người soạn: CPO Sophia & Alan)*
 
@@ -6,7 +6,7 @@
 
 ## 1. KÍCH HOẠT & ĐIỀU HƯỚNG (TRIGGER & ROUTING)
 
-Màn hình Khai Sinh Boss (`PetOnboardingScreen`) **không** ép buộc hiển thị ngay lập tức sau khi đăng nhập. Thay vào đó, nó được kích hoạt tự nguyện thông qua các hành vi khám phá tự nhiên của Sen mới:
+Màn hình Đón Boss Về Nhà (`PetOnboardingScreen`) **không** ép buộc hiển thị ngay lập tức sau khi đăng nhập. Thay vào đó, nó được kích hoạt tự nguyện thông qua các hành vi khám phá tự nhiên của Sen mới:
 
 ```
 [ Đăng nhập Google thành công ]
@@ -15,9 +15,9 @@ Màn hình Khai Sinh Boss (`PetOnboardingScreen`) **không** ép buộc hiển t
               |
       (Kiểm tra listPet)
               |
-              +---> [Chưa có Pet] ---> Hiện Trang chủ tĩnh lặng + Card gỗ CTA "Khai sinh Boss"
+              +---> [Chưa có Pet] ---> Hiện Trang chủ tĩnh lặng + Card gỗ CTA "Đón Boss Về Nhà"
               |                        |
-              |                        +---> (Bấm CTA trang Home / Bấm Tab Chat) ---> Mở Phòng Khai Sinh
+              |                        +---> (Bấm CTA trang Home / Bấm Tab Chat) ---> Mở Giao diện Đón Boss
               |
               +---> [Đã có Pet]   ---> Hiện Trang chủ bình thường (Chibi Carousel) & Mở Chat tự do
 ```
@@ -26,41 +26,48 @@ Màn hình Khai Sinh Boss (`PetOnboardingScreen`) **không** ép buộc hiển t
 
 ## 2. ĐẶC TẢ CHI TIẾT CÁC BƯỚC THIẾT LẬP (STEP-BY-STEP PROFILING)
 
-Phòng khai sinh được chia làm 2 bước cực kỳ tối giản, trình bày trên các card bo cong Glassmorphism màu trắng sữa dịu mắt:
+Giao diện Đón Boss Về Nhà được thiết kế tối giản ma sát, chia thành 2 bước trình bày trên các card bo cong Glassmorphism màu xám nhạt mộc mạc:
 
-### Bước 1: Nhập thông tin Sinh Học (Biological Specs)
-*   **Loài (Species):** Chọn nhanh qua 2 icon dễ thương: Chó 🐶 hoặc Mèo 🐱. (Bắt buộc).
-*   **Tên Boss (Pet Name):** Ô nhập văn bản tối giản (Bắt buộc).
-*   **Giống loài (Breed):** Dropdown có tính năng tìm kiếm (Ví dụ: Golden Retriever, Corgi, Mèo Anh Lông Ngắn...).
-*   **Giới tính (Gender):** 3 nút tròn mộc mạc: Đực / Cái / Triệt sản.
+### Bước 1: Thông tin Sinh học của Boss & Cấu hình Danh xưng của Sen
+*   **Gương Soi Linh Hồn Boss (Soul Mirror Scan):** Sen chụp/chọn 1 bức ảnh của Boss. App chạy offline 100% trong 200ms để tự động trích xuất:
+    *   *Loài:* Chó 🐶 hoặc Mèo 🐱.
+    *   *Nhãn màu lông trích xuất:* (Ví dụ: Cam Gừng, Đen mun, Xám xanh...).
+    *   *Siêu năng lực linh hồn vui vẻ:* (Ví dụ: *"Phàm ăn pate vũ trụ"*).
+*   **Tên Boss (Pet Name):** Sen nhập tên cho Boss (Bắt buộc).
+*   **Giống loài (Breed):** Dropdown searchable (Gợi ý tự động từ ML Kit hoặc chọn thủ công).
+*   **Danh xưng của Sen (Owner Persona - BẮT BUỘC):** Một dropdown tối giản cho phép Sen tự chọn cách gọi chính mình:
+    *   *Lựa chọn:* **Ba / Mẹ / Anh / Chị / Em / Cậu / Sen**
+    *   *Mục tiêu:* Đây là **thông tin nền móng** dùng để kết hợp với Cá tính AI của Boss ở Bước 2 nhằm tính toán ra đại từ xưng hô chính xác.
 *   **Cân nặng (Weight):** Nhập số (kg).
-*   **Ngày sinh nhật & Ngày nhận nuôi:** Bộ chọn ngày (DatePicker) phẳng dạng lịch gỗ retro.
+*   **Ngày sinh nhật & Ngày nhận nuôi:** Bộ chọn ngày gỗ phẳng retro.
 
 #### 🧮 Cơ chế Tự động Tính toán Chỉ số Sinh học Động (Calculated Bio Indices):
-Ngay khi người dùng hoàn tất điền form, hệ thống tự động tính toán cục bộ và hiển thị:
-*   **Số ngày ở bên nhau (`togetherDays`):** Khoảng thời gian từ Ngày nhận nuôi đến Hôm nay.
-*   **Tuổi người quy đổi:** Hệ thống tự động nhân hệ số sinh học tương ứng với loài chó/mèo để hiển thị tuổi quy đổi của Pet sang tuổi người (Ví dụ: Chú mèo 1 tuổi tương đương thanh niên 15 tuổi của người).
-*   **LifeStage (Giai đoạn phát triển):** Gán nhãn tự động (`Kitten/Puppy`, `Junior`, `Adult`, `Senior`) kèm 1 câu khuyên dinh dưỡng/y khoa cực kỳ ngắn gọn từ cố vấn thú y.
+Hệ thống tự động tính toán cục bộ dựa trên dữ liệu Sen nhập:
+*   `togetherDays` (Số ngày bên nhau) = `Hôm nay` - `Ngày nhận nuôi`.
+*   `Tuổi người quy đổi` = Hệ số sinh học của Chó/Mèo tương ứng.
+*   `LifeStage` (Giai đoạn phát triển) kèm lời khuyên dinh dưỡng vắn tắt.
 
 ---
 
-### Bước 2: Thổi Hồn Cho Boss & Cấu Hình Xưng Hô (AI Persona Settings)
-Sen lựa chọn 1 trong 4 phong cách cá tính đặc trưng để định hình linh hồn và giọng điệu AI của Boss suốt quá trình tương tác:
+### Bước 2: Chọn Cá Tính AI & Trực Quan Hóa Xưng Hô (AI Persona & Dynamic Pronoun Mapping)
+Cơ chế đại từ xưng hô (`xungHoWithPet` - cách Boss tự xưng và gọi Sen) **TUYỆT ĐỐI KHÔNG bắt người dùng chọn thủ công cản địa**, mà sẽ được **hệ thống tự động ánh xạ (Mapping) thông minh** dựa trên sự kết hợp giữa **Danh xưng của Sen (đã chọn ở Bước 1)** và **Cá tính AI của Boss (chọn ở Bước 2)**. 
 
-| Tên Cá Tính | Xưng hô của Boss | Xưng hô gọi Sen | Mood Đặc trưng |
-| :--- | :--- | :--- | :--- |
-| **Chảnh Chọe** | Trẫm | Sen | Kiêu kỳ, đòi pate, hay lờ Sen đi khi không có treats. |
-| **Nịnh Nọt** | Con | Ba / Mẹ | Quấn quýt, ấm áp, thích khen ngợi Sen. |
-| **Đanh Đá** | Tao | Đứa hầu | Tinh quái, hay cà khịa hài hước, tạo tiếng cười. |
-| **Ngáo Ngơ** | Tớ | Cậu | Đáng yêu, ngây thơ, nói năng ngốc nghếch dễ thương. |
+Khi Sen bấm chọn 1 thẻ cá tính, một bong bóng thoại (Speech Bubble) demo câu thoại của Boss sẽ xuất hiện trực quan tương ứng:
 
-*   **Ràng buộc:** Khi Sen chọn 1 thẻ cá tính $\rightarrow$ Hệ thống tự động lưu cặp danh xưng `xungHoWithPet` vào DB để cá nhân hóa toàn bộ Prompt của Cozy Chat sau này.
+| Tên Cá Tính | Quy tắc Ánh xạ Xưng Hô (Mapping Matrix) | Demo Bong Bóng Thoại trực quan (Wow preview) |
+| :--- | :--- | :--- |
+| **Nịnh Nọt** | Boss tự xưng là **"Con"**.<br>Gọi Sen bằng **Danh xưng của Sen đã chọn** (Ba/Mẹ/Anh/Chị/Cậu). | *(Nếu Sen chọn Ba)*:<br>**"Con thương Ba nhất quả đất luôn á! 💖"** |
+| **Chảnh Chọe** | **Đè (Override) toàn bộ danh xưng:**<br>Boss tự xưng là **"Trẫm"**.<br>Bất kể Sen chọn gì ở Bước 1, Boss gọi Sen là **"Sen"**. | **"Hừm... Tuy Sen ngốc nghếch nhưng trẫm chỉ cho phép một mình Sen ôm trẫm thôi nhé! 😒"** |
+| **Đanh Đá** | **Đè (Override) danh xưng:**<br>Boss tự xưng là **"Tao"**.<br>Boss gọi Sen là **"Đứa hầu"** hoặc **"Sen"**. | **"Này đứa hầu kia, trẫm đói rồi, dọn pate nhanh lên không tao cào cho phát!"** |
+| **Ngáo Ngơ** | Boss tự xưng là **"Tớ"**.<br>Boss gọi Sen là **"Cậu"** (mặc định cho bạn bè đồng trang lứa). | **"Sen ơi, tớ đói bụng quá đi à... Tớ muốn ăn cá mập cơ! 🦈"** |
+
+*   *Lợi ích:* Trực quan hóa xưng hô theo cá tính giúp tạo ra sự bất ngờ, cá nhân hóa sâu sắc và đẩy cao cảm xúc kết nối của Sen đối với Boss ảo ngay từ bước khởi tạo.
 
 ---
 
 ## 3. HOẠT ẢNH CHÀO MỪNG ĐỘT PHÁ (THE CỌ-ĐẦU WELCOME SPLASH)
 
-Ngay khi nhấn nút **"Khai sinh Boss"** thành công, app sẽ hiển thị một màn hình chúc mừng siêu dễ thương tràn đầy cảm xúc:
+Ngay khi nhấn nút **"Đón Boss Về Nhà"** thành công, app sẽ hiển thị một màn hình chúc mừng siêu dễ thương tràn đầy cảm xúc:
 1.  Hiển thị hoạt ảnh Lottie chuyển động chú Chibi chó/mèo tương ứng với loài vừa chọn chạy nhảy vui sướng tung pháo hoa giấy pastel.
 2.  Chibi Boss ảo sẽ **chạy lại sát mặt kính màn hình di động, thực hiện động tác "Cọ đầu sát vào kính" (Glass-rubbing/head-butt animation)** cực kỳ đáng yêu, kèm haptic feedback rung rung nhẹ nhàng tạo cảm giác ấm áp như thú cưng đang nũng nịu cọ vào tay Sen.
 3.  Một bong bóng thoại nhỏ trượt ra: *"Trẫm đã được sinh ra rồi! Từ nay trẫm cho phép một mình Sen ôm trẫm thôi đó nhé... 🥺"*.
