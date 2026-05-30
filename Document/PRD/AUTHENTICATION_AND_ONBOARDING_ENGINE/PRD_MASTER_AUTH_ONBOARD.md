@@ -6,10 +6,12 @@
 
 ## 1. TUYÊN NGÔN TRIẾT LÝ SẢN PHẨM (PRODUCT VISION)
 
-Trong Capcat, giây phút người dùng (Sen) mở ứng dụng lần đầu tiên là khoảnh khắc thiêng liêng nhất - điểm khởi đầu cho một mối liên kết tri kỷ kéo dài với Boss ảo. Do đó, chúng ta kết hợp **Phân hệ Đăng nhập Một chạm** và **Phòng Khai sinh Boss** thành một dòng chảy duy nhất, mượt mà, ấm áp và **tối giản ma sát tối đa**.
+Trong Capcat, chúng tôi tôn trọng quyền tự do trải nghiệm của người dùng (Sen). Thay vì **ép buộc** Sen phải điền form khai sinh Boss ảo ngay lập tức sau khi đăng nhập (gây ra cảm giác áp lực và tăng tỷ lệ thoát app), Capcat MVP áp dụng triết lý **"Trải nghiệm tĩnh lặng trước - Kết nối cảm xúc sau"**:
 
-*   **Không mật khẩu, không điền form cản địa:** Google SSO là cổng chào duy nhất hiển thị ban đầu. Một chạm là tài khoản được tự động khởi tạo.
-*   **Khai sinh Boss lập tức:** Ngay sau khi đăng nhập thành công, nếu phát hiện Sen mới chưa có thú cưng, hệ thống sẽ tự động chuyển tiếp thẳng vào **Phòng Khai sinh Boss** để thiết lập linh hồn cho chú chó/mèo ảo mà không bắt họ đi lòng vòng qua các màn hình trống.
+*   **Một chạm vào thẳng vườn nhà:** Sau khi đăng nhập Google SSO, Sen được đưa thẳng vào trang chủ `MainScreen` với trạng thái "Vườn nhà trống". Họ có thể ngắm giao diện, chuyển đổi các tab để làm quen với không gian mộc mạc Wabi-Sabi.
+*   **Điểm kích hoạt (CTA) tự nhiên:** Phòng Khai sinh Boss chỉ được kích hoạt một cách tự nguyện qua hai điểm chạm:
+    1.  **CTA "Mảnh vườn chờ trông" trên trang Home:** Một chiếc card gỗ retro xinh xắn mời gọi Sen gieo mầm linh hồn đầu tiên.
+    2.  **Gate chặn tại Phòng Chat:** Khi Sen bấm vào tab Chat, vì phòng chat cần có đối tượng giao tiếp, app sẽ trượt lên một Action Sheet mời Sen khai sinh Boss để bắt đầu trò chuyện tri kỷ.
 
 ---
 
@@ -21,26 +23,30 @@ graph TD
     AppStart[Sen Mở Ứng Dụng] --> CheckAuth{Kiểm tra Session cục bộ}
     
     %% Kiểm tra Auth
-    CheckAuth -->|Đã đăng nhập| CheckPet{Đã thiết lập Boss nào chưa?}
+    CheckAuth -->|Đã đăng nhập| MainScreen[Vào Trang Chủ MainScreen]
     CheckAuth -->|Chưa đăng nhập / Hết hạn| WelcomeScreen[Màn hình Chào 500px Style]
     
     %% Welcome Screen & Login
     WelcomeScreen -->|Bottom Sheet 26s| GoogleSSO[Đăng nhập Một chạm Google SSO]
     GoogleSSO -->|Auto-Register / Login 200 OK| SaveSession[Lưu Session Token cục bộ]
+    SaveSession --> MainScreen
     
-    %% Điều hướng sau Login
-    SaveSession --> CheckPet
+    %% Trạng thái hiển thị tại MainScreen dựa trên hasPet
+    MainScreen --> CheckPet{Kiểm tra: Đã có Boss nào chưa?}
     
-    %% Kiểm tra Pet
-    CheckPet -->|ĐÃ CÓ BOSS| MainScreen[Vào thẳng MainScreen / Gặp Boss cũ]
-    CheckPet -->|CHƯA CÓ BOSS (Sen mới)| OnboardingFlow[Phòng Khai Sinh Boss Ảo]
+    %% Trường hợp có Pet
+    CheckPet -->|ĐÃ CÓ BOSS| NormalHome[Home hoạt động: Hiện Chibi, Chat mở tự do]
     
-    %% Khai sinh Boss
+    %% Trường hợp chưa có Pet (Sen mới tự do khám phá)
+    CheckPet -->|CHƯA CÓ BOSS| EmptyHome[Home tĩnh lặng: Hiện CTA Gỗ 'Khai sinh Boss']
+    EmptyHome -->|Bấm Tab Chat / Bấm CTA trang Home| OnboardingFlow[Kích hoạt: Phòng Khai Sinh Boss Ảo]
+    
+    %% Luồng Khai sinh Boss
     OnboardingFlow -->|Bước 1| BioForm[Nhập thông tin Sinh học của Boss]
     BioForm -->|Bước 2| SelectPersona[Chọn mẫu Cá tính & Cấu hình Xưng hô]
     SelectPersona -->|Hoàn thành| InitPetModel[Tạo Pet thành công cục bộ + đồng bộ DB]
-    InitPetModel --> SplashWelcome[Màn hình Welcome Chibi Boss nhảy nhót cọ đầu vào kính]
-    SplashWelcome --> MainScreen
+    InitPetModel --> SplashWelcome[Màn hình Welcome Chibi Boss cọ đầu vào mặt kính]
+    SplashWelcome --> NormalHome
 ```
 
 ---
@@ -58,13 +64,19 @@ graph TD
 
 ## 4. CHI TIẾT TÍCH HỢP HỆ THỐNG (SYSTEM INTEGRATION & ROUTING RULES)
 
-### 4.1. Quy tắc Điều Hướng Splash Guard (Splash Routing Guard)
-Khi `AppEntryPoint` khởi chạy, việc điều hướng phải được phân tách rõ ràng bằng State Provider:
-*   `State: authenticated = true` AND `State: hasPet = true` $\rightarrow$ Navigate to `MainScreen()`.
-*   `State: authenticated = true` AND `State: hasPet = false` $\rightarrow$ Navigate to `PetOnboardingScreen()`.
-*   `State: authenticated = false` $\rightarrow$ Navigate to `WelcomeScreen()`.
+### 4.1. Quy tắc Điều Hướng Splash Guard & Hỗ trợ Empty State
+Khi `AppEntryPoint` khởi chạy, việc điều hướng được làm sạch tối đa:
+*   `State: authenticated = true` $\rightarrow$ Navigate thẳng tới `MainScreen()`.
+*   `State: authenticated = false` $\rightarrow$ Navigate tới `WelcomeScreen()`.
 
-### 4.2. Lưu trữ Hồ sơ Sen để Tối ưu các Luồng Sau (Downstream Profile Model)
+Trong màn hình `MainScreen()`, việc kiểm tra `hasPet` được phân cấp dưới dạng Component State:
+*   **Tại Tab Home:** 
+    *   *If `hasPet == true`:* Hiển thị Home Header bình thường, Touch Chibi Carousel.
+    *   *If `hasPet == false`:* Hiển thị Vùng Chờ trống kèm một Card Gỗ Retro: *"Mảnh vườn Capcat đang tĩnh lặng chờ trông... Hãy khai sinh chú chó/mèo ảo đầu tiên để lấp đầy yêu thương nhé!"* và nút bấm màu xanh **[Khai sinh ngay 🐾]** trượt lên Action Sheet.
+*   **Tại Tab Chat:**
+    *   *If `hasPet == false`:* Hiển thị màn hình giới thiệu phòng chat tri kỷ ấm áp kèm nút bấm **[Nhận nuôi thú cưng để trò chuyện]** trượt lên Action Sheet.
+
+### 4.2. Dữ liệu User Profile để Tối ưu các Luồng Sau (Downstream Profile Model)
 Hồ sơ người dùng (User Profile) được tự động tạo từ tài khoản Google và lưu trữ bổ sung các biến tùy chỉnh để cá nhân hóa giọng điệu AI sau này:
 *   `avatarUrl` (String): Đồng bộ từ Google.
 *   `fullName` (String): Tên hiển thị (để Boss AI gọi Sen).

@@ -6,16 +6,20 @@
 
 ## 1. KÍCH HOẠT & ĐIỀU HƯỚNG (TRIGGER & ROUTING)
 
-Màn hình Khai Sinh Boss (`PetOnboardingScreen`) tự động được kích hoạt lập tức sau khi xác thực đăng nhập Google SSO thành công, trong trường hợp hệ thống phát hiện đây là tài khoản Sen mới tinh chưa có bất kỳ hồ sơ Boss nào:
+Màn hình Khai Sinh Boss (`PetOnboardingScreen`) **không** ép buộc hiển thị ngay lập tức sau khi đăng nhập. Thay vào đó, nó được kích hoạt tự nguyện thông qua các hành vi khám phá tự nhiên của Sen mới:
 
 ```
 [ Đăng nhập Google thành công ]
               |
+     (Vào thẳng Trang Chủ)
+              |
       (Kiểm tra listPet)
               |
-              +---> [Chưa có Pet] ---> Phòng Khai Sinh Boss
+              +---> [Chưa có Pet] ---> Hiện Trang chủ tĩnh lặng + Card gỗ CTA "Khai sinh Boss"
+              |                        |
+              |                        +---> (Bấm CTA trang Home / Bấm Tab Chat) ---> Mở Phòng Khai Sinh
               |
-              +---> [Đã có Pet]   ---> Home Screen / Chat Room
+              +---> [Đã có Pet]   ---> Hiện Trang chủ bình thường (Chibi Carousel) & Mở Chat tự do
 ```
 
 ---
@@ -66,7 +70,7 @@ Ngay khi nhấn nút **"Khai sinh Boss"** thành công, app sẽ hiển thị m�
 
 ## 4. TIÊU CHÍ NGHIỆM THU (ACCEPTANCE CRITERIA)
 
-*   **AC-1 (Onboarding Trigger Integrity):** Tài khoản mới tinh sau khi đăng nhập Google SSO bắt buộc phải được đưa vào `PetOnboardingScreen`, không được đi thẳng vào Home trống.
+*   **AC-1 (Contextual Trigger Integrity):** Tài khoản mới tinh sau khi đăng nhập Google SSO bắt buộc phải được đưa thẳng vào Trang chủ Empty State tĩnh lặng. Xác minh rằng Phòng Khai Sinh chỉ trượt mở khi người dùng bấm nút CTA gỗ trên trang Home hoặc bấm truy cập tab Phòng Chat.
 *   **AC-2 (Calculated Fields Accuracy):** Kiểm tra tính toán `togetherDays`, tuổi người và `LifeStage` chính xác theo logic nhập liệu ngày nhận nuôi/ngày sinh nhật.
 *   **AC-3 (Persona Alignment):** Lựa chọn cá tính được lưu vĩnh viễn vào model `PetDetail`, đảm bảo cặp xưng hô tương ứng (ví dụ: Trẫm - Sen) được cấu hình chính xác cho chatbot engine.
 *   **AC-4 (Emotional Splash Screen):** Hoạt ảnh cọ đầu vào mặt kính hiển thị mượt mà trên cả iOS/Android, không bị giật lag, haptic feedback hoạt động tạo cảm giác rung nhẹ ấm áp.
