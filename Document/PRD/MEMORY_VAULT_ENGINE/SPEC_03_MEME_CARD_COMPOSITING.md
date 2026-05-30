@@ -532,11 +532,11 @@ Chế meme miễn phí với Capcat 🐾
 
 ---
 
-## 🎭 5. Thư Viện 15 Khung Meme Chibi (Template Library)
+## 🎭 5. Thư Viện 15 Khung Meme Ghibli (Template Library)
 
 Tất cả template là file **PNG trong suốt 1080x1920** vẽ tay phong cách pastel Iyashikei, bundle sẵn trong app assets (không cần tải về):
 
-| # | `template_id` | Tên | Bối Cảnh Chibi | Câu Meme Mặc Định | Nhóm |
+| # | `template_id` | Tên | Bối Cảnh Ghibli | Câu Meme Mặc Định | Nhóm |
 | :---: | :--- | :--- | :--- | :--- | :--- |
 | 1 | `astro` | 🚀 Phi Hành Gia | Mặc đồ phi hành gia ôm bình oxy nhỏ | *"Trẫm bay vào vũ trụ chỉ để tránh tiếng ồn của Sen..."* | Classic |
 | 2 | `emperor` | 👑 Hoàng Đế Chảnh | Long bào tím, cầm đùi gà, ngồi ngai vàng | *"Dưới gầm trời này, pate là tối cao. Sen chỉ là người dâng đồ ăn!"* | Classic |

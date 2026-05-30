@@ -87,7 +87,7 @@ Chúng ta thiết kế Custom Card Swiper Stack sử dụng các API cử chỉ 
 > 🔒 **Ràng buộc Quyền Riêng Tư cục bộ (Privacy Scan Constraint):** Trình quét ngầm SQLite và động cơ vuốt bài (Swipe Game) **chỉ lọc và hiển thị các bức ảnh thô chứa thú cưng** (chó, mèo) đã qua nhận diện của ML Kit (SPEC-02). Tuyệt đối KHÔNG tự động hiển thị các ảnh riêng tư khác (con người, hóa đơn, tài liệu) để loại bỏ hoàn toàn cảm giác bị xâm phạm đời tư.
 
 ### 4.1. Kịch bản 1: Mới Onboarding (The First-Time Welcome Bootstrap)
-*   **Điểm kích hoạt:** Ngay sau khi người dùng hoàn thành bước khai sinh Boss đầu tiên (Onboarding US-1.1) qua một popup mời chơi ấm áp.
+*   **Điểm kích hoạt:** Ngay sau khi người dùng hoàn thành bước đón Boss về nhà đầu tiên (Onboarding US-1.1) qua một popup mời chơi ấm áp.
 *   **Hành vi (Input Stack):** Hệ thống bốc nhanh **10-15 tấm ảnh thú cưng đầu tiên** từ thư viện ảnh trong máy của Sen để lập tức khởi tạo stack vuốt.
 *   **Mục tiêu:** Giúp Sen trải nghiệm ngay tính năng vuốt kéo Dopamine cực kỳ thú vị và thiết lập những ký ức nền móng đầu tiên cho Boss ảo.
 

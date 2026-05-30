@@ -39,7 +39,7 @@ Dưới đây là bảng so sánh sòng phẳng giữa hai hướng tiếp cận
               v
 +----------------------------+
 | - Polaroid UI Preview      |
-| - Render Chibi Avatar      |
+| - Render Ghibli Avatar     |
 +----------------------------+
 ```
 
@@ -47,7 +47,7 @@ Dưới đây là bảng so sánh sòng phẳng giữa hai hướng tiếp cận
 
 #### A. Tác vụ Client-Side (Xử lý 0đ trên thiết bị):
 *   **Trích xuất bảng màu (Palette Generator):** Flutter tự chạy thư viện trích xuất mã màu lông RGB cục bộ. Tác vụ này cực nhẹ, tốn dưới `10ms` và **không cần đến mô hình ML**.
-*   **Hiển thị loading "khắc laser" (Shimmer animation):** Khi ảnh đang được upload lên server, app chạy hoạt ảnh mô phỏng laser khắc thẻ bài cực kỳ mượt mà để giấu đi độ trễ mạng `1 - 1.5 giây`.
+*   **Hiển thị hoạt ảnh phác thảo chì màu nước Ghibli (Watercolor Pencil Sketch Fade/Shimmer):** Khi ảnh đang được upload lên server, app chạy hoạt ảnh phác họa chì màu nước kiểu Studio Ghibli mịn màng vẽ nhạt và tô màu dần đầy thơ mộng để giấu đi độ trễ mạng `1 - 1.5 giây`, tạo cảm giác chữa lành chân thành.
 
 #### B. Tác vụ Backend-Side (Xử lý thông minh trên Server):
 *   Chúng ta xây dựng một **Dịch vụ Serverless siêu nhẹ (Google Cloud Run hoặc AWS Lambda)** chạy Python. Dịch vụ này **chỉ khởi chạy khi có yêu cầu (Scale-to-Zero)** $\rightarrow$ **Chi phí gần như bằng 0đ** khi không có người dùng, không cần tốn tiền duy trì server GPU đắt đỏ 24/7.
@@ -70,7 +70,7 @@ Dưới đây là bảng so sánh sòng phẳng giữa hai hướng tiếp cận
 
 Nếu backend gặp sự cố hoặc mất mạng giữa chừng, Client sẽ tự động kích hoạt **luồng cứu sinh cục bộ (Local Fallback Flow)**:
 1.  Nếu upload ảnh lên backend thất bại sau `5 giây` $\rightarrow$ App tự động bypass lỗi, hiển thị màn hình mô tả thủ công để Sen tự điền.
-2.  Gán ngay **Chibi Avatar cục bộ có sẵn** tương ứng với các lựa chọn điền tay của Sen.
+2.  Gán ngay **Ghibli Avatar cục bộ có sẵn** tương ứng với các lựa chọn điền tay của Sen.
 3.  Đảm bảo app **tuyệt đối không bao giờ bị đơ hay crash**, trải nghiệm của Sen vẫn diễn ra trọn vẹn và liền mạch.
 
 ---

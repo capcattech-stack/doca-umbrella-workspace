@@ -51,7 +51,7 @@ Chúng ta không thu phí lưu trữ, nhưng chúng ta thu phí các **giá tr�
 
 ## 🛠️ 3. Thiết Kế Google Sheets CMS Cho Phân Hệ Meme (Tab 5: `virtual_memes`)
 
-Để đội ngũ vận hành nội dung dễ dàng thêm mới các mẫu khung hình Meme chibi mà không cần re-build hoặc update app lên Store, chúng ta bổ sung **Tab thứ 5** trên **Google Sheets Master CMS (`SPEC-COZY-08`)**:
+Để đội ngũ vận hành nội dung dễ dàng thêm mới các mẫu khung hình Meme Ghibli mà không cần re-build hoặc update app lên Store, chúng ta bổ sung **Tab thứ 5** trên **Google Sheets Master CMS (`SPEC-COZY-08`)**:
 
 ### 3.1. Cấu Trúc Nhập Liệu Tab 5: `virtual_memes`
 
@@ -105,7 +105,7 @@ Chúng ta sử dụng bộ công cụ **Google Mobile Ads SDK** (`google_mobile_
 
 ### 5.1. Quy trình Tương tác Video nhận thưởng (Ad Loop Flow)
 1.  **Giao diện hết lượt (Out of Scans UI):** Khi người dùng vuốt hết 15 ảnh dìm trong tuần và muốn tiếp tục chơi:
-    *   Hiển thị popup hoạt ảnh chibi Boss đang ôm đĩa trống trơn: *"Tuần này trẫm ăn no rồi Sen ơi! Sen muốn trẫm quét thêm vài món ngon nữa không? [Xem một đoạn phim ngắn để tặng trẫm 5 lượt quét nhé!]"*.
+    *   Hiển thị popup hoạt ảnh màu nước Ghibli Boss đang ôm đĩa trống trơn: *"Tuần này trẫm ăn no rồi Sen ơi! Sen muốn trẫm quét thêm vài món ngon nữa không? [Xem một đoạn phim ngắn để tặng trẫm 5 lượt quét nhé!]"*.
 2.  **Kích hoạt xem Ad:** Sen click bấm xem -> Quảng cáo Rewarded Video 30s hiện lên toàn màn hình.
 3.  **Trao thưởng:** Khi xem hết 30s, hệ thống kích hoạt callback `onUserEarnedReward` -> Tự động nạp thêm **+5 lượt quét mới** vào SQLite cục bộ và cho phép Sen tiếp tục chơi ngay lập tức.
 

@@ -101,7 +101,7 @@ Từ nay về sau, trước khi bắt tay vào code bất kỳ tính năng mới
 ### 🎨 5.1. Ngôn Ngữ Thiết Kế Thị Giác (Visual Design)
 *   **Tông màu hoài niệm (Cozy Earthy Palette):** Sử dụng các gam màu gỗ ấm, giấy tái chế, trắng kem, nâu nhạt và vàng dịu của ánh đèn đêm. Tuyệt đối tránh xa các màu sắc lòe loẹt, chói mắt của ứng dụng công nghiệp.
 *   **Bo góc Glassmorphism (Kính mờ):** Tạo cảm giác nhẹ nhàng, lãng đãng và mờ ảo như sương mù buổi sớm tại các thị trấn nhỏ Nhật Bản.
-*   **Nét vẽ Sketch mộc mạc (Watercolor Chibi):** Chú thú cưng ảo (Lottie) được phác họa bằng những nét vẽ tay mộc mạc, màu nước tinh tế, mang lại cảm giác ấm áp, thủ công và chân thành thay vì nét vẽ vector 3D lạnh lùng.
+*   **Nét vẽ Sketch mộc mạc (Watercolor Studio Ghibli style):** Chú thú cưng ảo (Lottie) được phác họa bằng những nét vẽ tay mộc mạc, màu nước tinh tế, mang lại cảm giác ấm áp, thủ công và chân thành chuẩn phong cách Ghibli thay vì nét vẽ vector 3D lạnh lùng hay chibi sến xúa.
 
 ### ✍️ 5.2. Ngôn Ngữ Trị Liệu & Lời Thì Thầm (Iyashikei AI Voice & Whisper)
 *   **Tính chiêm nghiệm sâu sắc:** Lời thì thầm (`whisper`) lúc đêm muộn của Boss AI sẽ mang tính lãng đãng, nhiều suy tư và giàu chất thơ nhẹ nhàng (Ví dụ: *"Sen ơi, trăng đêm nay thật đẹp. Dưới mái nhà này, có trẫm đang ngủ khò và có Sen đang thức, thế là đủ yên bình rồi..."*).

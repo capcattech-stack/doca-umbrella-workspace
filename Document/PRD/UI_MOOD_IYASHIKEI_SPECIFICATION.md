@@ -3,11 +3,13 @@
 
 ---
 
-## 🌌 1. Cảm Hứng & Định Vị Thẩm Mỹ (The Spiritual Inspiration)
+## 🌌 1. Cảm Hứng & Định Vị Thẩm Mỹ (Modern Classic Minimalism & Iyashikei)
 
-Capcat lấy cảm hứng nghệ thuật tối cao từ phong cách **Iyashikei (Chữa lành tâm hồn)** của văn hóa và lối sống Nhật Bản. 
-*   **Ảnh tham chiếu 1 (NAVER Digital Diary):** Thể hiện cấu trúc **thẻ bài xếp chồng đa lớp (Layered Cards)** bo góc cực mềm mịn nổi bật trên nền tối vô cực. Tạo cảm giác xúc giác như đang lật giở một cuốn sổ nhật ký bằng giấy thủ công.
-*   **Ảnh tham chiếu 2 & 3 (Ứng dụng 26seconds):** Căn phòng ngập nắng xiên qua cửa sổ, tông màu ấm áp cô độc nhưng dịu dàng, nét vẽ màu nước watercolour/sketch mang phong cách Anime của Studio Ghibli. Đây chính là không gian tĩnh lặng xoa dịu stress hoàn hảo nhất cho người dùng vào ban đêm.
+Capcat lấy cảm hứng nghệ thuật từ phong cách **Iyashikei (Chữa lành tâm hồn)** kết hợp cùng ngôn ngữ thiết kế **Modern Classic tối giản hiện đại (Modernist Minimalism)** của ứng dụng 26seconds.
+
+*   **Tối giản và tinh khiết:** Giao diện được giữ cực kỳ sạch sẽ, cấu trúc rõ ràng với nền sáng/tối thuần khiết, tối ưu khoảng trắng (negative space) rộng lớn để mang lại cảm giác tĩnh lặng, giảm tải căng thẳng võng mạc tối đa.
+*   **Không loè loẹt, không lạm dụng graphic:** Tránh tuyệt đối việc nhồi nhét hình ảnh trang trí, hiệu ứng hoạt họa bay nhảy rối mắt, hoặc vẽ vời các chi tiết đồ họa tự phát lên giao diện chỉ để cố tạo ra vẻ "thơ".
+*   **Sự chất thơ nằm ở khoảng lặng:** Chất thơ chữa lành (poetic healing) được thể hiện tinh tế qua sự đơn giản tinh khiết, tính cân đối của các thẻ container bo góc thanh lịch, typography sắc sảo và khoảng thở tĩnh mịch, chứ không nằm ở sự trang hoàng rườm rà.
 
 ---
 
@@ -37,18 +39,18 @@ Chúng tôi thiết kế bảng màu đặc biệt giúp võng mạc người d�
 
 ---
 
-## 🎴 3. Cấu Trúc Bố Cục Thẻ Bài (Cozy Layered Stack Layout)
+## 🎴 3. Cấu Trúc Bố Cục Tối Giản Hiện Đại (Modern Classic Structure)
 
-*   **Độ bo góc cực cao (`BorderRadius` 24px - 28px):** Toàn bộ các thẻ bài Moments, nút bấm, và pop-up trò chơi Buffet Ký ức bắt buộc phải bo cong tròn trĩnh. Bo cong lớn mang lại cảm giác dễ thương, mềm mại, an toàn và dễ chịu.
-*   **Xếp chồng đa lớp (Layered Depth):** Các thẻ bài phụ xếp lớp lệch góc nhẹ phía sau (như ảnh NAVER Diary) tạo chiều sâu không gian 3D giả lập cuốn sổ giấy.
-*   **Glassmorphism (Kính mờ):** Các khu vực bổ trợ (Ví dụ: Thanh công cụ chat, thẻ bài phụ) sử dụng hiệu ứng kính mờ che phủ nhẹ, tạo cảm giác lãng đãng giống như sương mù buổi sớm tại các ga tàu ngoại ô Nhật Bản.
+*   **Cấu trúc Card phẳng & Đường nét tinh tế (Flat Modernist Cards):** Thay vì xếp chồng đa lớp chéo lệch 3D rườm rà dễ gây cảm giác rối rắm sến súa, hệ thống sử dụng cấu trúc các **thẻ bài phẳng tối giản (Flat rounded cards)** bo góc vừa phải (`BorderRadius` 12px - 16px, tối đa 24px cho panel lớn) được bao bọc bởi đường viền mảnh tinh tế (`border: 1px solid #EAEAEA` hoặc `Colors.black.withOpacity(0.04)`).
+*   **Sự ngăn nắp tuyệt đối (Clean Grid & Lists):** Các panel, nút bấm, hay dropdown được sắp xếp thẳng hàng, vuông vắn và khoa học (như giao diện cài đặt và chọn ngày của 26s AI). Trực quan hóa thông tin thông qua khoảng cách (padding/margin) thông minh và độ tương phản của chữ.
+*   **Kính mờ nhẹ nhàng (Subtle Blur Overlay):** Sử dụng hiệu ứng kính mờ Glassmorphism rất tiết chế (`sigmaX/Y: 8.0 - 12.0`) trên nền tối thuần khiết, tạo chiều sâu thị giác mượt mà dưới dạng các bottom sheet nhỏ, tuyệt đối không lạm dụng đè lên các vùng hiển thị thông tin cốt lõi.
 
 ---
 
-## 🌅 4. Đồ Họa Vẽ Tay Màu Nước (Watercolor & Cozy Anime Illustration)
+## 🌅 4. Minh Họa Màu Nước Ghibli Có Chọn Lọc (Selective Ghibli Illustrations)
 
-*   **Sketch Watercolor Chibi:** Chú thú cưng ảo (Lottie) sẽ không sử dụng nét vẽ vector phẳng dẹt công nghiệp. Boss sẽ được phác họa bằng những nét phác thảo bút chì mộc mạc và tô màu nước mềm mại (Watercolor/Ink style).
-*   **Vạt nắng xiên (Cozy sunlight beams):** Màn hình loading và các thẻ bài Moments lớn sẽ lồng ghép hoạt ảnh các vạt nắng xiên chậm rãi, tạo cảm giác thời gian trong app đang trôi chậm lại (Slow-life).
+*   **Trực quan hóa tĩnh lặng (Quiet Illustration):** Hình ảnh Ghibli màu nước mộc mạc chỉ xuất hiện ở các vị trí cố định mang tính biểu tượng (như avatar pet, card trống lúc empty state, hoặc tranh Polaroid kỷ niệm). Tuyệt đối không chèn các hoạt ảnh trang trí tùy tiện, nhấp nháy, hay các sticker đồ họa vụn vặt gây nhiễu loạn luồng tương tác chính.
+*   **Nét vẽ tay màu nước có tiết chế:** Giữ nguyên nét vẽ tay màu nước ấm áp của Studio Ghibli nhưng được đặt trong một khung hiển thị tối giản, tạo độ tương phản cao với không gian trắng xung quanh, tựa như một bức tranh nghệ thuật treo trong phòng trưng bày hiện đại.
 
 ---
 

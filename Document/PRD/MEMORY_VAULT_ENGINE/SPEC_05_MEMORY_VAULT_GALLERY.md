@@ -135,8 +135,8 @@ Tránh các hoạt ảnh 3D Origami/Gấp thư phức tạp dễ gây cảm giá
 ### 6.1. Nút Trưng Bày [Minh Bạch Dữ Liệu 🔒]
 *   Ở góc trên cùng của Hộp Ký Ức, có một biểu tượng khóa đồng cổ kính thanh nhã kèm chữ nhỏ **"Minh Bạch"**.
 *   Khi Sen chạm vào, một **Tấm Sớ Giấy Da (Parchment Paper Drawer)** sẽ nhẹ nhàng trượt từ bên phải ra, trình bày thông tin chi tiết bằng sơ đồ vẽ tay dễ thương:
-    *   **Cột Bên Trái:** Chú mèo Chibi ôm chiếc rương gỗ dán nhãn: *"NHỮNG THỨ TRẪM GIỮ TRONG MÁY"* (SQLite cục bộ `local_photo_intelligence_cache`, ảnh dìm gốc trong máy, lịch sử vuốt cục bộ).
-    *   **Cột Bên Phải:** Chú mèo Chibi dang tay che bầu trời mây dán nhãn: *"NHỮNG THỨ TRẪM ĐỒNG BỘ LÊN MÂY"* (Chỉ lưu đường dẫn liên kết được mã hóa đầu-cuối để đồng bộ thiết bị, **tuyệt đối không tải ảnh thô lên bất kỳ máy chủ quảng cáo nào**, không theo dõi hành vi ngoài Capcat).
+    *   **Cột Bên Trái:** Chú mèo Ghibli màu nước ôm chiếc rương gỗ dán nhãn: *"NHỮNG THỨ TRẪM GIỮ TRONG MÁY"* (SQLite cục bộ `local_photo_intelligence_cache`, ảnh dìm gốc trong máy, lịch sử vuốt cục bộ).
+    *   **Cột Bên Phải:** Chú mèo Ghibli màu nước dang tay che bầu trời mây dán nhãn: *"NHỮNG THỨ TRẪM ĐỒNG BỘ LÊN MÂY"* (Chỉ lưu đường dẫn liên kết được mã hóa đầu-cuối để đồng bộ thiết bị, **tuyệt đối không tải ảnh thô lên bất kỳ máy chủ quảng cáo nào**, không theo dõi hành vi ngoài Capcat).
 
 ### 6.2. Bộ Đôi Nút Quyền Lực Tối Cao (Sovereignty Action Buttons)
 Nằm ở cuối Tấm Sớ Giấy Da là bộ đôi nút bấm đặc quyền giúp người dùng làm chủ hoàn toàn vận mệnh dữ liệu của mình:
@@ -145,7 +145,7 @@ Nằm ở cuối Tấm Sớ Giấy Da là bộ đôi nút bấm đặc quyền g
     *   Hệ thống tự động nén tất cả hình ảnh Polaroid gốc đã lưu trong hộp, các bình luận viết tay tương ứng và chỉ số Intimacy vào một tệp tin nén **`.zip`** duy nhất.
     *   Trong tệp zip, bên cạnh ảnh gốc, hệ thống tự sinh một tệp **`index.html`** được thiết kế Japandi siêu đẹp. Khi mở tệp này trên máy tính, người dùng có thể xem lại toàn bộ album kỷ niệm viết tay offline của pet giống hệt giao diện trong app.
 2.  **🗑️ Nút [Xóa Sạch Dữ Liệu & Quên Đi Vĩnh Viễn]:**
-    *   Khi bấm vào, Boss ảo xuất hiện với hoạt ảnh chibi ôm chầm lấy chân Sen rơm rớm nước mắt: *"Sen thực sự muốn xóa bỏ tất cả kỷ niệm ngọt ngào giữa hai chúng ta để bắt đầu lại sao?"*.
+    *   Khi bấm vào, Boss ảo xuất hiện với hoạt ảnh màu nước Ghibli ôm chầm lấy chân Sen rơm rớm nước mắt: *"Sen thực sự muốn xóa bỏ tất cả kỷ niệm ngọt ngào giữa hai chúng ta để bắt đầu lại sao?"*.
     *   Nếu Sen gõ đúng chữ **"QUÊN ĐI"** để xác nhận -> Hệ thống thực hiện lệnh thanh trừng triệt để: Xóa toàn bộ cơ sở dữ liệu cục bộ, dọn sạch bộ nhớ đệm, hủy hàng đợi tải ngầm, gọi API đồng bộ để xóa vĩnh viễn dữ liệu trên máy chủ. Màn hình tan rã thành các hạt cát bụi lơ lửng và bay biến mất, đưa app về trạng thái sơ khai hoàn toàn mới.
 
 ---

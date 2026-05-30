@@ -19,7 +19,7 @@ Màn hình Đón Boss Về Nhà (`PetOnboardingScreen`) **không** ép buộc hi
               |                        |
               |                        +---> (Bấm CTA trang Home / Bấm Tab Chat) ---> Mở Giao diện Đón Boss
               |
-              +---> [Đã có Pet]   ---> Hiện Trang chủ bình thường (Chibi Carousel) & Mở Chat tự do
+              +---> [Đã có Pet]   ---> Hiện Trang chủ bình thường (Ghibli Watercolor Carousel) & Mở Chat tự do
 ```
 
 ---
@@ -39,7 +39,7 @@ Giao diện Đón Boss Về Nhà được thiết kế tối giản ma sát, chi
     *   *Lựa chọn:* **Ba / Mẹ / Anh / Chị / Em / Cậu / Sen**
     *   *Mục tiêu:* Đây là **thông tin nền móng** dùng để kết hợp với Cá tính AI của Boss ở Bước 2 nhằm tính toán ra đại từ xưng hô chính xác.
 *   **Cân nặng (Weight):** Nhập số (kg).
-*   **Ngày sinh nhật & Ngày nhận nuôi:** Bộ chọn ngày gỗ phẳng retro.
+*   **Ngày sinh nhật & Ngày nhận nuôi:** Bộ chọn ngày tối giản hiện đại (Minimalist Modern Classic Calendar/Date Picker). Giao diện là một Card phủ kính mờ hoặc nền trắng sữa bo góc tròn lớn (R=28px) cực kỳ sạch sẽ, các chữ số và tên tháng màu đen đậm độ tương phản cao, ô chọn ngày hiện tại hiển thị tinh tế (như phong cách modern classic tối giản trong hình minh họa của 26s AI), hoàn toàn không sử dụng chất liệu giả gỗ hay trang trí rườm rà.
 
 #### 🧮 Cơ chế Tự động Tính toán Chỉ số Sinh học Động (Calculated Bio Indices):
 Hệ thống tự động tính toán cục bộ dựa trên dữ liệu Sen nhập:
@@ -65,19 +65,87 @@ Khi Sen bấm chọn 1 thẻ cá tính, một bong bóng thoại (Speech Bubble)
 
 ---
 
-## 3. HOẠT ẢNH CHÀO MỪNG ĐỘT PHÁ (THE CỌ-ĐẦU WELCOME SPLASH)
+## 3. GIẢI PHÁP AN TOÀN & ĐỘT PHÁ CẢM XÚC: HIỆU ỨNG TRÁNG ẢNH POLAROID GHIBLI
+*(Không cần chuyên gia thiết kế Lottie - Khả thi 100% cho MVP & Đạt hiệu quả thẩm mỹ Classic cực cao)*
 
-Ngay khi nhấn nút **"Đón Boss Về Nhà"** thành công, app sẽ hiển thị một màn hình chúc mừng siêu dễ thương tràn đầy cảm xúc:
-1.  Hiển thị hoạt ảnh Lottie chuyển động chú Chibi chó/mèo tương ứng với loài vừa chọn chạy nhảy vui sướng tung pháo hoa giấy pastel.
-2.  Chibi Boss ảo sẽ **chạy lại sát mặt kính màn hình di động, thực hiện động tác "Cọ đầu sát vào kính" (Glass-rubbing/head-butt animation)** cực kỳ đáng yêu, kèm haptic feedback rung rung nhẹ nhàng tạo cảm giác ấm áp như thú cưng đang nũng nịu cọ vào tay Sen.
-3.  Một bong bóng thoại nhỏ trượt ra: *"Trẫm đã được sinh ra rồi! Từ nay trẫm cho phép một mình Sen ôm trẫm thôi đó nhé... 🥺"*.
-4.  Sen chạm vào màn hình bất kỳ $\rightarrow$ Chuyển tiếp nhẹ nhàng (Fade transition) vào màn hình Home.
+Để giải quyết bài toán thiếu nhân sự thiết kế Lottie custom mà vẫn đảm bảo trải nghiệm chào đón tràn đầy cảm xúc và tinh tế theo đúng tinh thần **Modern Classic Minimalism**, hệ thống áp dụng **Hiệu Ứng Tráng Ảnh Polaroid (Polaroid Photo Development)** kết hợp xúc giác và âm thanh. Giải pháp này sử dụng 100% asset tranh tĩnh Ghibli watercolor sẵn có nhưng mang lại cảm giác cực kỳ thơ và cao cấp.
+
+### 🎥 3.1. Kịch Bản Trải Nghiệm (The Visual Flow)
+```
+[ Nút "Đón Boss Về Nhà" được nhấn ]
+              |
+              v (Màn hình tối lại thành #0D0D0D sâu lắng)
+              |
+  [ Card Polaroid hiện ra: scale 0.95 -> 1.0, opacity 0 -> 1 ]
+              |
+  [ Ảnh Boss "Tráng Dần" (Sepia/Mờ -> Màu nước rực rỡ trong 1.8s) ]
+              |
+  [ Xúc giác: Rung nhẹ 2 nhịp (Mô phỏng Nhịp tim / Tiếng khẽ cọ đầu) ]
+              |
+  [ Bong bóng thoại tri kỷ hiện lên bằng font Caveat mộc mạc ]
+              |
+              v
+     (Chạm bất kỳ -> Fade vào Home)
+```
+
+1.  **Nền Tối Vô Cực sâu lắng (#0D0D0D):** Khi nhấn "Đón Boss Về Nhà", toàn màn hình chuyển sang nền tối tĩnh mịch của phòng ngủ, tạo khoảng lặng cảm xúc trước khi Boss xuất hiện.
+2.  **Khung Polaroid Hiện Diện (The Polaroid Card):**
+    *   Một khung ảnh Polaroid phẳng, tối giản (nền trắng sữa `#FFFFFF`, viền mảnh `1px solid Colors.black.withOpacity(0.04)`, bo góc mềm mại `16px`) nhẹ nhàng trượt lên từ trung tâm.
+    *   Card sử dụng hiệu ứng chuyển động mượt mà: Scale từ `0.95` lên `1.0` kết hợp Fade-in trong `800ms` (`Curves.easeOutCubic`).
+3.  **Hiệu Ứng "Tráng Ảnh" (Ghibli Photo Development - 100% Flutter):**
+    *   Sử dụng hình vẽ Ghibli watercolor tĩnh của Boss vừa chọn.
+    *   Ban đầu, vùng ảnh hiển thị dưới dạng một lớp bóng mờ màu xám/sepia mộc mạc (`ColorFilter.mode(Colors.grey, BlendMode.saturation)` hoặc `sepia`).
+    *   Trong **1.8 giây tiếp theo**, ảnh Boss từ từ "tráng màu" sắc nét và ấm áp dần lên (Opacity của bộ lọc màu giảm dần từ `1.0` về `0.0`, chuyển hóa thành bức tranh màu nước rực rỡ, chân thực).
+4.  **Nhịp Tim Xúc Giác & Âm Thanh Khẽ (The Sensory Connection):**
+    *   Ngay khi bức ảnh "tráng màu" hoàn tất (tại giây thứ 1.8), điện thoại phát ra **2 nhịp rung nhẹ liên tiếp (Double-pulse Haptic)** bằng cách gọi `HapticFeedback.lightImpact()` hai lần cách nhau `150ms`.
+    *   Hiệu ứng rung này mô phỏng nhịp tim đập nhẹ nhàng hoặc tiếng thú cưng cọ đầu vào mặt kính, tạo ra sự xúc động vật lý chân thật ngay trên lòng bàn tay của Sen.
+5.  **Lời Thì Thầm Của Boss (Bong Bong Thoại Tri Kỷ):**
+    *   Một bong bóng thoại nhỏ, tối giản trượt nhẹ ra ngay dưới khung ảnh Polaroid với font chữ viết tay ấm áp (`Caveat` hoặc `Quicksand` nghiêng):
+    *   *Nội dung bong bóng thoại* được lấy trực tiếp từ bảng ánh xạ Cá Tính AI ở Bước 2. Ví dụ với cá tính **Chảnh Chọe**: *"Trẫm đã được sinh ra rồi! Từ nay trẫm cho phép một mình Sen ôm trẫm thôi đó nhé... 🥺"*.
+6.  **Chuyển Tiếp Nhẹ Nhàng:**
+    *   Sen chạm vào bất kỳ điểm nào trên màn hình $\rightarrow$ Khung Polaroid khẽ nén xuống một chút (Scale down nhẹ về `0.98` để phản hồi tương tác), sau đó toàn bộ màn hình thực hiện Fade-out nhẹ nhàng (`800ms`) để chuyển tiếp mượt mà vào màn hình Home.
+
+### 🛠️ 3.2. Code Cấu Trúc Flutter Tham Khảo (Developer-Friendly Blueprint)
+Nhà phát triển có thể dễ dàng hiện thực hóa hiệu ứng cao cấp này bằng các widget tích hợp sẵn của Flutter mà không cần cài thêm thư viện phức tạp:
+```dart
+// Code gợi ý cho hiệu ứng tráng ảnh Polaroid không cần Lottie
+TweenAnimationBuilder<double>(
+  tween: Tween<double>(begin: 1.0, end: 0.0), // Giảm độ bão hòa xám về 0
+  duration: const Duration(milliseconds: 1800),
+  curve: Curves.easeIn,
+  builder: (context, saturationValue, child) {
+    return ColorFiltered(
+      colorFilter: ColorFilter.matrix([
+        // Ma trận chuyển đổi màu sắc từ đơn sắc (monochrome) sang màu nước rực rỡ
+        0.2126 + 0.7874 * (1 - saturationValue), 0.7152 - 0.7152 * (1 - saturationValue), 0.0722 - 0.0722 * (1 - saturationValue), 0, 0,
+        0.2126 - 0.2126 * (1 - saturationValue), 0.7152 + 0.2848 * (1 - saturationValue), 0.0722 - 0.0722 * (1 - saturationValue), 0, 0,
+        0.2126 - 0.2126 * (1 - saturationValue), 0.7152 - 0.7152 * (1 - saturationValue), 0.0722 + 0.9278 * (1 - saturationValue), 0, 0,
+        0, 0, 0, 1, 0,
+      ]),
+      child: Image.asset(selectedPetGhibliAssetPath),
+    );
+  },
+  onEnd: () {
+    // Kích hoạt rung nhịp tim kép ấm áp khi tráng ảnh xong
+    HapticFeedback.lightImpact();
+    Future.delayed(const Duration(milliseconds: 150), () {
+      HapticFeedback.lightImpact();
+    });
+    // Kích hoạt hiển thị Bong bóng thoại tri kỷ
+    setState(() { showSpeechBubble = true; });
+  },
+);
+```
 
 ---
 
 ## 4. TIÊU CHÍ NGHIỆM THU (ACCEPTANCE CRITERIA)
 
-*   **AC-1 (Contextual Trigger Integrity):** Tài khoản mới tinh sau khi đăng nhập Google SSO bắt buộc phải được đưa thẳng vào Trang chủ Empty State tĩnh lặng. Xác minh rằng Phòng Khai Sinh chỉ trượt mở khi người dùng bấm nút CTA gỗ trên trang Home hoặc bấm truy cập tab Phòng Chat.
+*   **AC-1 (Contextual Trigger Integrity):** Tài khoản mới tinh sau khi đăng nhập Google SSO bắt buộc phải được đưa thẳng vào Trang chủ Empty State tĩnh lặng. Xác minh rằng Phòng Đón Boss Về Nhà chỉ trượt mở khi người dùng bấm nút CTA gỗ trên trang Home hoặc bấm truy cập tab Phòng Chat.
 *   **AC-2 (Calculated Fields Accuracy):** Kiểm tra tính toán `togetherDays`, tuổi người và `LifeStage` chính xác theo logic nhập liệu ngày nhận nuôi/ngày sinh nhật.
 *   **AC-3 (Persona Alignment):** Lựa chọn cá tính được lưu vĩnh viễn vào model `PetDetail`, đảm bảo cặp xưng hô tương ứng (ví dụ: Trẫm - Sen) được cấu hình chính xác cho chatbot engine.
-*   **AC-4 (Emotional Splash Screen):** Hoạt ảnh cọ đầu vào mặt kính hiển thị mượt mà trên cả iOS/Android, không bị giật lag, haptic feedback hoạt động tạo cảm giác rung nhẹ ấm áp.
+*   **AC-4 (Premium Polaroid Splash Screen):** 
+    *   Khung ảnh Polaroid xuất hiện mượt mà với hiệu ứng scale và fade-in không giật lag.
+    *   Hiệu ứng tráng ảnh từ đơn sắc sang màu nước rực rỡ hoạt động đúng trong 1.8s.
+    *   Hệ thống phát ra đúng 2 nhịp rung haptic nhẹ liên tiếp ngay khi quá trình tráng ảnh kết thúc để mang lại xúc giác chữa lành ấm áp.
+    *   Bong bóng thoại xuất hiện đúng font viết tay mộc mạc và hiển thị đúng câu xưng hô cá tính đã chọn.

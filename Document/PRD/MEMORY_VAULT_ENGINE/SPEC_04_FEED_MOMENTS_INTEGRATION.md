@@ -60,7 +60,7 @@ Khi người dùng thực hiện cú **Vuốt Lên (Swipe Up)**:
 
 *   **Trạng thái 1: Chưa hoàn thành Buffet tuần này (`is_buffet_completed = false`):**
     *   *Hiển thị:* Một Banner Glassmorphism to, nổi bật, bo góc `24px` nằm ngay trung tâm màn hình Home, ngay phía dưới Carousel Pet.
-    *   *Hoạt ảnh:* Chibi Pet chuyển động Lottie đang ngậm thìa háo hức cực kỳ thu hút sự tò mò của Sen.
+    *   *Hoạt ảnh:* Hoạt ảnh động chú thú cưng phác thảo màu nước phong cách Ghibli đang ngậm thìa háo hức cực kỳ thu hút sự tò mò của Sen.
 *   **Trạng thái 2: Đã hoàn thành Buffet tuần này (`is_buffet_completed = true`):**
     *   *Hành vi:* Khi Sen kết thúc thẻ bài thứ 15 và nhận Kẹo ảo, hệ thống cập nhật flag `is_buffet_completed = true` xuống Local DB.
     *   *Hiệu ứng chuyển cảnh:* Banner to lập tức biến mất bằng hiệu ứng **Fade-Out & Shrink (Mờ dần và thu nhỏ)** cực kỳ êm ái trong `500ms`, nhường chỗ cho Moments Feed hiển thị thoáng đãng.

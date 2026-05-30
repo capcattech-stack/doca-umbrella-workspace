@@ -50,7 +50,7 @@ graph TD
 
 ### 3.3. Giao diện Vuốt Thẻ bài (Tinder Swipe Interface)
 *   Màn hình hiển thị một chồng thẻ bài ảnh (Card Stack) nằm ở trung tâm.
-*   Phía trên thẻ bài là hình vẽ chibi hoạt ảnh động của Boss đang cầm dĩa/thìa háo hức chờ ăn kỷ niệm.
+*   Phía trên thẻ bài là hình vẽ phác thảo màu nước phong cách Ghibli động của Boss đang cầm dĩa/thìa háo hức chờ ăn kỷ niệm.
 *   **Thao tác vuốt:**
     *   👉 **VUỐT PHẢI (Feed Boss / Đồng ý lưu):**
         *   Tải ảnh lên máy chủ, tự động tạo thành một bài viết Nhật ký (Moments) được gắn thẻ `petId`.
@@ -61,7 +61,7 @@ graph TD
         *   Boss ảo xị mặt nhẹ: *"Món này trẫm không ăn được, qua món tiếp đi!"*.
 
 ### 3.4. Màn hình Kết thúc (The Feast Summary)
-*   Hiển thị chú thú cưng chibi nằm lăn lộn ôm bụng căng tròn hạnh phúc: *"Trẫm no bụng ký ức rồi! Cảm ơn Sen yêu!"*.
+*   Hiển thị chú thú cưng vẽ phong cách Ghibli nằm lăn lộn ôm bụng căng tròn hạnh phúc: *"Trẫm no bụng ký ức rồi! Cảm ơn Sen yêu!"*.
 *   Tặng thưởng **1 viên Kẹo Ảo (Catmint Candy)** dùng để tăng năng lượng chat cho Boss.
 
 ---

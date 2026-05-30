@@ -32,7 +32,7 @@ Phân hệ này xây dựng cơ chế nạp hình ảnh/ký ức Boss vào app m
     *   **AC-1 (Swipe UI):** Hiển thị 15 ảnh đã quét dưới dạng một stack thẻ bài xếp chồng lên nhau ở trung tâm trang Home. Cho phép vuốt trái hoặc vuốt phải mượt mà kèm hiệu ứng xoay nghiêng thẻ bài theo ngón tay kéo.
     *   **AC-2 (Swipe Right Action):** Vuốt phải = Đồng ý nạp ảnh. Ảnh lập tức được tải lên ngầm (Background upload), tạo bài viết Moments mới, cộng `Intimacy +5` cho Pet, và kích hoạt bong bóng thoại AI chọc ghẹo bay lên từ đầu Boss.
     *   **AC-3 (Swipe Left Action):** Vuốt trái = Bỏ qua ảnh. Thẻ bài bay ra ngoài màn hình và ảnh giữ nguyên trạng thái riêng tư cục bộ trên máy.
-    *   **AC-4 (Feast Summary):** Khi vuốt hết 15 ảnh, hiển thị màn hình tổng kết Boss chibi nằm ôm bụng căng tròn no nê và tặng thưởng 1 viên Kẹo Ảo.
+    *   **AC-4 (Feast Summary):** Khi vuốt hết 15 ảnh, hiển thị màn hình tổng kết Boss vẽ màu nước Ghibli nằm ôm bụng căng tròn no nê và tặng thưởng 1 viên Kẹo Ảo.
     *   **AC-5 (Dynamic Banner Hiding - ĐỘT PHÁ MOM TEST):** 
         - *GIVEN* Người dùng chưa chơi Buffet tuần này -> Banner Buffet hiện to rực rỡ ở giữa trang Home.
         - *GIVEN* Người dùng đã hoàn thành Buffet tuần này -> Banner tự động ẩn hoàn toàn hoặc thu nhỏ thành 1 icon nhỏ góc màn hình để giải phóng diện tích cho Moments Feed.
@@ -45,7 +45,7 @@ Phân hệ này xây dựng cơ chế nạp hình ảnh/ký ức Boss vào app m
     *   *Tôi muốn:* Tự động ghép khuôn mặt của Boss trong ảnh dìm vào các khung hình meme hài hước vẽ sẵn,
     *   *Để:* Dễ dàng tải về hoặc chia sẻ lên Story Instagram/Facebook.
 *   **Tiêu chí Nghiệm thu (Acceptance Criteria):**
-    *   **AC-1 (Local Compositing):** App tự động sử dụng thư viện đồ họa cục bộ trên máy để cắt khuôn mặt Boss và ghép đè vào các khung hình meme chibi ngộ nghĩnh (không gọi API tốn phí).
+    *   **AC-1 (Local Compositing):** App tự động sử dụng thư viện đồ họa cục bộ trên máy để cắt khuôn mặt Boss và ghép đè vào các khung hình meme Ghibli ngộ nghĩnh (không gọi API tốn phí).
     *   **AC-2 (Template Library):** Cung cấp danh sách các khung hình meme (phi hành gia, hoàng đế) trượt ngang phía dưới để người dùng thay đổi khung hình theo ý thích.
     *   **AC-3 (Social Share):** Nút **"Chia sẻ Story"** hoạt động chính xác, tạo ra ảnh đầu ra chất lượng cao kèm watermark nhỏ "Capcat: Soul of Pet" ở góc dưới.
 

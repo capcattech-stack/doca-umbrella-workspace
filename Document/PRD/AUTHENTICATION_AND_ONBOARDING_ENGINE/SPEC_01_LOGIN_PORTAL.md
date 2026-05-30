@@ -76,7 +76,7 @@ sequenceDiagram
         DB-->>API: Tạo bản ghi thành công
         API-->>App: Trả về 200 OK (access_token, expires_at)
         App->>App: Lưu token xuống Flutter Secure Storage
-        App->>App: Chuyển hướng sang [Phòng Khai Sinh Boss]
+        App->>App: Chuyển hướng sang [Phòng Đón Boss Về Nhà]
     else Trường hợp 2: Tài khoản cũ (Existing User)
         API->>DB: Kiểm tra danh tính User
         DB-->>API: User đã có bản ghi
@@ -91,7 +91,7 @@ sequenceDiagram
 1.  Sen nhấn nút **"Đăng nhập bằng Google"**.
 2.  App kích hoạt Google SDK $\rightarrow$ Lấy về ID Token $\rightarrow$ Gửi lên backend thông qua API `socialLogin`.
 3.  **Backend Auto-Registration:** Nếu Google ID chưa tồn tại, backend tự động tạo User mới trong hệ thống bằng dữ liệu của Google và trả về mã thành công `200 OK` kèm Session Token.
-4.  App lưu token xuống `Secure Storage` cục bộ và chuyển hướng thẳng vào **Phòng Khai Sinh Boss** (nếu là Sen mới) hoặc **MainScreen** (nếu là Sen cũ đã tạo Boss).
+4.  App lưu token xuống `Secure Storage` cục bộ và chuyển hướng thẳng vào **Phòng Đón Boss Về Nhà** (nếu là Sen mới) hoặc **MainScreen** (nếu là Sen cũ đã tạo Boss).
 
 ### 2.2. Xử lý Lỗi Mềm (Soft Error Handling - Ràng buộc 100% không Crash)
 *   **Sen bấm hủy Popup Google:** Không crash, không đơ, app hiển thị một Toast mỏng nhẹ dưới chân Bottom Sheet: *"Đăng nhập bị hủy"*.
@@ -103,5 +103,5 @@ sequenceDiagram
 
 *   **AC-1 (Perfect Wabi-Sabi Render):** Màn hình chào hiển thị ảnh nghệ thuật full-bleed dưới 1.2 giây, Bottom Sheet kính mờ Glassmorphic trượt lên mượt mà không bị giật khung hình.
 *   **AC-2 (Primary Gate Action):** Nhấn nút Google SSO kích hoạt chính xác popup tài khoản của Google SDK. Khi chọn tài khoản, ứng dụng hiển thị indicator loading tròn mượt ngầm trong 1.5 giây trước khi chuyển cảnh.
-*   **AC-3 (Zero-Friction Linkage Bypass):** Đăng nhập Google tài khoản mới thành công là chuyển thẳng đến Phòng Khai Sinh Boss, tuyệt đối không bắt nhập OTP điện thoại.
+*   **AC-3 (Zero-Friction Linkage Bypass):** Đăng nhập Google tài khoản mới thành công là chuyển thẳng đến Phòng Đón Boss Về Nhà, tuyệt đối không bắt nhập OTP điện thoại.
 *   **AC-4 (Backup Flow Accessibility):** Nhấn "Lựa chọn đăng nhập khác" trượt mở form Số điện thoại/Mật khẩu cũ hoạt động ổn định, bảo toàn 100% tính năng đăng nhập truyền thống.
