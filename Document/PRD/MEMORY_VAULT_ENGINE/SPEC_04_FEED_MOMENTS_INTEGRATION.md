@@ -78,12 +78,16 @@ Khi Cozy Chat quyết định khởi tạo lời mở bài (Cozy Opener) hoặc 
 
 ```xml
 <pet_memory_context>
-  - Photo Local Asset ID: "phasset_ios_982341"
-  - Date Taken: "2026-04-12" (Mùa Xuân, Buổi Chiều)
-  - Pet Action Detected by ML Kit: ["sleeping", "lying_down"]
-  - Ambient Context: ["bed", "pillow"]
-  - User's Handwritten Comment: "Boss ngủ say tít thò lò như heo con"
-  - Intimacy Level: 45
+  <!-- Thông tin cá thể Pet hoạt động (từ SPEC-08) -->
+  <active_pet id="banh_my_001" name="Bánh Mỳ" breed="Mèo Anh lông ngắn" personality="Chảnh chọe" />
+  
+  <!-- Ký ức hình ảnh cụ thể được trích xuất -->
+  <memory asset_id="phasset_ios_982341" pet="Bánh Mỳ"
+           action="sleeping" context="bed, pillow"
+           season="Xuân" time_of_day="Chiều"
+           user_comment="Boss ngủ say tít thò lò như heo con"
+           auto_caption="Buổi chiều lơ đãng, Bánh Mỳ đang ngủ mê man trên chiếc gối quen."
+           swipe_state="up" /> <!-- up = Kỷ Niệm Vàng (Golden Memory) -->
 </pet_memory_context>
 ```
 

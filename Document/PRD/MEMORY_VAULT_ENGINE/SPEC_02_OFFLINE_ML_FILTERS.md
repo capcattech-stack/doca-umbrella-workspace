@@ -22,6 +22,12 @@
 4.  **Dừng cực sớm (Early Stopping):** Chỉ cần gom đủ **10 - 15 bức ảnh Pet hợp lệ** cho bộ thẻ bài tuần này, **tiến trình quét ngầm lập tức ngắt (Kill) và giải phóng bộ nhớ ngay lập tức**.
 5.  **Kết quả thực tế:** Mỗi tuần, máy chỉ chạy nhận diện ML Kit tối đa **20-30 tấm ảnh** bốc ngẫu nhiên. CPU tăng không quá 5%, thời gian quét chưa đầy 1.5 giây, máy mát lạnh, hao pin gần như bằng 0!
 
+### 1.3. Ràng buộc Quyền riêng tư Tuyệt đối (Strict Privacy Scan Constraint)
+Để bảo vệ quyền tự do cá nhân và triệt tiêu hoàn toàn cảm giác đề phòng bị AI xâm nhập đời tư:
+*   **Chỉ Quét Ảnh Chứa Thú Cưng:** Trong suốt quá trình quét ngầm (Background Enrichment) và nạp ảnh ngẫu nhiên, hệ thống sẽ thực hiện kiểm tra nhãn (Image Labeling) bằng ML Kit đầu tiên. Nếu ảnh có nhãn `Cat` hoặc `Dog` (với độ tin cậy `confidence >= 0.70`), tiến trình phân tích mới được tiếp tục.
+*   **Bỏ Qua Tức Thì:** Mọi hình ảnh khác (ảnh chân dung con người không có thú cưng, ảnh giấy tờ, hóa đơn, công việc, phong cảnh trống) sẽ bị bỏ qua lập tức ở tầng bộ nhớ đệm thô, hoàn toàn không được lưu trữ metadata hay vector đặc trưng nào trong SQLite.
+*   **Chỉ Lưu Kỷ Niệm Được Duyệt:** Chỉ khi Sen vuốt chọn Đồng Ý (Phải/Lên), bức ảnh đó mới được chính thức ghi nhận vào Hộp Ký Ức. Những ảnh bỏ qua (Vuốt Trái) sẽ được đưa vào hàng đợi "ngủ đông" SQLite để tái sử dụng sau 4 tuần mà không lưu trữ lên đám mây.
+
 ---
 
 ## ⚙️ 2. Thuật Toán Quét Lùi Thưa Thớt Ngẫu Nhiên (Randomized Retrogressive Sparse Scanning Algorithm)
@@ -64,6 +70,7 @@ Dưới đây là sơ đồ vận hành của bộ quét:
 
 ### 3.1. SQLite Table Schema (`local_photo_intelligence_cache`)
 ```sql
+-- Bảng hợp nhất đầy đủ thông tin nhận diện ML Kit, Nhận diện cá thể (SPEC-08) và sinh Caption lãng đãng
 CREATE TABLE local_photo_intelligence_cache (
     local_asset_id VARCHAR(128) PRIMARY KEY, -- ID ảnh của iOS PHAsset hoặc Android Media Store URI
     is_pet INTEGER NOT NULL DEFAULT 0,        -- 0 = Không phải Pet, 1 = Đúng là Pet (Cat/Dog)
@@ -75,7 +82,17 @@ CREATE TABLE local_photo_intelligence_cache (
     displayed_count INTEGER DEFAULT 0,        -- Số lần đã hiển thị trên Tinder Stack
     photo_taken_at TIMESTAMP,                 -- Ngày chụp ảnh thực tế (đối chiếu theo mùa/giờ)
     scanned_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    last_displayed_at TIMESTAMP               -- Thời gian hiển thị lần cuối
+    last_displayed_at TIMESTAMP,              -- Thời gian hiển thị lần cuối
+    
+    -- Các cột tích hợp từ SPEC-08 (Pet Visual Fingerprint Engine)
+    matched_pet_id VARCHAR(64) DEFAULT NULL,   -- Pet ID cá thể được khớp thành công (khóa ngoại liên kết PetDetail)
+    match_confidence REAL DEFAULT NULL,        -- Độ tin cậy khớp cá thể (0.0 - 1.0)
+    match_source VARCHAR(16) DEFAULT NULL,     -- 'auto' (hệ thống đoán) hoặc 'user_confirmed' (Sen xác nhận)
+    
+    -- Các cột tích hợp từ SPEC-02 Section 6 (Auto Poetic Caption Generator)
+    auto_caption TEXT DEFAULT NULL,            -- Dòng chú thích lãng đãng sinh tự động
+    caption_generated_at TIMESTAMP DEFAULT NULL, -- Thời điểm sinh chú thích
+    caption_mode VARCHAR(16) DEFAULT NULL      -- 'offline_template' hoặc 'gemini_flash'
 );
 ```
 
@@ -106,7 +123,7 @@ Mỗi tệp ảnh sau khi đi qua Google ML Kit Image Labeler sẽ được trí
 
 ## ⚙️ 4. Động Cơ Làm Giàu Dữ Liệu Ngầm Chậm Mà Chắc (Continuous Background Enrichment Engine)
 
-Để triệt tiêu hoàn toàn độ trễ khi mở game vuốt thẻ, Capcat không chạy quét ML Kit dồn dập vào lúc chơi. Thay vào đó, app vận hành cơ chế **Quét ngầm gián đoạn mỗi ngày**:
+Để triệt tiêu hoàn toàn độ trễ khi mở game vuốt thẻ, Capcat không chạy quét ML Kit dồn dập vào lúc chơi. Thay vào đó, app vận hành cơ chế **Quét ngầm gián đoạn mỗi ngày** tích hợp toàn diện quy trình 4 bước nhận diện và tự sinh thơ:
 
 ```
   [ Đêm đến, Sen đi ngủ & cắm sạc điện thoại ]
@@ -114,8 +131,24 @@ Mỗi tệp ảnh sau khi đi qua Google ML Kit Image Labeler sẽ được trí
                        ▼ (Workmanager Background Task kích hoạt)
    [ Lấy ngẫu nhiên 20-30 ảnh CHƯA QUÉT trong thư viện ]
                        │
-                       ▼ (Quét ML Kit Isolate ngầm siêu nhẹ)
-    [ Lưu phân loại & tag hành động vào SQLite Cache ]
+                       ▼ (LUỒNG PIPELINE 4 BƯỚC NÂNG CẤP)
+  ┌────────────────────────────────────────────────────────┐
+  │ BƯỚC 1: ML Kit Image Labeling — "Đây có phải Pet?"     │
+  │         (Phát hiện chó/mèo, độ tự tin >= 0.70)         │
+  ├────────────────────────────────────────────────────────┤
+  │ BƯỚC 2: ML Kit Action/Context — "Đang làm gì, ở đâu?"  │
+  │         (sleeping, playing, sitting, bed, grass...)    │
+  ├────────────────────────────────────────────────────────┤
+  │ BƯỚC 3: Pet Fingerprint (SPEC-08) — "Đây là bé nào?"    │
+  │         (MobileNetV3 small trích vector 1024 dims      │
+  │          so sánh Cosine Similarity với Centroid Pet)   │
+  ├────────────────────────────────────────────────────────┤
+  │ BƯỚC 4: Auto Poetic Caption — Sinh mô tả lãng đãng     │
+  │         (Ghép 4 thành phần theo từ điển thơ offline)    │
+  └────────────────────────────────────────────────────────┘
+                       │
+                       ▼
+  [ Lưu kết quả đầy đủ vào local_photo_intelligence_cache ]
                        │
                        ▼
    [ Khi Sen mở app: Render thẻ bài lập tức trong 0.01s từ Cache ]
@@ -125,8 +158,8 @@ Mỗi tệp ảnh sau khi đi qua Google ML Kit Image Labeler sẽ được trí
 1.  **Lập lịch ngầm (Background Job Scheduling):** Sử dụng thư viện `workmanager` của Flutter để chạy một tác vụ ngầm định kỳ **mỗi 24 giờ một lần**. Tác vụ này cấu hình chỉ chạy khi:
     *   Thiết bị đang **cắm sạc (Charging)** để bảo toàn pin.
     *   Thiết bị kết nối Wifi hoặc ở trạng thái nghỉ không dùng màn hình (Idle).
-2.  **Quét ngầm giới hạn (Limit Scans per day):** Mỗi lần chạy ngầm, Isolate chỉ bốc đúng **20 đến 30 tấm ảnh mới nhất chưa có mặt trong bảng `local_photo_intelligence_cache`** để chạy qua Image Labeler.
-3.  **Làm giàu dữ liệu dần dần (Gradual Data Enrichment):** Sau 1 tháng, hệ thống sẽ xây dựng được một kho tri thức local gồm **600 - 900 ảnh Pet** với đầy đủ nhãn hành động/bối cảnh. Khi Sen mở tính năng Tinder Buffet, app chỉ việc đọc từ SQLite lên hiển thị ngay lập tức (Zero Latency), pin hao hụt bằng 0!
+2.  **Quét ngầm giới hạn (Limit Scans per day):** Mỗi lần chạy ngầm, Isolate chỉ bốc đúng **20 đến 30 tấm ảnh mới nhất chưa có mặt trong bảng `local_photo_intelligence_cache`** để chạy qua toàn bộ pipeline 4 bước ở trên.
+3.  **Làm giàu dữ liệu dần dần (Gradual Data Enrichment):** Sau 1 tháng, hệ thống sẽ xây dựng được một kho tri thức local gồm **600 - 900 ảnh Pet** với đầy đủ nhãn hành động/bối cảnh, tag cá thể pet tương ứng, và mô tả lãng đãng viết sẵn. Khi Sen mở tính năng Tinder Buffet, app chỉ việc đọc từ SQLite lên hiển thị ngay lập tức (Zero Latency), pin hao hụt bằng 0!
 
 ---
 
@@ -159,6 +192,16 @@ class LocalPhotoMetadata {
   final List<String> detectedActions;
   final List<String> ambientContext;
   final DateTime photoTakenAt;
+  
+  // Tích hợp từ SPEC-08 (Pet Individual Recognition)
+  final String? matchedPetId;
+  final double? matchConfidence;
+  final String? matchSource;
+
+  // Tích hợp từ SPEC-02 Section 6 (Auto Poetic Caption Generator)
+  final String? autoCaption;
+  final DateTime? captionGeneratedAt;
+  final String? captionMode;
 
   LocalPhotoMetadata({
     required this.id,
@@ -168,6 +211,12 @@ class LocalPhotoMetadata {
     required this.detectedActions,
     required this.ambientContext,
     required this.photoTakenAt,
+    this.matchedPetId,
+    this.matchConfidence,
+    this.matchSource,
+    this.autoCaption,
+    this.captionGeneratedAt,
+    this.captionMode,
   });
 
   Map<String, dynamic> toMap() {
@@ -180,6 +229,12 @@ class LocalPhotoMetadata {
       'ambient_context': jsonEncode(ambientContext),
       'swipe_state': 'unprocessed',
       'photo_taken_at': photoTakenAt.toIso8601String(),
+      'matched_pet_id': matchedPetId,
+      'match_confidence': matchConfidence,
+      'match_source': matchSource,
+      'auto_caption': autoCaption,
+      'caption_generated_at': captionGeneratedAt?.toIso8601String(),
+      'caption_mode': captionMode,
     };
   }
 }
@@ -187,8 +242,11 @@ class LocalPhotoMetadata {
 class AdvancedScanner {
   final LocalDatabase db;
   final ImageLabeler _labeler = ImageLabeler(options: ImageLabelerOptions(confidenceThreshold: 0.50));
+  final PetFingerprintExtractor _fingerprintExtractor = PetFingerprintExtractor();
 
-  AdvancedScanner(this.db);
+  AdvancedScanner(this.db) {
+    _fingerprintExtractor.initialize();
+  }
 
   // 1. Quét làm giàu dữ liệu chạy ngầm mỗi ngày vài chục tấm
   Future<void> runDailyBackgroundScan(int limit) async {
@@ -212,7 +270,7 @@ class AdvancedScanner {
     }
   }
 
-  // 2. Phân tích chi tiết hành động và bối cảnh từ nhãn ML Kit
+  // 2. Phân tích chi tiết hành động, bối cảnh, nhận dạng cá thể pet và sinh thơ lãng đãng
   Future<LocalPhotoMetadata> _analyzeImage(AssetEntity entity, String path) async {
     final inputImage = InputImage.fromFilePath(path);
     final List<ImageLabel> labels = await _labeler.processImage(inputImage);
@@ -225,7 +283,7 @@ class AdvancedScanner {
 
     for (ImageLabel label in labels) {
       String name = label.label.toLowerCase();
-      // Nhận diện Pet
+      // Nhận diện Pet loài
       if (['cat', 'kitten'].contains(name)) {
         isPet = true; petType = 'cat'; petConf = label.confidence;
       } else if (['dog', 'puppy'].contains(name)) {
@@ -248,6 +306,55 @@ class AdvancedScanner {
       if (['box', 'carton'].contains(name)) context.add('cardboard_box');
     }
 
+    String? matchedPetId;
+    double? matchConfidence;
+    String? matchSource;
+    String? autoCaption;
+
+    if (isPet) {
+      // BƯỚC 3: Nhận diện cá thể pet (SPEC-08)
+      final Uint8List imageBytes = await File(path).readAsBytes();
+      final Float32List newEmbedding = await _fingerprintExtractor.extractFingerprint(imageBytes);
+      
+      // Đọc centroids của tất cả pet từ SQLite
+      final List<PetCentroid> centroids = await db.getAllPetCentroids();
+      
+      if (centroids.length == 1) {
+        // Chỉ có 1 bé duy nhất đăng ký: Bypass nhận diện vân pháp, auto-tag 100%
+        matchedPetId = centroids.first.petId;
+        matchConfidence = 1.0;
+        matchSource = 'auto';
+      } else if (centroids.isNotEmpty) {
+        double maxSim = -1.0;
+        String? bestPetId;
+        
+        for (var centroid in centroids) {
+          double sim = PetFingerprintExtractor.cosineSimilarity(newEmbedding, centroid.vector);
+          if (sim > maxSim) {
+            maxSim = sim;
+            bestPetId = centroid.petId;
+          }
+        }
+        
+        matchedPetId = bestPetId;
+        matchConfidence = maxSim;
+        matchSource = 'auto';
+      }
+
+      // BƯỚC 4: Sinh mô tả lãng đãng tự động (SPEC-02 Section 6)
+      String petName = 'Trẫm';
+      if (matchedPetId != null) {
+        petName = await db.getPetNameById(matchedPetId) ?? 'Trẫm';
+      }
+      
+      autoCaption = PoeticCaptionGenerator.generateOfflineCaption(
+        photoTakenAt: entity.createDateTime,
+        action: actions.isNotEmpty ? actions.first : null,
+        context: context.isNotEmpty ? context.first : null,
+        petName: petName,
+      );
+    }
+
     return LocalPhotoMetadata(
       id: entity.id,
       isPet: isPet,
@@ -256,6 +363,12 @@ class AdvancedScanner {
       detectedActions: actions,
       ambientContext: context,
       photoTakenAt: entity.createDateTime,
+      matchedPetId: matchedPetId,
+      matchConfidence: matchConfidence,
+      matchSource: matchSource,
+      autoCaption: autoCaption,
+      captionGeneratedAt: isPet ? DateTime.now() : null,
+      captionMode: isPet ? 'offline_template' : null,
     );
   }
 }

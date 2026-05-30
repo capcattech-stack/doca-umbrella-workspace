@@ -375,7 +375,11 @@ Ngoài việc hiển thị xen kẽ trong Hộp Ký Ức, người dùng có th�
 *   Event Card hiển thị xen kẽ với Photo Polaroid trên timeline theo thứ tự thời gian ngược.
 *   Khi tua timeline về ngày sinh nhật → Event Card `BIRTHDAY` được đặc biệt phình to, hiện hoạt ảnh confetti nhỏ.
 
-### 8.4. Data Export (Minh Bạch Dữ Liệu)
+### 8.4. Tích Hợp Nhận Diện Cá Thể Pet Đa Boss (SPEC-08)
+*   **Tự động gắn Pet ID khi Log từ ảnh:** Khi Sen tạo Sự Kiện Chăm Sóc trực tiếp từ một Polaroid Card (ví dụ bấm nút "Ghi nhật ký" ở mặt sau Polaroid), hệ thống tự động gán `pet_id = matched_pet_id` của bức ảnh đó, loại bỏ hoàn toàn thao tác chọn Pet thủ công.
+*   **Trích xuất từ Cozy Chat Đa Boss:** Khi Cozy Chat phát hiện ý định (Intent Detection) của người dùng nuôi nhiều Pet (ví dụ: *"Hôm nay Bánh Mỳ mới đi tiêm ngừa về này"*), AI sẽ đối chiếu tên Pet được nhắc tới với danh sách trong `pet_visual_fingerprints` để tự động gán đúng `pet_id` của bé "Bánh Mỳ" khi lưu Event, thay vì hỏi Sen: *"Sen muốn lưu cho bé nào?"*.
+
+### 8.5. Data Export (Minh Bạch Dữ Liệu)
 *   Khi Sen xuất dữ liệu (.zip từ Data Sovereignty Panel), file `care_diary.csv` được đính kèm với đầy đủ cột: `date, event_type, event_label, user_note`.
 *   Format CSV đơn giản, có thể mở bằng Excel — không phải định dạng độc quyền.
 
