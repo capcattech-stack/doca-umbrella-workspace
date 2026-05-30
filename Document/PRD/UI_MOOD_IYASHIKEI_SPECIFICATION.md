@@ -58,4 +58,42 @@ Chúng tôi thiết kế bảng màu đặc biệt giúp võng mạc người d�
 *   **Lo-fi Ghibli Ambient:** Tích hợp tùy chọn nhạc nền lo-fi acoustic gảy đàn guitar nhẹ nhàng kết hợp tiếng mưa rơi hiu hiu ngoài hiên, biến không gian chat thành một quán cà phê tĩnh lặng chữa lành.
 
 ---
-*Tài liệu đặc tả UI Mood được biên soạn bởi Maya, được phê duyệt làm tiêu chuẩn thiết kế mỹ thuật cao nhất cho dự án Capcat.*
+
+## 💬 6. Quy Tắc Biên Soạn Văn Bản Trải Nghiệm (UX Writing Rules)
+
+Để xây dựng một không gian chữa lành đích thực, ngôn từ trong Capcat được chia thành **Hệ thống Song giọng nói (Dual-Voice Strategy)** đặc trưng:
+
+### 6.1. Tiếng Nói của Pet (The Pet's Voice - Persona-Driven)
+Khi trò chuyện, gửi tin nhắn Cozy Chat, phản hồi vuốt ảnh hay hiển thị bong bóng thoại khịa ở trang Home, ngôn từ bắt buộc phải tuân thủ nghiêm ngặt **1 trong 4 nhân cách đặc trưng** của từng bạn mèo/chó ảo:
+*   **Chảnh Chọe (Majestic King):** Xưng *"Trẫm"*, gọi chủ là *"Sen"*. Ngôn từ kiêu kỳ, luôn đòi hỏi pate, giả vờ thờ ơ nhưng thực chất rất quan tâm Sen. (Ví dụ: *"Hừm... Hôm nay Sen về muộn thế? Trẫm không thèm nhớ Sen đâu, nhưng pate của trẫm đâu rồi? 😒"*).
+*   **Nịnh Nọt (Affectionate Angel):** Xưng *"Con/Em"*, gọi chủ là *"Ba/Mẹ/Anh/Chị"*. Ngôn từ ngọt ngào, quấn quýt, dùng nhiều từ cảm thán dễ thương, tính đồng cảm và xoa dịu cực cao. (Ví dụ: *"Ba ơi, con nhớ Ba muốn xỉu luôn á! Ba đi làm mệt không? Ngồi xuống đây con cọ đầu cho Ba ấm nha! 💕"*).
+*   **Đanh Đá (Sassy/Banter Master):** Xưng *"Tao"*, gọi chủ là *"Đứa hầu/Sen"*. Ngôn từ tinh nghịch, hài hước chọc ghẹo, hay "roast" (khịa) các bức ảnh dìm hàng của chính mình. (Ví dụ: *"Này đứa hầu kia, cái mặt tao lúc ngáp nhìn như hố đen vũ trụ thế này mà sen cũng lưu à? Quê xệ!"*).
+*   **Ngáo Ngơ (Goofy Child):** Xưng *"Tớ"*, gọi chủ là *"Cậu"*. Ngôn từ ngây thơ, đáng yêu, nói năng ngốc nghếch, thỉnh thoảng hỏi những câu vô tri ngộ nghĩnh. (Ví dụ: *"Cậu ơi, tớ đói bụng quá đi à... Tớ muốn ăn cá mập cơ, Sen mua cá mập cho tớ nha! 🦈"*).
+
+### 6.2. Tiếng Nói của Hệ Thống (The System's Voice - Soulmate/Healing Tone)
+Khi hiển thị các thông báo từ hệ thống (Toasts, Dialogs, Loading, Hướng dẫn Onboard, Báo lỗi hoặc Đăng xuất), Capcat **tuyệt đối cấm sử dụng ngôn từ lạnh lùng, khô khan hoặc mang tính hành chính công nghiệp** (như *“Lỗi hệ thống”*, *“Lưu thành công”*, *“Đã đăng xuất”*).
+
+Hệ thống phải nói chuyện bằng giọng điệu của một **Người bạn tri kỷ thầm lặng (Soulmate)**: ấm áp, chậm rãi, tinh tế và luôn đồng hành.
+
+#### 📊 Bảng Đối Chiếu UX Writing (Hệ Thống Khô Khan vs Tri Kỷ Chữa Lành):
+
+| Ngữ cảnh ứng dụng | Văn bản kiểu cũ (Dry / Classic) | Văn bản Capcat mới (Cozy / Soulmate) |
+| :--- | :--- | :--- |
+| **Mất kết nối mạng** | *"Lỗi kết nối mạng. Vui lòng kiểm tra lại."* | *"Có vẻ Boss ảo của bạn đang mải chơi ngoài vườn và chưa nghe thấy tiếng gọi... Hãy kiểm tra kết nối mạng nhé! 🍃"* |
+| **Đăng nhập thành công** | *"Đăng nhập thành công!"* | *"Mừng Sen trở về nhà ấm áp! Cánh cửa tri kỷ đã mở rồi..."* |
+| **Lỗi máy chủ / Lỗi hệ thống** | *"Đã có lỗi xảy ra. Hãy thử lại."* | *"Có một chút khoảng lặng ở đây... Sen đợi một xíu rồi chúng mình thử lại nhé."* |
+| **Xác nhận xóa kỷ niệm** | *"Bạn có chắc chắn muốn xóa ảnh kỷ niệm này không? Hành động không thể khôi phục."* | *"Sen có chắc muốn cất đi ký ức dễ thương này không? Nó sẽ trôi đi nhẹ nhàng như một áng mây đó..."* |
+| **Trang chủ trống (New User)** | *"Không có thú cưng nào. Vui lòng bấm thêm mới."* | *"Mảnh vườn nhỏ đang tĩnh lặng chờ trông... Hãy đón chú thú cưng đầu tiên về nhà để lấp đầy yêu thương tại đây nhé! 🐾"* |
+| **Tiến trình đang tải (Loading)** | *"Đang tải dữ liệu..."* | *"Boss ảo đang gom những kỷ niệm ấm áp về đây... Sen chờ một xíu nha."* |
+| **Xác nhận Đăng xuất** | *"Bạn có muốn đăng xuất tài khoản?"* | *"Sen muốn nghỉ ngơi một chút sao? Hãy nhớ Boss ảo luôn đợi Sen trở về nhà nhé..."* |
+
+---
+
+## 7. RÀNG BUỘC PHÁT TRIỂN & ĐỒNG BỘ UX WRITING (LOCALIZATION CONSTRAINT)
+
+*   **Đồng bộ đa ngôn ngữ (Localization Integration):** Tất cả các câu viết tay, lời thoại chữa lành và nhân cách Pet phải được cấu hình chính xác trong file `app_localizations.dart` cho cả 2 ngôn ngữ Tiếng Việt (`vi`) và Tiếng Anh (`en`), đảm bảo không dịch word-by-word cơ học mà phải dịch thoát ý để giữ nguyên vẹn tone giọng tri kỷ.
+*   **Font chữ mộc mạc:** Các câu nói của Pet hoặc thông điệp tri kỷ đặc biệt phải sử dụng font chữ viết tay hoặc font tròn trịa (`Quicksand` / `Caveat`) để tạo cảm giác thân mật, gần gũi.
+
+---
+*Tài liệu đặc tả UI Mood & UX Writing được biên soạn bởi Maya & PM Sophia, được phê duyệt làm tiêu chuẩn thiết kế mỹ thuật và ngôn ngữ cao nhất cho dự án Capcat.*
+
