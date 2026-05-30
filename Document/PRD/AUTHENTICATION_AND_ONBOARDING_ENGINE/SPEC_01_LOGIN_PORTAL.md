@@ -51,6 +51,41 @@ Màn hình Welcome (`WelcomeScreen`) được tái thiết kế hoàn hảo đ�
 
 ## 2. QUY TRÌNH KỸ THUẬT & API (TECHNICAL INTEGRATION)
 
+### 2.0. Sơ đồ Luồng Đăng nhập Một Chạm Google SSO (Google One-Tap Auth Flow)
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Sen as Sen (User)
+    participant App as Capcat App (Flutter)
+    participant GSDK as Google SDK / Firebase Auth
+    participant API as Backend API (socialLogin)
+    participant DB as SQLite / Remote DB
+
+    Sen->>App: Nhấn nút "Đăng nhập bằng Google"
+    App->>GSDK: Kích hoạt GoogleSignIn().signIn()
+    GSDK-->>Sen: Hiển thị Popup chọn tài khoản Google
+    Sen->>GSDK: Chọn tài khoản Google
+    GSDK-->>App: Trả về GoogleSignInAccount (AccessToken & IDToken)
+    App->>GSDK: Xác thực chéo với Firebase Auth SDK
+    GSDK-->>App: Trả về Firebase UserCredential (User ID, Name, Avatar, exp)
+    App->>API: Gọi API socialLogin(userId, socialPlatform, expTimeString)
+    
+    alt Trường hợp 1: Tài khoản mới tinh (Auto-Registration)
+        API->>DB: Đăng ký nhanh User mới trong Database
+        DB-->>API: Tạo bản ghi thành công
+        API-->>App: Trả về 200 OK (access_token, expires_at)
+        App->>App: Lưu token xuống Flutter Secure Storage
+        App->>App: Chuyển hướng sang [Phòng Khai Sinh Boss]
+    else Trường hợp 2: Tài khoản cũ (Existing User)
+        API->>DB: Kiểm tra danh tính User
+        DB-->>API: User đã có bản ghi
+        API-->>App: Trả về 200 OK (access_token, expires_at)
+        App->>App: Lưu token xuống Flutter Secure Storage
+        App->>App: Chuyển hướng sang [MainScreen / Gặp Boss cũ]
+    end
+```
+
 ### 2.1. Đăng ký Google SSO Tự động (One-Tap Auto-Registration)
 Để tối thiểu ma sát cho MVP, **bỏ qua hoàn toàn bước bắt buộc xác minh số điện thoại nhận OTP khi đăng nhập bằng Google lần đầu tiên.**
 1.  Sen nhấn nút **"Đăng nhập bằng Google"**.
