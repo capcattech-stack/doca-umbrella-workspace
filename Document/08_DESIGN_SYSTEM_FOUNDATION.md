@@ -23,9 +23,9 @@ graph LR
     style E fill:#fff9c4,stroke:#ffd1ba,stroke-width:3px
 ```
 
-*   **Sự Tĩnh Lặng Trực Quan:** Bố cục thoáng đãng, các khoảng thở lớn để mắt người dùng được thư giãn sâu sắc vào ban đêm.
-*   **Xúc Giác Thủ Công (Analog Feel):** Cảm giác như đang chạm vào các trang giấy tái chế, những tấm thẻ bìa các-tông dày dặn bo góc mềm, lật nhẹ nhàng qua nhau.
-*   **Vạt Nắng Xiên Quá Khứ:** Việc sử dụng các dải màu pastel ấm áp gợi nhớ về những buổi chiều hoàng hôn hay những tia nắng xiên qua khung cửa sổ phòng đọc sách gỗ cũ.
+*   **Sự Tĩnh Lặng Trực Quan:** Bố cục thoáng đãng, tối ưu khoảng trắng (negative space) rộng lớn để mắt người dùng được thư giãn sâu sắc vào ban đêm.
+*   **Cấu Trúc Tối Giản Hiện Đại (Modern Classic Structure):** Giao diện phẳng tinh khiết, các card, panel và menu điều hướng được sắp xếp ngăn nắp, cân đối bằng các đường viền mảnh tinh tế (`1px solid`) và các thẻ bo góc nhẹ nhàng (`12px - 16px`), mang lại sự sang trọng và tin cậy cao của phong cách modern classic.
+*   **Sự Ấm Áp Tinh Tế (Subtle Warmth):** Màu sắc được lựa chọn ở các tông dịu nhẹ và tối giản, kết hợp giữa nền trắng/tối thuần khiết và các điểm nhấn tinh tế để tạo không khí chữa lành và cảm xúc, tuyệt đối không lạm dụng hiệu ứng đồ họa lòe loẹt hay hình ảnh trang trí rườm rà.
 
 ---
 
@@ -143,26 +143,26 @@ Tránh tuyệt đối các tông màu đỏ chói hay xanh neon. Toàn bộ thô
 
 ---
 
-## 🎴 4. Hình Khối & Bo Góc (Border Radius & Shapes)
+## 🎴 4. Hình Khối & Bo Góc Tối Giản (Border Radius & Shapes)
 
-Tính chất chữa lành của Iyashikei chống lại những đường nét sắc nhọn vuông vức. Sự bo cong mang lại cảm giác mềm mại, an toàn và dễ chịu tuyệt đối cho tâm lý con người.
+Tính chất chữa lành của Iyashikei không mâu thuẫn với sự tinh tế của ngôn ngữ thiết kế tối giản hiện đại. Sự bo cong trong Capcat được khống chế ở tỷ lệ vừa phải, tinh khiết, mang lại cảm giác ngăn nắp, chuyên nghiệp và sang trọng:
 
 ```
                   CẤU TRÚC BO GÓC DỰ ÁN CAPCAT
     
-    [ Border Radius 28px ]  --->  Thẻ bài chính, Hộp thoại Moments
+    [ Border Radius 16px ]  --->  Thẻ bài chính (Cards), Hộp thoại
     +-------------------------------------------------------------+
-    | [ Border Radius 16px ] --->  Nút bấm, Panel tương tác phụ  |
+    | [ Border Radius 12px ] --->  Nút bấm, Panel tương tác phụ  |
     | +--------------------+                                      |
-    | | [ 12px ] Tag       |                                      |
+    | | [ 8px ] Tag        |                                      |
     | +--------------------+                                      |
     +-------------------------------------------------------------+
 ```
 
-*   **`Radius.cozyCard` (24px - 28px):** Áp dụng cho các thẻ bài chính hiển thị ở màn hình Swipe game (Buffet Ký ức), khung ảnh dìm hàng, và các hộp thoại pop-up trung tâm.
-*   **`Radius.cozyButton` (16px):** Áp dụng cho các nút bấm hành động (Ví dụ: "Gửi ký ức", "Chải lông"), bảng điều khiển chức năng phụ, thanh input chat.
-*   **`Radius.cozyTag` (12px):** Dành cho các nhãn phân loại nhỏ như loài pet (Chó, Mèo), mức độ thân mật (Bạn bè, Tri kỷ), hoặc nhãn thời gian.
-*   **`Radius.cozyAvatar` (8px):** Áp dụng cho avatar phụ của Pet hoặc người dùng để không bị quá tròn xoe công nghiệp mà có hình khối bo tròn góc tinh tế.
+*   **`Radius.cozyCard` (16px):** Áp dụng cho các thẻ bài chính hiển thị ở màn hình Swipe game (Buffet Ký ức), khung ảnh dìm hàng, và các hộp thoại pop-up trung tâm. Giúp thẻ bài có góc bo tròn thanh nhã, mỏng nhẹ, không bị phình to bong bóng kiểu chibi.
+*   **`Radius.cozyButton` (12px):** Áp dụng cho các nút bấm hành động (Ví dụ: "Gửi ký ức", "Chải lông"), bảng điều khiển chức năng phụ, thanh input chat.
+*   **`Radius.cozyTag` (8px):** Dành cho các nhãn phân loại nhỏ như loài pet (Chó, Mèo), mức độ thân mật (Bạn bè, Tri kỷ), hoặc nhãn thời gian.
+*   **`Radius.cozyAvatar` (8px):** Áp dụng cho avatar phụ của Pet hoặc người dùng để có hình khối bo tròn góc tinh tế.
 
 ---
 
@@ -172,13 +172,14 @@ Tính chất chữa lành của Iyashikei chống lại những đường nét s
 
 Để tạo hiệu ứng như sương mù lúc bình minh che phủ các thung lũng Nhật Bản, các panel điều khiển phụ nổi trên nền tối được thiết kế dưới dạng kính mờ:
 
-*   **Độ Mờ Nền (Backdrop Filter Blur):** `sigmaX: 12.0`, `sigmaY: 12.0` đến `16.0`.
+*   **Độ Mờ Nền (Backdrop Filter Blur):** `sigmaX: 8.0 - 12.0`, `sigmaY: 8.0 - 12.0` (tiết chế vừa phải, giữ cho chữ luôn rõ nét).
 *   **Màu Phủ (Tint Color Overlay):**
     *   *Cozy Dark:* `Colors.white.withOpacity(0.06)` hoặc `Colors.black.withOpacity(0.4)`.
     *   *Cozy Light:* `Colors.white.withOpacity(0.7)`.
-*   **Đường Viền Kính (Frosted Border):** Viền mỏng `1.5px`, sử dụng gradient tuyến tính từ trên xuống:
-    *   *Top-left:* `Colors.white.withOpacity(0.12)` (Đón ánh nắng dịu nhẹ).
-    *   *Bottom-right:* `Colors.white.withOpacity(0.02)` (Khuất ánh sáng).
+*   **Nguyên tắc áp dụng:** Kính mờ chỉ được sử dụng ở các panel bổ trợ hoặc bottom sheet nhỏ lơ lửng, tuyệt đối không lạm dụng đè lên các vùng hiển thị thông tin chính gây rối mắt.
+*   **Đường Viền Kính (Frosted Border):** Viền cực mỏng `1.0px` tinh tế màu trắng sữa hoặc đen mờ nhẹ, không lấp lánh cầu kỳ:
+    *   *Top-left:* `Colors.white.withOpacity(0.08)`.
+    *   *Bottom-right:* `Colors.white.withOpacity(0.02)`.
 
 ---
 
@@ -279,20 +280,20 @@ Kỹ sư có thể tạo ra các class tĩnh (static classes) như sau:
 *   **Khai báo Bo Góc & Độ Mờ (`AppDecorations`):**
     ```dart
     class AppDecorations {
-      static const double radiusCard = 28.0;
-      static const double radiusButton = 16.0;
+      static const double radiusCard = 16.0;
+      static const double radiusButton = 12.0;
       
-      // Trang trí thẻ bài ở chế độ Sáng chủ đạo
+      // Trang trí thẻ bài ở chế độ Sáng chủ đạo (Modernist Flat Card)
       static final BoxDecoration lightCardDecoration = BoxDecoration(
         color: AppColors.pureWhite,
         borderRadius: BorderRadius.circular(radiusCard),
         border: Border.all(color: const Color(0xFFEAEAEA), width: 1.0),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF1C1C1E).withOpacity(0.03),
-            blurRadius: 24,
+            color: const Color(0xFF1C1C1E).withOpacity(0.02),
+            blurRadius: 16,
             spreadRadius: 0,
-            offset: const Offset(0, 8),
+            offset: const Offset(0, 4),
           )
         ],
       );
@@ -301,12 +302,13 @@ Kỹ sư có thể tạo ra các class tĩnh (static classes) như sau:
       static final BoxDecoration darkTicketDecoration = BoxDecoration(
         color: AppColors.ticketCharcoal,
         borderRadius: BorderRadius.circular(radiusCard),
+        border: Border.all(color: const Color(0xFF2C2C2E), width: 1.0),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFFFFD1BA).withOpacity(0.03),
-            blurRadius: 30,
+            color: const Color(0xFFFFD1BA).withOpacity(0.02),
+            blurRadius: 20,
             spreadRadius: 0,
-            offset: const Offset(0, 10),
+            offset: const Offset(0, 6),
           )
         ],
       );

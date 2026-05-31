@@ -34,7 +34,7 @@ graph TD
 
 ## 🔐 1. Giao Diện Đăng Ký / Đăng Nhập (Auth & Onboarding Screen)
 
-*   **Không gian mỹ thuật:** Nền tối vô cực (`#0D0D0D`). Phía trên hiển thị hoạt ảnh mộc mạc nét phác thảo chì (Watercolor Chibi) một chú mèo ngủ cuộn tròn phát ra các nhịp rung nhẹ.
+*   **Không gian mỹ thuật:** Nền tối vô cực (`#0D0D0D`). Phía trên hiển thị hoạt ảnh mộc mạc nét phác thảo chì (Watercolor Ghibli style) một chú mèo ngủ cuộn tròn phát ra các nhịp rung nhẹ.
 *   **Bố cục wireframe:**
 
 ```
@@ -87,7 +87,7 @@ graph TD
 |      +-----------------------------------------+      |
 |                                                       |
 |                      /\_/\   <-- (Pet Carousel        |
-|                     ( =^.^=)      Chibi Lottie)       |
+|                     ( =^.^=)      Ghibli Lottie)       |
 |                     ( " ) ( " )_                      |
 |                                                       |
 |       [ Cho ăn ]    [ Đi dạo ]    [ Chải lông ]       | <-- Nút bấm bo tròn 16px
@@ -303,7 +303,7 @@ graph TD
 
 ## 📸 8. Màn Hình Khởi Động "Mỗi Ngày Một Món Quà Ký Ức" (Cozy Personal Splash Screen)
 
-*   **Không gian mỹ thuật:** Giao diện Onboarding đỉnh cao lấy cảm hứng từ ứng dụng **500px**. Toàn bộ màn hình là một bức ảnh vẽ tay màu nước (Watercolor Chibi) phóng to **Full-screen** của chính Boss cưng (Bánh Mỳ đang ngủ dưới đèn bàn). Bức ảnh được phủ một lớp gradient tối che mờ nhẹ (`Dark Vignette Overlay` làm mờ sâu dần về phía đáy) giúp cho các thông tin và nút tương tác trên bề mặt đạt độ tương phản và chiều sâu thị giác tuyệt đối.
+*   **Không gian mỹ thuật:** Giao diện Onboarding đỉnh cao lấy cảm hứng từ ứng dụng **500px**. Toàn bộ màn hình là một bức ảnh vẽ tay màu nước phong cách Ghibli (Watercolor Ghibli style) phóng to **Full-screen** của chính Boss cưng (Bánh Mỳ đang ngủ dưới đèn bàn). Bức ảnh được phủ một lớp gradient tối che mờ nhẹ (`Dark Vignette Overlay` làm mờ sâu dần về phía đáy) giúp cho các thông tin và nút tương tác trên bề mặt đạt độ tương phản và chiều sâu thị giác tuyệt đối.
 *   **Tham chiếu Thiết kế Trực quan (Mỹ thuật bởi Maya):**
     ![Cozy Splash Screen Full Mockup](file:///Users/macinia/.gemini/antigravity-ide/brain/b3b3cb16-efd9-443f-b053-9dc6f5a6c2a5/full_screen_cozy_splash_1779981469397.png)
 *   **Bối cảnh Wireframe:**

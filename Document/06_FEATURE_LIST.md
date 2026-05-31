@@ -82,7 +82,7 @@ mindmap
 ## 🤖 PHÂN HỆ 4: TRỢ LÝ TOÀN CỤC & WIDGET (COMPANION HOST & WIDGETS)
 
 ### 4.1. Trợ lý phủ nổi toàn cục (`AssistantHost` - MVP)
-*   **Mô tả:** Một widget nổi thông minh chạy đè lên tất cả các màn hình của ứng dụng dưới hình ảnh chibi của Boss ảo. Nhấp vào sẽ mở nhanh khung chat nhanh với Boss.
+*   **Mô tả:** Một widget nổi thông minh chạy đè lên tất cả các màn hình của ứng dụng dưới hình ảnh màu nước phong cách Ghibli của Boss ảo. Nhấp vào sẽ mở nhanh khung chat nhanh với Boss.
 
 ### 4.2. Thì thầm màn hình khóa luân phiên (Dynamic Push Whispers - MVP)
 *   **Mô tả:** Tự động điều phối luân phiên các Pet gửi lời thì thầm ngọt ngào/ngáo ngơ lên màn hình khóa vào đêm muộn (11h đêm - 2h sáng).

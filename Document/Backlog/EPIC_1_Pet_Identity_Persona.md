@@ -33,13 +33,13 @@ Phân hệ này xây dựng và quản lý danh tính sinh học chuẩn khoa h�
     *   *Tôi muốn:* Lựa chọn mẫu cá tính đặc trưng cho Boss (Ngáo ngơ, Chảnh chọe, Đanh đá, Nịnh nọt),
     *   *Để:* Định hình giọng điệu giao tiếp của Boss ảo trong suốt ứng dụng.
 *   **Tiêu chí Nghiệm thu (Acceptance Criteria):**
-    *   **AC-1 (Selection UI):** Hiển thị danh sách 4 thẻ bài cá tính với hình minh họa chibi Boss ngộ nghĩnh và mô tả ngắn về thói quen của cá tính đó (Ví dụ: *Chảnh chọe - Thích lờ Sen đi khi không có pate*).
+    *   **AC-1 (Selection UI):** Hiển thị danh sách 4 thẻ bài cá tính với hình minh họa Boss màu nước phong cách Ghibli ngộ nghĩnh và mô tả ngắn về thói quen của cá tính đó (Ví dụ: *Chảnh chọe - Thích lờ Sen đi khi không có pate*).
     *   **AC-2 (Self-Terms Update):** Khi chọn một cá tính, hệ thống tự động gán cấu hình xưng hô tương ứng:
         - *Chảnh chọe:* Boss xưng "Trẫm", gọi chủ là "Sen".
         - *Nịnh nọt:* Boss xưng "Con", gọi chủ là "Ba/Mẹ".
         - *Đanh đá:* Boss xưng "Tao", gọi chủ là "Đứa hầu".
         - *Ngáo ngơ:* Boss xưng "Tớ", gọi chủ là "Cậu".
-*   **Technical Context (Benny):** Maya cần vẽ 4 trạng thái chibi Boss khác nhau tương ứng với 4 cá tính này.
+*   **Technical Context (Benny):** Maya cần vẽ 4 trạng thái Boss màu nước phong cách Ghibli khác nhau tương ứng với 4 cá tính này.
 
 ---
 
@@ -55,14 +55,14 @@ Phân hệ này xây dựng và quản lý danh tính sinh học chuẩn khoa h�
 
 ---
 
-### US-1.4: Vòng xoay Boss Carousel Tương Tác Gõ Đầu Boss (Interactive Touch Chibi Carousel - ĐỘT PHÁ MOM TEST)
+### US-1.4: Vòng xoay Boss Carousel Tương Tác Gõ Đầu Boss (Interactive Touch Ghibli Carousel - ĐỘT PHÁ MOM TEST)
 *   **Phát biểu:**
     *   *Là một:* Chủ nuôi cô đơn quay lại trang Home,
-    *   *Tôi muốn:* Có thể tương tác gõ nhẹ vào chú thú cưng Chibi động ở đầu trang,
+    *   *Tôi muốn:* Có thể tương tác gõ nhẹ vào chú thú cưng Ghibli động ở đầu trang,
     *   *Để:* Nhận lại phản hồi xúc giác nhẹ kèm câu nói trêu đùa của Boss, tránh cảm giác nhàm chán tĩnh lặng.
 *   **Tiêu chí Nghiệm thu (Acceptance Criteria):**
-    *   **AC-1 (Touch Area):** Chú Chibi Boss (động bằng Lottie) ở đầu trang Home có vùng nhận diện cảm ứng (GestureDetector) nhạy bén.
-    *   **AC-2 (Expressive Reaction):** Khi chạm vào Chibi Boss:
+    *   **AC-1 (Touch Area):** Chú Ghibli Boss màu nước (động bằng Lottie) ở đầu trang Home có vùng nhận diện cảm ứng (GestureDetector) nhạy bén.
+    *   **AC-2 (Expressive Reaction):** Khi chạm vào Ghibli Boss:
         - Kích hoạt nhẹ phản hồi rung xúc giác của điện thoại (Haptic Feedback).
         - Boss hiển thị biểu cảm giật mình/nháy mắt ngộ nghĩnh.
         - Hiển thị bong bóng thoại nhỏ (Bubble text) ngẫu nhiên 1 trong 5 câu nói "khịa" chuẩn cá tính (Ví dụ: Mèo chảnh: *"Lại gõ đầu trẫm à Sen? Pate đâu?"*, Chó ngáo: *"Bắt quả tang Sen gõ đầu tớ nhé, đi chơi đi!"*).
