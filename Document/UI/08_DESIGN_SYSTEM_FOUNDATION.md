@@ -359,10 +359,134 @@ Kỹ sư có thể tạo ra các class tĩnh (static classes) như sau:
 
 ---
 
-## 🗃️ 9. Trạng Thái Cập Nhật Hệ Thống (Version Ledger)
+## 🎴 10. Tiêu Chuẩn Thống Nhất Giao Diện: MUJI Flat Cards & MUJI Bottom Sheets (Unified UI Standards)
 
-*   **Phiên bản hiện tại:** `v1.0.0-Iyashikei`
+Để triệt tiêu hoàn toàn sự rời rạc trong giao diện, tránh nợ kỹ thuật và loại bỏ các thiết kế giả lập không gian wabi-sabi phức tạp không khả thi, toàn bộ các thẻ bài (Cards) và hộp thoại từ đáy (Bottom Sheets) trong ứng dụng Capcat bắt buộc phải được quy chuẩn hóa thống nhất theo dải thông số kỹ thuật Muji Warm Minimalism dưới đây:
+
+### 10.1. Tiêu chuẩn thẻ phẳng Muji (Muji Flat Card Specification)
+Mọi thẻ hiển thị danh mục (Đĩa nhạc, sách cũ, điểm hẹn, nhân vật, sự kiện) hay thẻ Moments trên giao diện đều phải tuân thủ nghiêm ngặt cấu trúc phẳng 2D:
+
+1.  **Hình khối & Bo góc (Radius):**
+    *   Bo góc cố định: `BorderRadius.circular(8.0)` cho thẻ lưới danh mục nhỏ, và `BorderRadius.circular(16.0)` cho thẻ card Moments lớn.
+    *   **Tuyệt đối KHÔNG xoay nghiêng chéo:** Thẻ xếp ngay ngắn vuông vắn, không xoay lệch góc 2-3 độ để giả lập scrapbook dán tay.
+2.  **Độ dày & Viền chỉ (Borders):**
+    *   `border: Border.all(color: Color(0xFFEAEAEA), width: 1.0)`.
+    *   Đường viền mảnh, tinh khiết, có màu xám tro siêu mờ, phân định không gian sạch sẽ.
+3.  **Bóng đổ tối giản (Clean Shadows):**
+    *   Tuyệt đối không sử dụng bóng đổ dầy màu tối. Chỉ sử dụng bóng đổ tán xạ siêu loãng và rộng:
+    *   `boxShadow: [BoxShadow(color: Color(0xFF1C1C1E).withOpacity(0.01), blurRadius: 16, offset: Offset(0, 4))]`.
+4.  **Bố cục phân vùng bên trong (Internal Grid Structure):**
+    *   *Ô biểu tượng:* Nằm ở nửa trên, được tô nền màu pastel nhạt (`charAccent`, `eventAccent`, `musicAccent`...) với kích thước vuông vức, chứa Icon Vector đơn nét phẳng.
+    *   *Khung chữ:* Nằm ở nửa dưới, căn lề trái ngăn nắp, khoảng thở padding `12px` ở các cạnh để thông tin luôn thoáng mát.
+
+### 10.2. Tiêu chuẩn hộp thoại phẳng Muji (Muji Flat Bottom Sheet Specification)
+Mọi Bottom Sheet trượt lên từ đáy màn hình trong toàn app đều phải thống nhất một bản mẫu hành vi và mỹ thuật:
+
+1.  **Kích thước & Bo góc:**
+    *   Chiều cao khống chế: Chiếm tối đa `60%` chiều cao màn hình.
+    *   Bo góc trên thanh lịch: `BorderRadius.vertical(top: Radius.circular(24.0))`. Góc dưới vuông vức khớp mép màn hình.
+2.  **Thanh kéo dẹt (Drag Handle):**
+    *   Một thanh hình chữ nhật bo tròn tối giản màu xám nhạt mờ (`width: 40px, height: 4px, color: Color(0xFFEAEAEA)`), đặt ở trung tâm mép trên cùng để chỉ dẫn thao tác kéo vuốt.
+3.  **Nền và đường viền trên:**
+    *   Nền trơn màu trắng kem giấy tái chế cực sạch `#FBFBFA`. Không lồng ghép vân giấy nhám ráp hay họa tiết gỗ phức tạp.
+    *   Đường viền trên mảnh `1px` màu `#EAEAEA` chạy dọc mép để tạo ranh giới sắc nét.
+4.  **Nút Hành Động Phẳng Notion-style (Action Buttons):**
+    *   Mọi Bottom Sheet chỉ chứa tối đa **1 nút hành động chính (Primary Call-to-Action)**.
+    *   Thiết kế dạng thanh ngang dẹt bo góc `12px` màu đen Obsidian `#121212`, chữ trắng, không đổ bóng, căn giữa gọn gàng.
+5.  **Luồng Hoạt Ảnh (Dismissal & Transition):**
+    *   Trượt dọc 2D mượt mà lên/xuống dưới 0.2 giây. Nhấp vào vùng tối bên ngoài (dim overlay 50%) lập tức đóng hộp thoại. Không phát hiệu ứng âm thanh cơ học ồn ào.
+
+---
+
+## 🎴 12. Đặc Tả Chi Tiết Các Loại Component Muji Trong Ứng Dụng (Muji UI Component Catalog)
+
+Để đảm bảo các kỹ sư và nhà thiết kế luôn đồng hành trên một quy chuẩn đồng nhất, toàn bộ các thành phần giao diện (UI Components) được sử dụng trong Capcat bắt buộc phải tuân thủ nghiêm ngặt các bản mẫu đặc tả kỹ thuật dưới đây:
+
+### 12.1. Ô Nhập Liệu Tối Giản Muji (Muji Flat Input Field)
+Sử dụng cho thanh nhập liệu Chat Input, ô điền tên biệt danh Namiya, hay các form nhập thông tin sinh học của Boss:
+
+*   **Cấu trúc hình khối (Layout & Shape):**
+    *   Nền phẳng màu trắng tinh khiết hoặc màu giấy tái chế (`Color(0xFFFBFBFA)`).
+    *   Viền bo góc nhẹ `8px` (`BorderRadius.circular(8.0)`) với đường nét siêu mảnh `1px` màu xám nhạt `#EAEAEA`.
+    *   **Trạng thái Focus (Active):** Khi người dùng nhấp vào nhập liệu, viền chuyển sang màu đen Obsidian `#121212` với độ dày giữ nguyên `1px` (tuyệt đối không dùng viền xanh neon hay viền dày gồ ghề).
+*   **Typography & Colors:**
+    *   *Chữ người dùng gõ:* Font `Quicksand Medium`, kích thước `15px`, màu đen Obsidian `#262626`.
+    *   *Chữ gợi ý (Hint Text):* Màu xám tro mờ `#8C8C8C`.
+*   **Ví dụ Code Flutter:**
+    ```dart
+    InputDecoration mujiInputDecoration(String hintText) {
+      return InputDecoration(
+        hintText: hintText,
+        hintStyle: const TextStyle(color: Color(0xFF8C8C8C), fontFamily: 'Quicksand'),
+        fillColor: const Color(0xFFFBFBFA),
+        filled: true,
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 14.0),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8.0),
+          borderSide: const BorderSide(color: Color(0xFFEAEAEA), width: 1.0),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8.0),
+          borderSide: const BorderSide(color: Color(0xFF121212), width: 1.0),
+        ),
+      );
+    }
+    ```
+
+### 12.2. Hệ Thống Nút Bấm Notion Phẳng (Muji Notion-Style Buttons)
+Các loại nút bấm chính, phụ và nút đặc biệt trong toàn app được chuẩn hoá để tối ưu hoá trật tự thị giác:
+
+```
+1. NÚT BẤM CHÍNH (Primary Flat Button)
++-------------------------------------------------------+
+|                 [ BẮT ĐẦU NGAY ➔ ]                     | <--- Nền đen #121212, bo góc 12px, không bóng
++-------------------------------------------------------+
+
+2. NÚT BẤM PHỤ (Secondary Outline Button)
++-------------------------------------------------------+
+|                     [ Quay Lại ]                      | <--- Nền #F8F9FA, viền 1px #EAEAEA, chữ #1C1C1E
++-------------------------------------------------------+
+
+3. NÚT CẢM XÚC CHÓ/MÈO (Pastel Intimacy Button)
++---------------+     +---------------+
+| Cho Bánh Mỳ 💖|     | Đi dạo Lucky 🐾| <--- Nền Sakura Pink / Matcha Green nhạt 15%
++---------------+     +---------------+
+```
+
+1.  **Nút Hành Động Chính (Primary Flat Button):**
+    *   *Đặc tả:* Nền đen than đá `#121212` phẳng hoàn toàn, chữ trắng tinh khiết dùng font `Quicksand Bold`, kích thước `15px`. Bo góc `12px`. Không đổ bóng.
+2.  **Nút Hành Động Phụ (Secondary Outline Button):**
+    *   *Đặc tả:* Nền màu trắng yến mạch `#F8F9FA`, viền mảnh `1px` màu `#EAEAEA`, chữ màu xám Obsidian `#1C1C1E` dùng font `Quicksand Medium`. Bo góc `12px`.
+3.  **Nút Hành Động Cảm Xúc (Sensory Buttons):**
+    *   *Dành riêng cho Mèo:* Nền màu hồng hoa anh đào nhạt `Color(0xFFFCAFAF).withOpacity(0.15)`, chữ màu xám Obsidian sẫm.
+    *   *Dành riêng cho Chó:* Nền màu xanh matcha nhạt `Color(0xFF8FA882).withOpacity(0.15)`, chữ màu xám Obsidian sẫm.
+
+### 12.3. Hộp Thoại Pop-Up Hệ Thống Muji (Muji Warm Dialogs)
+Tuyệt đối **HỦY BỎ** các thiết kế pop-up hộp gỗ, sớ cuốn, hay các popup nghiêng lệch bất đối xứng. Mọi Dialog thông báo và hộp thoại xác nhận bắt buộc phải tuân theo cấu trúc Muji:
+
+*   **Hình khối & Cân đối (Geometry):**
+    *   Hộp thoại phẳng nằm ở tâm màn hình, bo góc cố định `16px` (`BorderRadius.circular(16.0)`).
+    *   Nền trơn màu trắng tinh khiết `#FFFFFF` với viền mảnh `1px` màu xám nhạt `#EAEAEA` bao bọc bên ngoài.
+*   **Bố cục phân bổ:**
+    *   *Tiêu đề:* Chữ đen Obsidian to đậm (`titleLarge` - font Quicksand).
+    *   *Nội dung tự sự:* Căn lề trái, chữ màu Obsidian dịu (`bodyMedium` - font Nunito), tạo nhịp điệu chậm rãi và thoáng mát.
+    *   *Nút bấm đáy:* Xếp song song nằm ngang (Secondary bên trái, Primary bên phải), căn chỉnh thẳng hàng tuyệt đối.
+
+### 12.4. Nhãn Nhỏ & Thẻ Trạng Thái Tối Giản (Muji Semantic Badges)
+Dùng để dán nhãn mức độ thân mật của Pet, nhãn thời tiết, hay nhãn sự kiện chăm sóc sức khỏe:
+
+*   **Kích thước & Bo góc:** Bo góc nhẹ `8px` (`BorderRadius.circular(8.0)`), padding cực mảnh `symmetric(horizontal: 10.0, vertical: 4.0)`.
+*   **Màu sắc thấu cảm (Semantic Accents):**
+    *   *Thành công / Dinh dưỡng:* Nền màu xanh lá sen nhạt `#E8F5E9`, chữ xanh Matcha sẫm `#4E6A3E`.
+    *   *Mức độ Khẩn cấp (Safe-Vet Warning):* Nền màu đỏ anh đào úa `#FFCDD2`, chữ đỏ sẫm `#B71C1C`.
+    *   *Sự kiện Mùa / Thời tiết:* Nền màu cam quả chín `#FFE0B2` hoặc xanh trời ban mai `#E1F5FE`.
+
+---
+
+## 🗃️ 13. Trạng Thái Cập Nhật Hệ Thống (Version Ledger)
+
+*   **Phiên bản hiện tại:** `v1.2.0-MujiUnifiedComponents`
 *   **Người phụ trách thiết kế:** Maya (UI/UX Designer)
-*   **Mức độ phê duyệt:** Hoàn chỉnh - Sẵn sàng cho việc tham chiếu và phát triển.
+*   **Mức độ phê duyệt:** Hoàn tất đồng bộ toàn app — Sẵn sàng cho việc tham chiếu và lập trình.
 
 *Mọi thay đổi đối với tài liệu Design System Foundation bắt buộc phải qua sự phê duyệt của Hội đồng Mỹ thuật Capcat.*

@@ -1,5 +1,5 @@
 # SPECIFICATION 01: CỔNG CHÀO MỘT CHẠM GOOGLE SSO
-## (GOOGLE ONE-TAP SSO PORTAL - WABI-SABI STYLE)
+## (GOOGLE ONE-TAP SSO PORTAL - MUJI MINIMALIST STYLE)
 *(Phiên bản: 3.0 - Giai đoạn: MVP - Người soạn: CPO Sophia & Alan)*
 
 ---
@@ -101,7 +101,7 @@ sequenceDiagram
 
 ## 3. TIÊU CHÍ NGHIỆM THU (ACCEPTANCE CRITERIA)
 
-*   **AC-1 (Perfect Wabi-Sabi Render):** Màn hình chào hiển thị ảnh nghệ thuật full-bleed dưới 1.2 giây, Bottom Sheet kính mờ Glassmorphic trượt lên mượt mà không bị giật khung hình.
+*   **AC-1 (Perfect Muji Minimalist Render):** Màn hình chào hiển thị ảnh nghệ thuật full-bleed dưới 1.2 giây, Bottom Sheet kính mờ Glassmorphic trượt lên mượt mà không bị giật khung hình.
 *   **AC-2 (Primary Gate Action):** Nhấn nút Google SSO kích hoạt chính xác popup tài khoản của Google SDK. Khi chọn tài khoản, ứng dụng hiển thị indicator loading tròn mượt ngầm trong 1.5 giây trước khi chuyển cảnh.
 *   **AC-3 (Zero-Friction Linkage Bypass):** Đăng nhập Google tài khoản mới thành công là chuyển thẳng đến Phòng Đón Boss Về Nhà, tuyệt đối không bắt nhập OTP điện thoại.
 *   **AC-4 (Backup Flow Accessibility):** Nhấn "Lựa chọn đăng nhập khác" trượt mở form Số điện thoại/Mật khẩu cũ hoạt động ổn định, bảo toàn 100% tính năng đăng nhập truyền thống.

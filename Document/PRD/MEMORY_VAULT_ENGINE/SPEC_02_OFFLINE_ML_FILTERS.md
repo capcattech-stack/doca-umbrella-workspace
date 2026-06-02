@@ -87,51 +87,17 @@ CREATE TABLE local_photo_intelligence_cache (
     -- Các cột tích hợp từ SPEC-08 (Pet Visual Fingerprint Engine)
     matched_pet_id VARCHAR(64) DEFAULT NULL,   -- Pet ID cá thể được khớp thành công (khóa ngoại liên kết PetDetail)
     match_confidence REAL DEFAULT NULL,        -- Độ tin cậy khớp cá thể (0.0 - 1.0)
-    match_source VARCHAR(16) DEFAULT NULL,     -- 'auto' (hệ thống đoán) hoặc 'user_confirmed' (Sen xác nhận)
-    
-    -- Các cột tích hợp từ SPEC-02 Section 6 (Auto Poetic Caption Generator)
-    auto_caption TEXT DEFAULT NULL,            -- Dòng chú thích lãng đãng sinh tự động
-    caption_generated_at TIMESTAMP DEFAULT NULL, -- Thời điểm sinh chú thích
-    caption_mode VARCHAR(16) DEFAULT NULL      -- 'offline_template' hoặc 'gemini_flash'
-);
-```
+    match_source VARCHAR(16) DEFAULT NULL,     -- 'auto' (hệ thống đoán) hoặc 'user_confirmed' (S## ⚙️ 4. Động Cơ Làm Giàu Dữ Liệu Cục Bộ Khi Rảnh Rỗi (Continuous Foreground Idle Enrichment Engine)
 
-### 3.2. Cấu Trúc Khai Báo Dữ Liệu Hành Động & Bối Cảnh Cho Cozy Chat (Data Schema for AI Prompts)
-Mỗi tệp ảnh sau khi đi qua Google ML Kit Image Labeler sẽ được trích xuất và lưu trữ theo cấu trúc JSON chuẩn hóa để cung cấp nguyên liệu sinh câu thoại cực kỳ sống động cho Boss ảo:
-
-```json
-{
-  "local_asset_id": "phasset_ios_982341",
-  "is_pet": 1,
-  "pet_type": "cat",
-  "pet_confidence": 0.94,
-  "detected_actions": ["sleeping", "lying_down"], 
-  "ambient_context": ["bed", "indoor", "pillow"],
-  "photo_taken_at": "2026-04-12T14:30:22Z"
-}
-```
-*   **Các Nhãn Hành Động Hỗ Trợ Mặc Định (Detected Actions Mapping):**
-    *   `sleeping` (đang ngủ - trúng nhãn *Sleeping*, *Asleep*): Pet nhắm mắt, nằm gác đầu.
-    *   `eating` (đang ăn - trúng nhãn *Eating*, *Cat food*, *Licking*): Pet đang cúi đầu bên bát ăn.
-    *   `playing` (đang chơi - trúng nhãn *Playing*, *Toy*, *Running*, *Jumping*): Pet đang ôm cào móng hoặc đuổi bắt bóng.
-    *   `sitting` (đang ngồi - trúng nhãn *Sitting*, *Sitting pose*).
-    *   `lying_down` (đang nằm ườn - trúng nhãn *Lying down*, *Cozy*).
-*   **Các Nhãn Bối Cảnh Môi Trường (Ambient Context Mapping):**
-    *   `bed` (giường ngủ), `sofa` (ghế sofa), `cardboard_box` (hộp các-tông tri kỷ), `grass` (bãi cỏ sân vườn), `carpet` (thảm trải sàn), `keyboard` (Sen đang cày cuốc học tập/làm việc bị Boss đè phím).
-
----
-
-## ⚙️ 4. Động Cơ Làm Giàu Dữ Liệu Ngầm Chậm Mà Chắc (Continuous Background Enrichment Engine)
-
-Để triệt tiêu hoàn toàn độ trễ khi mở game vuốt thẻ, Capcat không chạy quét ML Kit dồn dập vào lúc chơi. Thay vào đó, app vận hành cơ chế **Quét ngầm gián đoạn mỗi ngày** tích hợp toàn diện quy trình 4 bước nhận diện và tự sinh thơ:
+Để triệt tiêu hoàn toàn độ trễ khi mở game vuốt thẻ mà không làm hao pin ngầm của hệ điều hành, Capcat không chạy quét ML Kit dồn dập vào lúc chơi và cũng **KHÔNG sử dụng background worker chạy ngầm định kỳ**. Thay vào đó, app vận hành cơ chế **Quét cục bộ khi ứng dụng ở trạng thái mở và rảnh rỗi (Foreground Idle)**, tích hợp quy trình 4 bước nhận diện và tự sinh thơ lãng đãng:
 
 ```
-  [ Đêm đến, Sen đi ngủ & cắm sạc điện thoại ]
-                       │
-                       ▼ (Workmanager Background Task kích hoạt)
-   [ Lấy ngẫu nhiên 20-30 ảnh CHƯA QUÉT trong thư viện ]
-                       │
-                       ▼ (LUỒNG PIPELINE 4 BƯỚC NÂNG CẤP)
+  [ Sen mở app, đang ở trang Home hoặc đang ngắm Buffet Card ]
+                               │
+                               ▼ (Trạng thái Idle không tương tác > 10s kích hoạt)
+    [ Bốc một lô tối đa 50 ảnh mới nhất trong Gallery điện thoại ]
+                               │
+                               ▼ (LUỒNG PIPELINE 4 BƯỚC NÂNG CẤP)
   ┌────────────────────────────────────────────────────────┐
   │ BƯỚC 1: ML Kit Image Labeling — "Đây có phải Pet?"     │
   │         (Phát hiện chó/mèo, độ tự tin >= 0.70)         │
@@ -146,20 +112,18 @@ Mỗi tệp ảnh sau khi đi qua Google ML Kit Image Labeler sẽ được trí
   │ BƯỚC 4: Auto Poetic Caption — Sinh mô tả lãng đãng     │
   │         (Ghép 4 thành phần theo từ điển thơ offline)    │
   └────────────────────────────────────────────────────────┘
-                       │
-                       ▼
+                               │
+                               ▼
   [ Lưu kết quả đầy đủ vào local_photo_intelligence_cache ]
-                       │
-                       ▼
-   [ Khi Sen mở app: Render thẻ bài lập tức trong 0.01s từ Cache ]
+                               │
+                               ▼
+   [ Khi Sen mở game: Render thẻ bài lập tức trong 0.01s từ Cache ]
 ```
 
-### 4.1. Cách Thức Hoạt Động Của Bộ Quét Ngầm (Daily Background Job)
-1.  **Lập lịch ngầm (Background Job Scheduling):** Sử dụng thư viện `workmanager` của Flutter để chạy một tác vụ ngầm định kỳ **mỗi 24 giờ một lần**. Tác vụ này cấu hình chỉ chạy khi:
-    *   Thiết bị đang **cắm sạc (Charging)** để bảo toàn pin.
-    *   Thiết bị kết nối Wifi hoặc ở trạng thái nghỉ không dùng màn hình (Idle).
-2.  **Quét ngầm giới hạn (Limit Scans per day):** Mỗi lần chạy ngầm, Isolate chỉ bốc đúng **20 đến 30 tấm ảnh mới nhất chưa có mặt trong bảng `local_photo_intelligence_cache`** để chạy qua toàn bộ pipeline 4 bước ở trên.
-3.  **Làm giàu dữ liệu dần dần (Gradual Data Enrichment):** Sau 1 tháng, hệ thống sẽ xây dựng được một kho tri thức local gồm **600 - 900 ảnh Pet** với đầy đủ nhãn hành động/bối cảnh, tag cá thể pet tương ứng, và mô tả lãng đãng viết sẵn. Khi Sen mở tính năng Tinder Buffet, app chỉ việc đọc từ SQLite lên hiển thị ngay lập tức (Zero Latency), pin hao hụt bằng 0!
+### 4.1. Cách Thức Hoạt Động Của Bộ Quét Foreground Idle (Foreground Idle Scan Job)
+1.  **Lập lịch rảnh rỗi (Idle Detection):** Hệ thống lắng nghe sự kiện từ `Listener` hoặc `GestureDetector` toàn cục. Nếu người dùng mở ứng dụng và **không thực hiện tương tác màn hình nào trong quá 10-15 giây**, app sẽ âm thầm khởi động một luồng Isolate phụ để chạy tiến trình quét thưa thớt.
+2.  **Quét ngầm giới hạn theo lô (Batch Scan Limit):** Mỗi lần kích hoạt khi rảnh, app chỉ quét một lô tối đa **50 hình ảnh mới nhất** từ thư viện. Nếu đã thu được **tối thiểu 15 ảnh chứa chó/mèo** và lưu vào SQLite cache, tiến trình lập tức dừng hẳn và giải phóng RAM để trả lại hiệu năng 100% cho UI.
+3.  **Làm giàu dữ liệu dần dần (Gradual Data Enrichment):** Quá trình này diễn ra hoàn toàn êm ái, máy mát lạnh, không tụt pin vì CPU tăng không quá 5% và chỉ chạy khi thiết bị đang hoạt động ở màn hình trước mắt người dùng. Khi Sen mở tính năng Tinder Buffet, app chỉ việc đọc từ SQLite cache lên hiển thị ngay lập tức (Zero Latency).
 
 ---
 
@@ -248,8 +212,8 @@ class AdvancedScanner {
     _fingerprintExtractor.initialize();
   }
 
-  // 1. Quét làm giàu dữ liệu chạy ngầm mỗi ngày vài chục tấm
-  Future<void> runDailyBackgroundScan(int limit) async {
+  // 1. Quét làm giàu dữ liệu khi mở app và rảnh (Foreground Idle Scan)
+  Future<void> runForegroundIdleScan(int limit) async {
     final List<AssetPathEntity> paths = await PhotoManager.getAssetPathList(type: RequestType.image);
     if (paths.isEmpty) return;
 

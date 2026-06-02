@@ -67,27 +67,30 @@ Khi nhấn nút hành động trên Bottom Sheet, ứng dụng sẽ mở ra màn
 
 ---
 
-## III. KỸ THUẬT CHUYỂN TIẾP EMAIL (MAILTO PROTOCOL)
+## III. KỸ THUẬT GỬI THƯ BẢO MẬT (SECURE API ENDPOINT PROTOCOL)
 
-Khi người dùng nhấn nút **Gửi** trên trình soạn thảo, hệ thống sẽ thực thi hàm xử lý `_sendLetter` để đóng gói dữ liệu và chuyển tiếp ra ứng dụng Email mặc định của máy thông qua giao thức `mailto`:
+Để bảo mật tuyệt đối email cá nhân thực tế của người dùng và giữ chân họ ở trong app (không bị gãy luồng thoát ra app Mail ngoài), Capcat loại bỏ hoàn toàn giao thức `mailto`. Khi người dùng nhấn nút **Gửi** trên trình soạn thảo, hệ thống sẽ gọi API Endpoint bảo mật:
 
-### 1. Cấu hình email đích
-*   **To:** `support@capcat.app`
-*   **Subject:** `[Capcat Cứu Hộ] Thư xin nhận nuôi Boss từ biệt danh [Nickname]`
-*   **Body Template:**
-    ```text
-    Tiêu đề: [Tiêu đề thư người dùng gõ]
-    Biệt danh người gửi: [Nickname]
-    Email liên hệ: [Email người gửi - Lấy tự động từ user.email đã xác thực]
-
-    Nội dung thư:
-    ---------------------------------------------------------
-    [Nội dung thư người dùng soạn thảo]
-    ---------------------------------------------------------
-    
-    Thư được gửi từ phân hệ hòm thư ẩn danh cứu hộ của CapCat.
+### 1. Chi tiết API Endpoint gửi thư cứu hộ
+*   **Endpoint:** `POST /api/rescue/adopt_request`
+*   **Headers:** `Content-Type: application/json`, `Authorization: Bearer <token>`
+*   **Payload gửi lên Server:**
+    ```json
+    {
+      "nickname": "Tấm Lòng Vàng Q3",
+      "title": "Thư bày tỏ nguyện vọng nhận nuôi bé Lucky thứ hai",
+      "content": "Con xin chào ban cố vấn, con hiện đang có một không gian sống rất rộng rãi và có kinh nghiệm nuôi mèo 3 năm..."
+    }
     ```
+
+### 2. Xử lý phía Server (Backend & Admin Notification)
+1.  **Xác thực & Bảo mật:** Server nhận request, tự động giải mã `user_id` và lấy email thật của người dùng (`user.email`) từ cơ sở dữ liệu session bảo mật, thay vì bắt client truyền email thô lên.
+2.  **Đóng gói chuyển tiếp:** Server sử dụng thư viện Mailer (như Nodemailer / SendGrid) gửi một email HTML được format tuyệt đẹp (Giấy viết tay kraft + dấu chân mèo) ngầm về cho hòm thư quản trị `support@capcat.app`:
+    *   **Subject:** `[Capcat Cứu Hộ] Thư xin nhận nuôi từ Sen: [Nickname]`
+    *   **Body Content:** Đầy đủ thông tin `Nickname`, `Email liên hệ thực tế` (lấy an toàn từ database), `Nội dung thư bày tỏ lòng chân thành`.
+3.  **Trả về kết quả cho Client:** Server trả về HTTP 200 OK. Client hiển thị hoạt ảnh "Lá thư bay vào hộp gỗ cứu hộ" kèm nhịp rung nhẹ (Haptic) đem lại cảm giác yên bình và thành công.
 
 ---
 
-*Tài liệu đặc tả này đã được phê chuẩn để sẵn sàng phục vụ giai đoạn phát triển khi cần thiết. Ký tên: Team Cố vấn Capcat (Sophia & Benny)*
+*Tài liệu đặc tả đối kháng này đã được phê chuẩn để sẵn sàng phục vụ giai đoạn phát triển khi cần thiết. Ký tên: Team Cố vấn Capcat (Sophia, Alan & Benny)*
+

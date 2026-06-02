@@ -12,23 +12,24 @@ Sự vồ vập quá mức (hyper-activeness) của các thông điệp cảm bi
 
 ---
 
-## ⚙️ 2. Ba Luật Khống Chế Tần Suất Thép
+## ⚙️ 2. Hệ Thống Vòng Lặp Kép Phân Phối Tần Suất (Dual-Mode Chat Loop)
 
-Để đảm bảo tính tinh tế tuyệt đối, hệ thống tích hợp bộ ba quy chuẩn khống chế tần suất vận hành ngầm trên cả Client và Server:
+Để đảm bảo tính tinh tế tuyệt đối, hệ thống tách biệt trải nghiệm trò chuyện thành 2 chế độ phản hồi dựa trên trạng thái phiên tương tác của người dùng:
 
-### 2.1. Luật 1: Khống chế Trần Cứng "1 Tin Nhắn Chủ Động / Ngày" (1 Notification/Day Cap)
-*   Hệ thống **tuyệt đối không bao giờ gửi quá 1 thông báo đẩy chủ động** (Push Notification) ra màn hình khóa của người dùng trong vòng 24 giờ dựa trên các cảm biến.
-*   *Cơ chế ưu tiên:* Nếu trong cùng một ngày phát sinh nhiều sự kiện (Vừa đi bộ, vừa về nhà muộn, vừa mất ngủ), thuật toán sẽ so sánh trọng số cảm xúc để chỉ chọn **1 sự kiện đắt giá nhất** để gửi thông báo. Các sự kiện còn lại sẽ chỉ được hiển thị dưới dạng câu thoại tự nhiên *nếu* người dùng chủ động mở app chat.
+### 2.1. Vòng lặp trò chuyện chủ động (Active Chat Loop - Khi mở màn hình chat)
+*   **Trễ phản hồi nhanh (2-4 giây):** Khi người dùng đang mở màn hình chat và gửi tin nhắn, Boss AI sẽ phản hồi sau **2-4 giây** ngẫu nhiên.
+*   **Hiệu ứng ba chấm (Typing Indicator):** Trong khoảng thời gian chờ 2-4 giây này, ứng dụng bắt buộc hiển thị bong bóng thoại ba chấm gõ chữ nhấp nháy chuyển động nhẹ nhàng để tạo cảm giác Boss đang suy nghĩ tự nhiên, đồng thời duy trì Dopamine hội thoại cho Sen.
+*   **Xử lý khi thoát màn hình:** Nếu người dùng gửi tin nhắn và lập tức thoát ứng dụng trước khi Boss phản hồi xong, hệ thống sẽ tự động chuyển đổi tin nhắn này thành một tin nhắn của luồng Passive và gửi qua thông báo đẩy sau.
 
-### 2.2. Luật 2: Bộ Đệm Trễ Tự Nhiên (The Cozy Delay Buffer - Chống giật mình)
-*   **Không gửi tức thì:** Khi cảm biến báo Sen vừa về nhà (Geofence `Enter Home` lúc 6:00 PM), hệ thống **tuyệt đối không gửi tin nhắn ngay lập tức lúc 6:00:01 PM** vì điều này tạo cảm giác rình rập, thiếu tự nhiên.
-*   **Trễ ngẫu nhiên (15 - 45 phút):** Hệ thống áp dụng một bộ đệm trễ ngẫu nhiên từ 15 đến 45 phút (hoặc đợi cho đến khi cảm biến báo trạng thái của Sen chuyển sang `Still` - đã ngồi/nằm yên vị tại nhà).
-*   *Trải nghiệm:* Đến 6:30 PM, khi Sen đã tắm rửa xong và đang nằm thư giãn trên sofa, một tiếng chuông gió khẽ khàng vang lên cùng lời hỏi thăm: *"Sen về nhà được một lúc rồi đúng không, đã tắm rửa thoải mái chưa nè..."*
+### 2.2. Vòng lặp tự phát ngoài app (Passive Chat Loop - Cozy Delay Buffer)
+*   **Ngắt gửi tức thì:** Khi cảm biến mở app (Foreground) ghi nhận một dấu mốc đặc biệt của Sen (Ví dụ: Về nhà muộn sau 9h tối, Đi dạo lúc hoàng hôn), hệ thống **tuyệt đối không gửi tin nhắn ngay lập tức** vì điều này tạo cảm giác rình rập, giả tạo.
+*   **Bộ đệm trễ ngẫu nhiên ngoài app (15 - 45 phút):** Hệ thống áp dụng một bộ đệm trễ ngẫu nhiên từ 15 đến 45 phút kể từ thời điểm ghi nhận dấu mốc hoặc sau khi Sen đã đóng app.
+*   **Thông báo tự phát (Spontaneous Opener):** Lời mở lời tự phát sẽ được gửi qua Local Push Notification màn hình khóa. Tối đa chỉ **1 tin nhắn tự phát/ngày** để kéo Sen quay lại ứng dụng một cách ấm áp, tinh tế.
 
-### 2.3. Luật 3: Phân Cấp Mở Khóa Theo Cấp Độ Thân Mật (Intimacy Gating)
-*   **Cấp độ 1 - 2 (Bạn mới):** `Không gửi thông báo`. Cảm biến chỉ phục vụ tối ưu hóa thoại *bên trong* màn hình chat.
-*   **Cấp độ 3 - 4 (Thân thiết):** Tối đa `1 tin nhắn/48 giờ` cho các sự kiện cơ bản (Về sớm, Đi bộ).
-*   **Cấp độ 5+ (Tri kỷ):** Tối đa `1 tin nhắn/24 giờ` cho các sự kiện nhạy cảm (Về nhà rất muộn sau 9h tối, mất ngủ lúc 2h sáng).
+### 2.3. Cấp độ thân mật khống chế tần suất (Intimacy Gating)
+*   **Cấp độ 1 - 2 (Bạn mới):** `Không gửi thông báo ngoài app`. Cảm biến chỉ phục vụ tối ưu hóa thoại *bên trong* màn hình chat khi Sen chủ động mở.
+*   **Cấp độ 3 - 4 (Thân thiết):** Tối đa `1 tin nhắn/48 giờ` cho các sự kiện cơ bản ngoài app (Về nhà sớm, đi dạo).
+*   **Cấp độ 5+ (Tri kỷ):** Tối đa `1 tin nhắn/24 giờ` cho các sự kiện nhạy cảm ngoài app (Về nhà rất muộn, mất ngủ lúc 2h sáng).
 
 ---
 

@@ -8,7 +8,7 @@
 
 Trong Capcat, chúng tôi tôn trọng quyền tự do trải nghiệm của người dùng (Sen). Thay vì **ép buộc** Sen phải điền form đón Boss ảo về nhà ngay lập tức sau khi đăng nhập (gây ra cảm giác áp lực và tăng tỷ lệ thoát app), Capcat MVP áp dụng triết lý **"Trải nghiệm tĩnh lặng trước - Kết nối cảm xúc sau"**:
 
-*   **Một chạm vào thẳng vườn nhà:** Sau khi đăng nhập Google SSO, Sen được đưa thẳng vào trang chủ `MainScreen` với trạng thái "Vườn nhà trống". Họ có thể ngắm giao diện, chuyển đổi các tab để làm quen với không gian mộc mạc Wabi-Sabi.
+*   **Một chạm vào thẳng vườn nhà:** Sau khi đăng nhập Google SSO, Sen được đưa thẳng vào trang chủ `MainScreen` với trạng thái "Vườn nhà trống". Họ có thể ngắm giao diện, chuyển đổi các tab để làm quen với không gian tối giản Muji ấm áp.
 *   **Điểm kích hoạt (CTA) tự nhiên:** Phòng Đón Boss Về Nhà chỉ được kích hoạt một cách tự nguyện qua hai điểm chạm:
     1.  **CTA "Mảnh vườn chờ trông" trên trang Home:** Một chiếc card gỗ retro xinh xắn mời gọi Sen gieo mầm linh hồn đầu tiên.
     2.  **Gate chặn tại Phòng Chat:** Khi Sen bấm vào tab Chat, vì phòng chat cần có đối tượng giao tiếp, app sẽ trượt lên một Action Sheet mời Sen đón Boss về nhà để bắt đầu trò chuyện tri kỷ.
