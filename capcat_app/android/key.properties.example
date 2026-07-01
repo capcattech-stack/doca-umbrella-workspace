@@ -1,7 +1,0 @@
-## Copy this file to `android/key.properties` and fill real values.
-## Keep `key.properties` and keystore out of source control.
-
-storePassword=YOUR_STORE_PASSWORD
-keyPassword=YOUR_KEY_PASSWORD
-keyAlias=upload
-storeFile=../keystore/upload-keystore.jks

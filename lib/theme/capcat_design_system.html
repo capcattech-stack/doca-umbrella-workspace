@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Capcat Design System · v1.2.0</title>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Nunito:wght@400;500;600&family=Outfit:wght@400;600&family=Playfair+Display:ital,wght@1,500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Cozy Light */
+    --pure-white: #FBFAF6;
+    --oatmeal-bg: #E8E3D6;
+    --milk-beige: #F4F1E9;
+    --paper-cream: #FBFAF6;
+    --deep-obsidian: #15170F;
+    --charcoal-black: #15170F;
+    --border-light: #EAEAEA;
+    --hint-gray: #8C8C8C;
+    /* Cozy Dark */
+    --dark-slate: #0D0D0D;
+    --ticket-charcoal: #1E1F24;
+    --neon-green: #76C123;
+    --warm-amber: #FFF9C4;
+    /* Accents */
+    --sakura-pink: #F4ABBE;
+    --matcha-green: #8FBF4F;
+    --sakura-pink-bright: #E07090;
+    --sakura-pink-mauve: #C470A0;
+    --matcha-green-forest: #4A8A2E;
+    --matcha-green-dark: #1F3E12;
+    --matcha-cream-warm: #F5EDD5;
+    --peach: #FFD1BA;
+    /* Wood Accents */
+    --wood-sugi: #8B5E3C;
+    --wood-kogecha: #4A2418;
+    --wood-kohaku: #B8860A;
+    /* Semantic */
+    --success-bg: #E8F5E9; --success-text: #4E6A3E;
+    --warning-bg: #FFE0B2; --warning-text: #7A4E00;
+    --error-bg: #FFCDD2; --error-text: #B71C1C;
+    --info-bg: #E1F5FE; --info-text: #01579B;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--pure-white);
+    color: var(--deep-obsidian);
+    line-height: 1.6;
+  }
+
+  /* ── HEADER ── */
+  .ds-header {
+    background: linear-gradient(135deg, #FFF9C4 0%, rgba(255,209,186,0.4) 100%);
+    padding: 64px 48px 48px;
+    border-bottom: 1px solid var(--border-light);
+  }
+  .ds-header h1 {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 36px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin-bottom: 8px;
+  }
+  .ds-header p {
+    font-family: 'Nunito', sans-serif;
+    font-size: 14px;
+    color: var(--hint-gray);
+  }
+  .badge {
+    display: inline-block;
+    background: var(--charcoal-black);
+    color: var(--pure-white);
+    font-family: 'Outfit', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 6px;
+    margin-right: 8px;
+    margin-top: 12px;
+  }
+
+  /* ── LAYOUT ── */
+  .ds-body { max-width: 1200px; margin: 0 auto; padding: 48px; }
+  .ds-section { margin-bottom: 64px; }
+  .ds-section-title {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--deep-obsidian);
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .ds-section-sub {
+    font-size: 13px;
+    color: var(--hint-gray);
+    margin-bottom: 28px;
+    border-bottom: 1px solid var(--border-light);
+    padding-bottom: 16px;
+  }
+
+  /* ── COLOR SWATCHES ── */
+  .color-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; }
+  .swatch {
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--border-light);
+    box-shadow: 0 4px 16px rgba(28,28,30,0.04);
+  }
+  .swatch-color { height: 80px; }
+  .swatch-info { padding: 10px 12px; background: var(--pure-white); }
+  .swatch-name { font-family: 'Quicksand', sans-serif; font-size: 12px; font-weight: 600; color: var(--deep-obsidian); }
+  .swatch-hex { font-family: 'Outfit', sans-serif; font-size: 11px; color: var(--hint-gray); margin-top: 2px; }
+  .swatch-desc { font-size: 10px; color: var(--hint-gray); margin-top: 3px; line-height: 1.4; }
+
+  /* ── TYPOGRAPHY ── */
+  .type-row {
+    display: flex;
+    align-items: baseline;
+    gap: 24px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border-light);
+  }
+  .type-meta { width: 200px; flex-shrink: 0; }
+  .type-token { font-family: 'Outfit', sans-serif; font-size: 11px; font-weight: 600; color: var(--hint-gray); }
+  .type-spec { font-size: 11px; color: var(--hint-gray); margin-top: 3px; }
+  .type-sample { flex: 1; }
+
+  /* ── SPACING / RADIUS ── */
+  .radius-grid { display: flex; flex-wrap: wrap; gap: 16px; }
+  .radius-item { background: var(--oatmeal-bg); border: 1px solid var(--border-light); padding: 24px 28px; text-align: center; }
+  .radius-label { font-family: 'Outfit', sans-serif; font-size: 11px; font-weight: 600; color: var(--hint-gray); margin-top: 8px; }
+  .radius-val { font-family: 'Quicksand', sans-serif; font-size: 13px; font-weight: 700; color: var(--deep-obsidian); }
+
+  /* ── COMPONENTS ── */
+  .component-row { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; margin-bottom: 28px; }
+  .component-label { font-size: 12px; color: var(--hint-gray); width: 100%; margin-bottom: -8px; font-family: 'Outfit', sans-serif; font-weight: 600; }
+
+  /* Buttons */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    font-family: 'Quicksand', sans-serif; font-size: 15px; font-weight: 600;
+    padding: 14px 24px; border-radius: 12px; border: none; cursor: pointer;
+    line-height: 1; white-space: nowrap; text-decoration: none;
+  }
+  .btn-primary { background: var(--charcoal-black); color: var(--pure-white); }
+  .btn-secondary { background: var(--oatmeal-bg); color: var(--deep-obsidian); border: 1px solid var(--border-light); }
+  .btn-cat { background: rgba(252,175,175,0.18); color: var(--deep-obsidian); }
+  .btn-dog { background: rgba(143,168,130,0.18); color: var(--deep-obsidian); }
+  .btn-premium { background: var(--pure-white); color: var(--charcoal-black); }
+
+  /* Cards */
+  .card-light {
+    background: var(--pure-white);
+    border-radius: 16px;
+    border: 1px solid var(--border-light);
+    box-shadow: 0 8px 24px rgba(28,28,30,0.03);
+    padding: 20px;
+    width: 200px;
+  }
+  .card-moments {
+    background: var(--milk-beige);
+    border-radius: 16px;
+    border: 1px solid var(--border-light);
+    box-shadow: 0 8px 24px rgba(28,28,30,0.03);
+    padding: 20px;
+    width: 200px;
+  }
+  .card-ticket {
+    background: var(--ticket-charcoal);
+    border-radius: 16px;
+    border: 1px solid #2C2C2E;
+    box-shadow: 0 10px 30px rgba(255,209,186,0.04);
+    padding: 20px;
+    width: 200px;
+    color: var(--pure-white);
+  }
+  .card-boarding {
+    background: var(--ticket-charcoal);
+    border-radius: 28px;
+    border: 1px solid #2C2C2E;
+    box-shadow: 0 10px 30px rgba(255,209,186,0.04);
+    padding: 20px;
+    width: 200px;
+    color: var(--pure-white);
+  }
+  .card-tag {
+    display: inline-block;
+    background: var(--oatmeal-bg);
+    border-radius: 8px;
+    border: 1px solid var(--border-light);
+    padding: 4px 10px;
+    font-size: 12px;
+    color: var(--hint-gray);
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 600;
+    margin-right: 4px;
+  }
+  .card-title { font-family: 'Quicksand', sans-serif; font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+  .card-body { font-family: 'Nunito', sans-serif; font-size: 12px; color: var(--hint-gray); }
+
+  /* Badges */
+  .badge-semantic {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 4px 10px; border-radius: 8px;
+    font-family: 'Nunito', sans-serif; font-size: 12px; font-weight: 600;
+  }
+
+  /* Input */
+  .muji-input {
+    width: 280px;
+    padding: 14px 16px;
+    border-radius: 8px;
+    border: 1px solid var(--border-light);
+    background: var(--paper-cream);
+    font-family: 'Quicksand', sans-serif;
+    font-size: 15px;
+    color: var(--deep-obsidian);
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .muji-input:focus { border-color: var(--charcoal-black); }
+  .muji-input::placeholder { color: var(--hint-gray); }
+
+  /* Gradients */
+  .gradient-row { display: flex; flex-wrap: wrap; gap: 12px; }
+  .gradient-card {
+    border-radius: 16px;
+    height: 100px;
+    width: 220px;
+    border: 1px solid var(--border-light);
+    display: flex;
+    align-items: flex-end;
+    padding: 12px 14px;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  /* Shadows demo */
+  .shadow-demo { display: flex; gap: 20px; flex-wrap: wrap; }
+  .shadow-card {
+    width: 140px; height: 80px;
+    border-radius: 12px;
+    border: 1px solid var(--border-light);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Outfit', sans-serif; font-size: 11px; font-weight: 600;
+    color: var(--hint-gray);
+  }
+
+  /* Dark section */
+  .dark-section {
+    background: var(--dark-slate);
+    border-radius: 20px;
+    padding: 32px;
+    color: var(--milk-beige);
+  }
+  .dark-section .ds-section-title { color: var(--pure-white); }
+  .dark-section .ds-section-sub { color: #555; border-color: #2C2C2E; }
+
+  /* Chat bubbles */
+  .chat-demo { display: flex; flex-direction: column; gap: 10px; max-width: 320px; }
+  .bubble {
+    padding: 12px 16px;
+    border-radius: 16px;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    max-width: 80%;
+    line-height: 1.5;
+  }
+  .bubble-sen { background: var(--peach); color: var(--deep-obsidian); align-self: flex-end; border-bottom-right-radius: 4px; }
+  .bubble-pet { background: var(--milk-beige); color: var(--deep-obsidian); align-self: flex-start; border-bottom-left-radius: 4px; }
+
+  /* Bottom sheet preview */
+  .bottom-sheet-preview {
+    background: var(--paper-cream);
+    border: 1px solid var(--border-light);
+    border-radius: 24px 24px 0 0;
+    padding: 12px 24px 24px;
+    max-width: 360px;
+  }
+  .drag-handle { width: 40px; height: 4px; background: var(--border-light); border-radius: 2px; margin: 0 auto 20px; }
+
+  /* Glass */
+  .glass-preview {
+    background: var(--dark-slate);
+    border-radius: 16px;
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .glass-box {
+    background: rgba(255,255,255,0.06);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px;
+    padding: 16px;
+    color: var(--milk-beige);
+    font-family: 'Quicksand', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  /* Whisper */
+  .whisper-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    font-weight: 500;
+    font-style: italic;
+    line-height: 1.6;
+    color: var(--deep-obsidian);
+    border-left: 2px solid var(--border-light);
+    padding-left: 16px;
+    max-width: 440px;
+  }
+
+  /* Footer */
+  .ds-footer {
+    background: var(--oatmeal-bg);
+    border-top: 1px solid var(--border-light);
+    padding: 32px 48px;
+    font-size: 12px;
+    color: var(--hint-gray);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .ds-footer strong { color: var(--deep-obsidian); font-family: 'Quicksand', sans-serif; }
+
+  @media (max-width: 768px) {
+    .ds-header, .ds-body, .ds-footer { padding: 32px 24px; }
+    .color-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<div class="ds-header">
+  <p style="font-size:12px;color:var(--hint-gray);margin-bottom:8px;font-family:'Outfit',sans-serif;font-weight:600;letter-spacing:1px;">CAPCAT: SOUL OF PET</p>
+  <h1>🎨 Design System</h1>
+  <p>Iyashikei · Muji Warmth · Cozy Healing — Kim chỉ nam mỹ thuật cho toàn bộ ứng dụng</p>
+  <div style="margin-top:16px;">
+    <span class="badge">v1.2.0-MujiUnifiedComponents</span>
+    <span class="badge" style="background:var(--oatmeal-bg);color:var(--hint-gray);">Flutter · Dart</span>
+    <span class="badge" style="background:var(--oatmeal-bg);color:var(--hint-gray);">Maya · UI/UX</span>
+  </div>
+</div>
+
+<div class="ds-body">
+
+  <!-- ── 1. COLORS ── -->
+  <div class="ds-section">
+    <div class="ds-section-title">🎨 Color Tokens</div>
+    <div class="ds-section-sub">Cozy Light (chủ đạo) · Cozy Dark (chuyên biệt) · Emotional Accents · Semantic</div>
+
+    <p style="font-family:'Outfit',sans-serif;font-size:11px;font-weight:600;color:var(--hint-gray);letter-spacing:1px;margin-bottom:12px;">COZY LIGHT — CHỦ ĐẠO</p>
+    <div class="color-grid" style="margin-bottom:24px;">
+      <div class="swatch"><div class="swatch-color" style="background:#FBFAF6;border-bottom:1px solid #EAEAEA;"></div><div class="swatch-info"><div class="swatch-name">Cloud (Pure White)</div><div class="swatch-hex">#FBFAF6</div><div class="swatch-desc">Nền ứng dụng chính</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#E8E3D6;"></div><div class="swatch-info"><div class="swatch-name">Sand (Oatmeal)</div><div class="swatch-hex">#E8E3D6</div><div class="swatch-desc">Nền phụ, lưới danh mục</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#F4F1E9;"></div><div class="swatch-info"><div class="swatch-name">Paper (Milk Beige)</div><div class="swatch-hex">#F4F1E9</div><div class="swatch-desc">Nền thẻ Moments</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#FBFAF6;border-bottom:1px solid #EAEAEA;"></div><div class="swatch-info"><div class="swatch-name">Cloud (Paper Cream)</div><div class="swatch-hex">#FBFAF6</div><div class="swatch-desc">Nền input, bottom sheet</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#15170F;"></div><div class="swatch-info"><div class="swatch-name">Charcoal (Obsidian)</div><div class="swatch-hex">#15170F</div><div class="swatch-desc">Chữ chính trên nền sáng</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#15170F;"></div><div class="swatch-info"><div class="swatch-name">Charcoal (Black)</div><div class="swatch-hex">#15170F</div><div class="swatch-desc">Primary Button</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#EAEAEA;"></div><div class="swatch-info"><div class="swatch-name">Border Light</div><div class="swatch-hex">#EAEAEA</div><div class="swatch-desc">Viền tối giản</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#FFD1BA;"></div><div class="swatch-info"><div class="swatch-name">Cat Peach</div><div class="swatch-hex">#FFD1BA</div><div class="swatch-desc">Chat bubble Sen</div></div></div>
+    </div>
+
+    <p style="font-family:'Outfit',sans-serif;font-size:11px;font-weight:600;color:var(--hint-gray);letter-spacing:1px;margin-bottom:12px;">COZY DARK — CHUYÊN BIỆT</p>
+    <div class="color-grid" style="margin-bottom:24px;">
+      <div class="swatch"><div class="swatch-color" style="background:#0D0D0D;"></div><div class="swatch-info"><div class="swatch-name">Dark Slate</div><div class="swatch-hex">#0D0D0D</div><div class="swatch-desc">Nền Game / Postcard</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#1E1F24;"></div><div class="swatch-info"><div class="swatch-name">Ticket Charcoal</div><div class="swatch-hex">#1E1F24</div><div class="swatch-desc">Thẻ Ticket / Boarding</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#76C123;"></div><div class="swatch-info"><div class="swatch-name">Neon Green</div><div class="swatch-hex">#76C123</div><div class="swatch-desc">Premium / Mục tiêu</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#FFF9C4;"></div><div class="swatch-info"><div class="swatch-name">Warm Amber</div><div class="swatch-hex">#FFF9C4</div><div class="swatch-desc">Ánh đèn ngủ ấm áp</div></div></div>
+    </div>
+
+    <p style="font-family:'Outfit',sans-serif;font-size:11px;font-weight:600;color:var(--hint-gray);letter-spacing:1px;margin-bottom:12px;">EMOTIONAL ACCENTS — TRUYỀN THỐNG NHẬT BẢN (Matcha & Sakura V2)</p>
+    <div class="color-grid" style="margin-bottom:24px;">
+      <div class="swatch"><div class="swatch-color" style="background:#F4ABBE;"></div><div class="swatch-info"><div class="swatch-name">Sakura Pastel</div><div class="swatch-hex">#F4ABBE</div><div class="swatch-desc">Boss Mèo · Cánh đào xuân</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#E07090;"></div><div class="swatch-info"><div class="swatch-name">Sakura Bright</div><div class="swatch-hex">#E07090</div><div class="swatch-desc">Hồng rực tương phản green</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#C470A0;"></div><div class="swatch-info"><div class="swatch-name">Sakura Mauve</div><div class="swatch-hex">#C470A0</div><div class="swatch-desc">Tím hồng sang trọng</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#8FBF4F;"></div><div class="swatch-info"><div class="swatch-name">Matcha Warm</div><div class="swatch-hex">#8FBF4F</div><div class="swatch-desc">Boss Chó · Xanh vừa ấm</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#4A8A2E;"></div><div class="swatch-info"><div class="swatch-name">Matcha Forest</div><div class="swatch-hex">#4A8A2E</div><div class="swatch-desc">Xanh đậm nền banner</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#1F3E12;"></div><div class="swatch-info"><div class="swatch-name">Matcha Dark</div><div class="swatch-hex">#1F3E12</div><div class="swatch-desc">Xanh sẫm premium</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#F5EDD5;"></div><div class="swatch-info"><div class="swatch-name">Matcha Cream</div><div class="swatch-hex">#F5EDD5</div><div class="swatch-desc">Nền kem ấm áp</div></div></div>
+    </div>
+
+    <p style="font-family:'Outfit',sans-serif;font-size:11px;font-weight:600;color:var(--hint-gray);letter-spacing:1px;margin-bottom:12px;">WOOD ACCENTS — MÀU GỖ TRUYỀN THỐNG NHẬT BẢN</p>
+    <div class="color-grid" style="margin-bottom:24px;">
+      <div class="swatch"><div class="swatch-color" style="background:#8B5E3C;"></div><div class="swatch-info"><div class="swatch-name">Sugi (Tuyết tùng)</div><div class="swatch-hex">#8B5E3C</div><div class="swatch-desc">Gỗ tuyết tùng ấm, trung tính</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#4A2418;"></div><div class="swatch-info"><div class="swatch-name">Kogecha (Nâu cháy)</div><div class="swatch-hex">#4A2418</div><div class="swatch-desc">Nâu cháy đậm, nền tối cổ điển</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#B8860A;"></div><div class="swatch-info"><div class="swatch-name">Kohaku (Hổ phách)</div><div class="swatch-hex">#B8860A</div><div class="swatch-desc">Vàng sơn mài / tre già óng</div></div></div>
+    </div>
+
+    <p style="font-family:'Outfit',sans-serif;font-size:11px;font-weight:600;color:var(--hint-gray);letter-spacing:1px;margin-bottom:12px;">SEMANTIC SOFT COLORS</p>
+    <div class="component-row">
+      <span class="badge-semantic" style="background:var(--success-bg);color:var(--success-text);">✓ Cozy Success</span>
+      <span class="badge-semantic" style="background:var(--warning-bg);color:var(--warning-text);">⚠ Cozy Warning</span>
+      <span class="badge-semantic" style="background:var(--error-bg);color:var(--error-text);">✕ Cozy Error</span>
+      <span class="badge-semantic" style="background:var(--info-bg);color:var(--info-text);">ℹ Cozy Info</span>
+    </div>
+  </div>
+
+  <!-- ── 2. TYPOGRAPHY ── -->
+  <div class="ds-section">
+    <div class="ds-section-title">✍️ Typography Scale</div>
+    <div class="ds-section-sub">Quicksand (Primary) · Nunito (Secondary) · Outfit (Numeric) · Playfair Display (Accent)</div>
+
+    <div class="type-row">
+      <div class="type-meta"><div class="type-token">displayLarge</div><div class="type-spec">Quicksand 700 · 32px · 1.2</div></div>
+      <div class="type-sample" style="font-family:'Quicksand',sans-serif;font-size:32px;font-weight:700;line-height:1.2;">Bánh Mỳ & Lucky</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta"><div class="type-token">headlineLarge</div><div class="type-spec">Quicksand 700 · 24px · 1.3</div></div>
+      <div class="type-sample" style="font-family:'Quicksand',sans-serif;font-size:24px;font-weight:700;line-height:1.3;">Thẻ Ký Ức Hôm Nay</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta"><div class="type-token">titleLarge</div><div class="type-spec">Quicksand 600 · 20px · 1.4</div></div>
+      <div class="type-sample" style="font-family:'Quicksand',sans-serif;font-size:20px;font-weight:600;line-height:1.4;">Nguyên Đặng · Tiêu đề Popup</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta"><div class="type-token">bodyLarge</div><div class="type-spec">Quicksand 500 · 16px · 1.5</div></div>
+      <div class="type-sample" style="font-family:'Quicksand',sans-serif;font-size:16px;font-weight:500;line-height:1.5;">Nội dung tin nhắn chat thân mật của Boss & Sen</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta"><div class="type-token">bodyMedium</div><div class="type-spec">Nunito 400 · 14px · 1.5</div></div>
+      <div class="type-sample" style="font-family:'Nunito',sans-serif;font-size:14px;font-weight:400;line-height:1.5;">Mô tả hoạt động chăm sóc thường nhật, thẻ phụ, trang cài đặt</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta"><div class="type-token">buttonText</div><div class="type-spec">Quicksand 600 · 15px · 1.0</div></div>
+      <div class="type-sample" style="font-family:'Quicksand',sans-serif;font-size:15px;font-weight:600;line-height:1.0;">Bắt Đầu Ngay ➔</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta"><div class="type-token">numericLabel</div><div class="type-spec">Outfit 600 · 13px · 1.2</div></div>
+      <div class="type-sample" style="font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;line-height:1.2;">4.2 kg · 32 phút · 18:30</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta"><div class="type-token">captionText</div><div class="type-spec">Nunito 400 · 12px · 1.4</div></div>
+      <div class="type-sample" style="font-family:'Nunito',sans-serif;font-size:12px;font-weight:400;line-height:1.4;color:var(--hint-gray);">Hôm nay lúc 22:15 · Chú thích phụ</div>
+    </div>
+    <div class="type-row" style="border:none;">
+      <div class="type-meta"><div class="type-token">whisperItalic ✦</div><div class="type-spec">Playfair Display 500i · 15px · 1.6</div></div>
+      <div class="type-sample">
+        <div class="whisper-text">"Những khoảnh khắc tĩnh lặng nhất lại chứa đựng nhiều tình yêu nhất."</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 3. BORDER RADIUS ── -->
+  <div class="ds-section">
+    <div class="ds-section-title">🎴 Border Radius & Shapes</div>
+    <div class="ds-section-sub">Cấu trúc bo góc tối giản, tinh tế — không phình bong bóng, không lệch góc scrapbook</div>
+    <div class="radius-grid">
+      <div class="radius-item" style="border-radius:8px;"><div class="radius-val">8px</div><div class="radius-label">cozyTag · cozyAvatar<br>Input field · Grid card</div></div>
+      <div class="radius-item" style="border-radius:12px;"><div class="radius-val">12px</div><div class="radius-label">cozyButton<br>Nút hành động</div></div>
+      <div class="radius-item" style="border-radius:16px;"><div class="radius-val">16px</div><div class="radius-label">cozyCard<br>Thẻ chính · Pop-up dialog</div></div>
+      <div class="radius-item" style="border-radius:24px;"><div class="radius-val">24px</div><div class="radius-label">Bottom Sheet<br>(top corners)</div></div>
+      <div class="radius-item" style="border-radius:28px;"><div class="radius-val">28px</div><div class="radius-label">Boarding Pass<br>Thẻ cao cấp</div></div>
+    </div>
+  </div>
+
+  <!-- ── 4. COMPONENTS ── -->
+  <div class="ds-section">
+    <div class="ds-section-title">🛠 UI Components</div>
+    <div class="ds-section-sub">Muji Flat Cards · Notion-Style Buttons · Input Fields · Badges · Chat Bubbles</div>
+
+    <!-- Buttons -->
+    <div class="component-row">
+      <span class="component-label">BUTTONS</span>
+      <a class="btn btn-primary">Bắt Đầu Ngay ➔</a>
+      <a class="btn btn-secondary">Quay Lại</a>
+      <a class="btn btn-cat">Cho Bánh Mỳ Ăn 💖</a>
+      <a class="btn btn-dog">Đi Dạo Lucky 🐾</a>
+      <a class="btn btn-premium" style="background:var(--charcoal-black);color:var(--pure-white);">Kết nạp Premium ✦</a>
+    </div>
+
+    <!-- Cards -->
+    <div class="component-row" style="align-items:flex-start;">
+      <span class="component-label">CARDS</span>
+      <div class="card-light">
+        <div style="display:flex;gap:6px;margin-bottom:10px;">
+          <span class="card-tag">🐱 Mèo</span>
+          <span class="card-tag">Tri Kỷ</span>
+        </div>
+        <div class="card-title">Bánh Mỳ</div>
+        <div class="card-body">Thẻ bài chính · Light mode<br>Border 1px · Shadow loãng</div>
+      </div>
+      <div class="card-moments">
+        <div class="card-title">✨ Ký Ức Hôm Nay</div>
+        <div class="card-body">Nền Milk Beige · Moments Card<br>Giấy thủ công ấm áp</div>
+      </div>
+      <div class="card-ticket">
+        <div class="card-title" style="color:var(--pure-white);">🚂 Boarding Pass</div>
+        <div class="card-body" style="color:#9E9E9E;">Ticket Charcoal · Dark mode<br>Bo góc 16px sang trọng</div>
+        <div style="margin-top:10px;font-family:'Outfit',sans-serif;font-size:12px;font-weight:600;color:var(--neon-green);">● PREMIUM</div>
+      </div>
+      <div class="card-boarding">
+        <div class="card-title" style="color:var(--pure-white);">🎫 Boarding Pass+</div>
+        <div class="card-body" style="color:#9E9E9E;">Bo góc 28px đặc biệt<br>Cao cấp nhất</div>
+      </div>
+    </div>
+
+    <!-- Input -->
+    <div class="component-row">
+      <span class="component-label">INPUT FIELD</span>
+      <input class="muji-input" placeholder="Nhập tên biệt danh của Boss...">
+      <input class="muji-input" placeholder="Tìm kiếm ký ức...">
+    </div>
+
+    <!-- Chat bubbles -->
+    <div class="component-row" style="align-items:flex-start;">
+      <span class="component-label">CHAT BUBBLES</span>
+      <div class="chat-demo">
+        <div class="bubble bubble-sen">Hôm nay Bánh Mỳ có ngoan không? 🐱</div>
+        <div class="bubble bubble-pet">Mèo đã ăn xong và đang ngủ trưa ấm áp rồi ạ~ 💤</div>
+        <div class="bubble bubble-sen">Ngoan quá! Tối nay Sen sẽ vuốt ve nhiều hơn nhé 💖</div>
+      </div>
+    </div>
+
+    <!-- Bottom sheet preview -->
+    <div class="component-row" style="align-items:flex-start;">
+      <span class="component-label">BOTTOM SHEET</span>
+      <div class="bottom-sheet-preview">
+        <div class="drag-handle"></div>
+        <div style="font-family:'Quicksand',sans-serif;font-size:18px;font-weight:700;margin-bottom:8px;">Ghi Nhận Ký Ức</div>
+        <div style="font-family:'Nunito',sans-serif;font-size:13px;color:var(--hint-gray);margin-bottom:20px;">Thêm khoảnh khắc đặc biệt hôm nay vào kho lưu trữ tình cảm của bạn và Bánh Mỳ.</div>
+        <a class="btn btn-primary" style="width:100%;justify-content:center;">Lưu Ký Ức này ✦</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 5. GRADIENTS ── -->
+  <div class="ds-section">
+    <div class="ds-section-title">🌅 Healing Gradients</div>
+    <div class="ds-section-sub">Ba dải màu chuyển cảm xúc biểu đạt nhịp thời gian Slow-life</div>
+    <div class="gradient-row">
+      <div class="gradient-card" style="background:linear-gradient(135deg,#FFF9C4 0%,rgba(255,209,186,0.4) 100%);color:var(--deep-obsidian);">Vạt Nắng Xiên ☀️</div>
+      <div class="gradient-card" style="background:linear-gradient(180deg,#120E2E 0%,#121212 100%);color:var(--milk-beige);">Hoàng Hôn Ga Tàu 🌆</div>
+      <div class="gradient-card" style="background:linear-gradient(135deg,#FFE5D9 0%,#FFFFFF 100%);color:var(--deep-obsidian);">Hơi Ấm Trái Tim 💗</div>
+    </div>
+  </div>
+
+  <!-- ── 6. SHADOWS ── -->
+  <div class="ds-section">
+    <div class="ds-section-title">🌌 Shadows & Glass</div>
+    <div class="ds-section-sub">Bóng đổ tán xạ mềm mại · Kính mờ sương mai — không bóng đen đậm góc cạnh</div>
+
+    <div class="shadow-demo" style="margin-bottom:24px;">
+      <div class="shadow-card" style="box-shadow:0 8px 24px rgba(28,28,30,0.03);">Light<br>Shadow</div>
+      <div class="shadow-card" style="background:var(--ticket-charcoal);color:var(--milk-beige);border-color:#2C2C2E;box-shadow:0 10px 30px rgba(255,209,186,0.06);">Dark<br>Shadow</div>
+      <div class="shadow-card" style="box-shadow:0 4px 16px rgba(28,28,30,0.02);">Card Grid<br>Shadow</div>
+    </div>
+
+    <div class="glass-preview">
+      <div style="color:var(--hint-gray);font-size:11px;font-family:'Outfit',sans-serif;font-weight:600;margin-bottom:12px;">GLASSMORPHISM PANEL (Cozy Dark)</div>
+      <div class="glass-box">Backdrop blur: 10px · White 6% tint · Frosted border 1px</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ── FOOTER ── -->
+<div class="ds-footer">
+  <div>
+    <strong>Capcat Design System</strong> · v1.2.0-MujiUnifiedComponents<br>
+    <span>Phê duyệt bởi Hội đồng Mỹ thuật Capcat · Sẵn sàng cho lập trình</span>
+  </div>
+  <div style="text-align:right;">
+    <strong>Maya</strong> · UI/UX Designer<br>
+    <span>Triết lý: Muji · Ghibli · 26seconds · Naver</span>
+  </div>
+</div>
+
+</body>
+</html>

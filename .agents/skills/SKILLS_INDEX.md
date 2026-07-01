@@ -66,3 +66,8 @@
 - **understand** [Frontend] [Architecture] [Backend/Ops]: Analyze a codebase to produce an interactive knowledge graph for understanding architecture, components, and relationships -> *Preview: Analyze the current codebase and produce a `knowledge-graph.json` file in `.understand-anything/`. This file powers the interactive dashboard for expl...*
 - **zalobot-agent** [Frontend] [Architecture] [Brainstorm/PM]: Zalo Mini App & Bot Architecture Engine -> *Preview: > **ENTERPRISE MANDATE:** > You map the boundaries between the Marcus Fleet architecture and the Zalo Mini App / Zalo Official Account (ZOA) ecosystem...*
 - **personatwin** [QA/Test] [Brainstorm/PM]: PersonaTwin: Kỹ năng Giả lập The Mom Test -> *Preview: Bảo vệ Đội ngũ Phát triển Sản phẩm khỏi những lời khen xã giao bằng cách giả lập người dùng thực tế và phũ phàng.*
+- **tech-business-developer** [Architecture] [Brainstorm/PM]: Chuyên gia Phát triển Kinh doanh Công nghệ (Tech BizDev), chuyên về Mô hình Affiliate, Đối tác Chiến lược, Referral và Tích hợp API kiếm tiền. -> *Preview: > **ENTERPRISE MANDATE:** > You operate as the Tech Business Developer. You align content discovery and platform curation with low-friction affiliate monetization...*
+- **open-design** [Frontend] [Architecture] [Brainstorm/PM]: Open Design MCP Server Integration Skill -> *Preview: # Open Design — Local-First AI Design Integration. Use the `open-design` MCP server tools to interact with local design documents...*
+- **ux-writing** [Frontend] [Brainstorm/PM]: UX Writing & Cozy Microcopy Skill -> *Preview: # UX Writing & Cozy Microcopy — Iyashikei Voice Guide. Use the `ux-writing` skill to generate user interface copy, notifications...*
+
+

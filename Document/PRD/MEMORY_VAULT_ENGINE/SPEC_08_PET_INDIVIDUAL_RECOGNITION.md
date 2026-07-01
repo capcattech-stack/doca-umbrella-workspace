@@ -410,18 +410,15 @@ WHERE pet_id = :pet_id;
                  cùng nhau ngủ trên góc sofa cũ..."
 ```
 
-### 8.3. Boss Mới Thêm Vào (Nhận Nuôi Bé Mới)
-
-```
-Sen thêm pet thứ 3: "Lucky" (chó Golden)
-          │
-          ▼ (Bootstrap: chọn 5 ảnh Lucky)
-          │
-          ▼ (Hệ thống tự động quét lại ảnh CŨ trong cache)
-  Những ảnh cũ đã tag pet_type = 'dog' mà chưa có pet_id
-  → So sánh fingerprint với centroid Lucky mới
-  → Gắn tag hồi tố cho ảnh cũ nếu match
-```
+### 8.3. Luồng Tái Phân Loại Lịch Sử (Retroactive Re-indexing Flow) Khi Thêm Boss Mới (2+ Bosses)
+Khi người dùng đang nuôi 1 boss (mọi ảnh cũ đều mặc định được tag cho boss này mà không cần trích vector) và tiến hành đón thêm boss thứ 2 về nhà, hệ thống kích hoạt luồng tái phân loại lịch sử:
+1.  **Hộp thoại Gợi ý Nhẹ Nhàng (UX Dialog Prompt):** Ngay sau khi tạo boss thứ 2 thành công, app hiển thị pop-up mộc mạc:
+    *   *Lời thoại (Boss 1):* `"Nhà mình có thành viên mới kìa Sen! Bạn có muốn trẫm giúp bạn phân loại lại kho ký ức cũ để chia album riêng cho từng bé không? 🐾"`
+    *   *Lựa chọn:* `[Đồng ý phân loại]` hoặc `[Để sau]`.
+2.  **Tiến Trình Ngầm Tiết Kiệm (Throttled Background Thread):** 
+    *   Khi Sen bấm `[Đồng ý]`, hệ thống khởi tạo một Isolate phụ chạy ngầm với mức ưu tiên thấp (Throttled Thread, nghỉ 100ms sau mỗi 5 ảnh để tránh tràn CPU).
+    *   Tiến trình sẽ trích xuất vector đặc trưng của toàn bộ kho ảnh cũ đã lưu trong Hộp Ký Ức, so sánh Cosine Similarity với Centroid của Boss 1 và Boss 2.
+    *   Cập nhật chính xác `matched_pet_id` vào SQLite cache cho tất cả ảnh cũ.
 
 ### 8.4. Bé Thay Đổi Ngoại Hình Theo Thời Gian
 

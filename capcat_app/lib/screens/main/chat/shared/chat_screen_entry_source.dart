@@ -1,1 +1,0 @@
-enum ChatScreenEntrySource { standard, assistantFab }

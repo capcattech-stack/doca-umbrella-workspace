@@ -90,6 +90,17 @@ Khi nhấn nút hành động trên Bottom Sheet, ứng dụng sẽ mở ra màn
     *   **Body Content:** Đầy đủ thông tin `Nickname`, `Email liên hệ thực tế` (lấy an toàn từ database), `Nội dung thư bày tỏ lòng chân thành`.
 3.  **Trả về kết quả cho Client:** Server trả về HTTP 200 OK. Client hiển thị hoạt ảnh "Lá thư bay vào hộp gỗ cứu hộ" kèm nhịp rung nhẹ (Haptic) đem lại cảm giác yên bình và thành công.
 
+### 3. Đồng bộ hóa phản hồi cứu hộ về Thùng Sữa (Milk Box Integration)
+Để tránh đứt gãy luồng thông báo khi admin phản hồi qua email, hệ thống thiết lập cơ chế đồng bộ:
+1.  **Đăng ký phản hồi từ Admin:** Khi admin phản hồi email xin nhận nuôi của người dùng, server (API Endpoint `/api/rescue/adopt_reply`) vừa gửi email HTML phản hồi chính thức cho người dùng, vừa chèn một bản ghi cập nhật trạng thái vào bảng `namiya_replies` trên hệ thống.
+2.  **Thông số bản ghi cập nhật:**
+    *   `category` = `rescue_update`.
+    *   `cat_advisor_name` = `"Trạm cứu hộ Capcat 🐾"`.
+    *   `namiya_advice_content` = Nội dung phản hồi của admin về luồng nhận nuôi.
+3.  **Hành vi phía Client:**
+    *   Hệ thống gửi Push Notification về thiết bị của người dùng thông báo: *"Tin vui từ trạm cứu hộ Capcat! Bạn có thư phản hồi nhận nuôi mới trong Thùng Sữa."*
+    *   Ứng dụng hiển thị chấm đỏ trên icon "Thùng Sữa" ngoài trang chủ. Khi chạm vào Thùng Sữa, người dùng có thể đọc câu trả lời cứu hộ trực tiếp ngay trong app mà không cần kiểm tra hòm mail cá nhân liên tục.
+
 ---
 
 *Tài liệu đặc tả đối kháng này đã được phê chuẩn để sẵn sàng phục vụ giai đoạn phát triển khi cần thiết. Ký tên: Team Cố vấn Capcat (Sophia, Alan & Benny)*
