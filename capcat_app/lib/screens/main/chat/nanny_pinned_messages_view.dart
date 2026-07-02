@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_mock_app/models/message.dart';
-import 'package:flutter_chat_mock_app/providers/nanny_chat_provider.dart';
-import 'package:flutter_chat_mock_app/screens/main/chat/shared/search/chat_search_text_matcher.dart';
-import 'package:flutter_chat_mock_app/screens/main/chat/shared/widgets/chat_search_field.dart';
-import 'package:flutter_chat_mock_app/theme/app_colors.dart';
-import 'package:flutter_chat_mock_app/utils/date_format_config.dart';
-import 'package:flutter_chat_mock_app/utils/media_query_utils.dart';
-import 'package:flutter_chat_mock_app/utils/search_debouncer.dart';
-import 'package:flutter_chat_mock_app/utils/size_config.dart';
-import 'package:flutter_chat_mock_app/widgets/button/tap_effect.dart';
-import 'package:flutter_chat_mock_app/widgets/loading/text_loading_indicator.dart';
+import 'package:capcat_doca/models/message.dart';
+import 'package:capcat_doca/providers/nanny_chat_provider.dart';
+import 'package:capcat_doca/screens/main/chat/shared/search/chat_search_text_matcher.dart';
+import 'package:capcat_doca/screens/main/chat/shared/widgets/chat_search_field.dart';
+import 'package:capcat_doca/theme/app_colors.dart';
+import 'package:capcat_doca/utils/date_format_config.dart';
+import 'package:capcat_doca/utils/media_query_utils.dart';
+import 'package:capcat_doca/utils/search_debouncer.dart';
+import 'package:capcat_doca/utils/size_config.dart';
+import 'package:capcat_doca/widgets/button/tap_effect.dart';
+import 'package:capcat_doca/widgets/loading/text_loading_indicator.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

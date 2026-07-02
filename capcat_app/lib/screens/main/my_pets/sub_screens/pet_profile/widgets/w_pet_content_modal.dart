@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_mock_app/l10n/gen/app_localizations.dart';
-import 'package:flutter_chat_mock_app/models/pet_detail.dart';
-import 'package:flutter_chat_mock_app/screens/main/my_pets/sub_screens/pet_profile/widgets/w_pet_scrollable_details.dart';
-import 'package:flutter_chat_mock_app/theme/app_colors.dart';
-import 'package:flutter_chat_mock_app/utils/size_config.dart';
-import 'package:flutter_chat_mock_app/widgets/button/tap_effect.dart';
+import 'package:capcat_doca/l10n/gen/app_localizations.dart';
+import 'package:capcat_doca/models/pet_detail.dart';
+import 'package:capcat_doca/screens/main/my_pets/sub_screens/pet_profile/widgets/w_pet_scrollable_details.dart';
+import 'package:capcat_doca/theme/app_colors.dart';
+import 'package:capcat_doca/utils/size_config.dart';
+import 'package:capcat_doca/widgets/button/tap_effect.dart';
 
 class PetContentModal extends StatelessWidget {
   const PetContentModal({

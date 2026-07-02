@@ -1,28 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_mock_app/assistant/assistant_visibility_scope.dart';
-import 'package:flutter_chat_mock_app/models/user_detail.dart';
-import 'package:flutter_chat_mock_app/providers/loading_overlay_provider.dart';
-import 'package:flutter_chat_mock_app/providers/user_detail_provider.dart';
-import 'package:flutter_chat_mock_app/services/user_detail_remote_service.dart';
-import 'package:flutter_chat_mock_app/theme/app_colors.dart';
-import 'package:flutter_chat_mock_app/utils/auth_util.dart';
-import 'package:flutter_chat_mock_app/utils/date_format_config.dart';
-import 'package:flutter_chat_mock_app/services/image_picker_service.dart';
-import 'package:flutter_chat_mock_app/utils/image_utils.dart';
-import 'package:flutter_chat_mock_app/utils/media_query_utils.dart';
-import 'package:flutter_chat_mock_app/utils/size_config.dart';
-import 'package:flutter_chat_mock_app/utils/toast_overlay.dart';
-import 'package:flutter_chat_mock_app/widgets/input/date_input_field.dart';
-import 'package:flutter_chat_mock_app/widgets/input/input_field.dart';
-import 'package:flutter_chat_mock_app/widgets/button/action_button.dart';
-import 'package:flutter_chat_mock_app/widgets/input/select_text_field.dart';
-import 'package:flutter_chat_mock_app/widgets/layout/custom_scaffold.dart';
-import 'package:flutter_chat_mock_app/widgets/safe_area/safe_area_top_only.dart';
-import 'package:flutter_chat_mock_app/widgets/header/custom_app_header.dart';
-import 'package:flutter_chat_mock_app/widgets/shared/avatar_widget.dart';
-import 'package:flutter_chat_mock_app/widgets/text/section_header_text.dart';
+import 'package:capcat_doca/assistant/assistant_visibility_scope.dart';
+import 'package:capcat_doca/models/user_detail.dart';
+import 'package:capcat_doca/providers/loading_overlay_provider.dart';
+import 'package:capcat_doca/providers/user_detail_provider.dart';
+import 'package:capcat_doca/services/user_detail_remote_service.dart';
+import 'package:capcat_doca/theme/app_colors.dart';
+import 'package:capcat_doca/utils/auth_util.dart';
+import 'package:capcat_doca/utils/date_format_config.dart';
+import 'package:capcat_doca/services/image_picker_service.dart';
+import 'package:capcat_doca/utils/image_utils.dart';
+import 'package:capcat_doca/utils/media_query_utils.dart';
+import 'package:capcat_doca/utils/size_config.dart';
+import 'package:capcat_doca/utils/toast_overlay.dart';
+import 'package:capcat_doca/widgets/input/date_input_field.dart';
+import 'package:capcat_doca/widgets/input/input_field.dart';
+import 'package:capcat_doca/widgets/button/action_button.dart';
+import 'package:capcat_doca/widgets/input/select_text_field.dart';
+import 'package:capcat_doca/widgets/layout/custom_scaffold.dart';
+import 'package:capcat_doca/widgets/safe_area/safe_area_top_only.dart';
+import 'package:capcat_doca/widgets/header/custom_app_header.dart';
+import 'package:capcat_doca/widgets/shared/avatar_widget.dart';
+import 'package:capcat_doca/widgets/text/section_header_text.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_chat_mock_app/l10n/gen/app_localizations.dart';
+import 'package:capcat_doca/l10n/gen/app_localizations.dart';
 
 class UserProfileInfoScreen extends ConsumerStatefulWidget {
   const UserProfileInfoScreen({super.key});
@@ -163,11 +163,14 @@ class ProfileInfoScreenState extends ConsumerState<UserProfileInfoScreen> {
         TO.show(context, l10n.profileInfoUpdateSuccess);
         return;
       }
-      if (serviceResponse.message?.contains('Phiên đăng nhập đã hết hạn') ==
-          true) {
-        await AuthUtil.performLogout(context: context, ref: ref);
+      if (await AuthUtil.handleSessionInvalidIfNeeded(
+        context: context,
+        ref: ref,
+        response: serviceResponse,
+      )) {
         return;
       }
+      if (!mounted) return;
       TO.show(context, l10n.profileInfoUpdateFailed);
     } finally {
       if (mounted) setState(() => _isSaving = false);

@@ -1,5 +1,5 @@
-import 'package:flutter_chat_mock_app/models/chat_messages_page.dart';
-import 'package:flutter_chat_mock_app/services/chat_message_remote_service.dart';
+import 'package:capcat_doca/models/chat_messages_page.dart';
+import 'package:capcat_doca/services/chat_message_remote_service.dart';
 
 class ChatMessageRepository {
   Future<ChatMessagesPage> fetchConversationMessages({

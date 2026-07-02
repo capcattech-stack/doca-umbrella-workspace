@@ -1,41 +1,41 @@
 {
   "project_info": {
-    "project_number": "286431093243",
-    "project_id": "capcat-auth",
-    "storage_bucket": "capcat-auth.firebasestorage.app"
+    "project_number": "564875796465",
+    "project_id": "capcat-doca",
+    "storage_bucket": "capcat-doca.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:286431093243:android:965fffe9adcea7f1d82b5e",
+        "mobilesdk_app_id": "1:564875796465:android:882b92f5c927adb38e6e50",
         "android_client_info": {
-          "package_name": "com.example.flutter_chat_mock_app"
+          "package_name": "com.capcat.doca"
         }
       },
       "oauth_client": [
         {
-          "client_id": "286431093243-7dvia1rrfddgt3i807aum6sci8ss9bkc.apps.googleusercontent.com",
+          "client_id": "564875796465-scv06fh9urkfhuuvfj31e81mv12oiqs2.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.flutter_chat_mock_app",
+            "package_name": "com.capcat.doca",
             "certificate_hash": "7b506a7b23ff9eb81ee43d819e71c1d861b2afc0"
           }
         },
         {
-          "client_id": "286431093243-0ibdm5iqoo35rev54hctqor3i2akc89j.apps.googleusercontent.com",
+          "client_id": "564875796465-9m7f585od0b7hctjnr0p9rrmd306diiu.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBOag4cKWAPX_KX2XzEbnf2bAtG9MoUJ0Q"
+          "current_key": "AIzaSyBEXeoPtwaHfJvRzTja7og5-9RX4jSgncw"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "286431093243-0ibdm5iqoo35rev54hctqor3i2akc89j.apps.googleusercontent.com",
+              "client_id": "564875796465-9m7f585od0b7hctjnr0p9rrmd306diiu.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

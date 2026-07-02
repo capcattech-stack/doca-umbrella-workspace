@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_mock_app/enums/splash_action_sheet.dart';
-import 'package:flutter_chat_mock_app/theme/app_colors.dart';
-import 'package:flutter_chat_mock_app/utils/size_config.dart';
-import 'package:flutter_chat_mock_app/widgets/button/action_button.dart';
-import 'package:flutter_chat_mock_app/widgets/splash_base_sheet.dart';
-import 'package:flutter_chat_mock_app/l10n/gen/app_localizations.dart';
+import 'package:capcat_doca/enums/splash_action_sheet.dart';
+import 'package:capcat_doca/theme/app_colors.dart';
+import 'package:capcat_doca/utils/size_config.dart';
+import 'package:capcat_doca/widgets/button/action_button.dart';
+import 'package:capcat_doca/widgets/splash_base_sheet.dart';
+import 'package:capcat_doca/l10n/gen/app_localizations.dart';
 
 class IntroSheet extends StatelessWidget {
   final void Function(SplashActionSheet nextSheet) changeSheet;

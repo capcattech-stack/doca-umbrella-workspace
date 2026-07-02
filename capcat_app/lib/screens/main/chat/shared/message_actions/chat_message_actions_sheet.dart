@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_mock_app/screens/main/chat/shared/message_actions/chat_message_action.dart';
-import 'package:flutter_chat_mock_app/theme/app_colors.dart';
-import 'package:flutter_chat_mock_app/widgets/button/tap_effect.dart';
-import 'package:flutter_chat_mock_app/widgets/sheets/custom_action_sheet_container.dart';
+import 'package:capcat_doca/screens/main/chat/shared/message_actions/chat_message_action.dart';
+import 'package:capcat_doca/theme/app_colors.dart';
+import 'package:capcat_doca/widgets/button/tap_effect.dart';
+import 'package:capcat_doca/widgets/sheets/custom_action_sheet_container.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 Future<void> showChatMessageActionsSheet(

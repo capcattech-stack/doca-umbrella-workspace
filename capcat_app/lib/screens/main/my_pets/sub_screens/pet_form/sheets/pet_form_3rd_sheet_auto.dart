@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_mock_app/models/pet_persona_template_master_data.dart';
-import 'package:flutter_chat_mock_app/providers/pet_form_providers.dart';
-import 'package:flutter_chat_mock_app/providers/pet_hobbies_data_provider.dart';
-import 'package:flutter_chat_mock_app/providers/pet_hobby_repository_provider.dart';
-import 'package:flutter_chat_mock_app/providers/pet_persona_template_provider.dart';
-import 'package:flutter_chat_mock_app/theme/app_colors.dart';
-import 'package:flutter_chat_mock_app/utils/media_query_utils.dart';
-import 'package:flutter_chat_mock_app/utils/size_config.dart';
-import 'package:flutter_chat_mock_app/widgets/button/tap_effect.dart';
-import 'package:flutter_chat_mock_app/widgets/input/input_field.dart';
-import 'package:flutter_chat_mock_app/widgets/input/multiple_select_text_field.dart';
-import 'package:flutter_chat_mock_app/widgets/image/rectangle_cached_network_image.dart';
-import 'package:flutter_chat_mock_app/widgets/image/circle_cached_network_image.dart';
-import 'package:flutter_chat_mock_app/widgets/text/section_header_text.dart';
+import 'package:capcat_doca/models/pet_persona_template_master_data.dart';
+import 'package:capcat_doca/providers/pet_form_providers.dart';
+import 'package:capcat_doca/providers/pet_hobbies_data_provider.dart';
+import 'package:capcat_doca/providers/pet_hobby_repository_provider.dart';
+import 'package:capcat_doca/providers/pet_persona_template_provider.dart';
+import 'package:capcat_doca/theme/app_colors.dart';
+import 'package:capcat_doca/utils/media_query_utils.dart';
+import 'package:capcat_doca/utils/size_config.dart';
+import 'package:capcat_doca/widgets/button/tap_effect.dart';
+import 'package:capcat_doca/widgets/input/input_field.dart';
+import 'package:capcat_doca/widgets/input/multiple_select_text_field.dart';
+import 'package:capcat_doca/widgets/image/rectangle_cached_network_image.dart';
+import 'package:capcat_doca/widgets/image/circle_cached_network_image.dart';
+import 'package:capcat_doca/widgets/text/section_header_text.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_chat_mock_app/l10n/gen/app_localizations.dart';
+import 'package:capcat_doca/l10n/gen/app_localizations.dart';
 
 const int _kMaxHobbySelection = 3;
 

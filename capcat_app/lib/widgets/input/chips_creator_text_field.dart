@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_mock_app/theme/app_colors.dart';
-import 'package:flutter_chat_mock_app/utils/size_config.dart';
-import 'package:flutter_chat_mock_app/widgets/button/tap_effect.dart';
+import 'package:capcat_doca/theme/app_colors.dart';
+import 'package:capcat_doca/utils/size_config.dart';
+import 'package:capcat_doca/widgets/button/tap_effect.dart';
 
 /// Text field that lets users add chips by pressing a trailing arrow.
 class ChipsCreatorTextField extends StatefulWidget {

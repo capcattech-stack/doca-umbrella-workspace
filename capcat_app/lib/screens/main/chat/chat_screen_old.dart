@@ -2,20 +2,20 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_mock_app/services/socket_service.dart';
-import 'package:flutter_chat_mock_app/services/image_picker_service.dart';
-import 'package:flutter_chat_mock_app/utils/size_config.dart';
-import 'package:flutter_chat_mock_app/widgets/layout/custom_scaffold.dart';
-import 'package:flutter_chat_mock_app/l10n/gen/app_localizations.dart';
-import 'package:flutter_chat_mock_app/widgets/product_item.dart';
+import 'package:capcat_doca/services/socket_service.dart';
+import 'package:capcat_doca/services/image_picker_service.dart';
+import 'package:capcat_doca/utils/size_config.dart';
+import 'package:capcat_doca/widgets/layout/custom_scaffold.dart';
+import 'package:capcat_doca/l10n/gen/app_localizations.dart';
+import 'package:capcat_doca/widgets/product_item.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
 import '../../../models/message.dart';
 import '../../../widgets/fade_in_wrapper.dart';
 import '../../../theme/app_colors.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import '../../../data/sample_products.dart';
-import 'package:flutter_chat_mock_app/widgets/image/rectangle_cached_network_image.dart';
-import 'package:flutter_chat_mock_app/widgets/image/circle_cached_network_image.dart';
+import 'package:capcat_doca/widgets/image/rectangle_cached_network_image.dart';
+import 'package:capcat_doca/widgets/image/circle_cached_network_image.dart';
 
 class ChatScreenOld extends StatefulWidget {
   const ChatScreenOld({super.key});

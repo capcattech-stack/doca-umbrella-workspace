@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:flutter_chat_mock_app/models/conversation.dart';
+import 'package:capcat_doca/models/conversation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ConversationListLocalStorage {

@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_chat_mock_app/models/moment.dart';
-import 'package:flutter_chat_mock_app/services/moment_remote_service.dart';
+import 'package:capcat_doca/models/moment.dart';
+import 'package:capcat_doca/services/moment_remote_service.dart';
 
 final momentsProvider =
     AsyncNotifierProvider<MomentsNotifier, List<Moment>>(() => MomentsNotifier());

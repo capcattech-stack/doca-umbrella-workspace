@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_mock_app/enums/social_login_platform.dart';
-import 'package:flutter_chat_mock_app/providers/login_method_provider.dart';
-import 'package:flutter_chat_mock_app/providers/main_navigation_provider.dart';
-import 'package:flutter_chat_mock_app/providers/user_detail_provider.dart';
-import 'package:flutter_chat_mock_app/screens/main/profile/sub_screens/change_password_screen.dart';
-import 'package:flutter_chat_mock_app/screens/main/profile/sub_screens/profile_info_screen.dart';
-import 'package:flutter_chat_mock_app/screens/main/profile/sub_screens/terms_of_use_screen.dart';
-import 'package:flutter_chat_mock_app/theme/app_colors.dart';
-import 'package:flutter_chat_mock_app/utils/auth_util.dart';
-import 'package:flutter_chat_mock_app/utils/size_config.dart';
-import 'package:flutter_chat_mock_app/widgets/layout/custom_scaffold.dart';
-import 'package:flutter_chat_mock_app/widgets/button/tap_effect.dart';
-import 'package:flutter_chat_mock_app/widgets/safe_area/safe_area_top_only.dart';
-import 'package:flutter_chat_mock_app/widgets/shared/avatar_widget.dart';
+import 'package:capcat_doca/enums/social_login_platform.dart';
+import 'package:capcat_doca/providers/login_method_provider.dart';
+import 'package:capcat_doca/providers/main_navigation_provider.dart';
+import 'package:capcat_doca/providers/user_detail_provider.dart';
+import 'package:capcat_doca/screens/main/profile/sub_screens/change_password_screen.dart';
+import 'package:capcat_doca/screens/main/profile/sub_screens/profile_info_screen.dart';
+import 'package:capcat_doca/screens/main/profile/sub_screens/terms_of_use_screen.dart';
+import 'package:capcat_doca/theme/app_colors.dart';
+import 'package:capcat_doca/utils/auth_util.dart';
+import 'package:capcat_doca/utils/size_config.dart';
+import 'package:capcat_doca/widgets/layout/custom_scaffold.dart';
+import 'package:capcat_doca/widgets/button/tap_effect.dart';
+import 'package:capcat_doca/widgets/safe_area/safe_area_top_only.dart';
+import 'package:capcat_doca/widgets/shared/avatar_widget.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_chat_mock_app/l10n/gen/app_localizations.dart';
+import 'package:capcat_doca/l10n/gen/app_localizations.dart';
 
 class ProfileScreen extends ConsumerStatefulWidget {
   const ProfileScreen({super.key});

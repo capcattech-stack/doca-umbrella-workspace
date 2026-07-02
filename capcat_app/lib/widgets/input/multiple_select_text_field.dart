@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_mock_app/theme/app_colors.dart';
-import 'package:flutter_chat_mock_app/utils/size_config.dart';
-import 'package:flutter_chat_mock_app/utils/media_query_utils.dart';
-import 'package:flutter_chat_mock_app/utils/dialog_utils.dart';
-import 'package:flutter_chat_mock_app/utils/toast_overlay.dart';
-import 'package:flutter_chat_mock_app/widgets/button/action_button.dart';
-import 'package:flutter_chat_mock_app/widgets/button/tap_effect.dart';
+import 'package:capcat_doca/theme/app_colors.dart';
+import 'package:capcat_doca/utils/size_config.dart';
+import 'package:capcat_doca/utils/media_query_utils.dart';
+import 'package:capcat_doca/utils/dialog_utils.dart';
+import 'package:capcat_doca/utils/toast_overlay.dart';
+import 'package:capcat_doca/widgets/button/action_button.dart';
+import 'package:capcat_doca/widgets/button/tap_effect.dart';
 
 typedef OnMultiStringSelected = void Function(List<String> values);
 

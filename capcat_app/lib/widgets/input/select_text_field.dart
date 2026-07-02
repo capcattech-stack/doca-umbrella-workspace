@@ -1,11 +1,11 @@
 // file: select_text_field.dart
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_mock_app/theme/app_colors.dart';
-import 'package:flutter_chat_mock_app/utils/media_query_utils.dart';
-import 'package:flutter_chat_mock_app/utils/size_config.dart';
-import 'package:flutter_chat_mock_app/widgets/button/tap_effect.dart';
-import 'package:flutter_chat_mock_app/widgets/safe_area/safe_area_top_only.dart';
+import 'package:capcat_doca/theme/app_colors.dart';
+import 'package:capcat_doca/utils/media_query_utils.dart';
+import 'package:capcat_doca/utils/size_config.dart';
+import 'package:capcat_doca/widgets/button/tap_effect.dart';
+import 'package:capcat_doca/widgets/safe_area/safe_area_top_only.dart';
 
 typedef OnStringSelected = void Function(String? value);
 

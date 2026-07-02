@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_mock_app/theme/app_colors.dart';
+import 'package:capcat_doca/theme/app_colors.dart';
 
 class TextWithHorizontalLines extends StatelessWidget {
   const TextWithHorizontalLines({

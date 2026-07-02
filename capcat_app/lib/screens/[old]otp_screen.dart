@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_mock_app/theme/app_colors.dart';
-import 'package:flutter_chat_mock_app/widgets/layout/custom_scaffold.dart';
-import 'package:flutter_chat_mock_app/utils/register_screen_handlers.dart';
+import 'package:capcat_doca/theme/app_colors.dart';
+import 'package:capcat_doca/widgets/layout/custom_scaffold.dart';
+import 'package:capcat_doca/utils/register_screen_handlers.dart';
 
 class OtpScreen extends StatefulWidget {
   final String phoneNumber;

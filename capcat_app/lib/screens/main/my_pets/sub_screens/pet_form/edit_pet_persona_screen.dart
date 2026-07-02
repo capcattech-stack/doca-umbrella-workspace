@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_mock_app/assistant/assistant_visibility_scope.dart';
-import 'package:flutter_chat_mock_app/l10n/gen/app_localizations.dart';
-import 'package:flutter_chat_mock_app/providers/list_pet_detail_provider.dart';
-import 'package:flutter_chat_mock_app/providers/pet_form_providers.dart';
-import 'package:flutter_chat_mock_app/screens/main/chat/chat_screen.dart';
-import 'package:flutter_chat_mock_app/screens/main/my_pets/sub_screens/pet_form/sheets/pet_form_3rd_sheet_auto.dart';
-import 'package:flutter_chat_mock_app/services/chat_conversation_remote_service.dart';
-import 'package:flutter_chat_mock_app/services/pet_service.dart';
-import 'package:flutter_chat_mock_app/theme/app_colors.dart';
-import 'package:flutter_chat_mock_app/utils/navigation_utils.dart';
-import 'package:flutter_chat_mock_app/utils/toast_overlay.dart';
-import 'package:flutter_chat_mock_app/widgets/button/action_button.dart';
-import 'package:flutter_chat_mock_app/widgets/header/custom_app_header.dart';
-import 'package:flutter_chat_mock_app/widgets/layout/custom_scaffold.dart';
-import 'package:flutter_chat_mock_app/widgets/safe_area/safe_area_top_only.dart';
+import 'package:capcat_doca/assistant/assistant_visibility_scope.dart';
+import 'package:capcat_doca/l10n/gen/app_localizations.dart';
+import 'package:capcat_doca/providers/list_pet_detail_provider.dart';
+import 'package:capcat_doca/providers/pet_form_providers.dart';
+import 'package:capcat_doca/screens/main/chat/chat_screen.dart';
+import 'package:capcat_doca/screens/main/my_pets/sub_screens/pet_form/sheets/pet_form_3rd_sheet_auto.dart';
+import 'package:capcat_doca/services/chat_conversation_remote_service.dart';
+import 'package:capcat_doca/services/pet_service.dart';
+import 'package:capcat_doca/theme/app_colors.dart';
+import 'package:capcat_doca/utils/navigation_utils.dart';
+import 'package:capcat_doca/utils/toast_overlay.dart';
+import 'package:capcat_doca/widgets/button/action_button.dart';
+import 'package:capcat_doca/widgets/header/custom_app_header.dart';
+import 'package:capcat_doca/widgets/layout/custom_scaffold.dart';
+import 'package:capcat_doca/widgets/safe_area/safe_area_top_only.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class EditPetPersonaScreen extends ConsumerStatefulWidget {

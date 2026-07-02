@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_mock_app/utils/transition_config.dart';
-import 'package:flutter_chat_mock_app/widgets/layout/custom_scaffold.dart';
+import 'package:capcat_doca/utils/transition_config.dart';
+import 'package:capcat_doca/widgets/layout/custom_scaffold.dart';
 
 class PageViewNavigator extends StatefulWidget {
   const PageViewNavigator({super.key});

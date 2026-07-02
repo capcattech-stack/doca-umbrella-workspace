@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../models/product.dart';
-import 'package:flutter_chat_mock_app/widgets/image/rectangle_cached_network_image.dart';
-import 'package:flutter_chat_mock_app/widgets/image/circle_cached_network_image.dart';
+import 'package:capcat_doca/widgets/image/rectangle_cached_network_image.dart';
+import 'package:capcat_doca/widgets/image/circle_cached_network_image.dart';
 
 class ProductItem extends StatelessWidget {
   final Product product;

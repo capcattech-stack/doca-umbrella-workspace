@@ -1,8 +1,8 @@
 // providers/pet_breed_repository_provider.dart
-import 'package:flutter_chat_mock_app/storage/pet_breed_local_storage.dart';
+import 'package:capcat_doca/storage/pet_breed_local_storage.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_chat_mock_app/models/pet_breed_master_data.dart';
-import 'package:flutter_chat_mock_app/repositories/pet_breed_repository.dart';
+import 'package:capcat_doca/models/pet_breed_master_data.dart';
+import 'package:capcat_doca/repositories/pet_breed_repository.dart';
 
 final _petBreedLocalStorageProvider = Provider((_) => PetBreedLocalStorage());
 

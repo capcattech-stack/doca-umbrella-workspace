@@ -1,6 +1,6 @@
-import 'package:flutter_chat_mock_app/models/message.dart';
-import 'package:flutter_chat_mock_app/screens/main/chat/shared/chat_screen_contract.dart';
-import 'package:flutter_chat_mock_app/screens/main/chat/shared/message_actions/chat_message_action.dart';
+import 'package:capcat_doca/models/message.dart';
+import 'package:capcat_doca/screens/main/chat/shared/chat_screen_contract.dart';
+import 'package:capcat_doca/screens/main/chat/shared/message_actions/chat_message_action.dart';
 
 List<ChatMessageAction> resolveChatMessageActions({
   required ChatScreenKind kind,

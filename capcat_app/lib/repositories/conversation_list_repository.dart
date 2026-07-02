@@ -1,6 +1,6 @@
-import 'package:flutter_chat_mock_app/models/conversation.dart';
-import 'package:flutter_chat_mock_app/services/conversation_list_remote_service.dart';
-import 'package:flutter_chat_mock_app/storage/conversation_list_local_storage.dart';
+import 'package:capcat_doca/models/conversation.dart';
+import 'package:capcat_doca/services/conversation_list_remote_service.dart';
+import 'package:capcat_doca/storage/conversation_list_local_storage.dart';
 
 class ConversationListRepository {
   final ConversationListLocalStorage local;

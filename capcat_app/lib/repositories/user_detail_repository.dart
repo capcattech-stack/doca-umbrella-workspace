@@ -1,4 +1,4 @@
-import 'package:flutter_chat_mock_app/storage/user_detail_local_storage.dart';
+import 'package:capcat_doca/storage/user_detail_local_storage.dart';
 import '../../models/user_detail.dart';
 import '../../../services/user_detail_remote_service.dart';
 

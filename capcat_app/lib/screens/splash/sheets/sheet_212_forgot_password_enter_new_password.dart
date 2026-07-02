@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_mock_app/enums/splash_action_sheet.dart';
-import 'package:flutter_chat_mock_app/services/auth_service.dart';
-import 'package:flutter_chat_mock_app/theme/app_colors.dart';
-import 'package:flutter_chat_mock_app/utils/size_config.dart';
-import 'package:flutter_chat_mock_app/utils/media_query_utils.dart';
-import 'package:flutter_chat_mock_app/utils/toast_overlay.dart';
-import 'package:flutter_chat_mock_app/widgets/input/input_field.dart';
-import 'package:flutter_chat_mock_app/widgets/button/action_button.dart';
-import 'package:flutter_chat_mock_app/widgets/splash_base_sheet.dart';
-import 'package:flutter_chat_mock_app/widgets/password/password_requirements_checklist.dart';
+import 'package:capcat_doca/enums/splash_action_sheet.dart';
+import 'package:capcat_doca/services/auth_service.dart';
+import 'package:capcat_doca/theme/app_colors.dart';
+import 'package:capcat_doca/utils/size_config.dart';
+import 'package:capcat_doca/utils/media_query_utils.dart';
+import 'package:capcat_doca/utils/toast_overlay.dart';
+import 'package:capcat_doca/widgets/input/input_field.dart';
+import 'package:capcat_doca/widgets/button/action_button.dart';
+import 'package:capcat_doca/widgets/splash_base_sheet.dart';
+import 'package:capcat_doca/widgets/password/password_requirements_checklist.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_chat_mock_app/providers/forgot_password_data_provider.dart';
-import 'package:flutter_chat_mock_app/l10n/gen/app_localizations.dart';
+import 'package:capcat_doca/providers/forgot_password_data_provider.dart';
+import 'package:capcat_doca/l10n/gen/app_localizations.dart';
 
 class ForgotPasswordEnterNewPasswordSheet extends ConsumerStatefulWidget {
   final void Function()? onChangeForgotPasswordSuccess;

@@ -1,5 +1,5 @@
-import 'package:flutter_chat_mock_app/models/nanny_messages_page.dart';
-import 'package:flutter_chat_mock_app/services/nanny_message_remote_service.dart';
+import 'package:capcat_doca/models/nanny_messages_page.dart';
+import 'package:capcat_doca/services/nanny_message_remote_service.dart';
 
 class NannyMessageRepository {
   Future<NannyMessagesPage> fetchNannyMessages({

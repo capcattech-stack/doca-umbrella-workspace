@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_mock_app/models/pet_breed_master_data.dart';
-import 'package:flutter_chat_mock_app/services/api_service.dart';
-import 'package:flutter_chat_mock_app/services/auth_service.dart';
-import 'package:flutter_chat_mock_app/services/extension/response_extension.dart';
+import 'package:capcat_doca/models/pet_breed_master_data.dart';
+import 'package:capcat_doca/services/api_service.dart';
+import 'package:capcat_doca/services/auth_service.dart';
+import 'package:capcat_doca/services/extension/response_extension.dart';
 
 class PetBreedRemoteService {
   /// Tải toàn bộ breed (gộp các trang nếu có).

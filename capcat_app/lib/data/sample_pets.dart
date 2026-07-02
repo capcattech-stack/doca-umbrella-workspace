@@ -1,5 +1,5 @@
-// import 'package:flutter_chat_mock_app/models/pet_detail.dart';
-// import 'package:flutter_chat_mock_app/models/pet_species_option.dart';
+// import 'package:capcat_doca/models/pet_detail.dart';
+// import 'package:capcat_doca/models/pet_species_option.dart';
 
 // final samplePet = [
 //   PetDetail(

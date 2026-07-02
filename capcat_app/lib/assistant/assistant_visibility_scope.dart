@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_chat_mock_app/assistant/assistant_ui_controller.dart';
+import 'package:capcat_doca/assistant/assistant_ui_controller.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class AssistantVisibilityScope extends ConsumerStatefulWidget {

@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_mock_app/enums/image_upload_purpose.dart';
-import 'package:flutter_chat_mock_app/models/pet_detail.dart';
-import 'package:flutter_chat_mock_app/providers/pet_form_providers.dart';
-import 'package:flutter_chat_mock_app/services/image_picker_service.dart';
-import 'package:flutter_chat_mock_app/services/image_service.dart';
-import 'package:flutter_chat_mock_app/utils/media_query_utils.dart';
-import 'package:flutter_chat_mock_app/utils/toast_overlay.dart';
-import 'package:flutter_chat_mock_app/widgets/text/section_header_text.dart';
-import 'package:flutter_chat_mock_app/screens/main/my_pets/sub_screens/pet_form/sheets/widgets/tag_selection.dart';
-import 'package:flutter_chat_mock_app/theme/app_colors.dart';
-import 'package:flutter_chat_mock_app/utils/size_config.dart';
-import 'package:flutter_chat_mock_app/widgets/button/tap_effect.dart';
-import 'package:flutter_chat_mock_app/widgets/input/input_field.dart';
-import 'package:flutter_chat_mock_app/widgets/shared/avatar_widget.dart';
+import 'package:capcat_doca/enums/image_upload_purpose.dart';
+import 'package:capcat_doca/models/pet_detail.dart';
+import 'package:capcat_doca/providers/pet_form_providers.dart';
+import 'package:capcat_doca/services/image_picker_service.dart';
+import 'package:capcat_doca/services/image_service.dart';
+import 'package:capcat_doca/utils/media_query_utils.dart';
+import 'package:capcat_doca/utils/toast_overlay.dart';
+import 'package:capcat_doca/widgets/text/section_header_text.dart';
+import 'package:capcat_doca/screens/main/my_pets/sub_screens/pet_form/sheets/widgets/tag_selection.dart';
+import 'package:capcat_doca/theme/app_colors.dart';
+import 'package:capcat_doca/utils/size_config.dart';
+import 'package:capcat_doca/widgets/button/tap_effect.dart';
+import 'package:capcat_doca/widgets/input/input_field.dart';
+import 'package:capcat_doca/widgets/shared/avatar_widget.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_chat_mock_app/l10n/gen/app_localizations.dart';
+import 'package:capcat_doca/l10n/gen/app_localizations.dart';
 
 class PetForm1stSheet extends ConsumerWidget {
   const PetForm1stSheet({super.key, this.actionButton});

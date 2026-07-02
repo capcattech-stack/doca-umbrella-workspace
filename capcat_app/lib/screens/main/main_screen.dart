@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_mock_app/providers/main_navigation_provider.dart';
-import 'package:flutter_chat_mock_app/screens/main/chat/chat_landing_screen.dart';
-import 'package:flutter_chat_mock_app/screens/main/home/home_screen.dart';
-import 'package:flutter_chat_mock_app/screens/main/moments/emotion_screen.dart';
-import 'package:flutter_chat_mock_app/screens/main/my_pets/my_pets_screen.dart';
-import 'package:flutter_chat_mock_app/theme/app_colors.dart';
-import 'package:flutter_chat_mock_app/utils/media_query_utils.dart';
-import 'package:flutter_chat_mock_app/utils/size_config.dart';
-import 'package:flutter_chat_mock_app/utils/transition_config.dart';
-import 'package:flutter_chat_mock_app/widgets/layout/custom_scaffold.dart';
-import 'package:flutter_chat_mock_app/widgets/safe_area/safe_area_top_only.dart';
+import 'package:capcat_doca/providers/main_navigation_provider.dart';
+import 'package:capcat_doca/screens/main/chat/chat_landing_screen.dart';
+import 'package:capcat_doca/screens/main/home/home_screen.dart';
+import 'package:capcat_doca/screens/main/moments/emotion_screen.dart';
+import 'package:capcat_doca/screens/main/my_pets/my_pets_screen.dart';
+import 'package:capcat_doca/theme/app_colors.dart';
+import 'package:capcat_doca/utils/media_query_utils.dart';
+import 'package:capcat_doca/utils/size_config.dart';
+import 'package:capcat_doca/utils/transition_config.dart';
+import 'package:capcat_doca/widgets/layout/custom_scaffold.dart';
+import 'package:capcat_doca/widgets/safe_area/safe_area_top_only.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'profile/profile_screen.dart';
-import 'package:flutter_chat_mock_app/widgets/main_bottom_navigation_bar.dart';
+import 'package:capcat_doca/widgets/main_bottom_navigation_bar.dart';
 
 class MainScreen extends ConsumerStatefulWidget {
   const MainScreen({super.key});

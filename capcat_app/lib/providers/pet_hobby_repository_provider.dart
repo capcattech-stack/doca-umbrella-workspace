@@ -1,7 +1,7 @@
-import 'package:flutter_chat_mock_app/repositories/pet_hobby_repository.dart';
-import 'package:flutter_chat_mock_app/storage/pet_hobby_local_storage.dart';
+import 'package:capcat_doca/repositories/pet_hobby_repository.dart';
+import 'package:capcat_doca/storage/pet_hobby_local_storage.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_chat_mock_app/models/pet_hobby_master_data.dart';
+import 'package:capcat_doca/models/pet_hobby_master_data.dart';
 
 final _petHobbyLocalStorageProvider = Provider((_) => PetHobbyLocalStorage());
 

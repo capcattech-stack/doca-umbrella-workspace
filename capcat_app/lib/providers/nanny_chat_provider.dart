@@ -1,11 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter_chat_mock_app/models/message.dart';
-import 'package:flutter_chat_mock_app/models/nanny_profile.dart';
-import 'package:flutter_chat_mock_app/providers/socket_provider.dart';
-import 'package:flutter_chat_mock_app/repositories/nanny_message_repository.dart';
-import 'package:flutter_chat_mock_app/repositories/nanny_profile_repository.dart';
+import 'package:capcat_doca/models/message.dart';
+import 'package:capcat_doca/models/nanny_profile.dart';
+import 'package:capcat_doca/providers/socket_provider.dart';
+import 'package:capcat_doca/repositories/nanny_message_repository.dart';
+import 'package:capcat_doca/repositories/nanny_profile_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
 

@@ -1,20 +1,20 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_mock_app/enums/otp_type.dart';
-import 'package:flutter_chat_mock_app/providers/social_register_data_provider.dart';
-import 'package:flutter_chat_mock_app/services/auth_service.dart';
-import 'package:flutter_chat_mock_app/storage/last_login_phone_storage.dart';
-import 'package:flutter_chat_mock_app/theme/app_colors.dart';
-import 'package:flutter_chat_mock_app/utils/size_config.dart';
-import 'package:flutter_chat_mock_app/utils/media_query_utils.dart';
-import 'package:flutter_chat_mock_app/enums/splash_action_sheet.dart';
-import 'package:flutter_chat_mock_app/utils/toast_overlay.dart';
-import 'package:flutter_chat_mock_app/widgets/heading_with_back_arrow.dart';
-import 'package:flutter_chat_mock_app/widgets/number_input_field.dart';
-import 'package:flutter_chat_mock_app/widgets/button/action_button.dart';
-import 'package:flutter_chat_mock_app/widgets/splash_base_sheet.dart';
+import 'package:capcat_doca/enums/otp_type.dart';
+import 'package:capcat_doca/providers/social_register_data_provider.dart';
+import 'package:capcat_doca/services/auth_service.dart';
+import 'package:capcat_doca/storage/last_login_phone_storage.dart';
+import 'package:capcat_doca/theme/app_colors.dart';
+import 'package:capcat_doca/utils/size_config.dart';
+import 'package:capcat_doca/utils/media_query_utils.dart';
+import 'package:capcat_doca/enums/splash_action_sheet.dart';
+import 'package:capcat_doca/utils/toast_overlay.dart';
+import 'package:capcat_doca/widgets/heading_with_back_arrow.dart';
+import 'package:capcat_doca/widgets/number_input_field.dart';
+import 'package:capcat_doca/widgets/button/action_button.dart';
+import 'package:capcat_doca/widgets/splash_base_sheet.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_chat_mock_app/l10n/gen/app_localizations.dart';
+import 'package:capcat_doca/l10n/gen/app_localizations.dart';
 
 class SocialRegisterEnterOtpSheet extends ConsumerStatefulWidget {
   final void Function()? onSocialRegisterSuccess;

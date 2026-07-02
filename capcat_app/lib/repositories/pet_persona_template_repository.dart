@@ -1,6 +1,6 @@
-import 'package:flutter_chat_mock_app/models/pet_persona_template_master_data.dart';
-import 'package:flutter_chat_mock_app/services/pet_persona_template_remote_service.dart';
-import 'package:flutter_chat_mock_app/storage/pet_persona_template_local_storage.dart';
+import 'package:capcat_doca/models/pet_persona_template_master_data.dart';
+import 'package:capcat_doca/services/pet_persona_template_remote_service.dart';
+import 'package:capcat_doca/storage/pet_persona_template_local_storage.dart';
 
 class PetPersonaTemplateRepository {
   final PetPersonaTemplateLocalStorage local;

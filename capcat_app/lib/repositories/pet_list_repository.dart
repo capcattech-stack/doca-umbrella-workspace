@@ -1,6 +1,6 @@
-import 'package:flutter_chat_mock_app/models/pet_detail.dart';
-import 'package:flutter_chat_mock_app/services/pet_list_remote_service.dart';
-import 'package:flutter_chat_mock_app/storage/pet_list_local_storage.dart';
+import 'package:capcat_doca/models/pet_detail.dart';
+import 'package:capcat_doca/services/pet_list_remote_service.dart';
+import 'package:capcat_doca/storage/pet_list_local_storage.dart';
 
 class PetListRepository {
   final PetListLocalStorage local;

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_mock_app/theme/app_colors.dart';
-import 'package:flutter_chat_mock_app/utils/media_query_utils.dart';
+import 'package:capcat_doca/theme/app_colors.dart';
+import 'package:capcat_doca/utils/media_query_utils.dart';
 import '../../utils/size_config.dart';
 
 /// Reusable base action sheet container with handle and rounded top corners.

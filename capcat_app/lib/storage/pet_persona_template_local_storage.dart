@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_chat_mock_app/models/pet_persona_template_master_data.dart';
+import 'package:capcat_doca/models/pet_persona_template_master_data.dart';
 
 class PetPersonaTemplateLocalStorage {
   static const _kDataKey = 'pet_persona_templates';

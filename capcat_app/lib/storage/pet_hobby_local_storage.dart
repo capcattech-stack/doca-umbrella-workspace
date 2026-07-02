@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_chat_mock_app/models/pet_hobby_master_data.dart';
+import 'package:capcat_doca/models/pet_hobby_master_data.dart';
 
 class PetHobbyLocalStorage {
   static const _kDataKey = 'pet_hobbies';

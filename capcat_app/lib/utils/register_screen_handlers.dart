@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_mock_app/services/api_service.dart';
-import 'package:flutter_chat_mock_app/utils/toast_overlay.dart';
+import 'package:capcat_doca/services/api_service.dart';
+import 'package:capcat_doca/utils/toast_overlay.dart';
 import 'dialog_utils.dart';
 
 class RegisterScreenHandlers {

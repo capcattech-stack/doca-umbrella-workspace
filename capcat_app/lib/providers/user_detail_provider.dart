@@ -1,6 +1,6 @@
 // lib/features/user/providers/user_detail_provider.dart
-import 'package:flutter_chat_mock_app/repositories/user_detail_repository.dart';
-import 'package:flutter_chat_mock_app/storage/user_detail_local_storage.dart';
+import 'package:capcat_doca/repositories/user_detail_repository.dart';
+import 'package:capcat_doca/storage/user_detail_local_storage.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../models/user_detail.dart';
 

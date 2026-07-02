@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_mock_app/models/pet_detail.dart';
-import 'package:flutter_chat_mock_app/providers/list_pet_detail_provider.dart';
-import 'package:flutter_chat_mock_app/theme/app_colors.dart';
-import 'package:flutter_chat_mock_app/utils/image_utils.dart';
-import 'package:flutter_chat_mock_app/utils/size_config.dart';
-import 'package:flutter_chat_mock_app/utils/transition_config.dart';
-import 'package:flutter_chat_mock_app/widgets/shared/dashed_circle_border.dart';
+import 'package:capcat_doca/models/pet_detail.dart';
+import 'package:capcat_doca/providers/list_pet_detail_provider.dart';
+import 'package:capcat_doca/theme/app_colors.dart';
+import 'package:capcat_doca/utils/image_utils.dart';
+import 'package:capcat_doca/utils/size_config.dart';
+import 'package:capcat_doca/utils/transition_config.dart';
+import 'package:capcat_doca/widgets/shared/dashed_circle_border.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_chat_mock_app/widgets/image/circle_cached_network_image.dart';
+import 'package:capcat_doca/widgets/image/circle_cached_network_image.dart';
 
 class HomeScreenPetCards extends ConsumerStatefulWidget {
   const HomeScreenPetCards({super.key});

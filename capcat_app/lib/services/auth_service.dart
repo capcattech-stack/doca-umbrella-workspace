@@ -1,11 +1,13 @@
 import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_mock_app/enums/social_login_platform.dart';
-import 'package:flutter_chat_mock_app/providers/social_register_data_provider.dart';
-import 'package:flutter_chat_mock_app/services/api_service.dart';
-import 'package:flutter_chat_mock_app/services/extension/response_extension.dart';
-import 'package:flutter_chat_mock_app/services/model/service_response.dart';
+import 'package:capcat_doca/enums/social_login_platform.dart';
+import 'package:capcat_doca/models/user_detail.dart';
+import 'package:capcat_doca/providers/social_register_data_provider.dart';
+import 'package:capcat_doca/services/api_service.dart';
+import 'package:capcat_doca/services/extension/response_extension.dart';
+import 'package:capcat_doca/services/model/service_response.dart';
+import 'package:capcat_doca/storage/user_detail_local_storage.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -13,11 +15,17 @@ class AuthService {
   static const _storage = FlutterSecureStorage();
   static const _tokenKey = 'access_token';
   static const _defaultLoginMethod = 'phone';
+  static const Set<String> _socialLoginMethods = {
+    'google',
+    'facebook',
+    'apple',
+  };
 
-  static Future<void> saveToken(
+  static Future<void> saveSession(
     String token,
     DateTime expirationTime, {
     String loginMethod = _defaultLoginMethod,
+    UserDetail? profileFallback,
   }) async {
     final data = {
       'token': token,
@@ -26,6 +34,7 @@ class AuthService {
     };
     debugPrint('Token: ${data['token']}');
     await _storage.write(key: _tokenKey, value: jsonEncode(data));
+    await _cacheUserProfile(token, fallback: profileFallback);
   }
 
   static Future<String?> getToken() async {
@@ -94,6 +103,125 @@ class AuthService {
     } catch (_) {}
   }
 
+  static Future<bool> hasValidBootstrapSession() async {
+    final token = await getToken();
+    final firebaseUser = FirebaseAuth.instance.currentUser;
+
+    if (token == null) {
+      if (firebaseUser != null) {
+        debugPrint(
+          '[AuthService] Bootstrap mismatch: Firebase user exists but token is missing. Cleaning Firebase session.',
+        );
+        await _safeClearFirebaseSession();
+      }
+      return false;
+    }
+
+    final loginMethod = await getLoginMethod();
+    final requiresFirebaseSession = _socialLoginMethods.contains(loginMethod);
+
+    if (requiresFirebaseSession) {
+      if (firebaseUser == null) {
+        debugPrint(
+          '[AuthService] Bootstrap mismatch: social token exists but Firebase session is missing. Logging out all.',
+        );
+        await logoutAll();
+        return false;
+      }
+      return true;
+    }
+
+    if (firebaseUser != null) {
+      debugPrint(
+        '[AuthService] Bootstrap cleanup: non-social session found with stale Firebase user. Clearing Firebase session only.',
+      );
+      await _safeClearFirebaseSession();
+    }
+
+    return true;
+  }
+
+  static Future<void> _safeClearFirebaseSession() async {
+    try {
+      await logoutGoogle();
+    } catch (e, st) {
+      debugPrint('[AuthService] logoutGoogle failed during cleanup: $e');
+      debugPrintStack(stackTrace: st);
+    }
+
+    try {
+      await FirebaseAuth.instance.signOut();
+    } catch (e, st) {
+      debugPrint('[AuthService] Firebase signOut failed during cleanup: $e');
+      debugPrintStack(stackTrace: st);
+    }
+  }
+
+  static Future<void> _cacheUserProfile(
+    String token, {
+    UserDetail? fallback,
+  }) async {
+    try {
+      final response = await ApiService.getMyProfile(token);
+      debugPrint(
+        '[AuthService] getMyProfile during session save: ${response.statusCode} ${response.data}',
+      );
+      if (response.isSuccess) {
+        final raw = response.data is Map<String, dynamic>
+            ? response.data['data']
+            : null;
+        if (raw is Map<String, dynamic>) {
+          await UserDetailLocalStorage().save(_userDetailFromMap(raw));
+          return;
+        }
+      }
+    } catch (e, st) {
+      debugPrint('[AuthService] Failed to hydrate profile from API: $e');
+      debugPrintStack(stackTrace: st);
+    }
+
+    if (fallback != null) {
+      try {
+        await UserDetailLocalStorage().save(fallback);
+      } catch (e, st) {
+        debugPrint('[AuthService] Failed to save fallback profile: $e');
+        debugPrintStack(stackTrace: st);
+      }
+    }
+  }
+
+  static UserDetail _userDetailFromMap(Map<String, dynamic> map) {
+    return UserDetail(
+      id: (map['id'] ?? '').toString(),
+      phoneNumber: (map['phone'] ?? '').toString(),
+      fullName: map['full_name'] as String?,
+      email: map['email'] as String?,
+      avatarUrl: map['avatar'] as String?,
+      address: map['address'] as String?,
+      dateOfBirth: map['dob'] as String?,
+      gender: map['gender'] as String?,
+    );
+  }
+
+  static UserDetail _buildSocialFallbackProfile(
+    SocialRegisterData socialRegisterData,
+  ) {
+    final firstName = (socialRegisterData.firstName ?? '').trim();
+    final lastName = (socialRegisterData.lastName ?? '').trim();
+    final fullName = [
+      firstName,
+      lastName,
+    ].where((e) => e.isNotEmpty).join(' ').trim();
+
+    return UserDetail(
+      id: socialRegisterData.externalId ?? '',
+      phoneNumber: socialRegisterData.phoneNumber ?? '',
+      fullName: fullName.isEmpty ? null : fullName,
+      email: socialRegisterData.email,
+      avatarUrl: socialRegisterData.avatar,
+    );
+  }
+
   static Future<ServiceResponse> registerPhone(
     String name,
     String phoneNumber,
@@ -112,7 +240,7 @@ class AuthService {
       if (response.isSuccess) {
         final String token = response.data['access_token'];
         final String expiredTime = response.data['expires_at'];
-        await saveToken(
+        await saveSession(
           token,
           DateTime.parse(expiredTime),
           loginMethod: _defaultLoginMethod,
@@ -142,7 +270,7 @@ class AuthService {
       if (response.isSuccess) {
         final String token = response.data['access_token'];
         final String expiredTime = response.data['expires_at'];
-        await saveToken(
+        await saveSession(
           token,
           DateTime.parse(expiredTime),
           loginMethod: _defaultLoginMethod,
@@ -177,10 +305,11 @@ class AuthService {
         final String expiredTime = response.data['expires_at'];
         final loginMethod =
             socialRegisterData.provider ?? SocialPlatform.google.value;
-        await saveToken(
+        await saveSession(
           token,
           DateTime.parse(expiredTime),
           loginMethod: loginMethod,
+          profileFallback: _buildSocialFallbackProfile(socialRegisterData),
         );
         return ServiceResponse(isSuccess: true);
       }
@@ -247,10 +376,20 @@ class AuthService {
       if (response.isSuccess) {
         final String token = response.data['access_token'];
         final String expiredTime = response.data['expires_at'];
-        await saveToken(
+        final fallbackProfile = UserDetail(
+          id: userId.toString(),
+          phoneNumber: '',
+          fullName: user.displayName?.trim().isNotEmpty == true
+              ? user.displayName!.trim()
+              : null,
+          email: user.email,
+          avatarUrl: user.photoURL,
+        );
+        await saveSession(
           token,
           DateTime.parse(expiredTime),
           loginMethod: socialPlatform,
+          profileFallback: fallbackProfile,
         );
         return ServiceResponse(isSuccess: true);
       }

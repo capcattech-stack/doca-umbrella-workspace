@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_chat_mock_app/screens/entry/app_entry_point.dart';
-import 'package:flutter_chat_mock_app/utils/global_keys.dart';
-import 'package:flutter_chat_mock_app/utils/route_observer.dart';
-import 'package:flutter_chat_mock_app/widgets/no_internet_modal_widget.dart';
-import 'package:flutter_chat_mock_app/widgets/loading_overlay_widget.dart';
+import 'package:capcat_doca/screens/entry/app_entry_point.dart';
+import 'package:capcat_doca/utils/global_keys.dart';
+import 'package:capcat_doca/utils/route_observer.dart';
+import 'package:capcat_doca/widgets/no_internet_modal_widget.dart';
+import 'package:capcat_doca/widgets/loading_overlay_widget.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'theme/app_colors.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_chat_mock_app/l10n/gen/app_localizations.dart';
-import 'package:flutter_chat_mock_app/providers/locale_provider.dart';
-import 'package:flutter_chat_mock_app/assistant/assistant_host.dart';
+import 'package:capcat_doca/l10n/gen/app_localizations.dart';
+import 'package:capcat_doca/providers/locale_provider.dart';
+import 'package:capcat_doca/assistant/assistant_host.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

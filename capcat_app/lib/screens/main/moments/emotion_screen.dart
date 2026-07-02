@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_mock_app/models/moment.dart';
-import 'package:flutter_chat_mock_app/providers/moments_provider.dart';
-import 'package:flutter_chat_mock_app/screens/main/moments/widgets/moment_card.dart';
-import 'package:flutter_chat_mock_app/screens/main/moments/widgets/moments_list_view.dart';
-import 'package:flutter_chat_mock_app/services/moment_remote_service.dart';
-import 'package:flutter_chat_mock_app/theme/app_colors.dart';
-import 'package:flutter_chat_mock_app/utils/media_query_utils.dart';
-import 'package:flutter_chat_mock_app/utils/size_config.dart';
-import 'package:flutter_chat_mock_app/widgets/header/custom_app_header.dart';
-import 'package:flutter_chat_mock_app/widgets/layout/custom_scaffold.dart';
-import 'package:flutter_chat_mock_app/widgets/loading/text_loading_indicator.dart';
-import 'package:flutter_chat_mock_app/widgets/safe_area/safe_area_top_only.dart';
-import 'package:flutter_chat_mock_app/widgets/image/circle_cached_network_image.dart';
-import 'package:flutter_chat_mock_app/storage/user_detail_local_storage.dart';
-import 'package:flutter_chat_mock_app/screens/main/moments/moment_form_screen.dart';
-import 'package:flutter_chat_mock_app/utils/toast_overlay.dart';
+import 'package:capcat_doca/models/moment.dart';
+import 'package:capcat_doca/providers/moments_provider.dart';
+import 'package:capcat_doca/screens/main/moments/widgets/moment_card.dart';
+import 'package:capcat_doca/screens/main/moments/widgets/moments_list_view.dart';
+import 'package:capcat_doca/services/moment_remote_service.dart';
+import 'package:capcat_doca/theme/app_colors.dart';
+import 'package:capcat_doca/utils/media_query_utils.dart';
+import 'package:capcat_doca/utils/size_config.dart';
+import 'package:capcat_doca/widgets/header/custom_app_header.dart';
+import 'package:capcat_doca/widgets/layout/custom_scaffold.dart';
+import 'package:capcat_doca/widgets/loading/text_loading_indicator.dart';
+import 'package:capcat_doca/widgets/safe_area/safe_area_top_only.dart';
+import 'package:capcat_doca/widgets/image/circle_cached_network_image.dart';
+import 'package:capcat_doca/storage/user_detail_local_storage.dart';
+import 'package:capcat_doca/screens/main/moments/moment_form_screen.dart';
+import 'package:capcat_doca/utils/toast_overlay.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class EmotionScreen extends ConsumerStatefulWidget {

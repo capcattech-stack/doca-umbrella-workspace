@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_mock_app/providers/loading_overlay_provider.dart';
-import 'package:flutter_chat_mock_app/theme/app_colors.dart';
-import 'package:flutter_chat_mock_app/utils/size_config.dart';
+import 'package:capcat_doca/providers/loading_overlay_provider.dart';
+import 'package:capcat_doca/theme/app_colors.dart';
+import 'package:capcat_doca/utils/size_config.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
-import 'package:flutter_chat_mock_app/gen/assets.gen.dart';
+import 'package:capcat_doca/gen/assets.gen.dart';
 
 class LoadingOverlayWidget extends ConsumerWidget {
   const LoadingOverlayWidget({super.key});

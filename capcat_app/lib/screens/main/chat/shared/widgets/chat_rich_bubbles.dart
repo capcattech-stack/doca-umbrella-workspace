@@ -1,11 +1,11 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_mock_app/models/product.dart';
-import 'package:flutter_chat_mock_app/utils/size_config.dart';
-import 'package:flutter_chat_mock_app/widgets/image/circle_cached_network_image.dart';
-import 'package:flutter_chat_mock_app/widgets/image/rectangle_cached_network_image.dart';
-import 'package:flutter_chat_mock_app/widgets/product_item.dart';
+import 'package:capcat_doca/models/product.dart';
+import 'package:capcat_doca/utils/size_config.dart';
+import 'package:capcat_doca/widgets/image/circle_cached_network_image.dart';
+import 'package:capcat_doca/widgets/image/rectangle_cached_network_image.dart';
+import 'package:capcat_doca/widgets/product_item.dart';
 
 class ChatProductsBubble extends StatelessWidget {
   const ChatProductsBubble({

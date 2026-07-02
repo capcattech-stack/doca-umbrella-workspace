@@ -1,8 +1,8 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_chat_mock_app/assistant/assistant_ui_controller.dart';
-import 'package:flutter_chat_mock_app/assistant/navigation/open_assistant_chat.dart';
-import 'package:flutter_chat_mock_app/providers/nanny_chat_provider.dart';
-import 'package:flutter_chat_mock_app/assistant/widgets/assistant_fab.dart';
+import 'package:capcat_doca/assistant/assistant_ui_controller.dart';
+import 'package:capcat_doca/assistant/navigation/open_assistant_chat.dart';
+import 'package:capcat_doca/providers/nanny_chat_provider.dart';
+import 'package:capcat_doca/assistant/widgets/assistant_fab.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class AssistantHost extends ConsumerWidget {

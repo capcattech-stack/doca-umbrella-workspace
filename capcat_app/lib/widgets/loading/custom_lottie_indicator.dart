@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_mock_app/gen/assets.gen.dart';
-import 'package:flutter_chat_mock_app/theme/app_colors.dart';
+import 'package:capcat_doca/gen/assets.gen.dart';
+import 'package:capcat_doca/theme/app_colors.dart';
 import 'package:lottie/lottie.dart';
 
 class CustomLottieIndicator extends StatelessWidget {

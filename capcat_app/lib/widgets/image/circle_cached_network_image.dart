@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter_chat_mock_app/theme/app_colors.dart';
+import 'package:capcat_doca/theme/app_colors.dart';
 
 enum ImageSubject { person, pet, others }
 

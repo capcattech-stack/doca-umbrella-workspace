@@ -1,5 +1,5 @@
-import 'package:flutter_chat_mock_app/repositories/pet_persona_template_repository.dart';
-import 'package:flutter_chat_mock_app/storage/pet_persona_template_local_storage.dart';
+import 'package:capcat_doca/repositories/pet_persona_template_repository.dart';
+import 'package:capcat_doca/storage/pet_persona_template_local_storage.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/pet_persona_template_master_data.dart';
 

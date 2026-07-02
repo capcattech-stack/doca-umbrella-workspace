@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_mock_app/models/message.dart';
-import 'package:flutter_chat_mock_app/providers/nanny_chat_provider.dart';
-import 'package:flutter_chat_mock_app/screens/main/chat/nanny_chat_screen.dart';
-import 'package:flutter_chat_mock_app/screens/main/chat/nanny_pinned_messages_view.dart';
-import 'package:flutter_chat_mock_app/theme/app_colors.dart';
-import 'package:flutter_chat_mock_app/widgets/button/tap_effect.dart';
-import 'package:flutter_chat_mock_app/widgets/sheets/custom_action_sheet_container.dart';
+import 'package:capcat_doca/models/message.dart';
+import 'package:capcat_doca/providers/nanny_chat_provider.dart';
+import 'package:capcat_doca/screens/main/chat/nanny_chat_screen.dart';
+import 'package:capcat_doca/screens/main/chat/nanny_pinned_messages_view.dart';
+import 'package:capcat_doca/theme/app_colors.dart';
+import 'package:capcat_doca/widgets/button/tap_effect.dart';
+import 'package:capcat_doca/widgets/sheets/custom_action_sheet_container.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

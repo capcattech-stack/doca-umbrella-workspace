@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_mock_app/theme/app_colors.dart';
-import 'package:flutter_chat_mock_app/utils/size_config.dart';
-import 'package:flutter_chat_mock_app/widgets/button/action_button.dart';
-import 'package:flutter_chat_mock_app/widgets/input/date_input_field.dart';
-import 'package:flutter_chat_mock_app/widgets/sheets/custom_action_sheet_container.dart';
+import 'package:capcat_doca/theme/app_colors.dart';
+import 'package:capcat_doca/utils/size_config.dart';
+import 'package:capcat_doca/widgets/button/action_button.dart';
+import 'package:capcat_doca/widgets/input/date_input_field.dart';
+import 'package:capcat_doca/widgets/sheets/custom_action_sheet_container.dart';
 
 /// Action sheet bundle for PetProfile related flows.
 class BirthDateEditorSheet extends StatelessWidget {

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_mock_app/screens/%5Bold%5Dotp_screen.dart';
-import 'package:flutter_chat_mock_app/services/api_service.dart';
-import 'package:flutter_chat_mock_app/utils/dialog_utils.dart';
-import 'package:flutter_chat_mock_app/utils/toast_overlay.dart';
-import 'package:flutter_chat_mock_app/widgets/layout/custom_scaffold.dart';
+import 'package:capcat_doca/screens/%5Bold%5Dotp_screen.dart';
+import 'package:capcat_doca/services/api_service.dart';
+import 'package:capcat_doca/utils/dialog_utils.dart';
+import 'package:capcat_doca/utils/toast_overlay.dart';
+import 'package:capcat_doca/widgets/layout/custom_scaffold.dart';
 import '../theme/app_colors.dart';
 
 class RegisterScreen extends StatefulWidget {

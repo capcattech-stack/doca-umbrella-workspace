@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_chat_mock_app/assistant/assistant_ui_state.dart';
+import 'package:capcat_doca/assistant/assistant_ui_state.dart';
 
 final assistantUiControllerProvider =
     StateNotifierProvider<AssistantUiController, AssistantUiState>(

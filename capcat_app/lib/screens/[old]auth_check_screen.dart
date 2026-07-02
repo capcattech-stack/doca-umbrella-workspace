@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_mock_app/theme/app_colors.dart';
-import 'package:flutter_chat_mock_app/widgets/layout/custom_scaffold.dart';
+import 'package:capcat_doca/theme/app_colors.dart';
+import 'package:capcat_doca/widgets/layout/custom_scaffold.dart';
 import '../services/auth_service.dart';
 import 'main/main_screen.dart';
 import '../utils/size_config.dart';

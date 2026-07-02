@@ -1,4 +1,4 @@
-import 'package:flutter_chat_mock_app/models/message.dart';
+import 'package:capcat_doca/models/message.dart';
 
 class NannyMessagesPage {
   final List<Message> messages;

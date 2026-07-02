@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter_chat_mock_app/widgets/image/circle_cached_network_image.dart';
-import 'package:flutter_chat_mock_app/theme/app_colors.dart';
+import 'package:capcat_doca/widgets/image/circle_cached_network_image.dart';
+import 'package:capcat_doca/theme/app_colors.dart';
 
 class RectangleCachedNetworkImage extends StatelessWidget {
   final String? imageUrl;

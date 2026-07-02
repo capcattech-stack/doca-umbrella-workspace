@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_chat_mock_app/models/pet_detail.dart';
+import 'package:capcat_doca/models/pet_detail.dart';
 
 class PetFormData {
   final String? id;

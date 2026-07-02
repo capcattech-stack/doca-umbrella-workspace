@@ -1,12 +1,12 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter_chat_mock_app/models/message.dart';
-import 'package:flutter_chat_mock_app/models/nanny_messages_page.dart';
-import 'package:flutter_chat_mock_app/services/api_service.dart';
-import 'package:flutter_chat_mock_app/services/auth_service.dart';
-import 'package:flutter_chat_mock_app/services/extension/response_extension.dart';
-import 'package:flutter_chat_mock_app/services/model/service_response.dart';
+import 'package:capcat_doca/models/message.dart';
+import 'package:capcat_doca/models/nanny_messages_page.dart';
+import 'package:capcat_doca/services/api_service.dart';
+import 'package:capcat_doca/services/auth_service.dart';
+import 'package:capcat_doca/services/extension/response_extension.dart';
+import 'package:capcat_doca/services/model/service_response.dart';
 
 class NannyMessageRemoteService {
   static Future<ServiceResponse<NannyMessagesPage>> getNannyMessages({

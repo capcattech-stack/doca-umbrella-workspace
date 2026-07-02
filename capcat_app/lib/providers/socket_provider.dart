@@ -1,5 +1,5 @@
-import 'package:flutter_chat_mock_app/services/auth_service.dart';
-import 'package:flutter_chat_mock_app/services/socket_service.dart';
+import 'package:capcat_doca/services/auth_service.dart';
+import 'package:capcat_doca/services/socket_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
 

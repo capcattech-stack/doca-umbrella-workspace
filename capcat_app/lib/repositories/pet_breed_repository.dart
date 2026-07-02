@@ -1,6 +1,6 @@
-import 'package:flutter_chat_mock_app/models/pet_breed_master_data.dart';
-import 'package:flutter_chat_mock_app/services/pet_breed_remote_service.dart';
-import 'package:flutter_chat_mock_app/storage/pet_breed_local_storage.dart';
+import 'package:capcat_doca/models/pet_breed_master_data.dart';
+import 'package:capcat_doca/services/pet_breed_remote_service.dart';
+import 'package:capcat_doca/storage/pet_breed_local_storage.dart';
 
 class PetBreedRepository {
   final PetBreedLocalStorage local;

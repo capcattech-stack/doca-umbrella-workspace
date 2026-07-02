@@ -2,12 +2,12 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
-import 'package:flutter_chat_mock_app/utils/toast_overlay.dart';
+import 'package:capcat_doca/utils/toast_overlay.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import 'package:flutter_chat_mock_app/widgets/sheets/image_source_sheet.dart';
+import 'package:capcat_doca/widgets/sheets/image_source_sheet.dart';
 
 class PickedImages {
   final List<String> paths;

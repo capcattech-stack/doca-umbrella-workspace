@@ -1,5 +1,5 @@
-import 'package:flutter_chat_mock_app/models/message.dart';
-import 'package:flutter_chat_mock_app/repositories/chat_message_repository.dart';
+import 'package:capcat_doca/models/message.dart';
+import 'package:capcat_doca/repositories/chat_message_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 typedef ConversationMessagesArgs = ({

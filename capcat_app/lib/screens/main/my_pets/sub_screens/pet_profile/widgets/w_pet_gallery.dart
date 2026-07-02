@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_mock_app/models/pet_detail.dart';
-import 'package:flutter_chat_mock_app/theme/app_colors.dart';
-import 'package:flutter_chat_mock_app/utils/size_config.dart';
-import 'package:flutter_chat_mock_app/widgets/image/rectangle_cached_network_image.dart';
-import 'package:flutter_chat_mock_app/widgets/image/circle_cached_network_image.dart';
+import 'package:capcat_doca/models/pet_detail.dart';
+import 'package:capcat_doca/theme/app_colors.dart';
+import 'package:capcat_doca/utils/size_config.dart';
+import 'package:capcat_doca/widgets/image/rectangle_cached_network_image.dart';
+import 'package:capcat_doca/widgets/image/circle_cached_network_image.dart';
 
 class PetGallery extends StatelessWidget {
   const PetGallery({super.key, required this.pet});

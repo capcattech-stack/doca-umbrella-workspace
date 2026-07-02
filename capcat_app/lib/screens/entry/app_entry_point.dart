@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_mock_app/assistant/assistant_visibility_scope.dart';
-import 'package:flutter_chat_mock_app/enums/splash_action_sheet.dart';
-import 'package:flutter_chat_mock_app/screens/main/main_screen.dart';
-import 'package:flutter_chat_mock_app/screens/splash/splash_screen_with_animation_controller.dart';
-import 'package:flutter_chat_mock_app/services/auth_service.dart';
-import 'package:flutter_chat_mock_app/theme/app_colors.dart';
-import 'package:flutter_chat_mock_app/utils/app_preferences.dart';
-import 'package:flutter_chat_mock_app/utils/size_config.dart';
-import 'package:flutter_chat_mock_app/widgets/layout/custom_scaffold.dart';
+import 'package:capcat_doca/assistant/assistant_visibility_scope.dart';
+import 'package:capcat_doca/enums/splash_action_sheet.dart';
+import 'package:capcat_doca/screens/main/main_screen.dart';
+import 'package:capcat_doca/screens/splash/splash_screen_with_animation_controller.dart';
+import 'package:capcat_doca/services/auth_service.dart';
+import 'package:capcat_doca/theme/app_colors.dart';
+import 'package:capcat_doca/utils/app_preferences.dart';
+import 'package:capcat_doca/utils/size_config.dart';
+import 'package:capcat_doca/widgets/layout/custom_scaffold.dart';
 
 class AppEntryPoint extends StatefulWidget {
   const AppEntryPoint({super.key});
@@ -17,19 +17,18 @@ class AppEntryPoint extends StatefulWidget {
 }
 
 class _AppEntryPointState extends State<AppEntryPoint> {
-  late final Future<({bool hasToken, bool hasSeenIntro})> _initFuture;
+  late final Future<({bool hasValidSession, bool hasSeenIntro})> _initFuture;
 
-  Future<({bool hasToken, bool hasSeenIntro})> _init() async {
-    bool hasToken = false;
+  Future<({bool hasValidSession, bool hasSeenIntro})> _init() async {
+    bool hasValidSession = false;
     bool hasSeenIntro = false;
 
     try {
-      final token = await AuthService.getToken().timeout(
+      hasValidSession = await AuthService.hasValidBootstrapSession().timeout(
         const Duration(seconds: 3),
       );
-      hasToken = token != null;
     } catch (e, st) {
-      debugPrint('[AppEntryPoint] Failed to read token: $e');
+      debugPrint('[AppEntryPoint] Failed to validate bootstrap session: $e');
       debugPrintStack(stackTrace: st);
     }
 
@@ -42,7 +41,7 @@ class _AppEntryPointState extends State<AppEntryPoint> {
       debugPrintStack(stackTrace: st);
     }
 
-    return (hasToken: hasToken, hasSeenIntro: hasSeenIntro);
+    return (hasValidSession: hasValidSession, hasSeenIntro: hasSeenIntro);
   }
 
   @override
@@ -57,7 +56,7 @@ class _AppEntryPointState extends State<AppEntryPoint> {
     return AssistantVisibilityScope.hide(
       child: Stack(
         children: [
-          FutureBuilder<({bool hasToken, bool hasSeenIntro})>(
+          FutureBuilder<({bool hasValidSession, bool hasSeenIntro})>(
             future: _initFuture,
             builder: (context, snapshot) {
               if (snapshot.connectionState != ConnectionState.done) {
@@ -65,10 +64,11 @@ class _AppEntryPointState extends State<AppEntryPoint> {
               }
 
               final result =
-                  snapshot.data ?? (hasToken: false, hasSeenIntro: false);
-              final hasToken = result.hasToken;
+                  snapshot.data ??
+                  (hasValidSession: false, hasSeenIntro: false);
+              final hasValidSession = result.hasValidSession;
 
-              if (hasToken) {
+              if (hasValidSession) {
                 return const MainScreen();
               }
 

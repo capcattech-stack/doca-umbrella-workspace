@@ -2,8 +2,8 @@ import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_mock_app/enums/image_upload_purpose.dart';
-import 'package:flutter_chat_mock_app/providers/social_register_data_provider.dart';
+import 'package:capcat_doca/enums/image_upload_purpose.dart';
+import 'package:capcat_doca/providers/social_register_data_provider.dart';
 
 class ApiService {
   static Options get _systemHeader =>

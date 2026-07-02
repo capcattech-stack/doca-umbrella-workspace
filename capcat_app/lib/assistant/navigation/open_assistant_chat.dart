@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_mock_app/assistant/widgets/assistant_chat_modal_sheet.dart';
-import 'package:flutter_chat_mock_app/utils/global_keys.dart';
+import 'package:capcat_doca/assistant/widgets/assistant_chat_modal_sheet.dart';
+import 'package:capcat_doca/utils/global_keys.dart';
 
 Future<void> openAssistantChat(BuildContext context) async {
   final rootContext = rootNavigatorKey.currentContext;

@@ -1,22 +1,22 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_mock_app/enums/social_login_platform.dart';
-import 'package:flutter_chat_mock_app/enums/splash_action_sheet.dart';
-import 'package:flutter_chat_mock_app/providers/loading_overlay_provider.dart';
-import 'package:flutter_chat_mock_app/providers/locale_provider.dart';
-import 'package:flutter_chat_mock_app/providers/phone_login_data_provider.dart';
-import 'package:flutter_chat_mock_app/providers/social_register_data_provider.dart';
-import 'package:flutter_chat_mock_app/services/auth_service.dart';
-import 'package:flutter_chat_mock_app/storage/last_login_phone_storage.dart';
-import 'package:flutter_chat_mock_app/theme/app_colors.dart';
-import 'package:flutter_chat_mock_app/utils/phone_number_util.dart';
-import 'package:flutter_chat_mock_app/utils/size_config.dart';
-import 'package:flutter_chat_mock_app/utils/toast_overlay.dart';
-import 'package:flutter_chat_mock_app/widgets/button/action_button.dart';
-import 'package:flutter_chat_mock_app/widgets/input/input_field.dart';
-import 'package:flutter_chat_mock_app/widgets/input/phone_input.dart';
+import 'package:capcat_doca/enums/social_login_platform.dart';
+import 'package:capcat_doca/enums/splash_action_sheet.dart';
+import 'package:capcat_doca/providers/loading_overlay_provider.dart';
+import 'package:capcat_doca/providers/locale_provider.dart';
+import 'package:capcat_doca/providers/phone_login_data_provider.dart';
+import 'package:capcat_doca/providers/social_register_data_provider.dart';
+import 'package:capcat_doca/services/auth_service.dart';
+import 'package:capcat_doca/storage/last_login_phone_storage.dart';
+import 'package:capcat_doca/theme/app_colors.dart';
+import 'package:capcat_doca/utils/phone_number_util.dart';
+import 'package:capcat_doca/utils/size_config.dart';
+import 'package:capcat_doca/utils/toast_overlay.dart';
+import 'package:capcat_doca/widgets/button/action_button.dart';
+import 'package:capcat_doca/widgets/input/input_field.dart';
+import 'package:capcat_doca/widgets/input/phone_input.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_chat_mock_app/l10n/gen/app_localizations.dart';
+import 'package:capcat_doca/l10n/gen/app_localizations.dart';
 
 class SignInForm extends ConsumerStatefulWidget {
   final void Function()? onPhoneLoginSuccess;

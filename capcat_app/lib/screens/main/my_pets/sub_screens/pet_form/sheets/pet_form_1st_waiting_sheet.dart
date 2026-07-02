@@ -1,11 +1,11 @@
 // file: pet_form_1st_waiting_sheet.dart
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_mock_app/providers/pet_form_providers.dart';
-import 'package:flutter_chat_mock_app/theme/app_colors.dart';
-import 'package:flutter_chat_mock_app/utils/size_config.dart';
+import 'package:capcat_doca/providers/pet_form_providers.dart';
+import 'package:capcat_doca/theme/app_colors.dart';
+import 'package:capcat_doca/utils/size_config.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_chat_mock_app/l10n/gen/app_localizations.dart';
+import 'package:capcat_doca/l10n/gen/app_localizations.dart';
 
 class PetForm1stWaitingSheet extends StatelessWidget {
   const PetForm1stWaitingSheet({super.key});

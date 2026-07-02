@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_mock_app/models/pet_species_master_data.dart';
-import 'package:flutter_chat_mock_app/models/pet_detail.dart';
-import 'package:flutter_chat_mock_app/providers/pet_breed_repository_provider.dart';
-import 'package:flutter_chat_mock_app/providers/pet_breeds_data_provider.dart';
-import 'package:flutter_chat_mock_app/providers/pet_species_repository_provider.dart';
-import 'package:flutter_chat_mock_app/theme/app_colors.dart';
-import 'package:flutter_chat_mock_app/utils/media_query_utils.dart';
-import 'package:flutter_chat_mock_app/utils/size_config.dart';
-import 'package:flutter_chat_mock_app/widgets/button/action_button.dart';
-import 'package:flutter_chat_mock_app/widgets/button/tap_effect.dart';
-import 'package:flutter_chat_mock_app/widgets/input/input_field.dart';
-import 'package:flutter_chat_mock_app/widgets/input/select_text_field.dart';
-import 'package:flutter_chat_mock_app/widgets/keyboard_dismisser.dart';
-import 'package:flutter_chat_mock_app/widgets/safe_area/safe_area_top_only.dart';
-import 'package:flutter_chat_mock_app/widgets/sheets/custom_action_sheet_container.dart';
+import 'package:capcat_doca/models/pet_species_master_data.dart';
+import 'package:capcat_doca/models/pet_detail.dart';
+import 'package:capcat_doca/providers/pet_breed_repository_provider.dart';
+import 'package:capcat_doca/providers/pet_breeds_data_provider.dart';
+import 'package:capcat_doca/providers/pet_species_repository_provider.dart';
+import 'package:capcat_doca/theme/app_colors.dart';
+import 'package:capcat_doca/utils/media_query_utils.dart';
+import 'package:capcat_doca/utils/size_config.dart';
+import 'package:capcat_doca/widgets/button/action_button.dart';
+import 'package:capcat_doca/widgets/button/tap_effect.dart';
+import 'package:capcat_doca/widgets/input/input_field.dart';
+import 'package:capcat_doca/widgets/input/select_text_field.dart';
+import 'package:capcat_doca/widgets/keyboard_dismisser.dart';
+import 'package:capcat_doca/widgets/safe_area/safe_area_top_only.dart';
+import 'package:capcat_doca/widgets/sheets/custom_action_sheet_container.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Sheet chỉnh sửa đặc điểm nhận dạng cơ bản.

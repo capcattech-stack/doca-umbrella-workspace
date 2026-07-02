@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_chat_mock_app/storage/locale_local_storage.dart';
+import 'package:capcat_doca/storage/locale_local_storage.dart';
 
 class LocaleNotifier extends StateNotifier<Locale> {
   LocaleNotifier(this._storage) : super(const Locale('vi')) {

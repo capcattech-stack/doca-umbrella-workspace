@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_mock_app/enums/splash_action_sheet.dart';
-import 'package:flutter_chat_mock_app/utils/size_config.dart';
-import 'package:flutter_chat_mock_app/utils/media_query_utils.dart';
-import 'package:flutter_chat_mock_app/utils/transition_config.dart';
-import 'package:flutter_chat_mock_app/widgets/sign_in_form.dart';
-import 'package:flutter_chat_mock_app/widgets/sign_up_form.dart';
-import 'package:flutter_chat_mock_app/widgets/splash_base_sheet.dart';
+import 'package:capcat_doca/enums/splash_action_sheet.dart';
+import 'package:capcat_doca/utils/size_config.dart';
+import 'package:capcat_doca/utils/media_query_utils.dart';
+import 'package:capcat_doca/utils/transition_config.dart';
+import 'package:capcat_doca/widgets/sign_in_form.dart';
+import 'package:capcat_doca/widgets/sign_up_form.dart';
+import 'package:capcat_doca/widgets/splash_base_sheet.dart';
 import '../../../widgets/tab_selector.dart';
 
 class SignInUpSheet extends StatefulWidget {

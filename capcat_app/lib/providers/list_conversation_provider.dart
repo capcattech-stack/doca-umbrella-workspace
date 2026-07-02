@@ -1,6 +1,6 @@
-import 'package:flutter_chat_mock_app/models/conversation.dart';
-import 'package:flutter_chat_mock_app/repositories/conversation_list_repository.dart';
-import 'package:flutter_chat_mock_app/storage/conversation_list_local_storage.dart';
+import 'package:capcat_doca/models/conversation.dart';
+import 'package:capcat_doca/repositories/conversation_list_repository.dart';
+import 'package:capcat_doca/storage/conversation_list_local_storage.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final _conversationListLocalStorageProvider = Provider(

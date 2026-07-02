@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_mock_app/models/moment.dart';
-import 'package:flutter_chat_mock_app/theme/app_colors.dart';
-import 'package:flutter_chat_mock_app/utils/size_config.dart';
-import 'package:flutter_chat_mock_app/widgets/button/tap_effect.dart';
-import 'package:flutter_chat_mock_app/widgets/loading/text_loading_indicator.dart';
-import 'package:flutter_chat_mock_app/screens/main/moments/widgets/moment_card.dart';
-import 'package:flutter_chat_mock_app/widgets/image/circle_cached_network_image.dart';
+import 'package:capcat_doca/models/moment.dart';
+import 'package:capcat_doca/theme/app_colors.dart';
+import 'package:capcat_doca/utils/size_config.dart';
+import 'package:capcat_doca/widgets/button/tap_effect.dart';
+import 'package:capcat_doca/widgets/loading/text_loading_indicator.dart';
+import 'package:capcat_doca/screens/main/moments/widgets/moment_card.dart';
+import 'package:capcat_doca/widgets/image/circle_cached_network_image.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class MomentsListView extends StatelessWidget {

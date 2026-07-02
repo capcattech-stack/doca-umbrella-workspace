@@ -1,5 +1,5 @@
-import 'package:flutter_chat_mock_app/models/chat_pet.dart';
-import 'package:flutter_chat_mock_app/services/chat_pet_remote_service.dart';
+import 'package:capcat_doca/models/chat_pet.dart';
+import 'package:capcat_doca/services/chat_pet_remote_service.dart';
 
 class ChatPetRepository {
   Future<List<ChatPet>> fetchPets() async {

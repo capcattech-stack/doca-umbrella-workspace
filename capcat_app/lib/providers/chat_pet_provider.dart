@@ -1,5 +1,5 @@
-import 'package:flutter_chat_mock_app/models/chat_pet.dart';
-import 'package:flutter_chat_mock_app/repositories/chat_pet_repository.dart';
+import 'package:capcat_doca/models/chat_pet.dart';
+import 'package:capcat_doca/repositories/chat_pet_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final _chatPetRepositoryProvider = Provider((_) => ChatPetRepository());

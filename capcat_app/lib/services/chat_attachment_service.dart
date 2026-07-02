@@ -1,10 +1,10 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter_chat_mock_app/services/api_service.dart';
-import 'package:flutter_chat_mock_app/services/auth_service.dart';
-import 'package:flutter_chat_mock_app/services/image_service.dart';
-import 'package:flutter_chat_mock_app/services/model/service_response.dart';
-import 'package:flutter_chat_mock_app/services/extension/response_extension.dart';
-import 'package:flutter_chat_mock_app/utils/image_utils.dart';
+import 'package:capcat_doca/services/api_service.dart';
+import 'package:capcat_doca/services/auth_service.dart';
+import 'package:capcat_doca/services/image_service.dart';
+import 'package:capcat_doca/services/model/service_response.dart';
+import 'package:capcat_doca/services/extension/response_extension.dart';
+import 'package:capcat_doca/utils/image_utils.dart';
 
 class ChatAttachmentService {
   // static Future<ServiceResponse<String>> uploadSingleImage({

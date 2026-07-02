@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_mock_app/theme/app_colors.dart';
-import 'package:flutter_chat_mock_app/l10n/gen/app_localizations.dart';
-import 'package:flutter_chat_mock_app/models/pet_detail.dart';
-import 'package:flutter_chat_mock_app/screens/main/my_pets/sub_screens/pet_profile/sub_screens/share_pet_profile/share_pet_profile_screen.dart';
-import 'package:flutter_chat_mock_app/screens/main/my_pets/sub_screens/pet_profile/widgets/w_pet_social_network.dart';
-import 'package:flutter_chat_mock_app/utils/date_format_config.dart';
-import 'package:flutter_chat_mock_app/utils/media_query_utils.dart';
-import 'package:flutter_chat_mock_app/utils/size_config.dart';
-import 'package:flutter_chat_mock_app/widgets/button/tap_effect.dart';
-import 'package:flutter_chat_mock_app/widgets/input/expandable_text_container.dart';
+import 'package:capcat_doca/theme/app_colors.dart';
+import 'package:capcat_doca/l10n/gen/app_localizations.dart';
+import 'package:capcat_doca/models/pet_detail.dart';
+import 'package:capcat_doca/screens/main/my_pets/sub_screens/pet_profile/sub_screens/share_pet_profile/share_pet_profile_screen.dart';
+import 'package:capcat_doca/screens/main/my_pets/sub_screens/pet_profile/widgets/w_pet_social_network.dart';
+import 'package:capcat_doca/utils/date_format_config.dart';
+import 'package:capcat_doca/utils/media_query_utils.dart';
+import 'package:capcat_doca/utils/size_config.dart';
+import 'package:capcat_doca/widgets/button/tap_effect.dart';
+import 'package:capcat_doca/widgets/input/expandable_text_container.dart';
 
 class PetScrollableDetails extends StatelessWidget {
   const PetScrollableDetails({
