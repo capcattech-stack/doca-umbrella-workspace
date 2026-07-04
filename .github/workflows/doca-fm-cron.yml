@@ -22,9 +22,23 @@ jobs:
         with:
           python-version: '3.10'
 
+      - name: Diagnostic Env Check
+        run: |
+          if [ -z "${{ secrets.PUBLIC_SUPABASE_URL }}" ]; then
+            echo "WARNING: PUBLIC_SUPABASE_URL secret is EMPTY!"
+          else
+            echo "SUCCESS: PUBLIC_SUPABASE_URL secret is configured."
+          fi
+          if [ -z "${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}" ]; then
+            echo "WARNING: SUPABASE_SERVICE_ROLE_KEY secret is EMPTY!"
+          else
+            echo "SUCCESS: SUPABASE_SERVICE_ROLE_KEY secret is configured."
+          fi
+
       - name: Run Curation Script
         env:
           PUBLIC_SUPABASE_URL: ${{ secrets.PUBLIC_SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
         run: |
           python doca-affiliate-web/scripts/cron_curator.py
+
