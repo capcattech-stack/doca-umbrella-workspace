@@ -94,7 +94,7 @@ Trang đọc bài được thiết kế thoáng, tập trung hoàn toàn vào tr
 │                                                        │
 │  Để tạo điểm nhấn, một chiếc *đèn ngủ Ghibli gỗ* ấm... │
 │                                                        │
-│  > "Nhà là nơi Boss đợi Sen về..."                     │
+│  > "Nhà là nơi bé cưng đợi cô/chú về..."                     │
 ├────────────────────────────────────────────────────────┤
 │  🎁 Gợi ý từ Boss:                                     │
 │  ┌──────────────────────────────────────────────────┐  │
@@ -135,7 +135,7 @@ sequenceDiagram
         User->>Popup: Click [Gom mua chung giá sỉ]
         Note over Blog: Ghi nhận sự kiện: Click_FakeDoor_GroupBuy
         Popup->>DB: Ghi nhận click gom sỉ (+1 count)
-        Popup->>User: Hiển thị thông báo dễ thương:<br/>"Tụi con chưa thương lượng xong với cô chú bán hàng đâu ạ... Sen chờ tụi con tí nhé! 🐾"
+        Popup->>User: Hiển thị thông báo dễ thương:<br/>"Tụi con chưa thương lượng xong với bên bán hàng đâu ạ... Cô/chú chờ tụi con tí nhé! 🐾"
     end
 ```
 

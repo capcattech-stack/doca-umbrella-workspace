@@ -70,11 +70,11 @@ graph TD
 
 ### 3.2. Form Hòm Thư Gỡ Rối Namiya
 *   **Tiêu đề:** *"Hòm Thư Gỗ Namiya 📮"*
-*   **Mô tả:** *"Nếu có những nỗi buồn chật chội hay những âu lo không thể gọi tên, hãy gửi thư cho Boss. Ông già Namiya và những chú mèo sẽ thay bạn giữ lại và gửi lời phản hồi xoa dịu qua email."*
-*   **Placeholder ô tâm sự:** `Hôm nay Sen có điều gì phiền muộn muốn kể với Boss không?...`
-*   **Placeholder ô email:** `Email để Boss gửi thư phản hồi...`
+*   **Mô tả:** *"Nếu có những nỗi buồn chật chội hay những âu lo không thể gọi tên, hãy gửi thư cho tụi con. Ông già Namiya và những chú mèo sẽ thay bạn giữ lại và gửi lời phản hồi xoa dịu qua email."*
+*   **Placeholder ô tâm sự:** `Hôm nay cô/chú có điều gì phiền muộn muốn kể với tụi con không?...`
+*   **Placeholder ô email:** `Email để tụi con gửi thư phản hồi...`
 *   **Chữ trên nút gửi:** `Gửi Thư Vào Hòm Gỗ ✉️`
-*   **Thông báo thành công:** *"Thư đã lọt thỏm vào hòm gỗ. Cảm ơn bạn đã tin tưởng chia sẻ tơ lòng. Boss sẽ phản hồi bạn sớm nhất qua email."*
+*   **Thông báo thành công:** *"Thư đã lọt thỏm vào hòm gỗ. Cảm ơn bạn đã tin tưởng chia sẻ tơ lòng. Tụi con sẽ phản hồi bạn sớm nhất qua email."*
 
 ### 3.3. Polaroid Bottom Sheet & Nút Fake Door Mua Chung
 *   **Tiêu đề sản phẩm:** Đèn Ngủ Gỗ Totoro Thần Rừng
@@ -83,7 +83,7 @@ graph TD
 *   **Nút B (Gom mua chung):** `Gom mua chung sỉ giá rẻ (Tiết kiệm 30%)`
 *   **Kịch bản khi nhấp nút B:**
     *   Không yêu cầu nhập email (tối giản friction).
-    *   Hiện ngay thông báo dễ thương dạng Toast hoặc Popup: *"Tính năng này đang được tụi con chuẩn bị, hoặc tụi con chưa thương lượng xong với cô chú bán hàng đâu ạ... Sen chờ tụi con tí nhé! 🐾"*
+    *   Hiện ngay thông báo dễ thương dạng Toast hoặc Popup: *"Tính năng này đang được tụi con chuẩn bị, hoặc tụi con chưa thương lượng xong với bên bán hàng đâu ạ... Cô/chú chờ tụi con tí nhé! 🐾"*
     *   Đồng thời ghi nhận sự kiện click vào database.
 
 ---
@@ -92,28 +92,28 @@ graph TD
 
 Khi người dùng đăng ký hoặc gửi thư thành công, một email tự động với tông giọng chữa lành mang đậm tính Iyashikei sẽ được gửi đi:
 
-*   **Tiêu đề email:** `🐾 [DOCA] Boss gửi tặng Sen cuốn Cẩm nang sống chậm cùng nhau nè...`
+*   **Tiêu đề email:** `🐾 [DOCA] Tụi con gửi tặng cô/chú cuốn Cẩm nang sống chậm cùng nhau nè...`
 *   **Nội dung thư:**
     ```text
-    Chào Sen,
+    Chào cô/chú,
 
-    Boss đã nhận được email đăng ký của Sen từ Góc Nhỏ DOCA rồi nhé. 
-    Mỗi ngày bôn ba ngoài xã hội chắc Sen cũng mệt nhoài rồi đúng không? 
+    Tụi con đã nhận được email đăng ký của cô/chú từ Góc Nhỏ DOCA rồi nhé. 
+    Mỗi ngày bôn ba ngoài xã hội chắc cô/chú cũng mệt nhoài rồi đúng không? 
 
-    Dưới đây là cuốn Ebook nhỏ "Nhật Ký Sống Chậm Cùng Boss" mà tụi mình đã biên soạn 
-    bằng cả sự ấm áp, hy vọng nó sẽ mang lại cho Sen một chút bình yên nhẹ nhõm:
+    Dưới đây là cuốn Ebook nhỏ "Nhật Ký Sống Chậm Cùng Thú Cưng" mà tụi mình đã biên soạn 
+    bằng cả sự ấm áp, hy vọng nó sẽ mang lại cho cô/chú một chút bình yên nhẹ nhõm:
 
     🔗 [Tải Ebook Chữa Lành Tại Đây (PDF)]
 
-    Ngoài ra, Boss cũng gửi kèm một Mã mời đặc biệt để Sen đăng ký trải nghiệm sớm 
+    Ngoài ra, tụi con cũng gửi kèm một Mã mời đặc biệt để cô/chú đăng ký trải nghiệm sớm 
     bản Beta của ứng dụng di động DOCA sắp ra mắt vào mùa thu này:
 
-    🔑 MÃ MỜI BETA: DOCA-HEALING-SEN-2026
+    🔑 MÃ MỜI BETA: DOCA-HEALING-MEOW-2026
 
-    Hẹn gặp lại Sen trong thế giới ấm áp của DOCA nhé!
-    Thương Sen thật nhiều,
+    Hẹn gặp lại cô/chú trong thế giới ấm áp của DOCA nhé!
+    Thương cô/chú thật nhiều,
 
-    -- Boss của Sen --
+    -- Tụi con (Mái nhà DOCA) --
     (Thay mặt đội ngũ dự án DOCA)
     ```
 

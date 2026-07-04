@@ -37,6 +37,9 @@ Không gian làm việc được tổ chức chặt chẽ thành các phân vùn
 *   Tông giọng viết nội dung truyền thông và hiển thị UI phải nhất quán theo [Tuyên ngôn Thương hiệu](file:///Users/macinia/Capcat%20Project/Document/04_BRAND_MARKETING_MANIFESTO.md) (Cozy, tối giản MUJI ấm áp, chân thành, hóm hỉnh dưới góc nhìn thứ nhất của Boss, không gây hoang mang hay hối thúc user bằng thông báo rác).
 *   Mọi component giao diện phải được xây dựng dựa trên theme màu gỗ ấm hoài niệm và các token thiết kế đã được định nghĩa.
 
+### 4. Ngôn ngữ Tài liệu Quy hoạch (Planning Language)
+*   **Tiếng Việt cho Tài liệu Quy hoạch:** Tất cả các tài liệu quy hoạch, kế hoạch triển khai (`implementation_plan.md`), danh sách nhiệm vụ (`task.md`), và tài liệu bàn giao (`walkthrough.md`) bắt buộc phải được viết bằng **tiếng Việt** để người dùng dễ dàng kiểm soát và đánh giá các thay đổi kỹ thuật của hệ thống.
+
 ---
 
 ## 🚀 Hướng dẫn Bắt đầu Nhanh (Quick Start)

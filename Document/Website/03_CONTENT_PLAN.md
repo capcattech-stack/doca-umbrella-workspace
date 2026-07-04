@@ -23,13 +23,13 @@ graph TD
     
     %% Cụm 2
     Parent --> C2(Cụm 2: Không Gian Sống Chậm <br> Chăm sóc & Không gian)
-    C2 --> C2_1["Bài 1: Setup góc phòng Ghibli"]
+    C2 --> C2_1["Bài 1: Setup góc phòng Iyashikei & MUJI"]
     C2_1 --> C2_2["Bài 2: Routine dọn dẹp sáng"]
     
     %% Cụm 3
     Parent --> C3(Cụm 3: Nhật Ký Chữa Lành <br> Chiêm nghiệm & Xoa dịu)
     C3 --> C3_1["Bài 1: Trăng đêm nay thật đẹp"]
-    C3_1 --> C3_2["Bài 2: Khi Boss đợi Sen đi làm về"]
+    C3_1 --> C3_2["Bài 2: Khi bé cưng đợi cô/chú đi làm về"]
     
     style Parent fill:#efebe9,stroke:#5d4037,stroke-width:2px
     style C1 fill:#ffebee,stroke:#c62828,stroke-width:1px
@@ -52,15 +52,15 @@ graph TD
         *   Giải thích khoa học tại sao mèo có những tiếng kêu kỳ lạ (ngôn ngữ cơ thể của chúng).
         *   Nhận diện cá tính độc bản của pet (liên kết khéo léo đến ý tưởng tính năng **PetTwin** trên app).
     *   **Kết bài & Gợi ý sản phẩm (Affiliate):**
-        *   Giới thiệu cuốn sách tâm lý học thú cưng để Sen hiểu Boss hơn.
+        *   Giới thiệu cuốn sách tâm lý học thú cưng để cô/chú hiểu bé cưng hơn.
         *   *Sản phẩm Affiliate (Fahasa):* Sách *"Hiểu Người Bạn Mèo"* hoặc *"Ngôn ngữ của Thú cưng"*.
         *   *Sản phẩm Affiliate (Shopee):* Hạt dinh dưỡng cao cấp giúp mèo mượt lông, khỏe mạnh.
 
-### 🏡 Bài viết 2: Bí quyết Setup góc nhỏ làm việc chuẩn Ghibli cùng chú mèo của bạn
+### 🏡 Bài viết 2: Bí quyết Setup góc nhỏ làm việc chuẩn tối giản Iyashikei & MUJI cùng chú mèo của bạn
 *   **Cột trụ:** Không gian sống chậm & Trải nghiệm chung (Tamagotchi Style - Thiết kế lối sống).
 *   **Mục tiêu SEO:** Từ khóa "setup góc phòng nuôi mèo", "decor phòng ngủ tối giản MUJI".
 *   **Dàn ý tóm tắt:**
-    *   **Mở bài:** Sự bừa bộn và mùi rụng lông khi nuôi pet khiến góc làm việc trở nên căng thẳng. Làm sao để cải tạo nó thành góc nhỏ yên tĩnh chuẩn phong cách hoạt hình Ghibli?
+    *   **Mở bài:** Sự bừa bộn và mùi rụng lông khi nuôi pet khiến góc làm việc trở nên căng thẳng. Làm sao để cải tạo nó thành góc nhỏ yên tĩnh chuẩn triết lý tối giản Iyashikei & MUJI?
     *   **Thân bài:** 
         *   **Bước 1:** Tối giản hóa đồ đạc. Chọn thảm linen/vải sợi tự nhiên để hạn chế tĩnh điện hút lông mèo.
         *   **Bước 2:** Bố trí ánh sáng vàng ấm áp để xoa dịu thần kinh của cả người và thú cưng.
@@ -99,8 +99,8 @@ Chúng ta cần liên kết chính xác từ khóa tìm kiếm của độc gi�
 ## ⚙️ 4. Quy Chuẩn Viết Bài (Cozy Writing Guidelines)
 
 Để giữ vững tinh thần của thương hiệu DOCA, mọi bài viết phải tuân thủ các quy tắc biên soạn sau:
-1.  **Xưng hô ấm áp:** Xưng hô thân mật tự nhiên (ví dụ: *Sen và Boss*, *Chúng mình*, *Góc nhỏ của Boss*). Tránh giọng điệu giật gân, giật tít câu view rẻ tiền.
-2.  **Visual phong phú:** Mỗi bài viết bắt buộc phải có ít nhất 1 ảnh bìa phác họa màu nước phong cách Ghibli và 1-2 ảnh thực tế về thú cưng (dùng ảnh thật tự quay/chụp để tăng tính xác thực và tin tưởng).
+1.  **Xưng hô ấm áp:** Xưng hô thân mật tự nhiên (ví dụ: *cô/chú và các bạn đồng Meo*, *Chúng mình*, *Góc nhỏ của bé cưng*). Tránh giọng điệu giật gân, giật tít câu view rẻ tiền.
+2.  **Visual phong phú:** Mỗi bài viết bắt buộc phải có ít nhất 1 ảnh bìa phác họa màu nước phong cách tối giản Iyashikei & MUJI và 1-2 ảnh thực tế về thú cưng (dùng ảnh thật tự quay/chụp để tăng tính xác thực và tin tưởng).
 3.  **Tích hợp link tự nhiên:** Tuyệt đối không viết bài theo kiểu "sale pitch" (chỉ chăm chăm bắt mua hàng). Chỉ giới thiệu sản phẩm khi nó thực sự giải quyết được bài toán tinh thần hoặc vật chất được nêu ra trong bài viết.
 
 ---

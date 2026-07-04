@@ -150,7 +150,7 @@ Ada (QA Agent) yêu cầu kiểm thử nghiêm ngặt các ranh giới chức n�
 *   [ ] **Quyền đọc công khai sản phẩm:** Thử chạy lệnh đọc danh sách `products` bằng `anon key`. Kết quả bắt buộc phải thành công trả về dữ liệu JSON của 3 sản phẩm mẫu.
 
 ### 🧪 5.2. Kiểm thử tương tác biên (Edge Cases & Stress Testing)
-*   [ ] **Trùng lặp Email Waitlist:** Nhập một email trùng nhau 2 lần vào Form Waitlist. Hệ thống phải xử lý mượt mà (không gây crash trang, có thể hiển thị thông báo cute: *"Boss đã ghi nhận email này của Sen từ trước rồi ạ! 🐾"*).
+*   [ ] **Trùng lặp Email Waitlist:** Nhập một email trùng nhau 2 lần vào Form Waitlist. Hệ thống phải xử lý mượt mà (không gây crash trang, có thể hiển thị thông báo cute: *"Tụi con đã ghi nhận email này của cô/chú từ trước rồi ạ! 🐾"*).
 *   [ ] **Trùng lặp Click Mua chung:** Click liên tục 5 lần vào nút Mua chung của cùng một sản phẩm. Database bắt buộc chỉ ghi nhận duy nhất 1 bản ghi click nhờ ràng buộc Unique Index `idx_preorder_interest_email_product` (hoặc tránh ghi đè click ảo liên tục).
 *   [ ] **Tâm sự trống / Ký tự lạ:** Gửi thư Namiya với nội dung rỗng hoặc chứa toàn ký tự mã độc (XSS payload như `<script>alert(1)</script>`). Hệ thống bắt buộc phải lọc sạch ký tự nguy hiểm (Sanitize input) trước khi lưu vào Supabase.
 

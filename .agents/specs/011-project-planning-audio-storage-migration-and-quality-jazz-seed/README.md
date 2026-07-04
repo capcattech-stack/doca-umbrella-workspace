@@ -1,0 +1,11 @@
+# Project Planning - Audio Storage Migration and Quality Jazz Seed
+
+Feature ID: `011-project-planning-audio-storage-migration-and-quality-jazz-seed`
+
+Recommended order:
+
+1. Resolve `spec.md` clarifications.
+2. Complete `research.md`, `data-model.md`, and `contracts/`.
+3. Complete `plan.md` constitution gates.
+4. Derive `tasks.md` ownership and parallel groups.
+5. Implement tasks and record evidence in `verification.md`.

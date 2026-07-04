@@ -59,7 +59,7 @@ Sophia (CPO) áp dụng nguyên tắc tối giản hóa kỹ thuật để tối
     *   Đọc nội dung và các bài review chia sẻ. Chèn link Affiliate dạng **Gạch chân chấm mảnh (Cozy Dotted Underline)**. Nhấp vào sẽ mở trực tiếp link Shopee/Fahasa của lập trình viên.
 3.  **Nút Mua Chung Fake Door (Group Buy Fake Door):**
     *   Hiển thị nút `[Gom mua chung giá sỉ 🐾]` ngay cạnh nút mua lẻ.
-    *   **Trải nghiệm người dùng:** Khi nhấp vào, hiện ngay thông báo cute kiểu chữa lành: *"Tính năng này đang được tụi con chuẩn bị, hoặc tụi con chưa thương lượng xong với cô chú bán hàng đâu ạ... Sen chờ tụi con tí nhé! 🐾"*
+    *   **Trải nghiệm người dùng:** Khi nhấp vào, hiện ngay thông báo cute kiểu chữa lành: *"Tính năng này đang được tụi con chuẩn bị, hoặc tụi con chưa thương lượng xong với bên bán hàng đâu ạ... Cô/chú chờ tụi con tí nhé! 🐾"*
     *   **Ghi nhận số liệu:** Tự động tăng biến đếm click (Click Count Event) lưu lên Supabase/GA4 để ghi nhận thị hiếu mà không bắt người dùng nhập email.
 4.  **Hộp thư gỡ rối tơ lòng Namiya (Minimalist Mamiya Mailbox):**
     *   *Mục đích:* Đo lường mức độ tin tưởng của khách truy cập (họ có sẵn sàng chia sẻ tâm sự thầm kín không).

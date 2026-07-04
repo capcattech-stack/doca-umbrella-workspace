@@ -10,7 +10,7 @@
 
 ## 🧭 1. Định Vị: "Nhật Ký Lối Sống" (The Lifestyle Journal)
 
-Trong thế giới của DOCA, chúng ta không dùng từ "Blog" hay "Tin tức" trên giao diện của người dùng. Thay vào đó, nó được gọi là **"Nhật Ký Lối Sống"** (đối với độc giả) hoặc **"Nhật Ký Của Boss & Sen"**.
+Trong thế giới của DOCA, chúng ta không dùng từ "Blog" hay "Tin tức" trên giao diện của người dùng. Thay vào đó, nó được gọi là **"Nhật Ký Lối Sống"** (đối với độc giả) hoặc **"Nhật Ký Của Cô/Chú & các bạn đồng Meo"**.
 *   **Hình thức hiển thị:** Dạng blog cá nhân, giọng văn chiêm nghiệm, ấm áp.
 *   **Trang chi tiết bài viết:** Tập trung 100% vào trải nghiệm đọc tối giản (Readability). Cỡ chữ lớn (`18px` - `20px`), giãn dòng thoáng (`1.6` - `1.8`), màu nền kem dịu mắt, hoàn toàn không có sidebar quảng cáo gây xao nhãng.
 
@@ -29,8 +29,8 @@ Mỗi file markdown bài viết sẽ khai báo thông tin cấu trúc (Frontmatt
 
 ```yaml
 ---
-title: "Bí quyết Setup góc nhỏ làm việc chuẩn Ghibli cùng chú mèo"
-description: "Cải tạo góc làm việc ngổn ngang lông mèo thành không gian ấm cúng chuẩn hoạt hình Ghibli để làm việc chánh niệm cùng thú cưng."
+title: "Bí quyết Setup góc nhỏ làm việc chuẩn tối giản Iyashikei & MUJI cùng chú mèo"
+description: "Cải tạo góc làm việc ngổn ngang lông mèo thành không gian ấm cúng chuẩn tối giản Iyashikei & MUJI để làm việc chánh niệm cùng thú cưng."
 publishDate: "2026-06-24"
 coverImage: "/images/blog/setup-ghibli-cat.webp"
 category: "phu_kien" # thuc_an, vat_pham, sach, phu_kien
@@ -51,10 +51,10 @@ Nuôi thú cưng không chỉ là cho ăn, đó là việc chia sẻ không gian
 │  [🐾 Trở về trang chủ]                                  │
 ├────────────────────────────────────────────────────────┤
 │  Lối Sống Chữa Lành > Phụ Kiện                         │
-│  <h1>Bí quyết Setup góc nhỏ làm việc chuẩn Ghibli</h1>  │
+│  <h1>Bí quyết Setup góc nhỏ làm việc chuẩn tối giản Iyashikei & MUJI</h1>  │
 │  Đăng lúc: 24/06/2026 • ⏳ 3 phút đọc                  │
 ├────────────────────────────────────────────────────────┤
-│  [Ảnh minh họa phong cách màu nước Ghibli ấm áp]       │
+│  [Ảnh minh họa phong cách màu nước Iyashikei & MUJI ấm áp]       │
 │                                                        │
 │  Nuôi thú cưng không chỉ là cho ăn...                  │
 │  ... rải một vài chiếc *thảm linen ủi phẳng*...        │
@@ -70,8 +70,8 @@ Nuôi thú cưng không chỉ là cho ăn, đó là việc chia sẻ không gian
 │                                                        │
 ├────────────────────────────────────────────────────────┤
 │  📮 HÒM THƯ GỖ NAMIYA (Nhúng Widget)                   │
-│  Nếu Sen có những nỗi buồn muốn kể, hãy gửi cho Boss...│
-│  [Nhập tâm sự của Sen...]                              │
+│  Nếu cô/chú có những nỗi buồn muốn kể, hãy gửi cho tụi con...│
+│  [Nhập tâm sự của cô/chú...]                            │
 │  [ Gửi thư vào hòm gỗ ✉️ ]                              │
 └────────────────────────────────────────────────────────┘
 ```
@@ -101,10 +101,10 @@ Nhúng mã dữ liệu cấu trúc tự động vào thẻ `<head>` để Google
 {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  "headline": "Bí quyết Setup góc nhỏ làm việc chuẩn Ghibli cùng chú mèo",
+  "headline": "Bí quyết Setup góc nhỏ làm việc chuẩn tối giản Iyashikei & MUJI cùng chú mèo",
   "image": "https://docacorner.com/images/blog/setup-ghibli-cat.webp",
   "datePublished": "2026-06-24",
-  "description": "Cải tạo góc làm việc ngổn ngang lông mèo thành không gian ấm cúng chuẩn hoạt hình Ghibli...",
+  "description": "Cải tạo góc làm việc ngổn ngang lông mèo thành không gian ấm cúng chuẩn tối giản Iyashikei & MUJI...",
   "author": {
     "@type": "Person",
     "name": "Đội ngũ DOCA"
