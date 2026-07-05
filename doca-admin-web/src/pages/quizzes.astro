@@ -1,0 +1,738 @@
+---
+import AdminLayout from '../components/AdminLayout.astro';
+
+// Supabase Credentials
+const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL || '';
+const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
+---
+
+<AdminLayout title="Quản lý câu hỏi trắc nghiệm">
+  <!-- NOTION ACTION BAR -->
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; gap: 16px;">
+    <div style="display: flex; align-items: center; gap: 12px; flex-grow: 1;">
+      <!-- Search -->
+      <div style="position: relative; max-width: 320px; width: 100%;">
+        <span style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--notion-text-light); z-index: 2;">
+          <i class="ph-light ph-magnifying-glass" style="font-size: 15px;"></i>
+        </span>
+        <input type="text" id="quiz-search-input" class="notion-input" placeholder="Tìm kiếm câu hỏi hoặc slug..." style="padding-left: 32px;" />
+      </div>
+
+      <!-- Bulk action trigger button (Xóa đã chọn) -->
+      <button id="bulk-delete-btn" class="notion-btn" style="display: none; color: #d32f2f; border-color: rgba(211, 47, 47, 0.2); background: rgba(211, 47, 47, 0.03); align-items: center; gap: 6px;">
+        <i class="ph-light ph-trash"></i> Xóa mục đã chọn (<span id="bulk-select-count">0</span>)
+      </button>
+    </div>
+
+    <!-- Action Buttons -->
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <button id="toggle-bulk-mode-btn" class="notion-btn" style="display: inline-flex; align-items: center; gap: 6px;">
+        <i class="ph-light ph-check-square"></i> <span id="toggle-bulk-text">Chọn nhiều</span>
+      </button>
+      <button id="add-quiz-btn" class="notion-btn notion-btn-primary" style="display: inline-flex; align-items: center; gap: 6px;">
+        <i class="ph-light ph-plus"></i> Thêm câu đố mới
+      </button>
+    </div>
+  </div>
+
+  <!-- NOTION TABLE -->
+  <div class="notion-table-wrapper">
+    <table class="notion-table">
+      <thead>
+        <tr>
+          <!-- Checkbox column for bulk action -->
+          <th class="bulk-col" style="width: 4%; display: none; text-align: center; vertical-align: middle; padding: 10px 0;">
+            <input type="checkbox" id="select-all-checkbox" style="cursor: pointer;" />
+          </th>
+          <th style="width: 15%;">Slug</th>
+          <th style="width: 50%;">Câu hỏi</th>
+          <th style="width: 15%;">Đáp án đúng</th>
+          <th style="width: 20%; text-align: center;">Chia sẻ (Copy link)</th>
+        </tr>
+      </thead>
+      <tbody id="quizzes-table-body">
+        <tr>
+          <td colspan="4" style="text-align: center; color: var(--notion-text-light); padding: 32px;">
+            <i class="ph-light ph-circle-notch spinner-icon" style="font-size: 16px; margin-right: 6px;"></i> Đang tải danh sách câu hỏi...
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- NOTION POPOVER STYLE MODAL (Popup sửa đổi gọn gàng) -->
+  <div id="quiz-editor-overlay" class="notion-modal-overlay" style="display: none;">
+    <div class="notion-modal-box">
+      <div class="notion-modal-header">
+        <span id="editor-title-text" style="font-weight: 600; font-size: 15px; color: rgba(55, 53, 47, 0.9);">Thêm Câu Đố Mới</span>
+        <button id="editor-close-x" class="notion-close-btn"><i class="ph-light ph-x"></i></button>
+      </div>
+
+      <form id="quiz-editor-form" onsubmit="return false;" style="margin: 0; display: flex; flex-direction: column; gap: 14px;">
+        <input type="hidden" id="edit-quiz-id" />
+
+        <div class="notion-form-grid">
+          <!-- Slug -->
+          <div class="notion-form-item">
+            <label class="notion-label">Định danh URL (Slug) *</label>
+            <input type="text" id="edit-slug" class="notion-input" placeholder="Ví dụ: meo-hieu-tieng-nguoi" required />
+            <span class="notion-input-desc">Chỉ dùng chữ cái thường, số và dấu gạch ngang.</span>
+          </div>
+
+          <!-- OG Image -->
+          <div class="notion-form-item">
+            <label class="notion-label">Ảnh xem trước (og:image) *</label>
+            <input type="text" id="edit-og-image" class="notion-input" placeholder="Ví dụ: /images/quizzes/meo-hieu-tieng-nguoi.png" required />
+            <span class="notion-input-desc">Chuẩn kích thước tiếp thị: 1200x630px.</span>
+          </div>
+        </div>
+
+        <!-- Question -->
+        <div class="notion-form-item">
+          <label class="notion-label">Câu hỏi trắc nghiệm *</label>
+          <input type="text" id="edit-question" class="notion-input" placeholder="Nhập câu hỏi trắc nghiệm..." required />
+        </div>
+
+        <!-- Options (4 Choices) -->
+        <div class="notion-options-box">
+          <div class="notion-form-item">
+            <label class="notion-label-sub">Phương án A (Index 0) *</label>
+            <input type="text" id="edit-opt-0" class="notion-input" required />
+          </div>
+          <div class="notion-form-item">
+            <label class="notion-label-sub">Phương án B (Index 1) *</label>
+            <input type="text" id="edit-opt-1" class="notion-input" required />
+          </div>
+          <div class="notion-form-item">
+            <label class="notion-label-sub">Phương án C (Index 2) *</label>
+            <input type="text" id="edit-opt-2" class="notion-input" required />
+          </div>
+          <div class="notion-form-item">
+            <label class="notion-label-sub">Phương án D (Index 3) *</label>
+            <input type="text" id="edit-opt-3" class="notion-input" required />
+          </div>
+        </div>
+
+        <!-- Correct Answer -->
+        <div class="notion-form-item">
+          <label class="notion-label">Đáp án đúng *</label>
+          <select id="edit-correct-answer" class="notion-input" style="height: 30px; padding: 4px 8px;" required>
+            <option value="0">Phương án A (Index 0)</option>
+            <option value="1">Phương án B (Index 1)</option>
+            <option value="2">Phương án C (Index 2)</option>
+            <option value="3">Phương án D (Index 3)</option>
+          </select>
+        </div>
+
+        <!-- Explanation -->
+        <div class="notion-form-item">
+          <label class="notion-label">Lời giải thích của Tina (Iyashikei) *</label>
+          <textarea id="edit-explanation" class="notion-input" rows="3" placeholder="Lời giải giảng dạy nhẹ nhàng kiểu chữa lành..." required></textarea>
+        </div>
+
+        <!-- Form Actions -->
+        <div class="notion-modal-footer">
+          <button type="button" id="editor-delete-btn" class="notion-btn" style="color: #d32f2f; border-color: rgba(211, 47, 47, 0.2); background: rgba(211, 47, 47, 0.02); display: none; align-items: center; gap: 6px;">
+            <i class="ph-light ph-trash"></i> Xóa câu đố
+          </button>
+          <div style="display: flex; gap: 8px; margin-left: auto;">
+            <button type="button" id="editor-cancel-btn" class="notion-btn">Hủy</button>
+            <button type="submit" id="editor-save-btn" class="notion-btn notion-btn-primary">Lưu lại</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</AdminLayout>
+
+<script>
+  document.addEventListener('DOMContentLoaded', async () => {
+    const supabaseUrl = window.PUBLIC_SUPABASE_URL || '';
+    const supabaseKey = window.PUBLIC_SUPABASE_ANON_KEY || '';
+
+    const { createClient } = await import('https://esm.sh/@supabase/supabase-js@2.43.4');
+    const sessionStr = localStorage.getItem('doca_admin_session');
+    if (!sessionStr) return;
+
+    const session = JSON.parse(sessionStr);
+    const supabase = createClient(supabaseUrl, supabaseKey, {
+      global: {
+        headers: {
+          Authorization: `Bearer ${session.access_token}`
+        }
+      }
+    });
+
+    const quizzesTableBody = document.getElementById('quizzes-table-body');
+    const searchInput = document.getElementById('quiz-search-input');
+    const addQuizBtn = document.getElementById('add-quiz-btn');
+    
+    const editorOverlay = document.getElementById('quiz-editor-overlay');
+    const editorTitleText = document.getElementById('editor-title-text');
+    const editorCloseX = document.getElementById('editor-close-x');
+    const editorCancelBtn = document.getElementById('editor-cancel-btn');
+    const editorSaveBtn = document.getElementById('editor-save-btn');
+    const editorDeleteBtn = document.getElementById('editor-delete-btn');
+    const quizEditorForm = document.getElementById('quiz-editor-form');
+
+    const editQuizId = document.getElementById('edit-quiz-id');
+    const editSlug = document.getElementById('edit-slug');
+    const editOgImage = document.getElementById('edit-og-image');
+    const editQuestion = document.getElementById('edit-question');
+    const editOpt0 = document.getElementById('edit-opt-0');
+    const editOpt1 = document.getElementById('edit-opt-1');
+    const editOpt2 = document.getElementById('edit-opt-2');
+    const editOpt3 = document.getElementById('edit-opt-3');
+    const editCorrectAnswer = document.getElementById('edit-correct-answer');
+    const editExplanation = document.getElementById('edit-explanation');
+
+    // Các biến cho chế độ Bulk Action chọn nhiều
+    let bulkActive = false;
+    const toggleBulkModeBtn = document.getElementById('toggle-bulk-mode-btn');
+    const toggleBulkText = document.getElementById('toggle-bulk-text');
+    const bulkDeleteBtn = document.getElementById('bulk-delete-btn');
+    const bulkSelectCount = document.getElementById('bulk-select-count');
+    const selectAllCheckbox = document.getElementById('select-all-checkbox');
+
+    let allQuizzes = [];
+
+    const loadQuizzes = async () => {
+      const colSpanCount = bulkActive ? 5 : 4;
+      quizzesTableBody.innerHTML = `
+        <tr>
+          <td colspan="${colSpanCount}" style="text-align: center; color: var(--notion-text-light); padding: 32px;">
+            <i class="ph-light ph-circle-notch spinner-icon" style="font-size: 16px; margin-right: 6px;"></i> Đang tải danh sách câu hỏi...
+          </td>
+        </tr>
+      `;
+
+      const { data, error } = await supabase
+        .from('quizzes')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        quizzesTableBody.innerHTML = `
+          <tr>
+            <td colspan="${colSpanCount}" style="text-align: center; color: #ff4d4f; padding: 20px;">
+              <i class="ph-light ph-warning-circle" style="font-size: 16px; margin-right: 6px;"></i> Lỗi tải danh sách: ${error.message}
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      allQuizzes = data || [];
+      renderQuizzesTable(allQuizzes);
+    };
+
+    function renderQuizzesTable(items) {
+      const colSpanCount = bulkActive ? 5 : 4;
+      if (items.length === 0) {
+        quizzesTableBody.innerHTML = `
+          <tr>
+            <td colspan="${colSpanCount}" style="text-align: center; color: var(--notion-text-light); padding: 32px;">
+              Không tìm thấy câu hỏi nào.
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      quizzesTableBody.innerHTML = items.map(q => {
+        const optionArray = Array.isArray(q.options) ? q.options : JSON.parse(q.options || '[]');
+        const correctText = optionArray[q.correct_answer] || `Index: ${q.correct_answer}`;
+        const isBulkActive = bulkActive ? 'table-cell' : 'none';
+        return `
+          <tr class="notion-table-row-clickable" data-id="${q.id}">
+            <!-- Cột chọn checkbox cho Bulk Action -->
+            <td class="bulk-col" style="display: ${isBulkActive}; text-align: center; vertical-align: middle; padding: 10px 0;" onclick="event.stopPropagation()">
+              <input type="checkbox" class="row-checkbox" data-id="${q.id}" style="cursor: pointer;" />
+            </td>
+            <td><code class="notion-slug-tag">${q.slug}</code></td>
+            <td style="font-weight: 500; color: rgba(55, 53, 47, 0.9);">${q.question}</td>
+            <td><span class="notion-answer-tag">${correctText}</span></td>
+            <td onclick="event.stopPropagation()">
+              <div class="notion-social-group">
+                <button class="notion-social-btn facebook" data-slug="${q.slug}" data-source="facebook" data-medium="social" title="Copy link Facebook">
+                  <i class="ph-fill ph-facebook-logo"></i>
+                </button>
+                <button class="notion-social-btn instagram" data-slug="${q.slug}" data-source="instagram" data-medium="bio" title="Copy link Instagram">
+                  <i class="ph-fill ph-instagram-logo"></i>
+                </button>
+                <button class="notion-social-btn tiktok" data-slug="${q.slug}" data-source="tiktok" data-medium="bio" title="Copy link TikTok">
+                  <i class="ph-fill ph-tiktok-logo"></i>
+                </button>
+                <button class="notion-social-btn youtube" data-slug="${q.slug}" data-source="youtube" data-medium="video" title="Copy link YouTube">
+                  <i class="ph-fill ph-youtube-logo"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+
+      // Copy link sự kiện click
+      document.querySelectorAll('.notion-social-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const slug = btn.getAttribute('data-slug');
+          const source = btn.getAttribute('data-source');
+          const medium = btn.getAttribute('data-medium');
+          const campaign = 'quiz_share';
+          
+          const finalUrl = `https://capcat.vn/quiz/${slug}?utm_source=${source}&utm_medium=${medium}&utm_campaign=${campaign}`;
+          
+          navigator.clipboard.writeText(finalUrl).then(() => {
+            const platformName = source.charAt(0).toUpperCase() + source.slice(1);
+            window.showToast(`Đã copy link ${platformName} UTM thành công! 📋`);
+          }).catch(err => {
+            alert("Lỗi sao chép: " + err);
+          });
+        });
+      });
+
+      // Nhấp vào dòng để chỉnh sửa
+      document.querySelectorAll('.notion-table-row-clickable').forEach(row => {
+        row.addEventListener('click', () => {
+          const id = parseInt(row.getAttribute('data-id'), 10);
+          const quiz = allQuizzes.find(q => q.id === id);
+          if (quiz) openEditor(quiz);
+        });
+      });
+    }
+
+    // --- XỬ LÝ CHỌN NHIỀU (BULK ACTION) ---
+    toggleBulkModeBtn.addEventListener('click', () => {
+      bulkActive = !bulkActive;
+      if (bulkActive) {
+        toggleBulkText.innerText = "Hủy chọn";
+        toggleBulkModeBtn.style.background = 'var(--notion-active-bg)';
+        // Hiển thị các ô checkbox
+        document.querySelectorAll('.bulk-col').forEach(el => el.style.display = 'table-cell');
+      } else {
+        toggleBulkText.innerText = "Chọn nhiều";
+        toggleBulkModeBtn.style.background = '#ffffff';
+        // Ẩn các ô checkbox
+        document.querySelectorAll('.bulk-col').forEach(el => el.style.display = 'none');
+        bulkDeleteBtn.style.display = 'none';
+        selectAllCheckbox.checked = false;
+        document.querySelectorAll('.row-checkbox').forEach(cb => cb.checked = false);
+      }
+    });
+
+    selectAllCheckbox.addEventListener('change', (e) => {
+      const checked = e.target.checked;
+      document.querySelectorAll('.row-checkbox').forEach(cb => {
+        cb.checked = checked;
+      });
+      updateBulkDeleteButtonState();
+    });
+
+    quizzesTableBody.addEventListener('change', (e) => {
+      if (e.target.classList.contains('row-checkbox')) {
+        updateBulkDeleteButtonState();
+      }
+    });
+
+    function updateBulkDeleteButtonState() {
+      const checkedBoxes = document.querySelectorAll('.row-checkbox:checked');
+      const count = checkedBoxes.length;
+      if (count > 0 && bulkActive) {
+        bulkDeleteBtn.style.display = 'inline-flex';
+        bulkSelectCount.innerText = count;
+      } else {
+        bulkDeleteBtn.style.display = 'none';
+      }
+    }
+
+    bulkDeleteBtn.addEventListener('click', async () => {
+      const checkedBoxes = document.querySelectorAll('.row-checkbox:checked');
+      const idsToDelete = Array.from(checkedBoxes).map(cb => parseInt(cb.getAttribute('data-id'), 10));
+      
+      if (idsToDelete.length === 0) return;
+
+      if (confirm(`Cô/chú có chắc chắn muốn xóa ${idsToDelete.length} câu đố đã chọn? Thao tác này không thể hoàn tác.`)) {
+        bulkDeleteBtn.setAttribute('disabled', 'true');
+        bulkDeleteBtn.innerText = "Đang xóa...";
+
+        const { error } = await supabase
+          .from('quizzes')
+          .delete()
+          .in('id', idsToDelete);
+
+        bulkDeleteBtn.removeAttribute('disabled');
+        bulkDeleteBtn.style.display = 'none';
+
+        if (error) {
+          alert("Lỗi xóa hàng loạt: " + error.message);
+        } else {
+          window.showToast(`Đã xóa thành công ${idsToDelete.length} câu đố.`);
+          
+          // Reset chế độ chọn nhiều
+          bulkActive = false;
+          toggleBulkText.innerText = "Chọn nhiều";
+          toggleBulkModeBtn.style.background = '#ffffff';
+          selectAllCheckbox.checked = false;
+          
+          loadQuizzes();
+        }
+      }
+    });
+
+    searchInput.addEventListener('input', (e) => {
+      const q = e.target.value.toLowerCase().trim();
+      const filtered = allQuizzes.filter(item => 
+        item.question.toLowerCase().includes(q) || 
+        item.slug.toLowerCase().includes(q)
+      );
+      renderQuizzesTable(filtered);
+    });
+
+    function openEditor(quiz = null) {
+      editorOverlay.style.display = 'flex';
+      
+      if (quiz) {
+        editorTitleText.innerText = "Chỉnh sửa câu đố";
+        editQuizId.value = quiz.id;
+        editSlug.value = quiz.slug;
+        editSlug.setAttribute('disabled', 'true');
+        editOgImage.value = quiz.og_image || '';
+        editQuestion.value = quiz.question;
+        
+        const optionsArr = Array.isArray(quiz.options) ? quiz.options : JSON.parse(quiz.options || '[]');
+        editOpt0.value = optionsArr[0] || '';
+        editOpt1.value = optionsArr[1] || '';
+        editOpt2.value = optionsArr[2] || '';
+        editOpt3.value = optionsArr[3] || '';
+        
+        editCorrectAnswer.value = quiz.correct_answer;
+        editExplanation.value = quiz.explanation;
+        
+        editorDeleteBtn.style.display = 'inline-flex';
+      } else {
+        editorTitleText.innerText = "Tạo câu đố mới";
+        quizEditorForm.reset();
+        editQuizId.value = '';
+        editSlug.removeAttribute('disabled');
+        
+        editorDeleteBtn.style.display = 'none';
+      }
+    }
+
+    const closeEditor = () => {
+      editorOverlay.style.display = 'none';
+    };
+    editorCloseX.addEventListener('click', closeEditor);
+    editorCancelBtn.addEventListener('click', closeEditor);
+    addQuizBtn.addEventListener('click', () => openEditor());
+
+    // Sự kiện xóa trực tiếp trong Modal chi tiết
+    editorDeleteBtn.addEventListener('click', async () => {
+      const id = editQuizId.value;
+      const slug = editSlug.value;
+      if (!id) return;
+      
+      if (confirm(`Cô/chú có thực sự muốn xóa câu đố "${slug}"? Thao tác này không thể hoàn tác.`)) {
+        editorDeleteBtn.setAttribute('disabled', 'true');
+        editorDeleteBtn.innerText = "Đang xóa...";
+
+        const { error } = await supabase
+          .from('quizzes')
+          .delete()
+          .eq('id', parseInt(id, 10));
+
+        editorDeleteBtn.removeAttribute('disabled');
+        editorDeleteBtn.innerText = "Xóa câu đố";
+
+        if (error) {
+          alert("Lỗi xóa dữ liệu: " + error.message);
+        } else {
+          window.showToast("Đã xóa câu đố thành công.");
+          closeEditor();
+          loadQuizzes();
+        }
+      }
+    });
+
+    quizEditorForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const id = editQuizId.value;
+      const slug = editSlug.value.trim();
+      const og_image = editOgImage.value.trim();
+      const question = editQuestion.value.trim();
+      const optionsArr = [
+        editOpt0.value.trim(),
+        editOpt1.value.trim(),
+        editOpt2.value.trim(),
+        editOpt3.value.trim()
+      ];
+      const correct_answer = parseInt(editCorrectAnswer.value, 10);
+      const explanation = editExplanation.value.trim();
+
+      const slugRegex = /^[a-z0-9-]+$/;
+      if (!slugRegex.test(slug)) {
+        alert("Định danh URL (Slug) chỉ được chứa chữ cái thường, số và dấu gạch ngang (không khoảng trắng, không dấu).");
+        return;
+      }
+
+      editorSaveBtn.setAttribute('disabled', 'true');
+      editorSaveBtn.innerText = "Đang lưu...";
+
+      let err = null;
+
+      if (id) {
+        const { error } = await supabase
+          .from('quizzes')
+          .update({
+            question,
+            options: optionsArr,
+            correct_answer,
+            explanation,
+            og_image
+          })
+          .eq('id', parseInt(id, 10));
+        err = error;
+      } else {
+        const { error } = await supabase
+          .from('quizzes')
+          .insert({
+            slug,
+            question,
+            options: optionsArr,
+            correct_answer,
+            explanation,
+            og_image
+          });
+        err = error;
+      }
+
+      editorSaveBtn.removeAttribute('disabled');
+      editorSaveBtn.innerText = "Lưu lại";
+
+      if (err) {
+        alert("Lỗi lưu trữ: " + err.message);
+      } else {
+        window.showToast("Đã lưu câu đố thành công! 🎉");
+        closeEditor();
+        loadQuizzes();
+      }
+    });
+
+    loadQuizzes();
+  });
+</script>
+
+<style>
+  .spinner-icon {
+    animation: rotate 1.5s linear infinite;
+    display: inline-block;
+  }
+
+  @keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  /* --- CẤU HÌNH SLUG & BADGE NOTION --- */
+  .notion-slug-tag {
+    background: rgba(55, 53, 47, 0.05);
+    border: 1px solid var(--notion-border);
+    color: var(--notion-text-main);
+    font-family: 'Space Mono', monospace;
+    font-size: 11.5px;
+    padding: 2px 6px;
+    border-radius: var(--notion-radius);
+  }
+
+  .notion-answer-tag {
+    background: rgba(35, 131, 226, 0.08); /* Notion light blue tag */
+    color: #0f76c7;
+    border: 1px solid rgba(35, 131, 226, 0.15);
+    font-size: 12px;
+    padding: 2px 8px;
+    border-radius: var(--notion-radius);
+    font-weight: 500;
+  }
+
+  /* --- DÒNG CÓ THỂ NHẤP CHỌN --- */
+  .notion-table-row-clickable {
+    cursor: pointer;
+    transition: background 0.1s ease;
+  }
+
+  .notion-table-row-clickable:hover {
+    background: var(--notion-hover-bg) !important;
+  }
+
+  /* --- SOCIAL LOGO SHARING BUTTONS --- */
+  .notion-social-group {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .notion-social-btn {
+    background: #ffffff;
+    border: 1px solid var(--notion-border);
+    color: var(--notion-text-light);
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s ease;
+    padding: 0;
+  }
+
+  .notion-social-btn i {
+    font-size: 14px;
+  }
+
+  .notion-social-btn:hover {
+    background: var(--notion-hover-bg);
+    transform: scale(1.08);
+  }
+
+  .notion-social-btn.facebook:hover {
+    color: #1877F2;
+    border-color: rgba(24, 119, 242, 0.3);
+    background: rgba(24, 119, 242, 0.05);
+  }
+
+  .notion-social-btn.instagram:hover {
+    color: #E1306C;
+    border-color: rgba(225, 48, 108, 0.3);
+    background: rgba(225, 48, 108, 0.05);
+  }
+
+  .notion-social-btn.tiktok:hover {
+    color: #000000;
+    border-color: rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.05);
+  }
+
+  .notion-social-btn.youtube:hover {
+    color: #FF0000;
+    border-color: rgba(255, 0, 0, 0.3);
+    background: rgba(255, 0, 0, 0.05);
+  }
+
+  /* --- NOTION POPOVER MODAL --- */
+  .notion-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(15, 15, 15, 0.15); /* Soft Notion modal backdrop */
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .notion-modal-box {
+    background: #ffffff;
+    border-radius: var(--notion-radius);
+    box-shadow: 0 4px 16px rgba(15, 15, 15, 0.08), 0 0 0 1px rgba(15, 15, 15, 0.04);
+    border: 1px solid var(--notion-border);
+    width: 600px;
+    max-width: 90vw;
+    padding: 24px 28px;
+    max-height: 85vh;
+    overflow-y: auto;
+  }
+
+  .notion-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--notion-border);
+  }
+
+  .notion-close-btn {
+    background: transparent;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    color: var(--notion-text-light);
+    border-radius: 3px;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.1s ease;
+  }
+
+  .notion-close-btn:hover {
+    background: var(--notion-hover-bg);
+    color: var(--notion-text-main);
+  }
+
+  .notion-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  @media (max-width: 580px) {
+    .notion-form-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .notion-form-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .notion-label {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: rgba(55, 53, 47, 0.8);
+  }
+
+  .notion-label-sub {
+    font-size: 11.5px;
+    font-weight: 500;
+    color: var(--notion-text-light);
+  }
+
+  .notion-input-desc {
+    font-size: 11px;
+    color: var(--notion-text-light);
+  }
+
+  .notion-options-box {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    background: rgba(55, 53, 47, 0.015);
+    border: 1px dashed var(--notion-border);
+    padding: 12px;
+    border-radius: var(--notion-radius);
+  }
+
+  @media (max-width: 480px) {
+    .notion-options-box {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .notion-modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    border-top: 1px solid var(--notion-border);
+    padding-top: 16px;
+    margin-top: 12px;
+  }
+</style>

@@ -1,0 +1,393 @@
+---
+import AdminLayout from '../components/AdminLayout.astro';
+
+// Supabase Credentials
+const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL || '';
+const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
+---
+
+<AdminLayout title="Danh sách Lead đăng ký">
+  <!-- NOTION ACTION BAR -->
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; gap: 16px;">
+    <div style="position: relative; max-width: 320px; width: 100%;">
+      <span style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--notion-text-light); z-index: 2;">
+        <i class="ph-light ph-magnifying-glass" style="font-size: 15px;"></i>
+      </span>
+      <input type="text" id="lead-search-input" class="notion-input" placeholder="Tìm kiếm theo email hoặc nguồn..." style="padding-left: 32px;" />
+    </div>
+    <button id="export-csv-btn" class="notion-btn" style="display: inline-flex; align-items: center; gap: 6px;">
+      <i class="ph-light ph-download-simple"></i> Xuất file CSV
+    </button>
+  </div>
+
+  <!-- NOTION TABLE -->
+  <div class="notion-table-wrapper">
+    <table class="notion-table">
+      <thead>
+        <tr>
+          <th style="width: 25%;">Email</th>
+          <th style="width: 15%;">Câu đố (Slug)</th>
+          <th style="width: 12%;">Đáp án đã chọn</th>
+          <th style="width: 12%;">UTM Source</th>
+          <th style="width: 12%;">UTM Medium</th>
+          <th style="width: 12%;">UTM Campaign</th>
+          <th style="width: 12%; text-align: right; padding-right: 16px;">Ngày tạo</th>
+        </tr>
+      </thead>
+      <tbody id="leads-table-body">
+        <tr>
+          <td colspan="7" style="text-align: center; color: var(--notion-text-light); padding: 32px;">
+            <i class="ph-light ph-circle-notch spinner-icon" style="font-size: 16px; margin-right: 6px;"></i> Đang tải danh sách email...
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- NOTION SIMPLE PAGINATION -->
+  <div id="pagination-controls" style="display: none; justify-content: center; align-items: center; gap: 12px; margin-top: 24px;">
+    <button id="prev-page-btn" class="notion-pagination-btn">
+      <i class="ph-light ph-caret-left"></i> Trước
+    </button>
+    <span id="page-indicator" style="font-size: 13px; font-weight: 500; color: var(--notion-text-main);">Trang 1 / 1</span>
+    <button id="next-page-btn" class="notion-pagination-btn">
+      Sau <i class="ph-light ph-caret-right"></i>
+    </button>
+  </div>
+</AdminLayout>
+
+<script>
+  document.addEventListener('DOMContentLoaded', async () => {
+    const supabaseUrl = window.PUBLIC_SUPABASE_URL || '';
+    const supabaseKey = window.PUBLIC_SUPABASE_ANON_KEY || '';
+
+    const { createClient } = await import('https://esm.sh/@supabase/supabase-js@2.43.4');
+    const sessionStr = localStorage.getItem('doca_admin_session');
+    if (!sessionStr) return;
+
+    const session = JSON.parse(sessionStr);
+    const supabase = createClient(supabaseUrl, supabaseKey, {
+      global: {
+        headers: {
+          Authorization: `Bearer ${session.access_token}`
+        }
+      }
+    });
+
+    const leadsTableBody = document.getElementById('leads-table-body');
+    const searchInput = document.getElementById('lead-search-input');
+    const exportCsvBtn = document.getElementById('export-csv-btn');
+    
+    const paginationControls = document.getElementById('pagination-controls');
+    const prevPageBtn = document.getElementById('prev-page-btn');
+    const nextPageBtn = document.getElementById('next-page-btn');
+    const pageIndicator = document.getElementById('page-indicator');
+
+    let allLeads = [];
+    let filteredLeads = [];
+    
+    const limit = 15;
+    let currentPage = 1;
+
+    const loadLeads = async () => {
+      leadsTableBody.innerHTML = `
+        <tr>
+          <td colspan="7" style="text-align: center; color: var(--notion-text-light); padding: 32px;">
+            <i class="ph-light ph-circle-notch spinner-icon" style="font-size: 16px; margin-right: 6px;"></i> Đang tải danh sách email...
+          </td>
+        </tr>
+      `;
+
+      const { data, error } = await supabase
+        .from('quiz_leads')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        leadsTableBody.innerHTML = `
+          <tr>
+            <td colspan="7" style="text-align: center; color: #ff4d4f; padding: 20px;">
+              <i class="ph-light ph-warning-circle" style="font-size: 16px; margin-right: 6px;"></i> Lỗi tải danh sách: ${error.message}
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      allLeads = data || [];
+      filteredLeads = [...allLeads];
+      
+      currentPage = 1;
+      updateTableAndPagination();
+    };
+
+    function updateTableAndPagination() {
+      const totalPages = Math.ceil(filteredLeads.length / limit) || 1;
+      
+      if (currentPage > totalPages) currentPage = totalPages;
+      if (currentPage < 1) currentPage = 1;
+
+      const startIdx = (currentPage - 1) * limit;
+      const endIdx = startIdx + limit;
+      const pageItems = filteredLeads.slice(startIdx, endIdx);
+
+      renderTable(pageItems);
+
+      if (filteredLeads.length > limit) {
+        paginationControls.style.display = 'flex';
+        pageIndicator.innerText = `Trang ${currentPage} / ${totalPages}`;
+
+        if (currentPage === 1) {
+          prevPageBtn.setAttribute('disabled', 'true');
+          prevPageBtn.classList.add('disabled');
+        } else {
+          prevPageBtn.removeAttribute('disabled');
+          prevPageBtn.classList.remove('disabled');
+        }
+
+        if (currentPage === totalPages) {
+          nextPageBtn.setAttribute('disabled', 'true');
+          nextPageBtn.classList.add('disabled');
+        } else {
+          nextPageBtn.removeAttribute('disabled');
+          nextPageBtn.classList.remove('disabled');
+        }
+      } else {
+        paginationControls.style.display = 'none';
+      }
+    }
+
+    function renderTable(items) {
+      if (items.length === 0) {
+        leadsTableBody.innerHTML = `
+          <tr>
+            <td colspan="7" style="text-align: center; color: var(--notion-text-light); padding: 32px;">
+              Không tìm thấy bản ghi lead nào.
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      leadsTableBody.innerHTML = items.map(lead => {
+        const optionMap = ['A', 'B', 'C', 'D'];
+        const choice = optionMap[lead.selected_option] !== undefined ? `Đáp án ${optionMap[lead.selected_option]}` : `Index ${lead.selected_option}`;
+        const dateStr = new Date(lead.created_at).toLocaleString('vi-VN');
+        
+        const utmSourceVal = lead.utm_source || 'organic';
+        const utmMediumVal = lead.utm_medium || 'organic';
+        const utmCampaignVal = lead.utm_campaign || 'organic';
+
+        // Tạo thẻ tag Notion đẹp mắt
+        const sourceTagClass = `notion-tag utm-source-${utmSourceVal.toLowerCase()}`;
+        const mediumTagClass = `notion-tag utm-medium-${utmMediumVal.toLowerCase()}`;
+        const campaignTagClass = `notion-tag utm-campaign-${utmCampaignVal.toLowerCase()}`;
+
+        return `
+          <tr>
+            <td style="padding: 10px 12px; font-weight: 600; color: rgba(55, 53, 47, 0.9);">${lead.email}</td>
+            <td><code class="notion-slug-tag">${lead.quiz_slug}</code></td>
+            <td><span class="notion-plain-tag">${choice}</span></td>
+            <td><span class="${sourceTagClass}">${utmSourceVal}</span></td>
+            <td><span class="${mediumTagClass}">${utmMediumVal}</span></td>
+            <td><span class="${campaignTagClass}">${utmCampaignVal}</span></td>
+            <td style="text-align: right; padding-right: 16px; font-size: 12.5px; color: var(--notion-text-light); white-space: nowrap;">${dateStr}</td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    prevPageBtn.addEventListener('click', () => {
+      if (currentPage > 1) {
+        currentPage--;
+        updateTableAndPagination();
+      }
+    });
+
+    nextPageBtn.addEventListener('click', () => {
+      const totalPages = Math.ceil(filteredLeads.length / limit);
+      if (currentPage < totalPages) {
+        currentPage++;
+        updateTableAndPagination();
+      }
+    });
+
+    searchInput.addEventListener('input', (e) => {
+      const q = e.target.value.toLowerCase().trim();
+      filteredLeads = allLeads.filter(item => 
+        item.email.toLowerCase().includes(q) || 
+        (item.utm_source && item.utm_source.toLowerCase().includes(q)) ||
+        (item.quiz_slug && item.quiz_slug.toLowerCase().includes(q))
+      );
+      currentPage = 1;
+      updateTableAndPagination();
+    });
+
+    exportCsvBtn.addEventListener('click', () => {
+      if (filteredLeads.length === 0) {
+        alert("Không có dữ liệu để xuất file!");
+        return;
+      }
+
+      const headers = ['Email', 'Quiz Slug', 'Selected Option Index', 'UTM Source', 'UTM Medium', 'UTM Campaign', 'Created At'];
+      const rows = filteredLeads.map(l => [
+        l.email,
+        l.quiz_slug,
+        l.selected_option,
+        l.utm_source || 'organic',
+        l.utm_medium || 'organic',
+        l.utm_campaign || 'organic',
+        new Date(l.created_at).toISOString()
+      ]);
+
+      const csvContent = '\uFEFF' + [
+        headers.join(','),
+        ...rows.map(r => r.map(val => `"${String(val).replace(/"/g, '""')}"`).join(','))
+      ].join('\r\n');
+
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.setAttribute("href", url);
+      link.setAttribute("download", `doca_leads_export_${new Date().toISOString().slice(0,10)}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
+      window.showToast("Đã xuất và tải file dữ liệu CSV thành công! 📥");
+    });
+
+    loadLeads();
+  });
+</script>
+
+<style>
+  .spinner-icon {
+    animation: rotate 1.5s linear infinite;
+    display: inline-block;
+  }
+
+  @keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  /* --- PAGINATION BUTTONS NOTION STYLE --- */
+  .notion-pagination-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: #ffffff;
+    border: 1px solid var(--notion-border);
+    color: var(--notion-text-main);
+    font-family: inherit;
+    font-size: 12.5px;
+    font-weight: 500;
+    padding: 4px 10px;
+    border-radius: var(--notion-radius);
+    cursor: pointer;
+    transition: background 0.1s ease;
+  }
+
+  .notion-pagination-btn:hover:not(.disabled) {
+    background: var(--notion-hover-bg);
+  }
+
+  .notion-pagination-btn.disabled {
+    color: var(--notion-text-disabled);
+    cursor: not-allowed;
+    background: rgba(55, 53, 47, 0.02);
+  }
+
+  /* --- SLUG & PLAIN TAGS --- */
+  .notion-slug-tag {
+    background: rgba(55, 53, 47, 0.05);
+    border: 1px solid var(--notion-border);
+    color: var(--notion-text-main);
+    font-family: 'Space Mono', monospace;
+    font-size: 11.5px;
+    padding: 2px 6px;
+    border-radius: var(--notion-radius);
+  }
+
+  .notion-plain-tag {
+    background: rgba(55, 53, 47, 0.04);
+    color: var(--notion-text-main);
+    border: 1px solid var(--notion-border);
+    font-size: 12px;
+    padding: 2px 8px;
+    border-radius: var(--notion-radius);
+    font-weight: 500;
+  }
+
+  /* --- SOFT NOTION TAG COLORS FOR UTM PARAMETERS --- */
+  .notion-tag {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 2px 8px;
+    border-radius: var(--notion-radius);
+    border: 1px solid transparent;
+  }
+
+  /* Source */
+  .utm-source-organic {
+    background: rgba(55, 53, 47, 0.04);
+    color: var(--notion-text-main);
+    border-color: var(--notion-border);
+  }
+  .utm-source-facebook {
+    background: rgba(35, 131, 226, 0.07);
+    color: #0f76c7;
+    border-color: rgba(35, 131, 226, 0.15);
+  }
+  .utm-source-instagram {
+    background: rgba(225, 48, 108, 0.07);
+    color: #c70f55;
+    border-color: rgba(225, 48, 108, 0.15);
+  }
+  .utm-source-tiktok {
+    background: rgba(55, 53, 47, 0.08);
+    color: rgba(55, 53, 47, 0.95);
+    border-color: rgba(55, 53, 47, 0.15);
+  }
+  .utm-source-youtube {
+    background: rgba(211, 47, 47, 0.07);
+    color: #b71c1c;
+    border-color: rgba(211, 47, 47, 0.15);
+  }
+
+  /* Medium */
+  .utm-medium-organic {
+    background: rgba(55, 53, 47, 0.04);
+    color: var(--notion-text-main);
+    border-color: var(--notion-border);
+  }
+  .utm-medium-social {
+    background: rgba(107, 99, 237, 0.07);
+    color: #4a3fc7;
+    border-color: rgba(107, 99, 237, 0.15);
+  }
+  .utm-medium-bio {
+    background: rgba(245, 158, 11, 0.07);
+    color: #b45309;
+    border-color: rgba(245, 158, 11, 0.15);
+  }
+  .utm-medium-video {
+    background: rgba(16, 185, 129, 0.07);
+    color: #047857;
+    border-color: rgba(16, 185, 129, 0.15);
+  }
+
+  /* Campaign */
+  .utm-campaign-organic {
+    background: rgba(55, 53, 47, 0.04);
+    color: var(--notion-text-main);
+    border-color: var(--notion-border);
+  }
+  .utm-campaign-quiz_share {
+    background: rgba(236, 72, 153, 0.07);
+    color: #be185d;
+    border-color: rgba(236, 72, 153, 0.15);
+  }
+</style>
