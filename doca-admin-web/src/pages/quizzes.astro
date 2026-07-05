@@ -44,9 +44,10 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
           <th class="bulk-col" style="width: 4%; display: none; text-align: center; vertical-align: middle; padding: 10px 0;">
             <input type="checkbox" id="select-all-checkbox" style="cursor: pointer;" />
           </th>
+          <th style="width: 8%; text-align: center;">Ảnh</th>
           <th style="width: 12%;">Slug</th>
-          <th style="width: 38%;">Câu hỏi</th>
-          <th style="width: 30%;">Đáp án đúng</th>
+          <th style="width: 33%;">Câu hỏi</th>
+          <th style="width: 27%;">Đáp án đúng</th>
           <th style="width: 20%; text-align: center;">Chia sẻ (Copy link)</th>
         </tr>
       </thead>
@@ -161,6 +162,12 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
     const supabaseUrl = window.PUBLIC_SUPABASE_URL || '';
     const supabaseKey = window.PUBLIC_SUPABASE_ANON_KEY || '';
 
+    const getAbsoluteUrl = (url) => {
+      if (!url) return '';
+      if (url.startsWith('http://') || url.startsWith('https://') || url.startsWith('data:')) return url;
+      return `https://doca.capcat.vn${url}`;
+    };
+
     const { createClient } = await import('https://esm.sh/@supabase/supabase-js@2.43.4');
     const sessionStr = localStorage.getItem('doca_admin_session');
     if (!sessionStr) return;
@@ -208,7 +215,7 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
     let allQuizzes = [];
 
     const loadQuizzes = async () => {
-      const colSpanCount = bulkActive ? 5 : 4;
+      const colSpanCount = bulkActive ? 6 : 5;
       quizzesTableBody.innerHTML = `
         <tr>
           <td colspan="${colSpanCount}" style="text-align: center; color: var(--notion-text-light); padding: 32px;">
@@ -238,7 +245,7 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
     };
 
     function renderQuizzesTable(items) {
-      const colSpanCount = bulkActive ? 5 : 4;
+      const colSpanCount = bulkActive ? 6 : 5;
       if (items.length === 0) {
         quizzesTableBody.innerHTML = `
           <tr>
@@ -260,6 +267,9 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
             <!-- Cột chọn checkbox cho Bulk Action -->
             <td class="bulk-col" style="display: ${isBulkActive}; text-align: center; vertical-align: middle; padding: 10px 0;" onclick="event.stopPropagation()">
               <input type="checkbox" class="row-checkbox" data-id="${q.id}" style="cursor: pointer;" />
+            </td>
+            <td style="text-align: center; vertical-align: middle; padding: 6px 0;">
+              <img src="${getAbsoluteUrl(q.og_image)}" style="width: 48px; height: 27px; object-fit: cover; border-radius: 3px; border: 1px solid var(--notion-border); background: #f7f6f3;" onerror="this.src='/images/brand/symbol-green.png'" />
             </td>
             <td><code class="notion-slug-tag">${q.slug}</code></td>
             <td style="font-weight: 500; color: rgba(55, 53, 47, 0.9);">${q.question}</td>
@@ -399,12 +409,6 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
       );
       renderQuizzesTable(filtered);
     });
-
-    const getAbsoluteUrl = (url) => {
-      if (!url) return '';
-      if (url.startsWith('http://') || url.startsWith('https://') || url.startsWith('data:')) return url;
-      return `https://doca.capcat.vn${url}`;
-    };
 
     function openEditor(quiz = null) {
       editorOverlay.style.display = 'flex';
