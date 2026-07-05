@@ -541,7 +541,7 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
       if (!question) return null;
       
       const isDog = question.toLowerCase().includes('chó') || question.toLowerCase().includes('cún') || question.toLowerCase().includes('dog');
-      const petType = isDog ? 'dog (like Shiba Inu, Golden Retriever, or Corgi)' : 'cute fluffy cat';
+      const petType = isDog ? 'cute fluffy Corgi dog' : 'cute fluffy grey British Longhair cat';
       
       return `A warm Ghibli-style watercolor illustration of a cute ${petType} looking curious, thinking about a trivia quiz. Above its head, a big glowing yellow question mark symbol floats inside a cozy thought bubble, clearly representing a pet quiz game. The background is a clean, cozy warm paper texture with soft pastel colors. The scene must visually represent this topic: "${question}". Minimalist layout, healing (Iyashikei) aesthetic, soft lighting, clean lines, high quality, cinematic wide banner layout, 21:9 aspect ratio composition. Strictly no text, no words, no letters, no typography, no labels, no banners on the image.`;
     }
@@ -558,7 +558,7 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
       const choices = [opt0, opt1, opt2, opt3].filter(Boolean).map((opt, i) => `Phương án ${String.fromCharCode(65 + i)}: "${opt}"`).join(', ');
 
       const isDog = question.toLowerCase().includes('chó') || question.toLowerCase().includes('cún') || question.toLowerCase().includes('dog');
-      const petType = isDog ? 'một chú cún dễ thương (như Shiba Inu hoặc Corgi)' : 'một chú mèo con mập mạp dễ thương';
+      const petType = isDog ? 'một chú chó Corgi chân ngắn tai to đáng yêu' : 'một chú mèo Anh lông dài màu xám mập mạp dễ thương';
       
       return `Hãy vẽ một bức tranh minh họa màu nước phong cách Ghibli ấm áp, mang đậm nét chữa lành (Iyashikei) đặc trưng của ứng dụng thú cưng DOCA.
 
