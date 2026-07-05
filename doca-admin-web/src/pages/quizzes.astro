@@ -256,19 +256,15 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
               <div class="notion-social-group">
                 <button class="notion-social-btn facebook" data-slug="${q.slug}" data-source="facebook" data-medium="social" title="Copy link Facebook">
                   <i class="ph-fill ph-facebook-logo"></i>
-                  <span>FB</span>
                 </button>
                 <button class="notion-social-btn instagram" data-slug="${q.slug}" data-source="instagram" data-medium="bio" title="Copy link Instagram">
                   <i class="ph-fill ph-instagram-logo"></i>
-                  <span>IG</span>
                 </button>
                 <button class="notion-social-btn tiktok" data-slug="${q.slug}" data-source="tiktok" data-medium="bio" title="Copy link TikTok">
                   <i class="ph-fill ph-tiktok-logo"></i>
-                  <span>TT</span>
                 </button>
                 <button class="notion-social-btn youtube" data-slug="${q.slug}" data-source="youtube" data-medium="video" title="Copy link YouTube">
                   <i class="ph-fill ph-youtube-logo"></i>
-                  <span>YT</span>
                 </button>
               </div>
             </td>
@@ -578,55 +574,46 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
   }
 
   .notion-social-btn {
-    background: #ffffff;
-    border: 1px solid var(--notion-border);
-    color: var(--notion-text-light);
-    padding: 3px 8px;
-    height: 22px;
-    border-radius: 9999px; /* Pill shape */
+    border: none;
+    height: 20px;
+    padding: 0 10px;
+    border-radius: 3px; /* Bo góc nhẹ kiểu Tag của Notion */
     cursor: pointer;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 4px;
     transition: all 0.15s ease;
-    font-size: 10px;
-    font-weight: 500;
-    font-family: inherit;
     box-sizing: border-box;
   }
 
   .notion-social-btn i {
-    font-size: 12px;
+    font-size: 13px;
   }
 
   .notion-social-btn:hover {
-    background: var(--notion-hover-bg);
     transform: scale(1.08);
+    filter: brightness(0.92);
   }
 
-  .notion-social-btn.facebook:hover {
+  .notion-social-btn.facebook {
     color: #1877F2;
-    border-color: rgba(24, 119, 242, 0.3);
-    background: rgba(24, 119, 242, 0.05);
+    background: rgba(24, 119, 242, 0.12);
   }
 
-  .notion-social-btn.instagram:hover {
+  .notion-social-btn.instagram {
     color: #E1306C;
-    border-color: rgba(225, 48, 108, 0.3);
-    background: rgba(225, 48, 108, 0.05);
+    background: rgba(225, 48, 108, 0.12);
   }
 
-  .notion-social-btn.tiktok:hover {
-    color: #000000;
-    border-color: rgba(0, 0, 0, 0.3);
-    background: rgba(0, 0, 0, 0.05);
+  .notion-social-btn.tiktok {
+    color: var(--doca-charcoal);
+    background: rgba(21, 23, 15, 0.08);
   }
 
-  .notion-social-btn.youtube:hover {
+  .notion-social-btn.youtube {
     color: #FF0000;
-    border-color: rgba(255, 0, 0, 0.3);
-    background: rgba(255, 0, 0, 0.05);
+    background: rgba(255, 0, 0, 0.12);
+  }
   }
 
   /* --- NOTION POPOVER MODAL --- */
