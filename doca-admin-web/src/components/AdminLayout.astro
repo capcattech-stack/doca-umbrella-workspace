@@ -58,13 +58,10 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
 		<div class="notion-layout-grid">
 			<!-- SIDEBAR TRÁI - PHONG CÁCH NOTION (PAPER NỀN GIẤY) -->
 			<aside class="notion-sidebar">
-				<!-- Header của Notion (Workspace Switcher) -->
-				<div class="notion-sidebar-header">
-					<img src="/images/brand/symbol-green.png" alt="DOCA Logo" class="notion-workspace-logo" onerror="this.src='https://capcat.vn/images/brand/symbol-green.png'" />
-					<div class="notion-workspace-info">
-						<div class="notion-workspace-name">Doca Workspace</div>
-						<div class="notion-workspace-plan">Góc Vận Hành Admin</div>
-					</div>
+				<!-- Header của Notion (Workspace Switcher) với Logo thương hiệu ngang -->
+				<div class="notion-sidebar-header" style="display: flex; flex-direction: column; align-items: flex-start; gap: 4px; padding: 12px 14px 8px 14px; margin-bottom: 12px; border-bottom: 1px solid var(--notion-border);">
+					<img src="/images/brand/logo-dark.png" alt="DOCA Logo" style="height: 24px; object-fit: contain;" onerror="this.src='https://capcat.vn/images/brand/logo-dark.png'" />
+					<div class="notion-workspace-plan" style="font-size: 10px; color: var(--notion-text-light); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; margin-top: 2px;">Góc Vận Hành Admin</div>
 				</div>
 
 				<!-- Menu 2 Cấp -->
@@ -144,21 +141,32 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
 
 			<!-- KHU VỰC NỘI DUNG PHẢI - MÀU MÂY (CLOUD) THOÁNG ĐÃNG -->
 			<main class="notion-content-area">
-				<!-- Thanh Top Bar với nút đóng/mở Sidebar -->
-				<header class="notion-top-bar" style="display: flex; align-items: center; justify-content: flex-start; gap: 12px; height: 45px; padding: 0 24px; box-sizing: border-box;">
-					<button id="sidebar-toggle-btn" class="notion-icon-btn" title="Ẩn/hiện Sidebar">
-						<i class="ph-light ph-sidebar" style="font-size: 16px;"></i>
-					</button>
-					<div class="notion-breadcrumb">
-						<span class="breadcrumb-parent">Doca Workspace</span>
-						<span class="breadcrumb-separator">/</span>
-						<span class="breadcrumb-current" id="notion-breadcrumb-current">{title}</span>
+				<!-- Thanh Top Bar với nút đóng/mở Sidebar và status badge logo -->
+				<header class="notion-top-bar" style="display: flex; align-items: center; justify-content: space-between; height: 45px; padding: 0 24px; box-sizing: border-box; width: 100%;">
+					<div style="display: flex; align-items: center; gap: 12px;">
+						<button id="sidebar-toggle-btn" class="notion-icon-btn" title="Ẩn/hiện Sidebar">
+							<i class="ph-light ph-sidebar" style="font-size: 16px;"></i>
+						</button>
+						<div class="notion-breadcrumb">
+							<span class="breadcrumb-parent">Doca Workspace</span>
+							<span class="breadcrumb-separator">/</span>
+							<span class="breadcrumb-current" id="notion-breadcrumb-current">{title}</span>
+						</div>
+					</div>
+
+					<!-- Trang trí Status Badge bằng Symbol Doca -->
+					<div style="display: flex; align-items: center; gap: 8px;">
+						<span style="font-size: 11px; font-weight: 500; color: var(--notion-text-light); text-transform: uppercase; letter-spacing: 0.05em;">Đã kết nối</span>
+						<div style="width: 6px; height: 6px; border-radius: 50%; background-color: var(--doca-sprout);"></div>
+						<img src="/images/brand/symbol-green.png" alt="Doca Pet Symbol" style="width: 20px; height: 20px; object-fit: contain; margin-left: 4px;" />
 					</div>
 				</header>
 				
 				<!-- Thân nội dung Notion (Chế độ Full-Width tối ưu diện tích) -->
-				<div class="notion-main-body">
-					<h1 class="notion-page-title">{title}</h1>
+					<h1 class="notion-page-title" style="display: flex; align-items: center; gap: 8px;">
+						<img src="/images/brand/symbol-green.png" alt="Doca Symbol" style="width: 26px; height: 26px; object-fit: contain; margin-top: -2px;" />
+						<span>{title}</span>
+					</h1>
 					<div class="notion-page-content">
 						<slot />
 					</div>
