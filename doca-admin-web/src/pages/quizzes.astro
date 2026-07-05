@@ -487,58 +487,29 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
 
       try {
         btnGenerateAiImg.disabled = true;
-        btnGenerateAiImg.innerHTML = '<i class="ph-light ph-circle-notch spinner-icon"></i> Đang thiết kế...';
+        btnGenerateAiImg.innerHTML = '<i class="ph-light ph-circle-notch spinner-icon"></i> Đang vẽ ảnh...';
         if (previewContainer && previewStatus) {
           previewContainer.style.display = 'block';
-          previewStatus.innerText = "Gemini đang thiết kế mô tả vẽ ảnh...";
+          previewStatus.innerText = "Đang xây dựng mô tả và gửi yêu cầu tạo ảnh...";
         }
 
-        // BƯỚC 1: Dịch câu hỏi và thiết kế Prompt tiếng Anh tối ưu bằng Gemini 2.5 Flash
-        const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+        // Thu thập các phương án trả lời trắc nghiệm hiện có để điền vào Prompt
+        const opt0 = editOpt0.value.trim();
+        const opt1 = editOpt1.value.trim();
+        const opt2 = editOpt2.value.trim();
+        const opt3 = editOpt3.value.trim();
+        const choices = [opt0, opt1, opt2, opt3].filter(Boolean).join(', ');
+
+        // Nhận diện chó hay mèo từ câu hỏi
         const isDog = question.toLowerCase().includes('chó') || question.toLowerCase().includes('cún') || question.toLowerCase().includes('dog');
         const petType = isDog ? 'dog (like Shiba Inu, Golden Retriever, or Corgi)' : 'cute fluffy cat';
-        
-        const systemPrompt = `You are an art director for "Doca", a cozy pet brand. Your job is to translate a Vietnamese pet quiz question into a highly detailed English image generation prompt for Imagen 3.
-The style must be: warm Ghibli-style watercolor illustration, minimalist, healing (Iyashikei) aesthetic, cozy soft pastel color palette, warm paper texture, soft lighting, clean lines.
-The image MUST feature a cute ${petType} looking curious, thinking or posing in a cozy context matching the question.
-It MUST contain a very prominent stylized question mark symbol floating in a speech bubble or glowing thought bubble above its head to clearly indicate it is a quiz.
-Describe a concrete scene that illustrates the concept of this specific quiz question: "${question}".
-Only return the final English prompt text, no headers, no intro, no quotes.`;
 
-        const geminiRes = await fetch(geminiUrl, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            contents: [
-              {
-                parts: [
-                  { text: systemPrompt }
-                ]
-              }
-            ]
-          })
-        });
+        // Prompt đục lỗ chuẩn phong cách ấm áp Ghibli và Iyashikei chữa lành của DOCA
+        const promptText = `A warm Ghibli-style watercolor illustration of a cute ${petType} looking curious, thinking about a trivia quiz. Above its head, a big glowing yellow question mark symbol floats inside a cozy thought bubble, clearly representing a pet quiz game. The background is a clean, cozy warm paper texture with soft pastel colors. The scene must visually represent this topic: "${question}". It should also subtly incorporate elements related to these options: "${choices}". Minimalist layout, healing (Iyashikei) aesthetic, soft lighting, clean lines, high quality.`;
 
-        if (!geminiRes.ok) {
-          throw new Error(`Lỗi Gemini: ${geminiRes.status} ${geminiRes.statusText}`);
-        }
+        console.log("Direct filled prompt for Imagen 3:", promptText);
 
-        const geminiData = await geminiRes.json();
-        const generatedPrompt = geminiData.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
-        if (!generatedPrompt) {
-          throw new Error("Không thể tạo mô tả vẽ ảnh từ câu hỏi.");
-        }
-
-        console.log("Generated Prompt for Imagen 3:", generatedPrompt);
-
-        // BƯỚC 2: Vẽ ảnh bằng Imagen 3.0
-        btnGenerateAiImg.innerHTML = '<i class="ph-light ph-circle-notch spinner-icon"></i> Đang vẽ ảnh...';
-        if (previewStatus) {
-          previewStatus.innerText = "Imagen 3 đang vẽ hình minh họa (16:9)...";
-        }
-
+        // BƯỚC DUY NHẤT: Gọi Imagen 3.0 vẽ hình minh họa (16:9)
         const imagenUrl = `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=${apiKey}`;
         const imagenRes = await fetch(imagenUrl, {
           method: 'POST',
@@ -548,7 +519,7 @@ Only return the final English prompt text, no headers, no intro, no quotes.`;
           body: JSON.stringify({
             instances: [
               {
-                prompt: generatedPrompt
+                prompt: promptText
               }
             ],
             parameters: {
