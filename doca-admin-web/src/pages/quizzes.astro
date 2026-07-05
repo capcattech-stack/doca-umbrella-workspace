@@ -199,6 +199,44 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
       return `https://doca.capcat.vn${url}`;
     };
 
+    const setPreviewImage = (url, statusText = "Ảnh hiện tại của câu đố") => {
+      const previewContainer = document.getElementById('ai-img-preview-container');
+      const previewImg = document.getElementById('ai-img-preview');
+      const previewStatus = document.getElementById('ai-img-status');
+      if (!previewContainer || !previewImg) return;
+
+      previewContainer.style.display = 'block';
+      previewImg.onerror = null;
+
+      const fallbackLogo = 'https://doca.capcat.vn/images/brand/symbol-green.png';
+      const isFallback = !url || url === fallbackLogo || url.includes('symbol-green.png') || url === '/images/brand/symbol-green.png';
+
+      if (isFallback) {
+        previewImg.src = fallbackLogo;
+        previewImg.style.objectFit = 'contain';
+        previewImg.style.padding = '20px';
+        previewImg.style.opacity = '0.55';
+        if (previewStatus) previewStatus.innerText = "Ảnh logo mặc định";
+      } else {
+        previewImg.src = getAbsoluteUrl(url);
+        previewImg.style.objectFit = 'cover';
+        previewImg.style.padding = '0';
+        previewImg.style.opacity = '1';
+        if (previewStatus) previewStatus.innerText = statusText;
+
+        previewImg.onerror = () => {
+          previewImg.onerror = null;
+          previewImg.src = fallbackLogo;
+          previewImg.style.objectFit = 'contain';
+          previewImg.style.padding = '20px';
+          previewImg.style.opacity = '0.55';
+          if (previewStatus) {
+            previewStatus.innerHTML = '<span style="color: #8a9b89; font-weight: 500;">Không tải được ảnh, dùng logo tạm</span>';
+          }
+        };
+      }
+    };
+
     const { createClient } = await import('https://esm.sh/@supabase/supabase-js@2.43.4');
     const sessionStr = localStorage.getItem('doca_admin_session');
     if (!sessionStr) return;
@@ -478,13 +516,7 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
         
         editorDeleteBtn.style.display = 'inline-flex';
         
-        if (previewContainer && previewImg && previewStatus && quiz.og_image) {
-          previewContainer.style.display = 'block';
-          previewImg.src = getAbsoluteUrl(quiz.og_image);
-          previewStatus.innerText = "Ảnh hiện tại của câu đố";
-        } else if (previewContainer) {
-          previewContainer.style.display = 'none';
-        }
+        setPreviewImage(quiz.og_image, "Ảnh hiện tại của câu đố");
       } else {
         editorTitleText.innerText = "Tạo câu đố mới";
         quizEditorForm.reset();
@@ -492,9 +524,7 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
         editSlug.removeAttribute('disabled');
         
         editorDeleteBtn.style.display = 'none';
-        if (previewContainer) {
-          previewContainer.style.display = 'none';
-        }
+        setPreviewImage('', "Ảnh logo mặc định");
       }
     }
 
@@ -606,13 +636,7 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
           throw new Error("Không nhận được dữ liệu ảnh vẽ từ AI.");
         }
 
-        if (previewImg) {
-          previewImg.src = `data:image/jpeg;base64,${base64Image}`;
-        }
-        
-        if (previewStatus) {
-          previewStatus.innerText = "Đang tải ảnh vẽ lên Supabase Storage...";
-        }
+        setPreviewImage(`data:image/jpeg;base64,${base64Image}`, "Đang tải ảnh vẽ lên Supabase Storage...");
 
         // Chuyển Base64 thành Blob
         const byteCharacters = atob(base64Image);
@@ -626,10 +650,7 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
         const publicUrl = await uploadBlobToSupabase(blob, slug, 'image/jpeg');
         
         editOgImage.value = publicUrl;
-        if (previewImg) previewImg.src = publicUrl;
-        if (previewStatus) {
-          previewStatus.innerHTML = '<span style="color: #2b7a3e; font-weight: 500;">✓ Vẽ và tải ảnh lên thành công!</span>';
-        }
+        setPreviewImage(publicUrl, "✓ Vẽ và tải ảnh lên thành công!");
         window.showToast("Đã vẽ và đồng bộ hình ảnh AI thành công! ✨");
 
       } catch (err) {
@@ -714,18 +735,12 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
           btnUploadLocalImg.disabled = true;
           btnUploadLocalImg.innerHTML = '<i class="ph-light ph-circle-notch spinner-icon"></i> Đang tải...';
         }
-        if (previewContainer && previewStatus) {
-          previewContainer.style.display = 'block';
-          previewStatus.innerText = "Đang tải ảnh từ máy tính lên Supabase...";
-        }
+        setPreviewImage('', "Đang tải ảnh từ máy tính lên Supabase...");
 
         const publicUrl = await uploadBlobToSupabase(file, slug, file.type);
 
         editOgImage.value = publicUrl;
-        if (previewImg) previewImg.src = publicUrl;
-        if (previewStatus) {
-          previewStatus.innerHTML = '<span style="color: #2b7a3e; font-weight: 500;">✓ Tải ảnh lên thành công!</span>';
-        }
+        setPreviewImage(publicUrl, "✓ Tải ảnh lên thành công!");
         window.showToast("Đã tải ảnh lên Supabase thành công! 📦");
       } catch (err) {
         console.error(err);
