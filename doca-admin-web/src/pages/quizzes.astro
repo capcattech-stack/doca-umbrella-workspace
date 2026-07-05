@@ -83,11 +83,34 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
           <!-- OG Image -->
           <div class="notion-form-item">
             <label class="notion-label">Ảnh xem trước (og:image) *</label>
-            <div style="display: flex; gap: 8px; align-items: stretch;">
+            <div style="display: flex; gap: 8px; align-items: stretch; position: relative;">
               <input type="text" id="edit-og-image" class="notion-input" placeholder="Ví dụ: /images/quizzes/meo-hieu-tieng-nguoi.png" required style="flex-grow: 1;" />
-              <button type="button" id="btn-generate-ai-img" class="notion-btn" style="white-space: nowrap; height: 32px; padding: 0 12px; display: inline-flex; align-items: center; gap: 6px; font-size: 12px; background: rgba(35, 131, 226, 0.08); color: #0f76c7; border-color: rgba(35, 131, 226, 0.15); border-radius: var(--notion-radius); cursor: pointer; font-weight: 500;">
-                <i class="ph-light ph-sparkles"></i> Tạo ảnh AI
+              
+              <!-- Cụm Split Button tạo ảnh AI -->
+              <div class="notion-split-btn-group" style="position: relative; display: inline-flex; gap: 1px;">
+                <button type="button" id="btn-generate-ai-img" class="notion-btn" style="white-space: nowrap; height: 32px; padding: 0 10px 0 12px; display: inline-flex; align-items: center; gap: 4px; font-size: 12px; background: rgba(35, 131, 226, 0.08); color: #0f76c7; border-color: rgba(35, 131, 226, 0.15); border-radius: var(--notion-radius) 0 0 var(--notion-radius); cursor: pointer; font-weight: 500; border-right: none; margin: 0;">
+                  <i class="ph-light ph-sparkles"></i> Tạo ảnh AI
+                </button>
+                <button type="button" id="btn-ai-dropdown-toggle" class="notion-btn" style="height: 32px; padding: 0 6px; display: inline-flex; align-items: center; justify-content: center; font-size: 12px; background: rgba(35, 131, 226, 0.08); color: #0f76c7; border-color: rgba(35, 131, 226, 0.15); border-radius: 0 var(--notion-radius) var(--notion-radius) 0; cursor: pointer; margin: 0; border-left: 1px solid rgba(35, 131, 226, 0.15);">
+                  <i class="ph-light ph-caret-down"></i>
+                </button>
+                
+                <!-- Dropdown Menu -->
+                <div id="ai-dropdown-menu" class="notion-dropdown-menu" style="display: none; position: absolute; right: 0; top: calc(100% + 4px); background: #ffffff; border: 1px solid var(--notion-border); border-radius: var(--notion-radius); box-shadow: 0 4px 12px rgba(15, 15, 15, 0.1); z-index: 100; min-width: 190px; padding: 4px 0;">
+                  <button type="button" id="opt-generate-auto" class="notion-dropdown-item" style="width: 100%; border: none; background: none; text-align: left; padding: 6px 12px; font-size: 12px; color: var(--notion-text); cursor: pointer; display: flex; align-items: center; gap: 8px;">
+                    <i class="ph-light ph-cpu" style="font-size: 14px;"></i> Tạo tự động (API)
+                  </button>
+                  <button type="button" id="opt-copy-prompt" class="notion-dropdown-item" style="width: 100%; border: none; background: none; text-align: left; padding: 6px 12px; font-size: 12px; color: var(--notion-text); cursor: pointer; display: flex; align-items: center; gap: 8px;">
+                    <i class="ph-light ph-copy" style="font-size: 14px;"></i> Copy Prompt cho ChatGPT
+                  </button>
+                </div>
+              </div>
+
+              <!-- Nút tải ảnh từ máy tính -->
+              <button type="button" id="btn-upload-local-img" class="notion-btn" style="white-space: nowrap; height: 32px; padding: 0 12px; display: inline-flex; align-items: center; gap: 6px; font-size: 12px; background: rgba(55, 53, 47, 0.05); color: var(--notion-text); border-color: var(--notion-border); border-radius: var(--notion-radius); cursor: pointer; font-weight: 500;">
+                <i class="ph-light ph-upload-simple"></i> Tải ảnh lên
               </button>
+              <input type="file" id="local-img-input" accept="image/*" style="display: none;" />
             </div>
             <span class="notion-input-desc">Chuẩn kích thước tiếp thị: 1200x630px.</span>
             
@@ -203,6 +226,15 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
     const editOpt3 = document.getElementById('edit-opt-3');
     const editCorrectAnswer = document.getElementById('edit-correct-answer');
     const editExplanation = document.getElementById('edit-explanation');
+
+    // Các phần tử cho luồng xử lý và tải ảnh AI / Ảnh local
+    const btnGenerateAiImg = document.getElementById('btn-generate-ai-img');
+    const btnAiDropdownToggle = document.getElementById('btn-ai-dropdown-toggle');
+    const aiDropdownMenu = document.getElementById('ai-dropdown-menu');
+    const optGenerateAuto = document.getElementById('opt-generate-auto');
+    const optCopyPrompt = document.getElementById('opt-copy-prompt');
+    const btnUploadLocalImg = document.getElementById('btn-upload-local-img');
+    const localImgInput = document.getElementById('local-img-input');
 
     // Các biến cho chế độ Bulk Action chọn nhiều
     let bulkActive = false;
@@ -465,9 +497,45 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
     editorCancelBtn.addEventListener('click', closeEditor);
     addQuizBtn.addEventListener('click', () => openEditor());
 
-    // --- XỬ LÝ SINH ẢNH MINH HỌA BẰNG AI (GEMINI + IMAGEN) ---
-    const btnGenerateAiImg = document.getElementById('btn-generate-ai-img');
-    btnGenerateAiImg?.addEventListener('click', async () => {
+    // --- HÀM HELPER XÂY DỰNG PROMPT VẼ ẢNH CHUẨN MOOD DOCA ---
+    function buildAIPrompt() {
+      const question = editQuestion.value.trim();
+      if (!question) return null;
+      
+      const isDog = question.toLowerCase().includes('chó') || question.toLowerCase().includes('cún') || question.toLowerCase().includes('dog');
+      const petType = isDog ? 'dog (like Shiba Inu, Golden Retriever, or Corgi)' : 'cute fluffy cat';
+      
+      return `A warm Ghibli-style watercolor illustration of a cute ${petType} looking curious, thinking about a trivia quiz. Above its head, a big glowing yellow question mark symbol floats inside a cozy thought bubble, clearly representing a pet quiz game. The background is a clean, cozy warm paper texture with soft pastel colors. The scene must visually represent this topic: "${question}". Minimalist layout, healing (Iyashikei) aesthetic, soft lighting, clean lines, high quality, 16:9 aspect ratio. Strictly no text, no words, no letters, no typography, no labels, no banners on the image.`;
+    }
+
+    // --- HÀM HELPER UPLOAD BLOB LÊN SUPABASE STORAGE ---
+    async function uploadBlobToSupabase(blob, slug, mimeType = 'image/jpeg') {
+      const fileSlug = slug || 'quiz-image';
+      const ext = mimeType.split('/')[1] || 'jpg';
+      const fileName = `quiz-covers/${fileSlug}-${Date.now()}.${ext}`;
+
+      const storageUrl = `${supabaseUrl}/storage/v1/object/audio/${fileName}`;
+      const uploadRes = await fetch(storageUrl, {
+        method: 'POST',
+        headers: {
+          'apikey': supabaseKey,
+          'Authorization': `Bearer ${session.access_token}`,
+          'Content-Type': mimeType
+        },
+        body: blob
+      });
+
+      if (!uploadRes.ok) {
+        const uploadErr = await uploadRes.text();
+        console.error("Lỗi upload storage:", uploadErr);
+        throw new Error("Không thể tải hình ảnh lên Supabase Storage.");
+      }
+
+      return `${supabaseUrl}/storage/v1/object/public/audio/${fileName}`;
+    }
+
+    // --- CHẠY TẠO ẢNH TỰ ĐỘNG BẰNG IMAGEN 4 ---
+    async function runAutoGenerate() {
       const question = editQuestion.value.trim();
       const slug = editSlug.value.trim();
       if (!question) {
@@ -486,30 +554,18 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
       const previewStatus = document.getElementById('ai-img-status');
 
       try {
-        btnGenerateAiImg.disabled = true;
-        btnGenerateAiImg.innerHTML = '<i class="ph-light ph-circle-notch spinner-icon"></i> Đang vẽ ảnh...';
+        if (btnGenerateAiImg) {
+          btnGenerateAiImg.disabled = true;
+          btnGenerateAiImg.innerHTML = '<i class="ph-light ph-circle-notch spinner-icon"></i> Đang vẽ...';
+        }
         if (previewContainer && previewStatus) {
           previewContainer.style.display = 'block';
-          previewStatus.innerText = "Đang xây dựng mô tả và gửi yêu cầu tạo ảnh...";
+          previewStatus.innerText = "Đang kết nối Imagen 4 để vẽ ảnh (16:9)...";
         }
 
-        // Thu thập các phương án trả lời trắc nghiệm hiện có để điền vào Prompt
-        const opt0 = editOpt0.value.trim();
-        const opt1 = editOpt1.value.trim();
-        const opt2 = editOpt2.value.trim();
-        const opt3 = editOpt3.value.trim();
-        const choices = [opt0, opt1, opt2, opt3].filter(Boolean).join(', ');
+        const promptText = buildAIPrompt();
+        console.log("Direct Imagen 4 prompt:", promptText);
 
-        // Nhận diện chó hay mèo từ câu hỏi
-        const isDog = question.toLowerCase().includes('chó') || question.toLowerCase().includes('cún') || question.toLowerCase().includes('dog');
-        const petType = isDog ? 'dog (like Shiba Inu, Golden Retriever, or Corgi)' : 'cute fluffy cat';
-
-        // Prompt đục lỗ chuẩn phong cách ấm áp Ghibli và Iyashikei chữa lành của DOCA (không nhét đáp án để tránh AI vẽ chữ lỗi font)
-        const promptText = `A warm Ghibli-style watercolor illustration of a cute ${petType} looking curious, thinking about a trivia quiz. Above its head, a big glowing yellow question mark symbol floats inside a cozy thought bubble, clearly representing a pet quiz game. The background is a clean, cozy warm paper texture with soft pastel colors. The scene must visually represent this topic: "${question}". Minimalist layout, healing (Iyashikei) aesthetic, soft lighting, clean lines, high quality. Strictly no text, no words, no letters, no typography, no labels, no banners on the image.`;
-
-        console.log("Direct filled prompt for Imagen 3:", promptText);
-
-        // BƯỚC DUY NHẤT: Gọi Imagen 4.0 vẽ hình minh họa (16:9)
         const imagenUrl = `https://generativelanguage.googleapis.com/v1beta/models/imagen-4.0-generate-001:predict?key=${apiKey}`;
         const imagenRes = await fetch(imagenUrl, {
           method: 'POST',
@@ -546,12 +602,11 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
           previewImg.src = `data:image/jpeg;base64,${base64Image}`;
         }
         
-        // BƯỚC 3: Tải ảnh lên Supabase Storage (bucket audio)
-        btnGenerateAiImg.innerHTML = '<i class="ph-light ph-circle-notch spinner-icon"></i> Đang tải lên...';
         if (previewStatus) {
-          previewStatus.innerText = "Đang tải ảnh lên Supabase Storage...";
+          previewStatus.innerText = "Đang tải ảnh vẽ lên Supabase Storage...";
         }
 
+        // Chuyển Base64 thành Blob
         const byteCharacters = atob(base64Image);
         const byteNumbers = new Array(byteCharacters.length);
         for (let i = 0; i < byteCharacters.length; i++) {
@@ -560,34 +615,14 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
         const byteArray = new Uint8Array(byteNumbers);
         const blob = new Blob([byteArray], { type: 'image/jpeg' });
 
-        const fileSlug = slug || 'quiz-image';
-        const fileName = `quiz-covers/${fileSlug}-${Date.now()}.jpg`;
-
-        const storageUrl = `${supabaseUrl}/storage/v1/object/audio/${fileName}`;
-        const uploadRes = await fetch(storageUrl, {
-          method: 'POST',
-          headers: {
-            'apikey': supabaseKey,
-            'Authorization': `Bearer ${session.access_token}`,
-            'Content-Type': 'image/jpeg'
-          },
-          body: blob
-        });
-
-        if (!uploadRes.ok) {
-          const uploadErr = await uploadRes.text();
-          console.error("Lỗi upload storage:", uploadErr);
-          throw new Error("Không thể tải hình ảnh lên Supabase Storage.");
-        }
-
-        const publicUrl = `${supabaseUrl}/storage/v1/object/public/audio/${fileName}`;
+        const publicUrl = await uploadBlobToSupabase(blob, slug, 'image/jpeg');
         
         editOgImage.value = publicUrl;
         if (previewImg) previewImg.src = publicUrl;
         if (previewStatus) {
-          previewStatus.innerHTML = '<span style="color: #2b7a3e; font-weight: 500;">✓ Tạo và tải ảnh lên thành công!</span>';
+          previewStatus.innerHTML = '<span style="color: #2b7a3e; font-weight: 500;">✓ Vẽ và tải ảnh lên thành công!</span>';
         }
-        window.showToast("Đã tạo và đồng bộ hình ảnh AI thành công! ✨");
+        window.showToast("Đã vẽ và đồng bộ hình ảnh AI thành công! ✨");
 
       } catch (err) {
         console.error(err);
@@ -596,8 +631,106 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
           previewStatus.innerHTML = `<span style="color: #d32f2f;">✕ Thất bại: ${err.message}</span>`;
         }
       } finally {
-        btnGenerateAiImg.disabled = false;
-        btnGenerateAiImg.innerHTML = '<i class="ph-light ph-sparkles"></i> Tạo ảnh AI';
+        if (btnGenerateAiImg) {
+          btnGenerateAiImg.disabled = false;
+          btnGenerateAiImg.innerHTML = '<i class="ph-light ph-sparkles"></i> Tạo ảnh AI';
+        }
+      }
+    }
+
+    // --- SỰ KIỆN CLICK CHO NÚT CHÍNH TẠO ẢNH ---
+    btnGenerateAiImg?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      runAutoGenerate();
+    });
+
+    // --- ĐÓNG MỞ DROPDOWN MENU ---
+    btnAiDropdownToggle?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (aiDropdownMenu) {
+        const isHidden = aiDropdownMenu.style.display === 'none';
+        aiDropdownMenu.style.display = isHidden ? 'block' : 'none';
+      }
+    });
+
+    // Click bên ngoài tự động đóng Dropdown
+    document.addEventListener('click', () => {
+      if (aiDropdownMenu) {
+        aiDropdownMenu.style.display = 'none';
+      }
+    });
+
+    // Dropdown Option 1: Tạo tự động
+    optGenerateAuto?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (aiDropdownMenu) aiDropdownMenu.style.display = 'none';
+      runAutoGenerate();
+    });
+
+    // Dropdown Option 2: Copy Prompt cho ChatGPT
+    optCopyPrompt?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (aiDropdownMenu) aiDropdownMenu.style.display = 'none';
+
+      const promptText = buildAIPrompt();
+      if (!promptText) {
+        alert("Vui lòng nhập Câu hỏi trước khi sao chép Prompt.");
+        return;
+      }
+
+      navigator.clipboard.writeText(promptText).then(() => {
+        window.showToast("Đã copy Prompt vẽ ảnh Ghibli vào clipboard! ✨");
+      }).catch(err => {
+        console.error("Lỗi copy:", err);
+        alert("Không thể tự động sao chép vào bộ nhớ tạm.");
+      });
+    });
+
+    // --- SỰ KIỆN TẢI ẢNH TỪ MÁY TÍNH (LOCAL UPLOAD) ---
+    btnUploadLocalImg?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      localImgInput?.click();
+    });
+
+    localImgInput?.addEventListener('change', async (e) => {
+      const file = e.target.files?.[0];
+      if (!file) return;
+
+      const slug = editSlug.value.trim();
+      const previewContainer = document.getElementById('ai-img-preview-container');
+      const previewImg = document.getElementById('ai-img-preview');
+      const previewStatus = document.getElementById('ai-img-status');
+
+      try {
+        if (btnUploadLocalImg) {
+          btnUploadLocalImg.disabled = true;
+          btnUploadLocalImg.innerHTML = '<i class="ph-light ph-circle-notch spinner-icon"></i> Đang tải...';
+        }
+        if (previewContainer && previewStatus) {
+          previewContainer.style.display = 'block';
+          previewStatus.innerText = "Đang tải ảnh từ máy tính lên Supabase...";
+        }
+
+        const publicUrl = await uploadBlobToSupabase(file, slug, file.type);
+
+        editOgImage.value = publicUrl;
+        if (previewImg) previewImg.src = publicUrl;
+        if (previewStatus) {
+          previewStatus.innerHTML = '<span style="color: #2b7a3e; font-weight: 500;">✓ Tải ảnh lên thành công!</span>';
+        }
+        window.showToast("Đã tải ảnh lên Supabase thành công! 📦");
+      } catch (err) {
+        console.error(err);
+        alert("Lỗi tải ảnh lên: " + err.message);
+        if (previewStatus) {
+          previewStatus.innerHTML = `<span style="color: #d32f2f;">✕ Thất bại: ${err.message}</span>`;
+        }
+      } finally {
+        if (btnUploadLocalImg) {
+          btnUploadLocalImg.disabled = false;
+          btnUploadLocalImg.innerHTML = '<i class="ph-light ph-upload-simple"></i> Tải ảnh lên';
+        }
+        if (localImgInput) localImgInput.value = '';
       }
     });
 
@@ -909,5 +1042,12 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
     border-top: 1px solid var(--notion-border);
     padding-top: 16px;
     margin-top: 12px;
+  }
+
+  .notion-dropdown-item {
+    transition: background 0.12s ease;
+  }
+  .notion-dropdown-item:hover {
+    background: var(--notion-hover-bg) !important;
   }
 </style>
