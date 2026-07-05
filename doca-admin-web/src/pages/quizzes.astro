@@ -546,6 +546,37 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
       return `A warm Ghibli-style watercolor illustration of a cute ${petType} looking curious, thinking about a trivia quiz. Above its head, a big glowing yellow question mark symbol floats inside a cozy thought bubble, clearly representing a pet quiz game. The background is a clean, cozy warm paper texture with soft pastel colors. The scene must visually represent this topic: "${question}". Minimalist layout, healing (Iyashikei) aesthetic, soft lighting, clean lines, high quality, cinematic wide banner layout, 21:9 aspect ratio composition. Strictly no text, no words, no letters, no typography, no labels, no banners on the image.`;
     }
 
+    // --- HÀM HELPER XÂY DỰNG PROMPT TIẾNG VIỆT ĐẦY ĐỦ NGỮ CẢNH (CÂU HỎI & CÁC ĐÁP ÁN) CHO CHATGPT/GEMINI ---
+    function buildVietnamesePrompt() {
+      const question = editQuestion.value.trim();
+      if (!question) return null;
+      
+      const opt0 = editOpt0.value.trim();
+      const opt1 = editOpt1.value.trim();
+      const opt2 = editOpt2.value.trim();
+      const opt3 = editOpt3.value.trim();
+      const choices = [opt0, opt1, opt2, opt3].filter(Boolean).map((opt, i) => `Phương án ${String.fromCharCode(65 + i)}: "${opt}"`).join(', ');
+
+      const isDog = question.toLowerCase().includes('chó') || question.toLowerCase().includes('cún') || question.toLowerCase().includes('dog');
+      const petType = isDog ? 'một chú cún dễ thương (như Shiba Inu hoặc Corgi)' : 'một chú mèo con mập mạp dễ thương';
+      
+      return `Hãy vẽ một bức tranh minh họa màu nước phong cách Ghibli ấm áp, mang đậm nét chữa lành (Iyashikei) đặc trưng của ứng dụng thú cưng DOCA.
+
+[Ý TƯỞNG BỐ CỤC CHUNG]:
+- Chủ thể chính: ${petType} đang nghiêng đầu suy nghĩ tò mò.
+- Trên đầu thú cưng: Một biểu tượng dấu hỏi chấm màu vàng phát sáng lớn nằm trong một bong bóng suy nghĩ (thought bubble) ấm cúng để thể hiện rõ tính chất câu đố.
+- Bối cảnh & Tông màu: Nền giấy hạt màu nước (warm paper texture) với các gam màu pastel nhẹ nhàng, thư thái, ánh sáng dịu mắt. Bố cục chính tập trung ở chính giữa chiều ngang.
+- Tỉ lệ hình ảnh: Định dạng ngang rộng, tỉ lệ 21:9 chuẩn banner điện ảnh.
+- QUY TẮC BẮT BUỘC: Tuyệt đối không vẽ bất kỳ chữ viết, từ ngữ, chữ cái hay banner chữ nào lên trên ảnh.
+
+[NGỮ CẢNH CỤ THỂ]:
+Hãy vẽ bức tranh thể hiện sinh động ngữ cảnh liên quan đến câu đố dưới đây:
+- Câu hỏi: "${question}"
+- Các phương án trả lời để tham khảo ngữ cảnh: ${choices}.
+
+Hãy tập trung vào biểu cảm ngơ ngác đáng yêu của thú cưng và các chi tiết chữa lành để người xem cảm nhận được tinh thần của câu đố.`;
+    }
+
     // --- HÀM HELPER UPLOAD BLOB LÊN SUPABASE STORAGE ---
     async function uploadBlobToSupabase(blob, slug, mimeType = 'image/jpeg') {
       const fileSlug = slug || 'quiz-image';
@@ -701,14 +732,14 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
       e.stopPropagation();
       if (aiDropdownMenu) aiDropdownMenu.style.display = 'none';
 
-      const promptText = buildAIPrompt();
+      const promptText = buildVietnamesePrompt();
       if (!promptText) {
         alert("Vui lòng nhập Câu hỏi trước khi sao chép Prompt.");
         return;
       }
 
       navigator.clipboard.writeText(promptText).then(() => {
-        window.showToast("Đã copy Prompt vẽ ảnh Ghibli vào clipboard! ✨");
+        window.showToast("Đã copy Prompt tiếng Việt chuẩn Ghibli (gồm Câu hỏi & Đáp án) vào clipboard! ✨");
       }).catch(err => {
         console.error("Lỗi copy:", err);
         alert("Không thể tự động sao chép vào bộ nhớ tạm.");
