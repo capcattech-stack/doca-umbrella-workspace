@@ -72,97 +72,105 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
       <form id="quiz-editor-form" onsubmit="return false;" style="margin: 0; display: flex; flex-direction: column; gap: 14px;">
         <input type="hidden" id="edit-quiz-id" />
 
-        <div class="notion-form-grid">
-          <!-- Slug -->
-          <div class="notion-form-item">
-            <label class="notion-label">Định danh URL (Slug) *</label>
-            <input type="text" id="edit-slug" class="notion-input" placeholder="Ví dụ: meo-hieu-tieng-nguoi" required />
-            <span class="notion-input-desc">Chỉ dùng chữ cái thường, số và dấu gạch ngang.</span>
-          </div>
+        <div class="quiz-editor-layout">
+          <!-- Cột bên trái: Các thông tin chính của câu đố -->
+          <div class="quiz-editor-main">
+            <!-- Question -->
+            <div class="notion-form-item">
+              <label class="notion-label">Câu hỏi trắc nghiệm *</label>
+              <input type="text" id="edit-question" class="notion-input" placeholder="Nhập câu hỏi trắc nghiệm..." required />
+            </div>
 
-          <!-- OG Image -->
-          <div class="notion-form-item">
-            <label class="notion-label">Ảnh xem trước (og:image) *</label>
-            <div style="display: flex; gap: 8px; align-items: stretch; position: relative;">
-              <input type="text" id="edit-og-image" class="notion-input" placeholder="Ví dụ: /images/quizzes/meo-hieu-tieng-nguoi.png" required style="flex-grow: 1;" />
-              
-              <!-- Cụm Split Button tạo ảnh AI -->
-              <div class="notion-split-btn-group" style="position: relative; display: inline-flex; gap: 1px;">
-                <button type="button" id="btn-generate-ai-img" class="notion-btn" style="white-space: nowrap; height: 32px; padding: 0 10px 0 12px; display: inline-flex; align-items: center; gap: 4px; font-size: 12px; background: rgba(35, 131, 226, 0.08); color: #0f76c7; border-color: rgba(35, 131, 226, 0.15); border-radius: var(--notion-radius) 0 0 var(--notion-radius); cursor: pointer; font-weight: 500; border-right: none; margin: 0;">
-                  <i class="ph-light ph-sparkles"></i> Tạo ảnh AI
-                </button>
-                <button type="button" id="btn-ai-dropdown-toggle" class="notion-btn" style="height: 32px; padding: 0 6px; display: inline-flex; align-items: center; justify-content: center; font-size: 12px; background: rgba(35, 131, 226, 0.08); color: #0f76c7; border-color: rgba(35, 131, 226, 0.15); border-radius: 0 var(--notion-radius) var(--notion-radius) 0; cursor: pointer; margin: 0; border-left: 1px solid rgba(35, 131, 226, 0.15);">
-                  <i class="ph-light ph-caret-down"></i>
-                </button>
-                
-                <!-- Dropdown Menu -->
-                <div id="ai-dropdown-menu" class="notion-dropdown-menu" style="display: none; position: absolute; right: 0; top: calc(100% + 4px); background: #ffffff; border: 1px solid var(--notion-border); border-radius: var(--notion-radius); box-shadow: 0 4px 12px rgba(15, 15, 15, 0.1); z-index: 100; min-width: 190px; padding: 4px 0;">
-                  <button type="button" id="opt-generate-auto" class="notion-dropdown-item" style="width: 100%; border: none; background: none; text-align: left; padding: 6px 12px; font-size: 12px; color: var(--notion-text); cursor: pointer; display: flex; align-items: center; gap: 8px;">
-                    <i class="ph-light ph-cpu" style="font-size: 14px;"></i> Tạo tự động (API)
-                  </button>
-                  <button type="button" id="opt-copy-prompt" class="notion-dropdown-item" style="width: 100%; border: none; background: none; text-align: left; padding: 6px 12px; font-size: 12px; color: var(--notion-text); cursor: pointer; display: flex; align-items: center; gap: 8px;">
-                    <i class="ph-light ph-copy" style="font-size: 14px;"></i> Copy Prompt cho ChatGPT
-                  </button>
-                </div>
+            <!-- Options (4 Choices) -->
+            <div class="notion-options-box">
+              <div class="notion-form-item">
+                <label class="notion-label-sub">Phương án A (Index 0) *</label>
+                <input type="text" id="edit-opt-0" class="notion-input" required />
               </div>
-
-              <!-- Nút tải ảnh từ máy tính -->
-              <button type="button" id="btn-upload-local-img" class="notion-btn" style="white-space: nowrap; height: 32px; padding: 0 12px; display: inline-flex; align-items: center; gap: 6px; font-size: 12px; background: rgba(55, 53, 47, 0.05); color: var(--notion-text); border-color: var(--notion-border); border-radius: var(--notion-radius); cursor: pointer; font-weight: 500;">
-                <i class="ph-light ph-upload-simple"></i> Tải ảnh lên
-              </button>
-              <input type="file" id="local-img-input" accept="image/*" style="display: none;" />
+              <div class="notion-form-item">
+                <label class="notion-label-sub">Phương án B (Index 1) *</label>
+                <input type="text" id="edit-opt-1" class="notion-input" required />
+              </div>
+              <div class="notion-form-item">
+                <label class="notion-label-sub">Phương án C (Index 2) *</label>
+                <input type="text" id="edit-opt-2" class="notion-input" required />
+              </div>
+              <div class="notion-form-item">
+                <label class="notion-label-sub">Phương án D (Index 3) *</label>
+                <input type="text" id="edit-opt-3" class="notion-input" required />
+              </div>
             </div>
-            <span class="notion-input-desc">Chuẩn kích thước tiếp thị: 1200x630px.</span>
-            
-            <!-- AI Image Preview Container -->
-            <div id="ai-img-preview-container" style="display: none; margin-top: 10px; border: 1px solid var(--notion-border); border-radius: var(--notion-radius); padding: 8px; background: rgba(55, 53, 47, 0.02); text-align: center; position: relative;">
-              <img id="ai-img-preview" style="max-height: 150px; max-width: 100%; border-radius: 3px; object-fit: contain; border: 1px solid var(--notion-border);" />
-              <div id="ai-img-status" style="font-size: 11px; color: var(--notion-text-light); margin-top: 4px;"></div>
+
+            <!-- Correct Answer -->
+            <div class="notion-form-item">
+              <label class="notion-label">Đáp án đúng *</label>
+              <select id="edit-correct-answer" class="notion-input" style="height: 32px; padding: 4px 8px; font-size: 13px;" required>
+                <option value="0">Phương án A (Index 0)</option>
+                <option value="1">Phương án B (Index 1)</option>
+                <option value="2">Phương án C (Index 2)</option>
+                <option value="3">Phương án D (Index 3)</option>
+              </select>
+            </div>
+
+            <!-- Explanation -->
+            <div class="notion-form-item">
+              <label class="notion-label">Lời giải thích của Tina (Iyashikei) *</label>
+              <textarea id="edit-explanation" class="notion-input" rows="5" placeholder="Lời giải giảng dạy nhẹ nhàng kiểu chữa lành..." required style="resize: vertical;"></textarea>
             </div>
           </div>
-        </div>
 
-        <!-- Question -->
-        <div class="notion-form-item">
-          <label class="notion-label">Câu hỏi trắc nghiệm *</label>
-          <input type="text" id="edit-question" class="notion-input" placeholder="Nhập câu hỏi trắc nghiệm..." required />
-        </div>
+          <!-- Cột bên phải: Cấu hình URL & Thiết kế hình ảnh minh họa -->
+          <div class="quiz-editor-sidebar">
+            <!-- Slug -->
+            <div class="notion-form-item">
+              <label class="notion-label">Định danh URL (Slug) *</label>
+              <input type="text" id="edit-slug" class="notion-input" placeholder="Ví dụ: meo-hieu-tieng-nguoi" required />
+              <span class="notion-input-desc">Chỉ dùng chữ cái thường, số và dấu gạch ngang.</span>
+            </div>
 
-        <!-- Options (4 Choices) -->
-        <div class="notion-options-box">
-          <div class="notion-form-item">
-            <label class="notion-label-sub">Phương án A (Index 0) *</label>
-            <input type="text" id="edit-opt-0" class="notion-input" required />
-          </div>
-          <div class="notion-form-item">
-            <label class="notion-label-sub">Phương án B (Index 1) *</label>
-            <input type="text" id="edit-opt-1" class="notion-input" required />
-          </div>
-          <div class="notion-form-item">
-            <label class="notion-label-sub">Phương án C (Index 2) *</label>
-            <input type="text" id="edit-opt-2" class="notion-input" required />
-          </div>
-          <div class="notion-form-item">
-            <label class="notion-label-sub">Phương án D (Index 3) *</label>
-            <input type="text" id="edit-opt-3" class="notion-input" required />
-          </div>
-        </div>
+            <!-- OG Image -->
+            <div class="notion-form-item" style="margin-top: 6px;">
+              <label class="notion-label">Ảnh xem trước (og:image) *</label>
+              <input type="text" id="edit-og-image" class="notion-input" placeholder="Ví dụ: https://.../img.png" required />
+              
+              <!-- Nút hành động -->
+              <div style="display: flex; gap: 8px; margin-top: 8px; align-items: stretch; position: relative;">
+                <!-- Cụm Split Button tạo ảnh AI -->
+                <div class="notion-split-btn-group" style="position: relative; display: inline-flex; gap: 1px; flex-grow: 1;">
+                  <button type="button" id="btn-generate-ai-img" class="notion-btn" style="flex-grow: 1; white-space: nowrap; height: 32px; padding: 0 10px 0 12px; display: inline-flex; align-items: center; justify-content: center; gap: 4px; font-size: 12px; background: rgba(35, 131, 226, 0.08); color: #0f76c7; border-color: rgba(35, 131, 226, 0.15); border-radius: var(--notion-radius) 0 0 var(--notion-radius); cursor: pointer; font-weight: 500; border-right: none; margin: 0;">
+                    <i class="ph-light ph-sparkles"></i> Tạo ảnh AI
+                  </button>
+                  <button type="button" id="btn-ai-dropdown-toggle" class="notion-btn" style="height: 32px; padding: 0 8px; display: inline-flex; align-items: center; justify-content: center; font-size: 12px; background: rgba(35, 131, 226, 0.08); color: #0f76c7; border-color: rgba(35, 131, 226, 0.15); border-radius: 0 var(--notion-radius) var(--notion-radius) 0; cursor: pointer; margin: 0; border-left: 1px solid rgba(35, 131, 226, 0.15);">
+                    <i class="ph-light ph-caret-down"></i>
+                  </button>
+                  
+                  <!-- Dropdown Menu -->
+                  <div id="ai-dropdown-menu" class="notion-dropdown-menu" style="display: none; position: absolute; left: 0; top: calc(100% + 4px); background: #ffffff; border: 1px solid var(--notion-border); border-radius: var(--notion-radius); box-shadow: 0 4px 12px rgba(15, 15, 15, 0.1); z-index: 100; min-width: 190px; padding: 4px 0;">
+                    <button type="button" id="opt-generate-auto" class="notion-dropdown-item" style="width: 100%; border: none; background: none; text-align: left; padding: 6px 12px; font-size: 12px; color: var(--notion-text); cursor: pointer; display: flex; align-items: center; gap: 8px;">
+                      <i class="ph-light ph-cpu" style="font-size: 14px;"></i> Tạo tự động (API)
+                    </button>
+                    <button type="button" id="opt-copy-prompt" class="notion-dropdown-item" style="width: 100%; border: none; background: none; text-align: left; padding: 6px 12px; font-size: 12px; color: var(--notion-text); cursor: pointer; display: flex; align-items: center; gap: 8px;">
+                      <i class="ph-light ph-copy" style="font-size: 14px;"></i> Copy Prompt cho ChatGPT
+                    </button>
+                  </div>
+                </div>
 
-        <!-- Correct Answer -->
-        <div class="notion-form-item">
-          <label class="notion-label">Đáp án đúng *</label>
-          <select id="edit-correct-answer" class="notion-input" style="height: 30px; padding: 4px 8px;" required>
-            <option value="0">Phương án A (Index 0)</option>
-            <option value="1">Phương án B (Index 1)</option>
-            <option value="2">Phương án C (Index 2)</option>
-            <option value="3">Phương án D (Index 3)</option>
-          </select>
-        </div>
+                <!-- Nút tải ảnh từ máy tính -->
+                <button type="button" id="btn-upload-local-img" class="notion-btn" style="white-space: nowrap; height: 32px; padding: 0 12px; display: inline-flex; align-items: center; gap: 6px; font-size: 12px; background: rgba(55, 53, 47, 0.05); color: var(--notion-text); border-color: var(--notion-border); border-radius: var(--notion-radius); cursor: pointer; font-weight: 500; flex-grow: 1; justify-content: center;">
+                  <i class="ph-light ph-upload-simple"></i> Tải ảnh lên
+                </button>
+                <input type="file" id="local-img-input" accept="image/*" style="display: none;" />
+              </div>
+            </div>
 
-        <!-- Explanation -->
-        <div class="notion-form-item">
-          <label class="notion-label">Lời giải thích của Tina (Iyashikei) *</label>
-          <textarea id="edit-explanation" class="notion-input" rows="3" placeholder="Lời giải giảng dạy nhẹ nhàng kiểu chữa lành..." required></textarea>
+            <!-- AI Image Preview Container (Dành riêng cho Sidebar) -->
+            <div id="ai-img-preview-container" style="display: none; margin-top: 12px; border: 1px solid var(--notion-border); border-radius: var(--notion-radius); padding: 8px; background: rgba(55, 53, 47, 0.01); text-align: center; position: relative; flex-grow: 1; flex-direction: column; justify-content: center; min-height: 180px;">
+              <div style="width: 100%; aspect-ratio: 21 / 9; border-radius: 4px; overflow: hidden; border: 1px solid var(--notion-border); background-color: #fbfbfa; display: flex; align-items: center; justify-content: center;">
+                <img id="ai-img-preview" style="width: 100%; height: 100%; object-fit: cover;" />
+              </div>
+              <div id="ai-img-status" style="font-size: 11px; color: var(--notion-text-light); margin-top: 8px; font-weight: 500;">Ảnh hiện tại của câu đố</div>
+            </div>
+          </div>
         </div>
 
         <!-- Form Actions -->
@@ -946,13 +954,48 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
   .notion-modal-box {
     background: #ffffff;
     border-radius: var(--notion-radius);
-    box-shadow: 0 4px 16px rgba(15, 15, 15, 0.08), 0 0 0 1px rgba(15, 15, 15, 0.04);
+    box-shadow: 0 4px 24px rgba(15, 15, 15, 0.1), 0 0 0 1px rgba(15, 15, 15, 0.05);
     border: 1px solid var(--notion-border);
-    width: 600px;
-    max-width: 90vw;
+    width: 860px; /* Tăng chiều rộng để giao diện thoáng đãng */
+    max-width: 95vw;
     padding: 24px 28px;
-    max-height: 85vh;
+    max-height: 90vh;
     overflow-y: auto;
+  }
+
+  .quiz-editor-layout {
+    display: flex;
+    gap: 28px;
+  }
+
+  .quiz-editor-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    min-width: 0; /* Ngăn chặn flex item tràn viền */
+  }
+
+  .quiz-editor-sidebar {
+    width: 320px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    border-left: 1px solid var(--notion-border);
+    padding-left: 28px;
+  }
+
+  @media (max-width: 768px) {
+    .quiz-editor-layout {
+      flex-direction: column;
+      gap: 16px;
+    }
+    .quiz-editor-sidebar {
+      width: 100%;
+      border-left: none;
+      padding-left: 0;
+    }
   }
 
   .notion-modal-header {
@@ -982,12 +1025,6 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
   .notion-close-btn:hover {
     background: var(--notion-hover-bg);
     color: var(--notion-text-main);
-  }
-
-  .notion-form-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
   }
 
   @media (max-width: 580px) {
