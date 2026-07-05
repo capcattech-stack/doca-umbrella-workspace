@@ -255,16 +255,16 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
             <td onclick="event.stopPropagation()">
               <div class="notion-social-group">
                 <button class="notion-social-btn facebook" data-slug="${q.slug}" data-source="facebook" data-medium="social" title="Copy link Facebook">
-                  <i class="ph-fill ph-facebook-logo"></i>
+                  <i class="ph-light ph-facebook-logo"></i>
                 </button>
                 <button class="notion-social-btn instagram" data-slug="${q.slug}" data-source="instagram" data-medium="bio" title="Copy link Instagram">
-                  <i class="ph-fill ph-instagram-logo"></i>
+                  <i class="ph-light ph-instagram-logo"></i>
                 </button>
                 <button class="notion-social-btn tiktok" data-slug="${q.slug}" data-source="tiktok" data-medium="bio" title="Copy link TikTok">
-                  <i class="ph-fill ph-tiktok-logo"></i>
+                  <i class="ph-light ph-tiktok-logo"></i>
                 </button>
                 <button class="notion-social-btn youtube" data-slug="${q.slug}" data-source="youtube" data-medium="video" title="Copy link YouTube">
-                  <i class="ph-fill ph-youtube-logo"></i>
+                  <i class="ph-light ph-youtube-logo"></i>
                 </button>
               </div>
             </td>
@@ -576,13 +576,13 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
   .notion-social-btn {
     border: none;
     height: 20px;
-    padding: 0 10px;
+    width: 32px; /* Chiều rộng cố định giúp các tag đều nhau đẹp mắt */
     border-radius: 3px; /* Bo góc nhẹ kiểu Tag của Notion */
     cursor: pointer;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.15s ease;
+    transition: all 0.12s ease;
     box-sizing: border-box;
   }
 
@@ -591,8 +591,7 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
   }
 
   .notion-social-btn:hover {
-    transform: scale(1.08);
-    filter: brightness(0.92);
+    filter: brightness(0.88); /* Chỉ làm đậm màu nền nhẹ khi di chuột, không phóng to giật màn hình */
   }
 
   .notion-social-btn.facebook {
