@@ -29,8 +29,8 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
           <th style="width: 15%;">Câu đố (Slug)</th>
           <th style="width: 12%;">Đáp án đã chọn</th>
           <th style="width: 12%;">UTM Source</th>
-          <th style="width: 12%;">UTM Medium</th>
-          <th style="width: 12%;">UTM Campaign</th>
+          <th class="hide-on-mobile" style="width: 12%;">UTM Medium</th>
+          <th class="hide-on-mobile" style="width: 12%;">UTM Campaign</th>
           <th style="width: 12%; text-align: right; padding-right: 16px;">Ngày tạo</th>
         </tr>
       </thead>
@@ -189,8 +189,8 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
             <td><code class="notion-slug-tag">${lead.quiz_slug}</code></td>
             <td><span class="notion-plain-tag">${choice}</span></td>
             <td><span class="${sourceTagClass}">${utmSourceVal}</span></td>
-            <td><span class="${mediumTagClass}">${utmMediumVal}</span></td>
-            <td><span class="${campaignTagClass}">${utmCampaignVal}</span></td>
+            <td class="hide-on-mobile"><span class="${mediumTagClass}">${utmMediumVal}</span></td>
+            <td class="hide-on-mobile"><span class="${campaignTagClass}">${utmCampaignVal}</span></td>
             <td style="text-align: right; padding-right: 16px; font-size: 12.5px; color: var(--notion-text-light); white-space: nowrap;">${dateStr}</td>
           </tr>
         `;

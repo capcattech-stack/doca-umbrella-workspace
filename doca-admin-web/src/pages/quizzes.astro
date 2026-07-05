@@ -45,7 +45,7 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
             <input type="checkbox" id="select-all-checkbox" style="cursor: pointer;" />
           </th>
           <th style="width: 8%; text-align: center;">Ảnh</th>
-          <th style="width: 12%;">Slug</th>
+          <th class="hide-on-mobile" style="width: 12%;">Slug</th>
           <th style="width: 33%;">Câu hỏi</th>
           <th style="width: 27%;">Đáp án đúng</th>
           <th style="width: 20%; text-align: center;">Chia sẻ (Copy link)</th>
@@ -351,7 +351,7 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
             <td style="text-align: center; vertical-align: middle; padding: 6px 0;">
               <img src="${imgUrl}" style="width: 60px; height: 34px; object-fit: ${hasImg ? 'cover' : 'contain'}; border-radius: 3px; border: 1px solid var(--notion-border); background: ${hasImg ? '#f7f6f3' : 'rgba(55, 53, 47, 0.04)'}; padding: ${hasImg ? '0' : '4px'}; opacity: ${hasImg ? '1' : '0.65'};" onerror="this.src='https://doca.capcat.vn/images/brand/symbol-green.png'; this.style.objectFit='contain'; this.style.background='rgba(55, 53, 47, 0.04)'; this.style.padding='4px'; this.style.opacity='0.65';" />
             </td>
-            <td><code class="notion-slug-tag">${q.slug}</code></td>
+            <td class="hide-on-mobile"><code class="notion-slug-tag">${q.slug}</code></td>
             <td style="font-weight: 500; color: rgba(55, 53, 47, 0.9);">${q.question}</td>
             <td><span class="notion-answer-tag">${correctText}</span></td>
             <td onclick="event.stopPropagation()" style="text-align: center;">

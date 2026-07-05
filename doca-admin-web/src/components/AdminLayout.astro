@@ -61,9 +61,12 @@ const geminiApiKey = import.meta.env.PUBLIC_GEMINI_API_KEY || '';
 			<!-- SIDEBAR TRÁI - PHONG CÁCH NOTION (PAPER NỀN GIẤY) -->
 			<aside class="notion-sidebar">
 				<!-- Header của Notion (Workspace Switcher) với Logo thương hiệu ngang -->
-				<div class="notion-sidebar-header" style="display: flex; flex-direction: column; align-items: flex-start; gap: 4px; padding: 12px 14px 8px 14px; margin-bottom: 12px; border-bottom: 1px solid var(--notion-border);">
+				<div class="notion-sidebar-header" style="display: flex; flex-direction: column; align-items: flex-start; gap: 4px; padding: 12px 14px 8px 14px; margin-bottom: 12px; border-bottom: 1px solid var(--notion-border); position: relative;">
 					<img src="/images/brand/logo-light.png" alt="DOCA Logo" style="height: 24px; object-fit: contain;" onerror="this.src='https://capcat.vn/images/brand/logo-light.png'" />
 					<div class="notion-workspace-plan" style="font-size: 10px; color: var(--notion-text-light); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; margin-top: 2px;">Góc Vận Hành Admin</div>
+					<button class="notion-icon-btn mobile-sidebar-close-btn" style="position: absolute; right: 12px; top: 12px; display: none;" aria-label="Đóng sidebar" onclick="document.querySelector('.notion-layout-grid').classList.add('sidebar-collapsed'); localStorage.setItem('notion_sidebar_collapsed', 'true');">
+						<i class="ph-light ph-x" style="font-size: 16px;"></i>
+					</button>
 				</div>
 
 				<!-- Menu 2 Cấp -->
@@ -688,5 +691,44 @@ const geminiApiKey = import.meta.env.PUBLIC_GEMINI_API_KEY || '';
 		transform: translateY(0);
 		opacity: 1;
 		visibility: visible;
+	}
+
+	/* --- MOBILE RESPONSIVE DRAWERS & LAYOUT --- */
+	@media (max-width: 768px) {
+		.mobile-sidebar-close-btn {
+			display: flex !important;
+		}
+
+		.notion-sidebar {
+			position: fixed;
+			left: 0;
+			top: 0;
+			bottom: 0;
+			z-index: 1000;
+			box-shadow: 4px 0 24px rgba(15, 15, 15, 0.15);
+			transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.2s;
+			transform: translateX(0);
+			visibility: visible;
+		}
+
+		.notion-layout-grid.sidebar-collapsed .notion-sidebar {
+			margin-left: 0 !important;
+			transform: translateX(-100%);
+			opacity: 1;
+			visibility: hidden;
+		}
+
+		.notion-main-body {
+			padding: 16px 12px !important;
+		}
+
+		.notion-top-bar {
+			padding: 8px 12px !important;
+		}
+
+		/* Ẩn bớt các cột ít quan trọng để bảng vừa khít trên Mobile */
+		.hide-on-mobile {
+			display: none !important;
+		}
 	}
 </style>
