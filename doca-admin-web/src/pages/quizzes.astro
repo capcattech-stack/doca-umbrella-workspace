@@ -509,8 +509,8 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
 
         console.log("Direct filled prompt for Imagen 3:", promptText);
 
-        // BƯỚC DUY NHẤT: Gọi Imagen 3.0 vẽ hình minh họa (16:9)
-        const imagenUrl = `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=${apiKey}`;
+        // BƯỚC DUY NHẤT: Gọi Imagen 4.0 vẽ hình minh họa (16:9)
+        const imagenUrl = `https://generativelanguage.googleapis.com/v1beta/models/imagen-4.0-generate-001:predict?key=${apiKey}`;
         const imagenRes = await fetch(imagenUrl, {
           method: 'POST',
           headers: {
