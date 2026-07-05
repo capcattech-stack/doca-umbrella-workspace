@@ -256,15 +256,19 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
               <div class="notion-social-group">
                 <button class="notion-social-btn facebook" data-slug="${q.slug}" data-source="facebook" data-medium="social" title="Copy link Facebook">
                   <i class="ph-fill ph-facebook-logo"></i>
+                  <span>FB</span>
                 </button>
                 <button class="notion-social-btn instagram" data-slug="${q.slug}" data-source="instagram" data-medium="bio" title="Copy link Instagram">
                   <i class="ph-fill ph-instagram-logo"></i>
+                  <span>IG</span>
                 </button>
                 <button class="notion-social-btn tiktok" data-slug="${q.slug}" data-source="tiktok" data-medium="bio" title="Copy link TikTok">
                   <i class="ph-fill ph-tiktok-logo"></i>
+                  <span>TT</span>
                 </button>
                 <button class="notion-social-btn youtube" data-slug="${q.slug}" data-source="youtube" data-medium="video" title="Copy link YouTube">
                   <i class="ph-fill ph-youtube-logo"></i>
+                  <span>YT</span>
                 </button>
               </div>
             </td>
@@ -577,19 +581,23 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
     background: #ffffff;
     border: 1px solid var(--notion-border);
     color: var(--notion-text-light);
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
+    padding: 3px 8px;
+    height: 22px;
+    border-radius: 9999px; /* Pill shape */
     cursor: pointer;
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    gap: 4px;
     transition: all 0.15s ease;
-    padding: 0;
+    font-size: 10px;
+    font-weight: 500;
+    font-family: inherit;
+    box-sizing: border-box;
   }
 
   .notion-social-btn i {
-    font-size: 14px;
+    font-size: 12px;
   }
 
   .notion-social-btn:hover {
