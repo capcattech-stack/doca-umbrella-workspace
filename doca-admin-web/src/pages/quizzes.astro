@@ -261,6 +261,8 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
         const optionArray = Array.isArray(q.options) ? q.options : JSON.parse(q.options || '[]');
         const correctLetter = String.fromCharCode(65 + q.correct_answer);
         const correctText = `${correctLetter}. ${optionArray[q.correct_answer] || ''}`;
+        const hasImg = !!q.og_image;
+        const imgUrl = hasImg ? getAbsoluteUrl(q.og_image) : 'https://doca.capcat.vn/images/brand/symbol-green.png';
         const isBulkActive = bulkActive ? 'table-cell' : 'none';
         return `
           <tr class="notion-table-row-clickable" data-id="${q.id}">
@@ -269,7 +271,7 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
               <input type="checkbox" class="row-checkbox" data-id="${q.id}" style="cursor: pointer;" />
             </td>
             <td style="text-align: center; vertical-align: middle; padding: 6px 0;">
-              <img src="${getAbsoluteUrl(q.og_image)}" style="width: 48px; height: 27px; object-fit: cover; border-radius: 3px; border: 1px solid var(--notion-border); background: #f7f6f3;" onerror="this.src='/images/brand/symbol-green.png'" />
+              <img src="${imgUrl}" style="width: 60px; height: 34px; object-fit: ${hasImg ? 'cover' : 'contain'}; border-radius: 3px; border: 1px solid var(--notion-border); background: ${hasImg ? '#f7f6f3' : 'rgba(55, 53, 47, 0.04)'}; padding: ${hasImg ? '0' : '4px'}; opacity: ${hasImg ? '1' : '0.65'};" onerror="this.src='https://doca.capcat.vn/images/brand/symbol-green.png'; this.style.objectFit='contain'; this.style.background='rgba(55, 53, 47, 0.04)'; this.style.padding='4px'; this.style.opacity='0.65';" />
             </td>
             <td><code class="notion-slug-tag">${q.slug}</code></td>
             <td style="font-weight: 500; color: rgba(55, 53, 47, 0.9);">${q.question}</td>
