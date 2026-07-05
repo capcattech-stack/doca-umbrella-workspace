@@ -541,9 +541,9 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
       if (!question) return null;
       
       const isDog = question.toLowerCase().includes('chó') || question.toLowerCase().includes('cún') || question.toLowerCase().includes('dog');
-      const petType = isDog ? 'cute fluffy Corgi dog' : 'cute fluffy grey British Longhair cat';
+      const petType = isDog ? 'cute Corgi dog' : 'cute grey British Longhair cat';
       
-      return `A warm Ghibli-style watercolor illustration of a cute ${petType} looking curious, thinking about a trivia quiz. Above its head, a big glowing yellow question mark symbol floats inside a cozy thought bubble, clearly representing a pet quiz game. The background is a clean, cozy warm paper texture with soft pastel colors. The scene must visually represent this topic: "${question}". Minimalist layout, healing (Iyashikei) aesthetic, soft lighting, clean lines, high quality, cinematic wide banner layout, 21:9 aspect ratio composition. Strictly no text, no words, no letters, no typography, no labels, no banners on the image.`;
+      return `A warm Ghibli-style watercolor illustration featuring a ${petType} in a creative, whimsical scene that visually represents the topic: "${question}". The drawing should be lively, imaginative, and cozy, showing the pet interacting with elements related to the topic. Somewhere in the scene, subtly incorporate a stylized question mark symbol (e.g., floating softly like a bubble, printed on a toy, or woven into the background) to hint that it is a fun quiz, without making it overly rigid. Cozy warm paper texture, soft pastel color palette, healing (Iyashikei) aesthetic, soft gentle lighting, clean lines, cinematic wide banner layout, 21:9 aspect ratio composition. Strictly no text, no words, no letters, no typography on the image.`;
     }
 
     // --- HÀM HELPER XÂY DỰNG PROMPT TIẾNG VIỆT ĐẦY ĐỦ NGỮ CẢNH (CÂU HỎI & CÁC ĐÁP ÁN) CHO CHATGPT/GEMINI ---
@@ -558,23 +558,24 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
       const choices = [opt0, opt1, opt2, opt3].filter(Boolean).map((opt, i) => `Phương án ${String.fromCharCode(65 + i)}: "${opt}"`).join(', ');
 
       const isDog = question.toLowerCase().includes('chó') || question.toLowerCase().includes('cún') || question.toLowerCase().includes('dog');
-      const petType = isDog ? 'một chú chó Corgi chân ngắn tai to đáng yêu' : 'một chú mèo Anh lông dài màu xám mập mạp dễ thương';
+      const petType = isDog ? 'chú chó Corgi chân ngắn tai to đáng yêu' : 'chú mèo Anh lông dài màu xám mập mạp';
       
-      return `Hãy vẽ một bức tranh minh họa màu nước phong cách Ghibli ấm áp, mang đậm nét chữa lành (Iyashikei) đặc trưng của ứng dụng thú cưng DOCA.
+      return `Hãy vẽ một bức tranh minh họa màu nước phong cách Ghibli ấm áp, mang đậm nét chữa lành (Iyashikei) đặc trưng của DOCA. Bức vẽ cần sáng tạo, sinh động và tràn đầy trí tưởng tượng.
 
-[Ý TƯỞNG BỐ CỤC CHUNG]:
-- Chủ thể chính: ${petType} đang nghiêng đầu suy nghĩ tò mò.
-- Trên đầu thú cưng: Một biểu tượng dấu hỏi chấm màu vàng phát sáng lớn nằm trong một bong bóng suy nghĩ (thought bubble) ấm cúng để thể hiện rõ tính chất câu đố.
-- Bối cảnh & Tông màu: Nền giấy hạt màu nước (warm paper texture) với các gam màu pastel nhẹ nhàng, thư thái, ánh sáng dịu mắt. Bố cục chính tập trung ở chính giữa chiều ngang.
-- Tỉ lệ hình ảnh: Định dạng ngang rộng, tỉ lệ 21:9 chuẩn banner điện ảnh.
-- QUY TẮC BẮT BUỘC: Tuyệt đối không vẽ bất kỳ chữ viết, từ ngữ, chữ cái hay banner chữ nào lên trên ảnh.
+[CHỦ THỂ & PHONG CÁCH]:
+- Nhân vật chính là một ${petType}.
+- Nền giấy hạt màu nước (warm paper texture) với các gam màu pastel dịu nhẹ, ánh sáng ấm cúng, nét vẽ rõ ràng, tối giản nhưng tinh tế.
+- Định dạng hình ảnh rộng ngang, tỉ lệ 21:9 chuẩn banner điện ảnh.
+- TUYỆT ĐỐI KHÔNG vẽ bất kỳ chữ viết, từ ngữ hay nhãn chữ nào lên hình.
 
-[NGỮ CẢNH CỤ THỂ]:
-Hãy vẽ bức tranh thể hiện sinh động ngữ cảnh liên quan đến câu đố dưới đây:
-- Câu hỏi: "${question}"
-- Các phương án trả lời để tham khảo ngữ cảnh: ${choices}.
+[Ý TƯỞNG CẢNH VẼ & SỰ SÁNG TẠO]:
+Hãy tự do sáng tạo một cảnh tượng thú vị, giàu tính tương tác và trực quan hóa sinh động ngữ cảnh của câu đố dưới đây:
+- Câu hỏi chính: "${question}"
+- Các gợi ý bối cảnh từ câu trả lời: ${choices}.
 
-Hãy tập trung vào biểu cảm ngơ ngác đáng yêu của thú cưng và các chi tiết chữa lành để người xem cảm nhận được tinh thần của câu đố.`;
+[YÊU CẦU CHI TIẾT]:
+- Hãy vẽ thú cưng đang tương tác sinh động với môi trường xung quanh liên quan đến chủ đề câu hỏi (Ví dụ: đang nghịch hộp các-tông, đang tò mò nhìn bát ăn, hoặc đang đùa nghịch dưới nắng...).
+- Lồng ghép một cách nghệ thuật và khéo léo một biểu tượng dấu hỏi chấm cách điệu nhỏ trong cảnh (Ví dụ: dấu hỏi như một đám mây nhỏ lơ lửng, hoa văn trên đồ chơi, hoặc bong bóng nước...) để người xem cảm nhận đây là câu đố mà không tạo cảm giác gò bó hay lặp đi lặp lại giữa các bức ảnh. Bố cục tổng thể tập trung ở trung tâm chiều ngang.`;
     }
 
     // --- HÀM HELPER UPLOAD BLOB LÊN SUPABASE STORAGE ---
