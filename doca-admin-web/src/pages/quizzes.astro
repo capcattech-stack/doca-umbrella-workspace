@@ -281,7 +281,7 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
           const medium = btn.getAttribute('data-medium');
           const campaign = 'quiz_share';
           
-          const finalUrl = `https://capcat.vn/quiz/${slug}?utm_source=${source}&utm_medium=${medium}&utm_campaign=${campaign}`;
+          const finalUrl = `https://doca.capcat.vn/quiz/${slug}?utm_source=${source}&utm_medium=${medium}&utm_campaign=${campaign}`;
           
           navigator.clipboard.writeText(finalUrl).then(() => {
             const platformName = source.charAt(0).toUpperCase() + source.slice(1);
