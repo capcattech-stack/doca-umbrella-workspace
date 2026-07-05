@@ -252,7 +252,7 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
             <td><code class="notion-slug-tag">${q.slug}</code></td>
             <td style="font-weight: 500; color: rgba(55, 53, 47, 0.9);">${q.question}</td>
             <td><span class="notion-answer-tag">${correctText}</span></td>
-            <td onclick="event.stopPropagation()">
+            <td onclick="event.stopPropagation()" style="text-align: center;">
               <div class="notion-social-group">
                 <button class="notion-social-btn facebook" data-slug="${q.slug}" data-source="facebook" data-medium="social" title="Copy link Facebook">
                   <i class="ph-light ph-facebook-logo"></i>
@@ -523,7 +523,7 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
   });
 </script>
 
-<style>
+<style is:global>
   .spinner-icon {
     animation: rotate 1.5s linear infinite;
     display: inline-block;
