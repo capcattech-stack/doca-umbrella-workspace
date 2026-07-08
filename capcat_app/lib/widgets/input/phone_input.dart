@@ -115,7 +115,7 @@ class _PhoneInputState extends State<PhoneInput> {
     // final iconSize = SizeConfig.sw(16);
 
     return Container(
-      width: SizeConfig.sw(327),
+      width: double.infinity,
       height: height,
       padding: EdgeInsets.fromLTRB(SC.sw(20), 0, SC.sw(20), 0),
       decoration: BoxDecoration(

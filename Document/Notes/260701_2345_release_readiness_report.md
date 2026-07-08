@@ -28,27 +28,47 @@ Dựa trên việc rà soát thực tế mã nguồn, các cấu hình trong th�
 *   **Chi tiết**: 
     *   File [key.properties](file:///Users/phuhoang/Development/capcat_project/capcat_app/android/key.properties) đã được tạo và chứa thông tin trỏ tới file keystore thật.
     *   File keystore thật `upload-keystore.jks` đã được lưu tại thư mục [android/app/](file:///Users/phuhoang/Development/capcat_project/capcat_app/android/app).
-    *   Cấu hình Gradle tự động nạp keystore khi build Release đã chạy hoàn toàn ổn định và an toàn (các file nhạy cảm này đã được chặn trong [android/.gitignore](file:///Users/phuhoang/Development/capcat_project/capcat_app/android/.gitignore) để tránh rò rỉ mã nguồn).
+    *   Cấu hình Gradle tự động nạp keystore khi build Release đã chạy hoàn toàn ổn định và an toàn (các file nhạy cảm này đã được chặn trong [android/.gitignore](file:///Users/phuhoang/Development/capcat_project/capcat_app/android/.gitignore) to avoid leaking them).
 
-### 4. Icon Ứng Dụng (Launcher Icon) (Đã Khắc Phục)
+### 4. Tên Hiển Thị Ứng Dụng (App Name) (Đã Khắc Phục)
+*   **Trạng thái**: Đã đạt.
+*   **Chi tiết**: Tên hiển thị của ứng dụng trong file [AndroidManifest.xml](file:///Users/phuhoang/Development/capcat_project/capcat_app/android/app/src/main/AndroidManifest.xml) đã được đổi từ `CapCat` sang **`Doca`**:
+    ```xml
+    android:label="Doca"
+    ```
+    Khi cài đặt trên điện thoại Android, ứng dụng sẽ xuất hiện với tên chính thức là **Doca**.
+
+### 5. Icon Ứng Dụng & Cấu Hình Adaptive Icon (Đã Khắc Phục Triệt Để)
 *   **Trạng thái**: Đã đạt.
 *   **Chi tiết**: 
-    *   Người dùng đã cấu hình `flutter_launcher_icons` trỏ tới file logo chính thức [app_icon.png](file:///Users/phuhoang/Development/capcat_project/capcat_app/assets/icons/app_icon.png) và chạy thành công lệnh sinh icon.
-    *   Rà soát thực tế cho thấy dung lượng các file icon `ic_launcher.png` tại các thư mục `mipmap-*` trong [res/](file:///Users/phuhoang/Development/capcat_project/capcat_app/android/app/src/main/res) đã thay đổi (ví dụ ở hdpi là 2.0KB, mdpi là 1.3KB), chứng minh icon mặc định của Flutter đã được thay thế thành công.
+    *   Đã chuyển đổi sang **Adaptive Icon** chuẩn của Android. Logo mèo trắng/xanh đã được co nhỏ lại về tỉ lệ **60%** và căn giữa trong khung hình trong suốt `512x512`.
+    *   Cấu hình màu nền background `#1f2022` (màu đen xám trùng khớp với màu nền logo gốc) trong [pubspec.yaml](file:///Users/phuhoang/Development/capcat_project/capcat_app/pubspec.yaml).
+    *   Đã chạy generate lại toàn bộ icon bằng công cụ `flutter_launcher_icons` với tính năng `adaptive_icons` được kích hoạt đầy đủ.
 
-### 5. Tên Package Nội Bộ Trong Codebase (Đã Khắc Phục)
+### 6. Sửa Lỗi App Treo Ở Màn Hình Splash (Đã Khắc Phục)
+*   **Trạng thái**: Đã đạt.
+*   **Chi tiết**: Đã sửa file [main.dart](file:///Users/phuhoang/Development/capcat_project/capcat_app/lib/main.dart), bọc lệnh khởi tạo Firebase trong khối `try-catch` an toàn để tránh làm treo ứng dụng trong trường hợp Firebase đã được khởi tạo ngầm từ trước.
+
+### 7. Sửa Lỗi Lệch Width Của Các Ô Nhập Liệu Trên Tablet (Đã Khắc Phục Mới)
+*   **Trạng thái**: Đã đạt.
+*   **Chi tiết**: 
+    *   Đã sửa lỗi ô nhập số điện thoại (`PhoneInput`) và ô nhập mã xác thực (`NumberInputField`) bị ngắn hơn so với ô mật khẩu và nút bấm khi chạy trên Tablet 7-inch & 10-inch.
+    *   Thay đổi thuộc tính chiều rộng `width` từ kích thước cố định `SizeConfig.sw(327)` sang **`double.infinity`** cho cả 2 widget [phone_input.dart](file:///Users/phuhoang/Development/capcat_project/capcat_app/lib/widgets/input/phone_input.dart) và [number_input_field.dart](file:///Users/phuhoang/Development/capcat_project/capcat_app/lib/widgets/number_input_field.dart). 
+    *   Các ô nhập liệu hiện tại sẽ tự động giãn ra đồng đều, thẳng hàng tăm tắp với nhau theo lề của form cha trên mọi kích thước màn hình.
+
+### 8. Tên Package Nội Bộ Trong Codebase (Đã Khắc Phục)
 *   **Trạng thái**: Đã đạt.
 *   **Chi tiết**: Tên ứng dụng trong file [pubspec.yaml](file:///Users/phuhoang/Development/capcat_project/capcat_app/pubspec.yaml) đã được sửa đổi thành `capcat_doca` thay vì tên mock cũ.
 
-### 6. Khai Báo Trùng Lặp Assets (Đã Khắc Phục)
+### 9. Khai Báo Trùng Lặp Assets (Đã Khắc Phục)
 *   **Trạng thái**: Đã đạt.
 *   **Chi tiết**: Assets lottie trùng lặp trong [pubspec.yaml](file:///Users/phuhoang/Development/capcat_project/capcat_app/pubspec.yaml) đã được làm sạch, hiện tại mỗi folder asset chỉ được khai báo duy nhất một lần.
 
-### 7. Thử Nghiệm Build Release Thực Tế (Đã Đạt)
-*   **Lệnh thực hiện**: `flutter build appbundle --release`
-*   **Kết quả**: Build thành công và không gặp lỗi biên dịch nào.
-*   **Đường dẫn file đầu ra**: `build/app/outputs/bundle/release/app-release.aab`
-*   **Dung lượng file bundle**: **74.6 MB** (Chứa đầy đủ các asset hình ảnh, font chữ Quicksand/Motterdam, và Lottie animations).
+### 10. Thử Nghiệm Build Release Thực Tế (Đã Đạt)
+*   **Lệnh thực hiện**: `flutter build apk --release` & `flutter build appbundle --release`
+*   **Kết quả**: Cả hai lệnh build đều thành công và xuất ra file cài đặt ổn định.
+*   **Đường dẫn APK đầu ra**: `build/app/outputs/flutter-apk/app-release.apk` (89.6 MB)
+*   **Đường dẫn AAB đầu ra**: `build/app/outputs/bundle/release/app-release.aab` (74.6 MB)
 
 ---
 
@@ -63,6 +83,6 @@ Dựa trên việc rà soát thực tế mã nguồn, các cấu hình trong th�
     *   **QUAN TRỌNG**: Bạn phải truy cập vào trang quản lý ứng dụng trên Google Play Console -> **Setup -> App Integrity** để lấy mã SHA-1 của **App signing key** do Google quản lý, sau đó thêm mã SHA-1 này vào Firebase Console của bạn. Nếu không, người dùng tải app từ store về cũng sẽ không thể đăng nhập qua Google được.
 3.  **Tăng Version Code cho các bản cập nhật tiếp theo**:
     *   Bản build hiện tại có cấu hình `version: 1.0.0+1` (Version Name: `1.0.0`, Version Code: `1`).
-    *   Trong tương lai, nếu cần sửa lỗi hoặc cập nhật tính năng mới, bạn bắt buộc phải tăng số build number (phần sau dấu cộng) trong [pubspec.yaml](file:///Users/phuhoang/Development/capcat_project/capcat_app/pubspec.yaml), ví dụ thành `1.0.0+2`, nếu không Google Play sẽ từ chối nhận file `.aab` mới do trùng lặp Version Code.
+    *   Trong tương lai, nếu cần sửa lỗi hoặc cập nhật tính năng mới, bạn bắt buộc phải tăng số build number (phần sau dấu cộng) trong [pubspec.yaml](file:///Users/phuhoang/Development/capcat_project/capcat_app/pubspec.yaml), ví dụ thành `1.0.0+2`, if not Google Play will reject it.
 4.  **Chính Sách Bảo Mật (Privacy Policy)**:
     *   Vì ứng dụng của bạn sử dụng quyền Internet, lưu trữ và có tính năng xác thực người dùng, Google bắt buộc phải có link đến trang *Chính sách bảo mật*. Hãy chuẩn bị trước một trang web đơn giản chứa các điều khoản bảo mật và điền link này vào Google Play Console khi điền thông tin mô tả app.

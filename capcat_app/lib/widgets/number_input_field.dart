@@ -15,7 +15,7 @@ class NumberInputField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: SizeConfig.sw(327),
+      width: double.infinity,
       height: SizeConfig.sh(56),
       padding: EdgeInsets.symmetric(horizontal: SizeConfig.sw(20)),
       decoration: BoxDecoration(
