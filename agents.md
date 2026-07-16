@@ -23,4 +23,12 @@
     *   *ADR-012:* Giải quyết lỗi form reset làm rỗng email đã điền thông qua thuộc tính defaultValue và bổ sung reset event listener trên Form cha.
     *   *ADR-013:* Cấu trúc lại trang /profile, di chuyển liên kết .back-link ra ngoài lề trái để đồng bộ bố cục hoàn hảo với trang Quiz, Blog và About Us.
 
-
+## Feature 015: Creator Kiosk & Curation
+*   **Planning Date:** 2026-07-16
+*   **Status:** Success (Fully Implemented & Verified)
+*   **Description:** Built the Creator Kiosk feature enabling dynamic store configuration on profile page, admin approval page on admin web, and catch-all SPA routing for user Kiosk views. Added auto-moderation for link type (Shopee only) and description text safety (offline bad words check matching family page design).
+*   **Key Decisions:**
+    *   *ADR-014:* Created new public tables `creator_kiosks` and `kiosk_links` with explicit RLS permissions for selective viewer read and creator manage rights.
+    *   *ADR-015:* Implemented catch-all Single Page Application (SPA) routing in `kios_capcat_web` to route all subpaths `/{kios_name}` to `index.html` via Vercel rewrites, avoiding build-time static paths compilation.
+    *   *ADR-016:* Adopted the zero-latency client-side text check mechanism (`checkTextSafety` blocklist) from `family.astro` for kiosk descriptions to ensure design consistency and fast UX.
+    *   *ADR-017:* Decoupled Kiosk registration and configuration dashboard into its own route `/profile/kiosk` from `/profile`, adding dynamic CTAs on the Profile page based on active kiosk database status.

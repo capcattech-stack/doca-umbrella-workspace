@@ -1,8 +1,8 @@
 {
-  "run_id": "planning-20260704-1115",
-  "created_at": "2026-07-04T04:15:00Z",
-  "operator_prompt": "Tôi muốn chuyển đổi giải pháp lưu trữ file âm thanh từ trực tiếp lên supabase. Để giải quyết việc lưu trữ nhiều file âm thanh hơn. Về âm nhạc tôi muốn bạn tìm tải những file nhạc jazz có chất lượng tương tự 2 play list đang có để bỏ vào kho. Hãy tìm giải pháp tải tự động.",
-  "current_date": "2026-07-04",
+  "run_id": "planning-20260706-2110",
+  "created_at": "2026-07-06T14:10:00Z",
+  "operator_prompt": "triển khai chức năng login SSO cho tôi",
+  "current_date": "2026-07-06",
   "research_mode": "standard",
   "required_output_files": [
     "docs/prd.md",
@@ -22,9 +22,9 @@
     "docs/research/research_manifest.json"
   ],
   "quality_gates": {
-    "minimum_sources": 10,
-    "minimum_primary_sources": 3,
-    "minimum_evidence_items": 15,
+    "minimum_sources": 13,
+    "minimum_primary_sources": 5,
+    "minimum_evidence_items": 18,
     "major_claims_need_evidence": true,
     "diagram_claims_need_evidence": true
   }

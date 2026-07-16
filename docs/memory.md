@@ -1,20 +1,22 @@
-# System Memory and Constraints - DOCA FM Live Sync & Weather Integration
-
-This document tracks known blockers, accepted assumptions, unresolved contradictions, and historical constraints for the live FM player and weather integrations.
+# System Memory and Constraints - DOCA FM & SSO Integration
 
 ## 1. Known Blockers
-*   **None:** Supabase Storage is configured and accessible.
+*   **None:** Supabase Auth is enabled on the configured project dashboard (`fkilmtcjyommdbtogmeo.supabase.co`).
 
 ## 2. Accepted Assumptions
-*   **Clock Synchronization:** We assume the user's system clock is synchronized via NTP (standard on modern OSes). A difference of 1-3 seconds in clocks is acceptable for ambient background music.
-*   **Client Weather API Access:** We assume the client browser has outbound network access to `api.open-meteo.com`. If blocked, the player falls back to "trời mát mẻ" without blocking rendering.
+*   **Clock Synchronization (FM)**: We assume the user's system clock is synchronized via NTP. A difference of 1-3 seconds in clocks is acceptable.
+*   **Browser Storage Access (SSO)**: We assume the client browser has `localStorage` and `cookie` permissions enabled. If cookies are disabled, authentication sessions might fail to persist across page reloads.
+*   **Redirection Configuration**: We assume the allowed redirect URLs in the Supabase Dashboard include:
+    *   `http://localhost:4321/` (Affiliate Web Dev Port)
+    *   `http://localhost:4321/profile`
+    *   Production domains once deployed.
 
 ## 3. Historical Constraints & Rules
-*   **Active Host:** Tina is the active host of Doca FM. Make sure the avatar reflects Tina (e.g. 🐱 or custom cozy label).
-*   **Design Aesthetics:** Soft glassmorphism cards, watercolor background, peeking cat.
-*   **Icon Selection:** Phosphor Icons in `ph-light` weight standard.
-*   **Content Voice:** Cozy, therapeutic, quiet Japanese novel style (Iyashikei) tone for Vietnamese copy.
+*   **Active Host**: Tina is the active host of Doca FM.
+*   **Design Aesthetics**: Soft glassmorphism cards, watercolor background, peeking cat.
+*   **Icon Selection**: Phosphor Icons in `ph-light` weight standard as default, `ph-thin` for minimal elements, `ph-fill` or `ph-duotone` for active states.
+*   **Content Voice**: Cozy, therapeutic, quiet Japanese novel style (Iyashikei) tone for Vietnamese copy.
 
 ## 4. TrustGraph Notes
-*   **Status:** TrustGraph local cluster (Neo4j:7474) is offline.
-*   **Action:** Falling back to filesystem storage and local planning artifacts under `docs/`.
+*   **Status**: TrustGraph local cluster (Neo4j:7474) is offline.
+*   **Action**: Falling back to filesystem storage and local planning artifacts under `docs/`.

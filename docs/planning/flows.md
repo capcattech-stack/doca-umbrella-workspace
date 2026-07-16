@@ -1,6 +1,6 @@
-# System and User Flows - DOCA FM Live Sync & Weather Integration
+# System and User Flows - DOCA FM & SSO Integration
 
-This document details the user-facing and backend system flows for the live synchronized FM player, weather API fetching, and playlist rotation.
+This document details the user-facing and backend system flows for the live synchronized FM player and the client-side SSO authentication system.
 
 ## 1. Client-Side Playlist & Weather Loading Flow
 
@@ -31,7 +31,7 @@ sequenceDiagram
 
 ## 2. Playback FM Synchronization Flow
 
-When the user interacts with the music controls, playback is synchronized in real-time across all users:
+When the user interacts with the music controls, playback is synchronized in real-time:
 
 ```mermaid
 sequenceDiagram
@@ -49,18 +49,55 @@ sequenceDiagram
     Player->>Audio: Set currentTime = trackOffset
     Player->>Audio: Execute play()
     Player->>User: Play synchronized ambient jazz music
-    
-    Note over User,Player: Clicks on track list items are ignored (FM mode)
 ```
 
 ---
 
-## 3. Failure & Recovery Flows
+## 3. SSO Login Redirection & Callbacks Flow
 
-### Failure Mode 1: Open-Meteo Weather API is slow or offline
-*   **Detection:** Fetch to `api.open-meteo.com` exceeds 1.5s or returns non-200.
-*   **Mitigation:** The player catches the error and falls back to a default weather description ("trời mát mẻ"). Tina's introduction text compiles normally using this fallback, preventing UI breakages.
+When a user clicks "Đăng nhập" and selects an SSO provider:
 
-### Failure Mode 2: Client's clock is drift or off by minutes
-*   **Detection:** High offset discrepancies.
-*   **Mitigation:** We accept standard OS-level NTP drift (1-3s). If the clock is completely off, the music will still play correctly and loop locally, but the playhead synchronization will be offset relative to other users. No crash occurs.
+```mermaid
+sequenceDiagram
+    participant User as User
+    participant App as Website (Astro Client)
+    participant Sub as Supabase Auth SDK
+    participant OAuth as OAuth Provider (Google/Zalo)
+    
+    User->>App: Click 'Đăng nhập'
+    App->>App: Render Modal Overlay
+    User->>App: Click 'Google' or 'Zalo'
+    App->>Sub: signInWithOAuth(provider)
+    Sub->>OAuth: Redirect user to OAuth authorization page
+    User->>OAuth: Authenticate & authorize app permissions
+    OAuth->>App: Redirect back to site with code (e.g. /#access_token=...)
+    App->>Sub: Auto-detect hash/query parameter and parse session
+    Sub->>App: Emit AUTH_STATE_CHANGE (Signed In)
+    App->>User: Render signed-in Navbar capsule & enable Profile access
+```
+
+---
+
+## 4. Navigation Bar Auth Synchronization Flow
+
+On page mount, the Navbar establishes the authentication capsule:
+
+```mermaid
+sequenceDiagram
+    participant Browser as Browser
+    participant Nav as Navbar Script
+    participant Sub as Supabase Client
+    
+    Browser->>Nav: DOMContentLoaded Event
+    Nav->>Nav: Render invisible/skeleton auth capsule (prevent layout flash)
+    Nav->>Sub: Get current active session (from LocalStorage/Cookie)
+    alt Session exists (User Logged In)
+        Sub-->>Nav: Return Session user metadata
+        Nav->>Nav: Build avatar & name capsule linking to /profile
+        Nav->>Nav: Fade in User Capsule
+    else No Session (Guest User)
+        Sub-->>Nav: Return null
+        Nav->>Nav: Build "Đăng nhập" button
+        Nav->>Nav: Fade in Guest Button
+    end
+```

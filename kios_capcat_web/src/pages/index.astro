@@ -1,0 +1,406 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+// Đọc thông tin kết nối Supabase từ biến môi trường
+const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL || '';
+const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
+---
+
+<Layout title="Capcat Kiosk | Cửa Hàng Tiếp Thị Liên Kết 🐾">
+  <!-- Truyền biến môi trường sang client-side -->
+  <script is:inline define:vars={{ supabaseUrl, supabaseAnonKey }}>
+    window.PUBLIC_SUPABASE_URL = supabaseUrl;
+    window.PUBLIC_SUPABASE_ANON_KEY = supabaseAnonKey;
+  </script>
+
+  <!-- 1. GIAO DIỆN LANDING PAGE (ROOT ROUTE `/`) -->
+  <div id="kiosk-landing-view" class="hidden">
+    <main style="padding: 6rem 1.5rem; min-height: 70vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
+      <div class="container" style="max-width: 600px; display: flex; flex-direction: column; gap: 2rem; align-items: center;">
+        <div style="font-size: 4.5rem; color: var(--cozy-green-matcha);"><i class="ph-light ph-storefront"></i></div>
+        
+        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+          <h1 style="font-size: 2.5rem; color: var(--cozy-text-obsidian);">Capcat Kiosk Platform</h1>
+          <p class="whisper-mono" style="font-size: 0.9rem;">Không gian lưu trữ và giới thiệu sản phẩm tiếp thị lành mạnh.</p>
+        </div>
+
+        <div class="welcome-box" style="background-color: var(--cozy-bg-pure); border: 1px solid var(--cozy-border-light); border-radius: 16px; padding: 2rem; box-shadow: var(--cozy-shadow-default); width: 100%; text-align: left; position: relative;">
+          <div style="position: absolute; top: 0; left: 0; width: 100%; height: 5px; background-color: var(--cozy-green-matcha-forest); border-radius: 16px 16px 0 0;"></div>
+          <h3 style="font-size: 1.15rem; font-weight: 600; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem; color: var(--cozy-text-obsidian);">
+            <i class="ph-light ph-sparkles" style="color: var(--cozy-green-matcha-forest);"></i> Bạn muốn mở Kiosk riêng?
+          </h3>
+          <p style="font-size: 0.88rem; line-height: 1.6; color: var(--cozy-text-charcoal); margin-bottom: 1.25rem;">
+            Nếu bạn là nhà sáng tạo nội dung, blogger hoặc chủ nuôi thú cưng cá tính, bạn có thể tự thiết lập một trang Kiosk cá nhân dạng <code class="whisper-mono" style="background-color: var(--cozy-bg-beige); padding: 2px 6px; border-radius: 4px;">kios.capcat.vn/ten-cua-ban</code> cực kỳ dễ dàng.
+          </p>
+          <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+            <a href="https://doca.pet/profile" target="_blank" class="btn-create" style="display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; background-color: var(--cozy-green-matcha-forest); color: #fff; border-radius: 8px; padding: 0.65rem 1rem; font-size: 0.85rem; font-weight: 600; width: 100%; transition: all 0.2s ease;">
+              Đăng nhập & Đăng ký Kiosk tại doca.pet <i class="ph-light ph-arrow-right"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- 2. GIAO DIỆN XEM CỬA HÀNG CHI TIẾT (DYNAMIC ROUTE `/{kios_name}`) -->
+  <div id="kiosk-viewer-view" class="hidden">
+    <main class="kiosk-viewer-page">
+      <div class="container">
+        
+        <!-- TRẠNG THÁI LOADING -->
+        <div id="kiosk-loading" class="text-center" style="padding: 6rem 0;">
+          <i class="ph-light ph-spinner-gap spin" style="font-size: 3rem; color: var(--cozy-green-matcha-forest); display: block; margin: 0 auto 1.5rem;"></i>
+          <p class="whisper-mono">Đang tìm chiếc tủ Kiosk dễ thương...</p>
+        </div>
+
+        <!-- TRẠNG THÁI KHÔNG TÌM THẤY / CHƯA DUYỆT (404 HEALING) -->
+        <div id="kiosk-not-found" class="text-center hidden" style="padding: 6rem 0;">
+          <div style="font-size: 5rem; color: var(--cozy-text-charcoal); opacity: 0.6; margin-bottom: 1.5rem;">
+            <i class="ph-light ph-storefront"></i>
+          </div>
+          <h1 style="font-size: 2rem; color: var(--cozy-text-obsidian); margin-bottom: 1rem;">Kiosk Chưa Lên Kệ</h1>
+          <div class="healing-text-card">
+            Cửa hàng Kiosk này hiện chưa mở cửa hoặc đang chuẩn bị lên kệ bày đồ. <br/>
+            Hẹn gặp lại cô/chú và các bạn đồng Meo sau nhé! 🐾
+          </div>
+          <a href="/" class="back-home-btn" style="margin-top: 2rem;">
+            <i class="ph-light ph-house"></i> Quay lại trang chủ
+          </a>
+        </div>
+
+        <!-- TRẠNG THÁI HIỂN THỊ CỬA HÀNG THỰC TẾ -->
+        <div id="kiosk-content" class="kiosk-content hidden">
+          <!-- Store Header -->
+          <header class="store-header">
+            <div class="store-avatar-box">
+              <i class="ph-duotone ph-storefront"></i>
+            </div>
+            <div class="store-info-box">
+              <h1 id="store-title">Kiosk Của Nhà Sáng Tạo</h1>
+              <p class="whisper-mono" id="store-slug-domain"></p>
+              <div id="store-channel-wrapper" class="store-channel-wrapper">
+                <!-- Link mạng xã hội chèn ở đây -->
+              </div>
+            </div>
+          </header>
+
+          <!-- Divider -->
+          <div class="store-divider">
+            <span>Sản phẩm tuyển chọn</span>
+            <i class="ph-light ph-sparkles"></i>
+          </div>
+
+          <!-- Links Grid (Polaroids) -->
+          <div id="links-grid-empty" class="text-center hidden" style="padding: 4rem 0; color: var(--cozy-text-charcoal); font-style: italic;">
+            Cửa hàng hiện tại chưa có sản phẩm nào được bày bán. Hãy ghé lại sau nhé! 🐾
+          </div>
+          
+          <div id="links-grid" class="polaroid-grid">
+            <!-- Các sản phẩm dạng Polaroid ở đây -->
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+</Layout>
+
+<script>
+  import { createClient } from '@supabase/supabase-js';
+
+  function escapeHtml(str: string): string {
+    return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    // Phân tích đường dẫn URL
+    const pathParts = window.location.pathname.split('/').filter(p => p);
+    const kiosName = pathParts[0]; // Lấy phần tử đầu tiên của path làm kios_name
+
+    const landingView = document.getElementById('kiosk-landing-view');
+    const viewerView = document.getElementById('kiosk-viewer-view');
+
+    if (!kiosName || kiosName === 'index.html') {
+      // 1. Hiển thị Landing Page
+      if (landingView) landingView.classList.remove('hidden');
+      return;
+    }
+
+    // 2. Hiển thị Viewer Page
+    if (viewerView) viewerView.classList.remove('hidden');
+
+    const supabaseUrl = window.PUBLIC_SUPABASE_URL || '';
+    const supabaseAnonKey = window.PUBLIC_SUPABASE_ANON_KEY || '';
+
+    if (!supabaseUrl || !supabaseAnonKey) {
+      console.error('Thiếu cấu hình kết nối Supabase.');
+      return;
+    }
+
+    const supabase = createClient(supabaseUrl, supabaseAnonKey);
+
+    const loadingEl = document.getElementById('kiosk-loading');
+    const notFoundEl = document.getElementById('kiosk-not-found');
+    const contentEl = document.getElementById('kiosk-content');
+
+    const storeTitleEl = document.getElementById('store-title');
+    const storeDomainEl = document.getElementById('store-slug-domain');
+    const channelWrapper = document.getElementById('store-channel-wrapper');
+
+    const linksGrid = document.getElementById('links-grid');
+    const gridEmptyEl = document.getElementById('links-grid-empty');
+
+    // Truy vấn thông tin Kiosk từ database
+    supabase.from('creator_kiosks')
+      .select('*')
+      .eq('kios_name', kiosName)
+      .eq('status', 'approved')
+      .maybeSingle()
+      .then(({ data: kiosk, error }: any) => {
+        if (error || !kiosk) {
+          if (loadingEl) loadingEl.classList.add('hidden');
+          if (notFoundEl) notFoundEl.classList.remove('hidden');
+          return;
+        }
+
+        // Đổi tiêu đề trình duyệt
+        document.title = `Kiosk ${kiosk.kios_name.toUpperCase()} | Capcat 🐾`;
+
+        // Điền thông tin Kiosk
+        if (storeTitleEl) storeTitleEl.innerText = `Kiosk ${kiosk.kios_name.toLowerCase()}`;
+        if (storeDomainEl) storeDomainEl.innerText = `kios.capcat.vn/${kiosk.kios_name}`;
+
+        // Tạo liên kết kênh truyền thông
+        if (channelWrapper) {
+          let channelIcon = '<i class="ph-light ph-link"></i>';
+          let channelText = 'Kênh truyền thông';
+
+          const chanLower = kiosk.channel.toLowerCase();
+          if (chanLower.includes('tiktok.com')) {
+            channelIcon = '<i class="ph-fill ph-tiktok-logo" style="color: var(--cozy-text-obsidian);"></i>';
+            channelText = 'TikTok';
+          } else if (chanLower.includes('youtube.com') || chanLower.includes('youtu.be')) {
+            channelIcon = '<i class="ph-fill ph-youtube-logo" style="color: #FF0000;"></i>';
+            channelText = 'YouTube';
+          } else if (chanLower.includes('facebook.com')) {
+            channelIcon = '<i class="ph-fill ph-facebook-logo" style="color: #1877F2;"></i>';
+            channelText = 'Facebook';
+          }
+
+          channelWrapper.innerHTML = `
+            <a href="${kiosk.channel}" target="_blank" class="store-channel-btn">
+              ${channelIcon} <span>Ghé thăm ${channelText}</span>
+            </a>
+          `;
+        }
+
+        // Tải danh sách links sản phẩm đã duyệt của Kiosk
+        supabase.from('kiosk_links')
+          .select('*')
+          .eq('kiosk_id', kiosk.id)
+          .eq('status', 'approved')
+          .order('created_at', { ascending: false })
+          .then(({ data: links, error: linksErr }: any) => {
+            if (loadingEl) loadingEl.classList.add('hidden');
+            if (contentEl) contentEl.classList.remove('hidden');
+
+            if (linksErr || !links || links.length === 0) {
+              if (gridEmptyEl) gridEmptyEl.classList.remove('hidden');
+              return;
+            }
+
+            if (gridEmptyEl) gridEmptyEl.classList.add('hidden');
+            if (linksGrid) {
+              linksGrid.innerHTML = links.map((link: any, idx: number) => {
+                // Rút gọn domain Shopee
+                let linkDomain = 'shopee.vn';
+                try {
+                  const urlObj = new URL(link.affiliate_url);
+                  linkDomain = urlObj.hostname.replace('www.', '');
+                } catch(e) {}
+
+                const displayTitle = `Đề xuất mua sắm #${idx + 1}`;
+
+                return `
+                  <div class="polaroid-card">
+                    <div class="polaroid-content">
+                      <div style="display: flex; align-items: center; gap: 6px; color: var(--cozy-text-charcoal); font-size: 0.8rem; font-weight: 500;">
+                        <i class="ph-light ph-shopping-bag"></i> <span>${linkDomain}</span>
+                      </div>
+                      <div class="polaroid-title">${displayTitle}</div>
+                      ${link.description ? `<div class="polaroid-desc">“ ${escapeHtml(link.description)} ”</div>` : ''}
+                    </div>
+                    <a href="${link.affiliate_url}" target="_blank" class="polaroid-btn">
+                      Xem sản phẩm trên Shopee <i class="ph-light ph-arrow-square-out"></i>
+                    </a>
+                  </div>
+                `;
+              }).join('');
+            }
+          });
+      });
+  });
+</script>
+
+<style>
+  /* Landing styles */
+  .btn-create:hover {
+    background-color: var(--cozy-green-matcha-dark);
+    transform: translateY(-1px);
+  }
+
+  /* Viewer styles */
+  .kiosk-viewer-page {
+    padding: 4rem 0 6rem 0;
+    min-height: 80vh;
+  }
+
+  .healing-text-card {
+    background-color: var(--cozy-bg-pure);
+    border: 1px solid var(--cozy-border-light);
+    border-radius: 16px;
+    padding: 2rem;
+    max-width: 480px;
+    margin: 1.5rem auto;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--cozy-text-charcoal);
+    box-shadow: var(--cozy-shadow-default);
+    position: relative;
+  }
+  .healing-text-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background-color: var(--cozy-green-matcha);
+    border-radius: 16px 16px 0 0;
+  }
+  .back-home-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: var(--cozy-bg-pure);
+    border: 1px solid var(--cozy-border-light);
+    color: var(--cozy-text-obsidian);
+    padding: 0.6rem 1.25rem;
+    border-radius: 8px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+  }
+  .back-home-btn:hover {
+    background-color: var(--cozy-bg-oatmeal);
+    border-color: var(--cozy-green-matcha-forest);
+    color: var(--cozy-green-matcha-forest);
+  }
+
+  .store-header {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    background-color: var(--cozy-bg-pure);
+    border: 1px solid var(--cozy-border-light);
+    border-radius: 16px;
+    padding: 2.5rem;
+    box-shadow: var(--cozy-shadow-default);
+    margin-bottom: 3rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .store-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    background-color: var(--cozy-green-matcha-forest);
+  }
+  
+  .store-avatar-box {
+    width: 86px;
+    height: 86px;
+    border-radius: 50%;
+    background-color: var(--cozy-bg-cream-warm);
+    border: 2px solid var(--cozy-border-light);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.5rem;
+    color: var(--cozy-green-matcha-forest);
+  }
+  
+  .store-info-box {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.35rem;
+    text-align: left;
+  }
+  
+  .store-info-box h1 {
+    font-size: 1.75rem;
+    margin-bottom: 0;
+    color: var(--cozy-text-obsidian);
+  }
+  
+  .store-info-box p {
+    font-size: 0.85rem;
+    color: var(--cozy-text-charcoal);
+  }
+
+  .store-channel-wrapper {
+    margin-top: 0.5rem;
+  }
+
+  .store-channel-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background-color: var(--cozy-bg-beige);
+    border: 1px solid var(--cozy-border-light);
+    padding: 0.35rem 0.85rem;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+  }
+  .store-channel-btn:hover {
+    background-color: var(--cozy-bg-oatmeal);
+    border-color: var(--cozy-green-matcha);
+  }
+
+  .store-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    margin: 3rem 0 2rem;
+    color: var(--cozy-text-charcoal);
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .store-divider::before, .store-divider::after {
+    content: '';
+    flex-grow: 1;
+    height: 1px;
+    background-color: var(--cozy-border-light);
+  }
+
+  @media (max-width: 576px) {
+    .store-header {
+      flex-direction: column;
+      padding: 2rem 1.5rem;
+      text-align: center;
+      gap: 1.25rem;
+    }
+    .store-info-box {
+      align-items: center;
+    }
+  }
+</style>

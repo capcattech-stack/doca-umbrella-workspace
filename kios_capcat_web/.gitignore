@@ -1,0 +1,13 @@
+# Tool paths
+.astro/
+dist/
+node_modules/
+
+# Environment files
+.env
+.env.production
+.env.local
+.env.development.local
+
+# System files
+.DS_Store

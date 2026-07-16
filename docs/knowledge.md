@@ -1,24 +1,34 @@
-# Architecture Knowledge Base - DOCA FM Live Sync & Weather Integration
-
-This document details the technical standards, API integrations, and constraints established for the live synchronized FM player, coordinates, and weather integrations.
+# Architecture Knowledge Base - DOCA FM & SSO Integration
 
 ## 1. Tech Stack & APIs
-*   **Weather API:** Open-Meteo Forecast API (unauthenticated, free for non-commercial use).
-    *   **Endpoint:** `https://api.open-meteo.com/v1/forecast?latitude=10.7222&longitude=106.6783&current=temperature_2m,weather_code`
-    *   **Bình Hưng, Bình Chánh, HCMC Coordinates:** Latitude `10.7222`, Longitude `106.6783`.
-*   **Media Storage:** Supabase Storage (public bucket `audio`).
-*   **Web Framework:** Astro (v4.16) SSG. Client-side JS fetches and streams the playlist and weather at runtime.
+*   **Weather API (FM Curation)**: Open-Meteo Forecast API (unauthenticated).
+    *   **Bình Hưng, HCMC Coordinates**: Latitude `10.7222`, Longitude `106.6783`.
+*   **Media Storage**: Supabase Storage (public bucket `audio`).
+*   **Web Framework**: Astro (v4.16) SSG. Client-side JS fetches and streams the playlist and weather at runtime.
+*   **Authentication Provider**: Supabase Auth (client-side integration via `@supabase/supabase-js`).
+    *   **Google OAuth**: Default built-in provider in Supabase Auth.
+    *   **Zalo OAuth (Custom Provider)**: Configured as an external OAuth2 Identity Provider in the Supabase backend.
+        *   Authorization URL: `https://oauth.zaloapp.com/v4/permission`
+        *   Token URL: `https://oauth.zaloapp.com/v4/access_token`
+        *   User Info URL: `https://graph.zalo.me/v2.0/me`
 
-## 2. Naming and UI Standards
-*   **Active Host:** **Tina** (one of the 3 cats of Doca).
-*   **Icon Library:** **Phosphor Icons** (`ph-light` weight standard).
-*   **Playlist Slots:**
-    *   Morning (Sáng): `06:00` - `12:00` (6:00 AM - 11:59:59 AM)
-    *   Afternoon (Chiều): `12:00` - `18:00` (12:00 PM - 5:59:59 PM)
-    *   Evening (Tối): `18:00` - `06:00` (6:00 PM - 5:59:59 AM next day)
-*   **Japanese Novel Title:** Every playlist configuration must contain a `story_title` field (e.g. "Khu Vườn Mưa Và Tiếng Bước Chân Mèo" - Japanese light-novel translation style).
+## 2. Naming, UI & Phosphor Icon Standards
+*   **Active Host**: **Tina** (primary radio host).
+*   **Icon Library**: **Phosphor Icons** (`ph-light` weight standard, `ph-thin` for minimal elements, `ph-fill` or `ph-duotone` for active state).
+*   **Playlist Slots**:
+    *   Morning (Sáng): `06:00` - `12:00`
+    *   Afternoon (Chiều): `12:00` - `18:00`
+    *   Evening (Tối): `18:00` - `06:00` next day
+*   **Japanese Novel Style**: Playlist configurations must include `story_title` (e.g. *"Khu Vườn Mưa Và Tiếng Bước Chân Mèo"*).
+*   **Auth UI Naming**:
+    *   Login Modal container class: `.cozy-login-modal`
+    *   Zalo SSO button class: `.cozy-btn-zalo`
+    *   Google SSO button class: `.cozy-btn-google`
+    *   Navbar user status container: `.user-capsule`
 
-## 3. Mathematical Real-Time FM Synchronization
+## 3. Core Logic & Implementation Protocols
+
+### 3.1. Mathematical Real-Time FM Synchronization
 To make sure all users hear the same track at the same time:
 1.  Sum the durations of all tracks in the active playlist to get `totalDuration` in seconds.
 2.  Get the current epoch timestamp in seconds: `const now = Math.floor(Date.now() / 1000);`
@@ -27,18 +37,30 @@ To make sure all users hear the same track at the same time:
 5.  The local track playhead position is: `const trackOffset = playlistOffset - track[i].start;`
 6.  Set `audio.currentTime = trackOffset` and call `audio.play()`.
 
-## 4. "Never Do" List
-*   **NEVER** allow users to select or skip tracks. The dropdown is strictly a schedule view.
-*   **NEVER** hardblock the UI waiting for the weather API. The Open-Meteo call must timeout in 1.5 seconds, defaulting to a fallback description ("trời mát mẻ") if it fails or lags.
+### 3.2. SSG Build Safety & Client-Side Auth
+To prevent Astro build-time compile errors for browser-specific objects:
+*   Wrap all Supabase JS client initializations and session checks in client-side script contexts:
+    ```typescript
+    // In Astro files
+    <script>
+      import { supabase } from '../lib/supabaseClient';
+      // Safe to use window, localStorage, and supabase auth methods
+    </script>
+    ```
+*   Use `client:only` directives or defer client scripts if importing interactive components that use browser features.
 
-## 5. Open-Meteo Weather Codes Mapping
-We map the Open-Meteo WMO weather codes to Vietnamese descriptions:
+## 4. "Never Do" List
+*   **NEVER** allow users to select or skip tracks on the player (strictly a schedule).
+*   **NEVER** hardblock the UI waiting for the weather API (1.5s timeout fallback to "trời mát mẻ").
+*   **NEVER** initialize the Supabase client directly in the frontmatter script block of an Astro component, as this will run at build time on the server (causing "window is not defined" crashes). Initialize client-side or safeguard via `typeof window !== 'undefined'`.
+
+## 5. Weather Codes Mapping
 *   `0`: "trời trong xanh"
 *   `1, 2, 3`: "trời mây nhẹ, mát mẻ"
 *   `45, 48`: "trời sương mù nhẹ"
 *   `51, 53, 55`: "mưa phùn nhè nhẹ"
 *   `61, 63, 65`: "trời mưa rào"
-*   `71, 73, 75`: "trời lạnh mát" (mưa tuyết - không xảy ra ở HCMC nhưng giữ làm fallback)
+*   `71, 73, 75`: "trời lạnh mát"
 *   `80, 81, 82`: "mưa giông bất chợt"
 *   `95, 96, 99`: "sấm chớp bão bùng"
 *   *Default (Bình Hưng):* "trời mát mẻ"

@@ -25,3 +25,14 @@ This document tracks conflicting requirements or design patterns discovered duri
 *   **Resolution:**
     *   The **30-second preview limit** is a legal constraint that applies only to **promotional artist music/vinyls** in the DOCA Corner (which are copyrighted commercial songs redirecting to Spotify).
     *   For the **ambient background music player** on the homepage, the website is allowed to play full-length tracks because they are **Public Domain or Royalty-Free** with no copyright restrictions.
+
+## Contradiction 3: Client-Side Auth State vs. Static Page Pre-rendering
+
+*   **Topic:** How to display the user's logged-in status on statically generated pages (SSG) without layout flashes.
+*   **Conflict:**
+    *   **Source A:** Astro pre-renders HTML at build-time (SSG), which means the navigation bar defaults to pre-rendered HTML matching the Guest state (i.e. showing the "Đăng nhập" button).
+    *   **Source B:** The client-side Supabase client asynchronously loads the active session state from LocalStorage after the page mounts on the browser.
+*   **Practical Impact:** When a logged-in user visits the site, they will see the "Đăng nhập" button for a fraction of a second before it flashes and switches to the User Capsule (Avatar & Name). This creates a jarring visual glitch.
+*   **Resolution:**
+    *   To prevent layout flash, the pre-rendered HTML for the login control will render a **neutral skeleton capsule** or hide the auth block entirely by default (`opacity: 0` or a loading skeleton).
+    *   The client-side script will detect the auth state immediately on mount and trigger a fade-in animation for either the login button or the user capsule. This ensures smooth visual transitions without a noticeable flash.

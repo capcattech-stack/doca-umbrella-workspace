@@ -1,15 +1,18 @@
 {
-  "name": "doca-admin-web",
+  "name": "kios-capcat-web",
   "type": "module",
   "version": "0.0.1",
+  "engines": {
+    "node": ">=18.14.1"
+  },
   "scripts": {
-    "dev": "astro dev --port 4325",
+    "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.110.7",
+    "@supabase/supabase-js": "^2.110.6",
     "astro": "^4.11.0"
   }
 }

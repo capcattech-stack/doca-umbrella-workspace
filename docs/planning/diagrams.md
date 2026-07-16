@@ -1,138 +1,92 @@
-# Architectural Diagrams - DOCA FM Live Sync & Weather Integration
+# System Architecture Diagrams - DOCA FM & SSO Integration
 
-This document houses the structural, data, and behavioral diagrams for the live synchronized FM player and weather integrations.
+This document defines the C4 architectural diagrams and data representations for the DOCA FM real-time synchronization and the Supabase SSO authentication flow.
 
-## 1. C4 Container Diagram
-
-The high-level architecture of the website media integration:
+## 1. C4 Context Diagram
 
 ```mermaid
 graph TD
-    User([Site Visitor])
-    
-    subgraph Client [Client-Side Browser]
-        Astro[Astro Web App]
-        Player[Cozy Audio Player Widget]
-        HostCard[Cozy Host Tina Card UI]
-    end
-    
-    subgraph Supabase [Supabase Cloud Platform]
-        Storage[(Supabase Storage Bucket: 'audio')]
-    end
-    
-    subgraph OpenMeteo [Open-Meteo Weather Platform]
-        Meteo_API[Open-Meteo Forecast API]
-    end
-    
-    subgraph Wikimedia [Wikimedia Commons Platform]
-        WM_API[Commons Media Search & Metadata API]
-        WM_S3[Commons Media Upload Servers]
-    end
-    
-    subgraph ScriptEnv [Python Execution Environment]
-        SyncScript[sync_music.py Script]
-    end
-    
-    User -->|Visits /| Astro
-    Player -->|1. Fetches playlist.json| Storage
-    Player -->|2. Streams MP3/OGG tracks| Storage
-    Player -->|3. Fetches weather| Meteo_API
-    HostCard -->|Displays dynamic greeting| Player
-    
-    SyncScript -->|1. Queries media metadata| WM_API
-    WM_API -->|Direct Download| WM_S3
-    SyncScript -->|2. Uploads audio & playlist.json| Storage
+    User([Site Visitor / Owner])
+    Web[DOCA Affiliate Web - Astro static site]
+    SupaStorage[Supabase Storage - playlist.json & audio files]
+    Meteo[Open-Meteo Weather API]
+    SupaAuth[Supabase Auth Service]
+    OAuth[OAuth Providers - Google / Zalo]
+
+    User -->|Visits / Listens| Web
+    Web -->|Fetches playlist| SupaStorage
+    Web -->|Fetches current weather| Meteo
+    Web -->|Triggers authentication| SupaAuth
+    SupaAuth -->|Validates credentials| OAuth
+    OAuth -->|Redirects session| Web
 ```
 
 ---
 
-## 2. Data Model Diagram
+## 2. Container/Component Diagram
 
-The structure of the `playlist.json` metadata model showing the 3 slots:
+```mermaid
+graph TD
+    subgraph Client Browser
+        UI[Astro Page UI]
+        Player[Cozy Audio Player Script]
+        AuthNav[Navbar Auth Capsule Script]
+        SupaSDK[Supabase Auth JS Client SDK]
+        LocalStorage[(LocalStorage / Cookies)]
+    end
+
+    subgraph External Services
+        Supabase[(Supabase Storage & Database)]
+        OpenMeteo[Open-Meteo API]
+        GoogleOAuth[Google OAuth Server]
+        ZaloOAuth[Zalo OAuth Server]
+    end
+
+    UI --> Player
+    UI --> AuthNav
+    AuthNav --> SupaSDK
+    Player -->|fetch weather| OpenMeteo
+    Player -->|fetch playlist| Supabase
+    SupaSDK -->|read/write tokens| LocalStorage
+    SupaSDK -->|OAuth request| GoogleOAuth
+    SupaSDK -->|OAuth request| ZaloOAuth
+```
+
+---
+
+## 3. Data Model
+
+### 3.1. LocalStorage Cache Structure (Pet Profiles)
+To maintain user pet profiles under key `doca_user_bosses`:
+
+```json
+[
+  {
+    "id": "uuid-v4",
+    "name": "Bánh Mì",
+    "species": "Cat",
+    "age": 2,
+    "created_at": "2026-07-06T14:00:00Z"
+  }
+]
+```
+
+### 3.2. Supabase User Metadata Structure
+When logged in, user session profile details returned by Supabase Auth (`supabase.auth.getUser()`):
 
 ```mermaid
 classDiagram
-    class PlaylistConfig {
-        +Track[] tracks
-        +SlotsConfig playlists
+    class UserSession {
+        +String id (UUID)
+        +String email
+        +UserMetadata user_metadata
+        +String created_at
     }
-    class Track {
-        +String id
-        +String title
-        +String artist
-        +String url
-        +Integer duration
-        +String vibe
-        +String tempo
+    class UserMetadata {
+        +String full_name
+        +String avatar_url
+        +String provider
+        +List bosses (Optional sync backup)
     }
-    class SlotsConfig {
-        +DailySlots 0
-        +DailySlots 1
-        +DailySlots 2
-        +DailySlots 3
-        +DailySlots 4
-        +DailySlots 5
-        +DailySlots 6
-    }
-    class DailySlots {
-        +PlaylistSlot morning
-        +PlaylistSlot afternoon
-        +PlaylistSlot evening
-    }
-    class PlaylistSlot {
-        +String title
-        +String story_title
-        +String story
-        +String intro
-        +String[] tracks
-    }
-    PlaylistConfig --> Track : contains all tracks
-    PlaylistConfig --> SlotsConfig : contains slots config
-    SlotsConfig --> DailySlots : maps days (0-6)
-    DailySlots --> PlaylistSlot : contains morning, afternoon, evening
-```
-
----
-
-## 3. Audio Player Lifecycle State Diagram
-
-The lifecycle of the Cozy Audio Player widget including the daily host card:
-
-```mermaid
-stateDiagram-v2
-    [*] --> Loading : Initialize Player
-    Loading --> Loaded : fetch(playlist.json) Success
-    Loading --> Fallback : fetch(playlist.json) Fails
-    
-    Loaded --> LoadWeather : Fetch Open-Meteo Weather
-    Fallback --> LoadWeather : Fetch Open-Meteo Weather
-    
-    LoadWeather --> ResolvedActiveSlot : Resolve Current Time Slot
-    
-    ResolvedActiveSlot --> Paused : Render Host Card & Tracks
-    
-    state Paused {
-        [*] --> Idle
-        Idle --> StoryExpanded : Click "Read Story"
-        StoryCollapsed --> Idle : Collapse Story
-    }
-    
-    Paused --> Playing : Click Play
-    Playing --> Paused : Click Pause
-    Playing --> Playing : Track Ends (Auto-select next track in loop)
-    Playing --> Error : Stream Error
-    Error --> Paused : Load fallback track
-```
-
----
-
-## 4. Observability & Telemetry Map
-
-We track player interactions in Google Analytics 4 (GA4) as defined in our analytics integration:
-
-```mermaid
-graph LR
-    Play[Click Play] -->|GA4 Event| play_fm_radio
-    Pause[Click Pause] -->|GA4 Event| pause_fm_radio
-    Expand[Open Playlist] -->|GA4 Event| expand_playlist_dropdown
+    UserSession --> UserMetadata
 ```

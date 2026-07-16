@@ -88,6 +88,10 @@ const geminiApiKey = import.meta.env.PUBLIC_GEMINI_API_KEY || '';
 								<i class="ph-light ph-users"></i>
 								<span>Danh sách Lead</span>
 							</a>
+							<a href="/kiosks" class="notion-nav-item" id="nav-kiosks">
+								<i class="ph-light ph-storefront"></i>
+								<span>Duyệt Kiosk</span>
+							</a>
 						</div>
 					</div>
 
@@ -185,6 +189,8 @@ const geminiApiKey = import.meta.env.PUBLIC_GEMINI_API_KEY || '';
 
 <!-- CLIENT-SIDE NOTION INTERACTION SCRIPT -->
 <script>
+	import { createClient } from '@supabase/supabase-js';
+
 	document.addEventListener('DOMContentLoaded', async () => {
 		const supabaseUrl = window.PUBLIC_SUPABASE_URL || '';
 		const supabaseKey = window.PUBLIC_SUPABASE_ANON_KEY || '';
@@ -205,6 +211,8 @@ const geminiApiKey = import.meta.env.PUBLIC_GEMINI_API_KEY || '';
 			document.getElementById('nav-quizzes')?.classList.add('active');
 		} else if (path.includes('/leads')) {
 			document.getElementById('nav-leads')?.classList.add('active');
+		} else if (path.includes('/kiosks')) {
+			document.getElementById('nav-kiosks')?.classList.add('active');
 		}
 
 		// Tải trạng thái Sidebar ẩn/hiện từ LocalStorage
@@ -243,7 +251,6 @@ const geminiApiKey = import.meta.env.PUBLIC_GEMINI_API_KEY || '';
 			});
 		});
 
-		const { createClient } = await import('https://esm.sh/@supabase/supabase-js@2.43.4');
 		const supabase = createClient(supabaseUrl, supabaseKey);
 
 		const logoutBtn = document.getElementById('admin-logout-btn');
