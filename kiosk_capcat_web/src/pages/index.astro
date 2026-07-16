@@ -115,12 +115,18 @@ const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
   document.addEventListener('DOMContentLoaded', () => {
     // Phân tích đường dẫn URL
     const pathParts = window.location.pathname.split('/').filter(p => p);
-    const kiosName = pathParts[0]; // Lấy phần tử đầu tiên của path làm kios_name
+    let kiosName = pathParts[0]; // Lấy phần tử đầu tiên của path làm kios_name
+
+    // Fallback cho môi trường test localhost khi chưa có DNS rewrite của Vercel
+    if (!kiosName || kiosName === 'index.html') {
+      const urlParams = new URLSearchParams(window.location.search);
+      kiosName = urlParams.get('kiosk') || urlParams.get('name') || '';
+    }
 
     const landingView = document.getElementById('kiosk-landing-view');
     const viewerView = document.getElementById('kiosk-viewer-view');
 
-    if (!kiosName || kiosName === 'index.html') {
+    if (!kiosName) {
       // 1. Hiển thị Landing Page
       if (landingView) landingView.classList.remove('hidden');
       return;
