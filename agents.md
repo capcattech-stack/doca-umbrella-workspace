@@ -32,3 +32,13 @@
     *   *ADR-015:* Implemented catch-all Single Page Application (SPA) routing in `kios_capcat_web` to route all subpaths `/{kios_name}` to `index.html` via Vercel rewrites, avoiding build-time static paths compilation.
     *   *ADR-016:* Adopted the zero-latency client-side text check mechanism (`checkTextSafety` blocklist) from `family.astro` for kiosk descriptions to ensure design consistency and fast UX.
     *   *ADR-017:* Decoupled Kiosk registration and configuration dashboard into its own route `/profile/kiosk` from `/profile`, adding dynamic CTAs on the Profile page based on active kiosk database status.
+
+## Feature 016: Kiosk Details & Product Layout Alignment
+*   **Planning Date:** 2026-07-16
+*   **Status:** Success (Fully Implemented & Verified)
+*   **Description:** Added Shopee link details extraction, custom name/image editing, Kiosk Avatar settings, and redesigned Kiosk viewer layout to align with the product cards of doca-affiliate-web.
+*   **Key Decisions:**
+    *   *ADR-018:* Client-side regex parsing of Shopee link path slugs to pre-fill product names.
+    *   *ADR-019:* Added Unsplash pet portraits and local product images as pre-configured quick selection options for Kiosk Avatar and Product Images.
+    *   *ADR-020:* Client-side routing fallback via URLSearchParams `?kiosk=xxx` to bypass local Astro dev server routing limitations.
+
