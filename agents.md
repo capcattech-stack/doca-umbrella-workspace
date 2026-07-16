@@ -42,3 +42,14 @@
     *   *ADR-019:* Added Unsplash pet portraits and local product images as pre-configured quick selection options for Kiosk Avatar and Product Images.
     *   *ADR-020:* Client-side routing fallback via URLSearchParams `?kiosk=xxx` to bypass local Astro dev server routing limitations.
 
+## Feature 017: Cozy Light Kiosk Dashboard & Fast Creation
+*   **Planning Date:** 2026-07-16
+*   **Status:** Success (Fully Implemented & Verified)
+*   **Description:** Redesigned the Kiosk addition dashboard to a light-themed design (Cozy Cloud/Paper) and transitioned the added link lists into a beautiful grid of mini product cards. Implemented a double-layered metadata extractor using Vercel Serverless scraping API combined with client-side fallback image/title mapper.
+*   **Key Decisions:**
+    *   *ADR-021:* Transformed dark container styling into light mode (Cozy Cloud `--cozy-bg-pure` background, Matcha and Charcoal accents) for a cleaner, unified healing look.
+    *   *ADR-022:* Remapped added product layout to a responsive CSS grid displaying dynamic custom product cards with hover effects and red trash actions.
+    *   *ADR-023:* Bypassed Astro server-side compiler error (`kiosk is not defined`) using span placeholders populated programmatically on client-side setup.
+    *   *ADR-024:* Implemented double-layered scraping strategy: Layer 1 calls Vercel serverless scraper endpoint with Scraper API proxy; Layer 2 falls back client-side to slug regex parsing and keyword-to-image Unsplash mapping.
+
+
