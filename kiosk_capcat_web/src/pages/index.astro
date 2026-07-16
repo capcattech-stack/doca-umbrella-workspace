@@ -30,7 +30,7 @@ const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
             <i class="ph-light ph-sparkles" style="color: var(--cozy-green-matcha-forest);"></i> Bạn muốn mở Kiosk riêng?
           </h3>
           <p style="font-size: 0.88rem; line-height: 1.6; color: var(--cozy-text-charcoal); margin-bottom: 1.25rem;">
-            Nếu bạn là nhà sáng tạo nội dung, blogger hoặc chủ nuôi thú cưng cá tính, bạn có thể tự thiết lập một trang Kiosk cá nhân dạng <code class="whisper-mono" style="background-color: var(--cozy-bg-beige); padding: 2px 6px; border-radius: 4px;">kios.capcat.vn/ten-cua-ban</code> cực kỳ dễ dàng.
+            Nếu bạn là nhà sáng tạo nội dung, blogger hoặc chủ nuôi thú cưng cá tính, bạn có thể tự thiết lập một trang Kiosk cá nhân dạng <code class="whisper-mono" style="background-color: var(--cozy-bg-beige); padding: 2px 6px; border-radius: 4px;">kiosk.capcat.vn/ten-cua-ban</code> cực kỳ dễ dàng.
           </p>
           <div style="display: flex; flex-direction: column; gap: 0.5rem;">
             <a href="https://doca.pet/profile" target="_blank" class="btn-create" style="display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; background-color: var(--cozy-green-matcha-forest); color: #fff; border-radius: 8px; padding: 0.65rem 1rem; font-size: 0.85rem; font-weight: 600; width: 100%; transition: all 0.2s ease;">
@@ -168,7 +168,7 @@ const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
 
         // Điền thông tin Kiosk
         if (storeTitleEl) storeTitleEl.innerText = `Kiosk ${kiosk.kios_name.toLowerCase()}`;
-        if (storeDomainEl) storeDomainEl.innerText = `kios.capcat.vn/${kiosk.kios_name}`;
+        if (storeDomainEl) storeDomainEl.innerText = `kiosk.capcat.vn/${kiosk.kios_name}`;
 
         // Tạo liên kết kênh truyền thông
         if (channelWrapper) {
