@@ -89,12 +89,75 @@ a {
   text-align: center;
 }
 
-/* Polaroids */
-.polaroid-grid {
+/* Grid Sản Phẩm */
+.products-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
   margin-top: 2rem;
+}
+
+@media (min-width: 768px) {
+  .products-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .products-grid {
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1rem;
+  }
+}
+
+/* Phân trang sản phẩm (Pagination) */
+.products-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.page-btn {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 1px solid rgba(74, 138, 46, 0.15);
+  background-color: #E2ECD2;
+  color: var(--cozy-green-matcha-dark);
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.page-btn:hover:not(:disabled) {
+  background-color: var(--cozy-green-matcha);
+  color: var(--cozy-bg-pure);
+  border-color: var(--cozy-green-matcha);
+  transform: scale(1.08);
+}
+
+.page-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  background-color: #F0F4E8;
+  color: #9CADA2;
+  border-color: rgba(0, 0, 0, 0.02);
+}
+
+.page-btn.active {
+  background-color: var(--cozy-green-matcha-forest);
+  color: var(--cozy-bg-pure);
+  border-color: var(--cozy-green-matcha-forest);
+  box-shadow: 0 4px 10px rgba(74, 138, 46, 0.25);
 }
 
 .polaroid-card {

@@ -71,16 +71,25 @@ const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
         <!-- TRẠNG THÁI HIỂN THỊ CỬA HÀNG THỰC TẾ -->
         <div id="kiosk-content" class="kiosk-content hidden">
           <!-- Store Header -->
-          <header class="store-header">
-            <div class="store-avatar-box" style="position: relative; overflow: hidden; padding: 0;">
+          <header class="store-header" style="display: flex; align-items: flex-start; gap: 2rem; background-color: var(--cozy-bg-pure); border: 1px solid var(--cozy-border-light); border-radius: 16px; padding: 2.5rem; box-shadow: var(--cozy-shadow-default); margin-bottom: 3rem; position: relative; overflow: hidden; flex-wrap: wrap;">
+            <div class="store-avatar-box" style="position: relative; overflow: hidden; padding: 0; width: 86px; height: 86px; border-radius: 50%; background-color: var(--cozy-bg-cream-warm); border: 2.5px solid var(--cozy-green-matcha-forest); display: flex; justify-content: center; align-items: center; font-size: 2.5rem; color: var(--cozy-green-matcha-forest); flex-shrink: 0; box-shadow: 0 2px 8px rgba(0,0,0,0.03);">
               <img id="store-avatar-img" class="hidden" style="width: 100%; height: 100%; object-fit: cover;" />
-              <i id="store-avatar-icon" class="ph-duotone ph-storefront"></i>
+              <i id="store-avatar-icon" class="ph-light ph-paw" style="font-size: 2.5rem;"></i>
             </div>
-            <div class="store-info-box">
-              <h1 id="store-title">Kiosk Của Nhà Sáng Tạo</h1>
-              <p class="whisper-mono" id="store-slug-domain"></p>
-              <div id="store-channel-wrapper" class="store-channel-wrapper">
-                <!-- Link mạng xã hội chèn ở đây -->
+            <div class="store-info-box" style="display: flex; flex-direction: column; align-items: flex-start; gap: 0.5rem; text-align: left; flex-grow: 1; min-width: 250px;">
+              <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; width: 100%;">
+                <h1 id="store-title" style="font-size: 1.75rem; margin: 0; color: var(--cozy-text-obsidian); font-weight: 800;">Kiosk Của Nhà Sáng Tạo</h1>
+                <span id="store-status-badge" style="font-family: 'Inter', sans-serif; font-size: 0.68rem; font-weight: 700; background-color: #E2ECD2; color: var(--cozy-green-matcha-dark); padding: 3px 8px; border-radius: 20px; display: inline-flex; align-items: center; gap: 4px; border: 1px solid rgba(74, 138, 46, 0.1);">
+                  <span style="width: 6px; height: 6px; background-color: var(--cozy-green-matcha); border-radius: 50%; display: inline-block;"></span> Đang mở cửa
+                </span>
+              </div>
+              <p class="whisper-mono" id="store-slug-domain" style="font-size: 0.85rem; color: var(--cozy-text-charcoal); margin: 0;"></p>
+              
+              <!-- Bio / Lời chào -->
+              <p id="store-bio" class="hidden" style="font-family: 'Inter', sans-serif; font-size: 0.88rem; color: var(--cozy-text-charcoal); font-style: italic; line-height: 1.5; margin: 0.25rem 0 0.5rem 0; border-left: 2.5px solid var(--cozy-green-matcha-forest); padding-left: 0.75rem; max-width: 600px;"></p>
+              
+              <div id="store-channel-wrapper" class="store-channel-wrapper" style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 0.25rem;">
+                <!-- Các link mạng xã hội (icon tròn) chèn ở đây -->
               </div>
             </div>
           </header>
@@ -91,14 +100,17 @@ const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
             <i class="ph-light ph-sparkles"></i>
           </div>
 
-          <!-- Links Grid (Polaroids) -->
+          <!-- Links Grid -->
           <div id="links-grid-empty" class="text-center hidden" style="padding: 4rem 0; color: var(--cozy-text-charcoal); font-style: italic;">
             Cửa hàng hiện tại chưa có sản phẩm nào được bày bán. Hãy ghé lại sau nhé! 🐾
           </div>
           
-          <div id="links-grid" class="polaroid-grid">
-            <!-- Các sản phẩm dạng Polaroid ở đây -->
+          <div id="links-grid" class="products-grid">
+            <!-- Các sản phẩm ở đây -->
           </div>
+
+          <!-- Phân trang sản phẩm (Pagination) -->
+          <div id="products-pagination" class="products-pagination"></div>
         </div>
 
       </div>
@@ -191,28 +203,72 @@ const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
           if (storeAvatarIcon) storeAvatarIcon.classList.remove('hidden');
         }
 
-        // Tạo liên kết kênh truyền thông
-        if (channelWrapper) {
-          let channelIcon = '<i class="ph-light ph-link"></i>';
-          let channelText = 'Kênh truyền thông';
+        // Cập nhật Bio / Lời chào
+        const storeBioEl = document.getElementById('store-bio');
+        if (storeBioEl) {
+          if (kiosk.bio) {
+            storeBioEl.innerText = kiosk.bio;
+            storeBioEl.classList.remove('hidden');
+          } else {
+            storeBioEl.classList.add('hidden');
+          }
+        }
 
-          const chanLower = kiosk.channel.toLowerCase();
-          if (chanLower.includes('tiktok.com')) {
-            channelIcon = '<i class="ph-fill ph-tiktok-logo" style="color: var(--cozy-text-obsidian);"></i>';
-            channelText = 'TikTok';
-          } else if (chanLower.includes('youtube.com') || chanLower.includes('youtu.be')) {
-            channelIcon = '<i class="ph-fill ph-youtube-logo" style="color: #FF0000;"></i>';
-            channelText = 'YouTube';
-          } else if (chanLower.includes('facebook.com')) {
-            channelIcon = '<i class="ph-fill ph-facebook-logo" style="color: #1877F2;"></i>';
-            channelText = 'Facebook';
+        // Tạo liên kết kênh truyền thông (Social Links)
+        if (channelWrapper) {
+          let html = '';
+          const socialLinks = kiosk.social_links || {};
+          
+          // Kiểm tra xem có bất kỳ link social mới nào được điền không
+          const hasNewSocial = socialLinks.youtube || socialLinks.tiktok || socialLinks.facebook || socialLinks.instagram;
+          
+          if (hasNewSocial) {
+            // Render danh sách icon tròn tinh tế cho các link được điền
+            const platforms = [
+              { key: 'youtube', icon: 'ph-light ph-youtube-logo', color: '#FF0000', label: 'YouTube' },
+              { key: 'tiktok', icon: 'ph-light ph-tiktok-logo', color: 'var(--cozy-text-obsidian)', label: 'TikTok' },
+              { key: 'facebook', icon: 'ph-light ph-facebook-logo', color: '#1877F2', label: 'Facebook' },
+              { key: 'instagram', icon: 'ph-light ph-instagram-logo', color: '#E1306C', label: 'Instagram' }
+            ];
+
+            platforms.forEach(p => {
+              const url = socialLinks[p.key];
+              if (url) {
+                html += `
+                  <a href="${url}" target="_blank" class="store-channel-btn" style="width: 32px; height: 32px; padding: 0; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; background-color: var(--cozy-bg-beige); border: 1px solid var(--cozy-border-light); font-size: 1.15rem; color: var(--cozy-text-obsidian); transition: all 0.2s ease;" title="${p.label}">
+                    <i class="${p.icon}" style="color: ${p.color};"></i>
+                  </a>
+                `;
+              }
+            });
+          } else if (kiosk.channel) {
+            // Fallback cho kênh truyền thông chính kiểu cũ (nếu chưa cấu hình settings mới)
+            let channelIcon = 'ph-light ph-link';
+            let channelColor = 'var(--cozy-text-obsidian)';
+            let channelText = 'Kênh truyền thông';
+
+            const chanLower = kiosk.channel.toLowerCase();
+            if (chanLower.includes('tiktok.com')) {
+              channelIcon = 'ph-light ph-tiktok-logo';
+              channelText = 'TikTok';
+            } else if (chanLower.includes('youtube.com') || chanLower.includes('youtu.be')) {
+              channelIcon = 'ph-light ph-youtube-logo';
+              channelColor = '#FF0000';
+              channelText = 'YouTube';
+            } else if (chanLower.includes('facebook.com')) {
+              channelIcon = 'ph-light ph-facebook-logo';
+              channelColor = '#1877F2';
+              channelText = 'Facebook';
+            }
+
+            html = `
+              <a href="${kiosk.channel}" target="_blank" class="store-channel-btn" style="display: inline-flex; align-items: center; gap: 0.4rem; background-color: var(--cozy-bg-beige); border: 1px solid var(--cozy-border-light); padding: 0.35rem 0.85rem; border-radius: 20px; font-size: 0.78rem; font-weight: 600; text-decoration: none; color: var(--cozy-text-obsidian); transition: all 0.2s ease;">
+                <i class="${channelIcon}" style="color: ${channelColor}; font-size: 1rem;"></i> <span>Ghé thăm ${channelText}</span>
+              </a>
+            `;
           }
 
-          channelWrapper.innerHTML = `
-            <a href="${kiosk.channel}" target="_blank" class="store-channel-btn">
-              ${channelIcon} <span>Ghé thăm ${channelText}</span>
-            </a>
-          `;
+          channelWrapper.innerHTML = html;
         }
 
         // Tải danh sách links sản phẩm đã duyệt của Kiosk
@@ -231,6 +287,21 @@ const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
             }
 
             if (gridEmptyEl) gridEmptyEl.classList.add('hidden');
+
+            // Chỉ dành cho mục đích test phân trang và giao diện lưới trên local dev:
+            if (links && links.length > 0 && kiosName === 'test' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) {
+              const baseLink = links[0];
+              const testLinks = [];
+              for (let i = 1; i <= 15; i++) {
+                testLinks.push({
+                  ...baseLink,
+                  id: `${baseLink.id}-${i}`,
+                  product_name: `${baseLink.product_name || 'Sản phẩm test'} #${i}`,
+                  description: baseLink.description ? `${baseLink.description} (Mẫu test #${i})` : `Mô tả sản phẩm test #${i}`
+                });
+              }
+              links = testLinks;
+            }
             if (linksGrid) {
               linksGrid.innerHTML = links.map((link: any, idx: number) => {
                 // Định danh nền tảng
@@ -271,6 +342,83 @@ const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
                   </a>
                 `;
               }).join('');
+
+              // Logic phân trang client-side
+              const productCards = linksGrid.children;
+              const paginationContainer = document.getElementById('products-pagination');
+              
+              let currentPage = 1;
+              const itemsPerPage = 10;
+              
+              function updateGrid() {
+                if (!productCards.length) return;
+                
+                const totalItems = productCards.length;
+                const totalPages = Math.ceil(totalItems / itemsPerPage);
+                
+                if (currentPage < 1) currentPage = 1;
+                if (currentPage > totalPages && totalPages > 0) currentPage = totalPages;
+                
+                const startIndex = (currentPage - 1) * itemsPerPage;
+                const endIndex = startIndex + itemsPerPage;
+                
+                // Ẩn tất cả trước
+                Array.from(productCards).forEach(card => {
+                  (card as HTMLElement).style.display = 'none';
+                });
+                
+                // Hiển thị các sản phẩm thuộc trang hiện tại
+                Array.from(productCards).forEach((card, index) => {
+                  if (index >= startIndex && index < endIndex) {
+                    (card as HTMLElement).style.display = 'flex';
+                  }
+                });
+                
+                renderPagination(totalPages);
+              }
+              
+              function renderPagination(totalPages: number) {
+                if (!paginationContainer) return;
+                
+                if (totalPages <= 1) {
+                  paginationContainer.innerHTML = '';
+                  paginationContainer.style.display = 'none';
+                  return;
+                }
+                
+                paginationContainer.style.display = 'flex';
+                let html = '';
+                
+                // Nút Prev
+                html += `<button class="page-btn prev-btn" ${currentPage === 1 ? 'disabled' : ''} data-page="${currentPage - 1}"><i class="ph-light ph-caret-left"></i></button>`;
+                
+                // Các số trang
+                for (let i = 1; i <= totalPages; i++) {
+                  html += `<button class="page-btn num-btn ${currentPage === i ? 'active' : ''}" data-page="${i}">${i}</button>`;
+                }
+                
+                // Nút Next
+                html += `<button class="page-btn next-btn" ${currentPage === totalPages ? 'disabled' : ''} data-page="${currentPage + 1}"><i class="ph-light ph-caret-right"></i></button>`;
+                
+                paginationContainer.innerHTML = html;
+                
+                paginationContainer.querySelectorAll('.page-btn').forEach(btn => {
+                  btn.addEventListener('click', (e) => {
+                    const target = e.currentTarget as HTMLButtonElement;
+                    if (target.disabled) return;
+                    const pageNum = parseInt(target.getAttribute('data-page') || '1');
+                    currentPage = pageNum;
+                    updateGrid();
+                    
+                    // Cuộn mượt lên vị trí store-divider
+                    const divider = document.querySelector('.store-divider');
+                    divider?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  });
+                });
+              }
+              
+              // Chạy lần đầu tiên
+              updateGrid();
             }
           });
       });

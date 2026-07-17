@@ -52,4 +52,20 @@
     *   *ADR-023:* Bypassed Astro server-side compiler error (`kiosk is not defined`) using span placeholders populated programmatically on client-side setup.
     *   *ADR-024:* Implemented double-layered scraping strategy: Layer 1 calls Vercel serverless scraper endpoint with Scraper API proxy; Layer 2 falls back client-side to slug regex parsing and keyword-to-image Unsplash mapping.
 
+## Feature 018: Kiosk Grid Layout Alignment & Client-side Pagination
+*   **Planning Date:** 2026-07-17
+*   **Status:** Success (Fully Implemented & Verified)
+*   **Description:** Aligned Kiosk viewer product grid with doca-affiliate-web (5 columns on desktop, 2 columns on mobile, 3 columns on tablet). Added client-side pagination displaying 10 products per page with smooth scroll-up transitions and styled page buttons matching the Matcha forest theme.
+*   **Key Decisions:**
+    *   *ADR-025:* Swapped `.polaroid-grid` layout for responsive `.products-grid` matching global styling.
+    *   *ADR-026:* Implemented client-side pagination DOM manipulation hiding/showing active page cards.
+    *   *ADR-027:* Integrated a localhost mock data duplicator (15 test products) specifically for the "test" kiosk to ease local UI testing.
 
+## Feature 019: Kiosk Bio & Multiple Social Links Integration
+*   **Planning Date:** 2026-07-17
+*   **Status:** Success (Fully Implemented & Verified)
+*   **Description:** Integrated customizable bios (up to 150 characters) and multiple social channel links (YouTube, TikTok, Facebook, Instagram) into Kiosk. Upgraded the Creator settings dashboard into a consolidated settings form and redesigned Kiosk header to display bio quotes and circular social icons.
+*   **Key Decisions:**
+    *   *ADR-028:* Extended Supabase `creator_kiosks` table with `bio` (TEXT) and `social_links` (JSONB) columns.
+    *   *ADR-029:* Unified settings controls in `kiosk.astro` saving avatar, bio, and social object payload under a single database transaction.
+    *   *ADR-030:* Redesigned viewer header in `index.astro` to render an inline group of minimal social icons with backward compatibility for the legacy `kiosk.channel` link.
