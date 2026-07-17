@@ -113,6 +113,44 @@ const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
           <div id="products-pagination" class="products-pagination"></div>
         </div>
 
+        <!-- Polaroid Bottom Sheet -->
+        <div id="polaroid-sheet-overlay" class="sheet-overlay">
+          <div id="polaroid-bottom-sheet" class="polaroid-bottom-sheet">
+            <div class="sheet-drag-handle"></div>
+            
+            <div class="sheet-content">
+              <!-- Cột trái: Ảnh Polaroid -->
+              <div class="content-left">
+                <div class="polaroid-frame">
+                  <img id="sheet-product-image" src="/images/brand/symbol-green.png" alt="Sản phẩm" />
+                </div>
+              </div>
+              
+              <!-- Cột phải: Thông tin -->
+              <div class="content-right">
+                <span class="sheet-badge">Lời nhắn của Creator</span>
+                <h3 id="sheet-product-title" class="title-large">Tên sản phẩm</h3>
+                <span id="sheet-price-platform" class="platform-badge" data-platform="shopee">Shopee</span>
+              </div>
+
+              <!-- Quote trãi dài 100% ở dưới cả 2 cột -->
+              <div class="sheet-quote-fullwidth">
+                <p id="sheet-product-quote" class="whisper-mono">"Mô tả cảm xúc..."</p>
+              </div>
+            </div>
+
+            <!-- Hàng nút hành động -->
+            <div class="sheet-actions">
+              <button id="sheet-buy-now-btn" class="cozy-btn cozy-btn-primary cozy-btn-block action-btn-buy" style="border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                Mua sản phẩm <i class="ph-light ph-shopping-cart"></i>
+              </button>
+              <button id="sheet-group-buy-btn" class="cozy-btn cozy-btn-secondary cozy-btn-block action-btn-group" style="cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                Gom mua chung giá sỉ · tiết kiệm 30% <i class="ph-light ph-users"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
       </div>
     </main>
   </div>
@@ -316,7 +354,7 @@ const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
                 const hasImage = !!link.product_image_url;
 
                 return `
-                  <a href="${link.affiliate_url}" target="_blank" class="product-card-v2" style="text-decoration: none; color: inherit;">
+                  <div class="product-card-v2" data-id="${link.id}" data-url="${escapeHtml(link.affiliate_url)}" data-name="${escapeHtml(displayTitle)}" data-image="${escapeHtml(displayImageUrl)}" data-desc="${escapeHtml(link.description || '')}" data-platform="${linkPlatform}" style="cursor: pointer;">
                     <div class="product-image-container">
                       <img 
                         src="${displayImageUrl}" 
@@ -339,7 +377,7 @@ const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
                         ${linkPlatform}
                       </span>
                     </div>
-                  </a>
+                  </div>
                 `;
               }).join('');
 
@@ -419,6 +457,121 @@ const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
               
               // Chạy lần đầu tiên
               updateGrid();
+
+              // --- Xử lý Đóng/Mở Bottom Sheet Polaroid ---
+              const sheetOverlay = document.getElementById('polaroid-sheet-overlay');
+              const bottomSheet = document.getElementById('polaroid-bottom-sheet');
+              const sheetImg = document.getElementById('sheet-product-image') as HTMLImageElement;
+              const sheetTitle = document.getElementById('sheet-product-title');
+              const sheetQuote = document.getElementById('sheet-product-quote');
+              const sheetPricePlatform = document.getElementById('sheet-price-platform');
+              const sheetBuyNowBtn = document.getElementById('sheet-buy-now-btn') as HTMLButtonElement;
+              const sheetGroupBuyBtn = document.getElementById('sheet-group-buy-btn') as HTMLButtonElement;
+
+              let activeProductUrl = '';
+
+              function openProductSheet(card: HTMLElement) {
+                const url = card.getAttribute('data-url') || '';
+                const name = card.getAttribute('data-name') || '';
+                const image = card.getAttribute('data-image') || '';
+                const desc = card.getAttribute('data-desc') || '';
+                const platform = card.getAttribute('data-platform') || 'Shopee';
+
+                activeProductUrl = url;
+
+                if (sheetImg) {
+                  sheetImg.src = image || "/images/brand/symbol-green.png";
+                  if (!image) {
+                    sheetImg.classList.add('placeholder-logo');
+                  } else {
+                    sheetImg.classList.remove('placeholder-logo');
+                  }
+                }
+                if (sheetTitle) sheetTitle.textContent = name;
+                
+                if (sheetQuote) {
+                  if (desc) {
+                    sheetQuote.textContent = desc.startsWith('"') || desc.startsWith('“') ? desc : `“ ${desc} ”`;
+                    sheetQuote.parentElement?.style.setProperty('display', 'block');
+                  } else {
+                    sheetQuote.parentElement?.style.setProperty('display', 'none');
+                  }
+                }
+
+                if (sheetPricePlatform) {
+                  sheetPricePlatform.setAttribute('data-platform', platform.toLowerCase());
+                  if (platform.toLowerCase() === 'shopee') {
+                    sheetPricePlatform.innerHTML = `
+                      <svg viewBox="0 0 24 24" width="10" height="10" fill="currentColor" style="display: inline-block; vertical-align: -0.5px; margin-right: 3px;">
+                        <path d="M19 6h-2c0-2.76-2.24-5-5-5S7 3.24 7 6H5c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-7-3c1.66 0 3 1.34 3 3H9c0-1.66 1.34-3 3-3zm7 17H5V8h14v12zm-7-8c-1.66 0-3-1.34-3-3a1 1 0 1 0-2 0c0 2.76 2.24 5 5 5s5-2.24 5-5a1 1 0 1 0-2 0c0 1.66-1.34 3-3 3z"/>
+                      </svg>Shopee`;
+                  } else {
+                    sheetPricePlatform.textContent = platform;
+                  }
+                }
+
+                if (sheetBuyNowBtn) {
+                  sheetBuyNowBtn.innerHTML = `Mua trên ${platform} <i class="ph-light ph-shopping-cart"></i>`;
+                }
+
+                sheetOverlay?.classList.add('open');
+                document.body.style.overflow = 'hidden';
+              }
+
+              function closeProductSheet() {
+                sheetOverlay?.classList.remove('open');
+                document.body.style.overflow = '';
+              }
+
+              // Lắng nghe sự kiện click trên từng card sản phẩm
+              Array.from(productCards).forEach((card: any) => {
+                card.addEventListener('click', () => {
+                  openProductSheet(card);
+                });
+              });
+
+              // Đóng khi click ra ngoài overlay
+              sheetOverlay?.addEventListener('click', (e) => {
+                if (e.target === sheetOverlay) {
+                  closeProductSheet();
+                }
+              });
+
+              bottomSheet?.addEventListener('click', (e) => {
+                e.stopPropagation();
+              });
+
+              // Click nút Mua ngay
+              sheetBuyNowBtn?.addEventListener('click', () => {
+                if (activeProductUrl) {
+                  window.open(activeProductUrl, '_blank');
+                }
+              });
+
+              // Click nút Mua chung (Fake Door)
+              sheetGroupBuyBtn?.addEventListener('click', () => {
+                // Hiện toast
+                const toast = document.createElement('div');
+                toast.style.position = 'fixed';
+                toast.style.bottom = '30px';
+                toast.style.left = '50%';
+                toast.style.transform = 'translateX(-50%)';
+                toast.style.backgroundColor = 'var(--cozy-green-matcha-dark)';
+                toast.style.color = '#fff';
+                toast.style.padding = '12px 24px';
+                toast.style.borderRadius = '30px';
+                toast.style.fontSize = '0.85rem';
+                toast.style.fontWeight = '600';
+                toast.style.zIndex = '9999';
+                toast.style.boxShadow = '0 4px 15px rgba(0,0,0,0.15)';
+                toast.innerHTML = '🐾 Tụi con chưa thương lượng xong với bên bán hàng đâu ạ... Cô/chú chờ tụi con tí nhé!';
+                document.body.appendChild(toast);
+                setTimeout(() => {
+                  toast.remove();
+                }, 3500);
+
+                closeProductSheet();
+              });
             }
           });
       });
@@ -426,6 +579,179 @@ const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
 </script>
 
 <style>
+  /* Bottom Sheet Polaroid Styles */
+  .sheet-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(28, 28, 30, 0);
+    z-index: 999;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    backdrop-filter: blur(0px);
+  }
+
+  .sheet-overlay.open {
+    background-color: rgba(0, 0, 0, 0.4);
+    opacity: 1;
+    pointer-events: auto;
+    backdrop-filter: blur(3px);
+  }
+
+  .polaroid-bottom-sheet {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #FFFFFF;
+    border-top-left-radius: 32px;
+    border-top-right-radius: 32px;
+    box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.08);
+    transform: translateY(100%);
+    transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1);
+    z-index: 1000;
+    padding: 2.25rem 1.75rem 2rem 1.75rem;
+    max-width: 480px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .sheet-overlay.open .polaroid-bottom-sheet {
+    transform: translateY(0);
+  }
+
+  .sheet-drag-handle {
+    width: 40px;
+    height: 5px;
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .sheet-content {
+    display: grid;
+    grid-template-columns: 3fr 7fr;
+    gap: 1.5rem;
+    align-items: center;
+    margin-bottom: 2rem;
+    margin-top: 0.75rem;
+  }
+
+  .content-left {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .polaroid-frame {
+    background: #FFFFFF;
+    padding: 4px 4px 10px 4px;
+    box-shadow: 0 8px 24px rgba(139, 94, 60, 0.07);
+    transform: rotate(-3deg);
+    border: 1px solid var(--cozy-border-light);
+    width: 100%;
+    max-width: 125px;
+    border-radius: 4px;
+  }
+
+  .polaroid-frame img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 2px;
+    border: 1px solid rgba(139, 94, 60, 0.12);
+  }
+
+  .content-right {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .sheet-badge {
+    align-self: flex-start;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--cozy-green-matcha-dark);
+    background-color: var(--cozy-bg-beige);
+    padding: 0.2rem 0.5rem;
+    border-radius: 6px;
+    letter-spacing: 0.2px;
+  }
+
+  .title-large {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 1.15rem;
+    color: var(--cozy-text-obsidian);
+    line-height: 1.25;
+    margin: 0;
+  }
+
+  .sheet-quote-fullwidth {
+    grid-column: 1 / -1;
+    border-top: 1px dashed var(--cozy-border-light);
+    padding-top: 1rem;
+    margin-top: 0.25rem;
+    width: 100%;
+  }
+
+  .sheet-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+  }
+
+  .action-btn-buy {
+    background-color: var(--cozy-green-matcha-forest);
+    color: #FFFFFF;
+    border-radius: 14px;
+    height: 50px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    width: 100%;
+    border: none;
+    box-shadow: 0 4px 12px rgba(74, 138, 46, 0.15);
+    transition: all 0.2s ease;
+  }
+
+  .action-btn-buy:hover {
+    background-color: var(--cozy-green-matcha-dark);
+  }
+
+  .action-btn-group {
+    background-color: #E2ECD2;
+    color: var(--cozy-green-matcha-dark);
+    border-radius: 14px;
+    height: 50px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    width: 100%;
+    border: 1px solid rgba(74, 138, 46, 0.15);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .action-btn-group:hover {
+    background-color: var(--cozy-green-matcha);
+    color: var(--cozy-bg-pure);
+    border-color: var(--cozy-green-matcha);
+  }
+
+  .polaroid-frame img.placeholder-logo {
+    object-fit: contain;
+    background-color: var(--cozy-bg-beige);
+    padding: 16px;
+    filter: grayscale(1) opacity(0.35);
+  }
+
   /* Landing styles */
   .btn-create:hover {
     background-color: var(--cozy-green-matcha-dark);
