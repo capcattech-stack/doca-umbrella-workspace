@@ -78,3 +78,4 @@
     *   *ADR-031:* Moved raw form wrapper into fixed overlay container `#kiosk-add-product-sheet` to isolate layout constraints.
     *   *ADR-032:* Controlled background body scroll lock (`overflow: hidden`) during sheet activation to prevent double scrolling.
     *   *ADR-033:* Implemented auto-close sheet trigger and form reset actions inside the post-submission success callback block.
+    *   *ADR-034:* Aligned settings product list grid and pagination (5 columns desktop, 2 columns mobile, 10 items per page) client-side to synchronize UI consistency with Kiosk viewer page.
