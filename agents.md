@@ -69,3 +69,12 @@
     *   *ADR-028:* Extended Supabase `creator_kiosks` table with `bio` (TEXT) and `social_links` (JSONB) columns.
     *   *ADR-029:* Unified settings controls in `kiosk.astro` saving avatar, bio, and social object payload under a single database transaction.
     *   *ADR-030:* Redesigned viewer header in `index.astro` to render an inline group of minimal social icons with backward compatibility for the legacy `kiosk.channel` link.
+
+## Feature 020: Kiosk Dashboard Clean Redesign & Bottom Sheet Add Product
+*   **Planning Date:** 2026-07-17
+*   **Status:** Success (Fully Implemented & Verified)
+*   **Description:** Redesigned Kiosk settings dashboard by moving the Shopee product addition form and live preview from the main screen into a smooth, animated Bottom Sheet (which scales into a centered Modal on desktop view). Added a green Matcha CTA "Thêm sản phẩm" trigger in the header of the product list to open the sheet.
+*   **Key Decisions:**
+    *   *ADR-031:* Moved raw form wrapper into fixed overlay container `#kiosk-add-product-sheet` to isolate layout constraints.
+    *   *ADR-032:* Controlled background body scroll lock (`overflow: hidden`) during sheet activation to prevent double scrolling.
+    *   *ADR-033:* Implemented auto-close sheet trigger and form reset actions inside the post-submission success callback block.
