@@ -79,3 +79,13 @@
     *   *ADR-032:* Controlled background body scroll lock (`overflow: hidden`) during sheet activation to prevent double scrolling.
     *   *ADR-033:* Implemented auto-close sheet trigger and form reset actions inside the post-submission success callback block.
     *   *ADR-034:* Aligned settings product list grid and pagination (5 columns desktop, 2 columns mobile, 10 items per page) client-side to synchronize UI consistency with Kiosk viewer page.
+
+## Feature 021: Shopee API Scraper & Local Product Image Upload
+*   **Planning Date:** 2026-07-17
+*   **Status:** Success (Fully Implemented & Verified)
+*   **Description:** Resolved Shopee image scraping issues by upgrading serverless functions with internal Shopee API support (bypassing cors block) and implementing a local file upload mechanism for products.
+*   **Key Decisions:**
+    *   *ADR-035:* Extracted shopid and itemid using serverless regex routing, requesting Shopee internal API directly or fallback through corsproxy.io.
+    *   *ADR-036:* Refined UX by replacing input listener debounce scraper with a manual "Kiểm tra" button, auto-checking links before link database insertion if title or image fields are blank.
+    *   *ADR-037:* Added device file upload support on product creation page, resizing selected images to 300x300 pixels (JPEG 0.85) using hidden HTML5 Canvas to keep db storage footprint minimal.
+
