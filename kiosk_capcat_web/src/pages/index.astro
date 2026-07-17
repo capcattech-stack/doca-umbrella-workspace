@@ -71,24 +71,24 @@ const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
         <!-- TRẠNG THÁI HIỂN THỊ CỬA HÀNG THỰC TẾ -->
         <div id="kiosk-content" class="kiosk-content hidden">
           <!-- Store Header -->
-          <header class="store-header" style="display: flex; align-items: flex-start; gap: 2rem; background-color: var(--cozy-bg-pure); border: 1px solid var(--cozy-border-light); border-radius: 16px; padding: 2.5rem; box-shadow: var(--cozy-shadow-default); margin-bottom: 3rem; position: relative; overflow: hidden; flex-wrap: wrap;">
-            <div class="store-avatar-box" style="position: relative; overflow: hidden; padding: 0; width: 86px; height: 86px; border-radius: 50%; background-color: var(--cozy-bg-cream-warm); border: 2.5px solid var(--cozy-green-matcha-forest); display: flex; justify-content: center; align-items: center; font-size: 2.5rem; color: var(--cozy-green-matcha-forest); flex-shrink: 0; box-shadow: 0 2px 8px rgba(0,0,0,0.03);">
-              <img id="store-avatar-img" class="hidden" style="width: 100%; height: 100%; object-fit: cover;" />
-              <i id="store-avatar-icon" class="ph-light ph-paw" style="font-size: 2.5rem;"></i>
+          <header class="store-header">
+            <div class="store-avatar-box">
+              <img id="store-avatar-img" class="hidden" />
+              <i id="store-avatar-icon" class="ph-light ph-paw"></i>
             </div>
-            <div class="store-info-box" style="display: flex; flex-direction: column; align-items: flex-start; gap: 0.5rem; text-align: left; flex-grow: 1; min-width: 250px;">
-              <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; width: 100%;">
-                <h1 id="store-title" style="font-size: 1.75rem; margin: 0; color: var(--cozy-text-obsidian); font-weight: 800;">Kiosk Của Nhà Sáng Tạo</h1>
-                <span id="store-status-badge" style="font-family: 'Inter', sans-serif; font-size: 0.68rem; font-weight: 700; background-color: #E2ECD2; color: var(--cozy-green-matcha-dark); padding: 3px 8px; border-radius: 20px; display: inline-flex; align-items: center; gap: 4px; border: 1px solid rgba(74, 138, 46, 0.1);">
-                  <span style="width: 6px; height: 6px; background-color: var(--cozy-green-matcha); border-radius: 50%; display: inline-block;"></span> Đang mở cửa
+            <div class="store-info-box">
+              <div class="store-title-container">
+                <h1 id="store-title">Kiosk Của Nhà Sáng Tạo</h1>
+                <span id="store-status-badge">
+                  <span class="status-dot"></span> Đang mở cửa
                 </span>
               </div>
-              <p class="whisper-mono" id="store-slug-domain" style="font-size: 0.85rem; color: var(--cozy-text-charcoal); margin: 0;"></p>
+              <p class="whisper-mono" id="store-slug-domain"></p>
               
               <!-- Bio / Lời chào -->
-              <p id="store-bio" class="hidden" style="font-family: 'Inter', sans-serif; font-size: 0.88rem; color: var(--cozy-text-charcoal); font-style: italic; line-height: 1.5; margin: 0.25rem 0 0.5rem 0; border-left: 2.5px solid var(--cozy-green-matcha-forest); padding-left: 0.75rem; max-width: 600px;"></p>
+              <p id="store-bio" class="hidden"></p>
               
-              <div id="store-channel-wrapper" class="store-channel-wrapper" style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 0.25rem;">
+              <div id="store-channel-wrapper" class="store-channel-wrapper">
                 <!-- Các link mạng xã hội (icon tròn) chèn ở đây -->
               </div>
             </div>
@@ -482,14 +482,16 @@ const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
 
   .store-header {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 2rem;
+    text-align: center;
+    gap: 1.25rem;
     background-color: var(--cozy-bg-pure);
     border: 1px solid var(--cozy-border-light);
     border-radius: 16px;
-    padding: 2.5rem;
+    padding: 1.75rem 1.5rem;
     box-shadow: var(--cozy-shadow-default);
-    margin-bottom: 3rem;
+    margin-bottom: 2rem;
     position: relative;
     overflow: hidden;
   }
@@ -508,31 +510,134 @@ const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
     height: 86px;
     border-radius: 50%;
     background-color: var(--cozy-bg-cream-warm);
-    border: 2px solid var(--cozy-border-light);
+    border: 2.5px solid var(--cozy-green-matcha-forest);
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 2.5rem;
     color: var(--cozy-green-matcha-forest);
+    flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+    position: relative;
+    overflow: hidden;
+    padding: 0;
+  }
+  
+  #store-avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
   
   .store-info-box {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    gap: 0.35rem;
-    text-align: left;
+    align-items: center;
+    gap: 0.5rem;
+    flex-grow: 1;
+    min-width: 0;
+    width: 100%;
+  }
+
+  .store-title-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
   }
   
   .store-info-box h1 {
-    font-size: 1.75rem;
-    margin-bottom: 0;
+    font-size: 1.5rem;
+    margin: 0;
     color: var(--cozy-text-obsidian);
+    font-weight: 800;
+  }
+
+  #store-status-badge {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 700;
+    background-color: #E2ECD2;
+    color: var(--cozy-green-matcha-dark);
+    padding: 3px 8px;
+    border-radius: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    border: 1px solid rgba(74, 138, 46, 0.1);
+  }
+
+  .status-dot {
+    width: 6px;
+    height: 6px;
+    background-color: var(--cozy-green-matcha);
+    border-radius: 50%;
+    display: inline-block;
   }
   
   .store-info-box p {
-    font-size: 0.85rem;
+    font-size: 0.82rem;
     color: var(--cozy-text-charcoal);
+    margin: 0;
+  }
+
+  #store-bio {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.88rem;
+    color: var(--cozy-text-charcoal);
+    font-style: italic;
+    line-height: 1.5;
+    margin: 0.25rem 0 0.5rem 0;
+    text-align: center;
+    max-width: 600px;
+    width: 100%;
+  }
+
+  .store-channel-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 0.25rem;
+    justify-content: center;
+  }
+
+  /* Desktop Upgrades (768px+) */
+  @media (min-width: 768px) {
+    .store-header {
+      flex-direction: row;
+      align-items: flex-start;
+      text-align: left;
+      gap: 2rem;
+      padding: 2.5rem;
+      margin-bottom: 3rem;
+    }
+
+    .store-info-box {
+      align-items: flex-start;
+    }
+
+    .store-title-container {
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 10px;
+    }
+
+    .store-info-box h1 {
+      font-size: 1.75rem;
+    }
+
+    #store-bio {
+      text-align: left;
+      border-left: 2.5px solid var(--cozy-green-matcha-forest);
+      padding-left: 0.75rem;
+    }
+
+    .store-channel-wrapper {
+      justify-content: flex-start;
+    }
   }
 
   .store-channel-wrapper {
@@ -575,15 +680,4 @@ const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
     background-color: var(--cozy-border-light);
   }
 
-  @media (max-width: 576px) {
-    .store-header {
-      flex-direction: column;
-      padding: 2rem 1.5rem;
-      text-align: center;
-      gap: 1.25rem;
-    }
-    .store-info-box {
-      align-items: center;
-    }
-  }
 </style>
