@@ -144,9 +144,6 @@ const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
               <button id="sheet-buy-now-btn" class="cozy-btn cozy-btn-primary cozy-btn-block action-btn-buy" style="border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
                 Mua sản phẩm <i class="ph-light ph-shopping-cart"></i>
               </button>
-              <button id="sheet-group-buy-btn" class="cozy-btn cozy-btn-secondary cozy-btn-block action-btn-group" style="cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
-                Gom mua chung giá sỉ · tiết kiệm 30% <i class="ph-light ph-users"></i>
-              </button>
             </div>
           </div>
         </div>
@@ -466,7 +463,6 @@ const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
               const sheetQuote = document.getElementById('sheet-product-quote');
               const sheetPricePlatform = document.getElementById('sheet-price-platform');
               const sheetBuyNowBtn = document.getElementById('sheet-buy-now-btn') as HTMLButtonElement;
-              const sheetGroupBuyBtn = document.getElementById('sheet-group-buy-btn') as HTMLButtonElement;
 
               let activeProductUrl = '';
 
@@ -546,31 +542,6 @@ const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
                 if (activeProductUrl) {
                   window.open(activeProductUrl, '_blank');
                 }
-              });
-
-              // Click nút Mua chung (Fake Door)
-              sheetGroupBuyBtn?.addEventListener('click', () => {
-                // Hiện toast
-                const toast = document.createElement('div');
-                toast.style.position = 'fixed';
-                toast.style.bottom = '30px';
-                toast.style.left = '50%';
-                toast.style.transform = 'translateX(-50%)';
-                toast.style.backgroundColor = 'var(--cozy-green-matcha-dark)';
-                toast.style.color = '#fff';
-                toast.style.padding = '12px 24px';
-                toast.style.borderRadius = '30px';
-                toast.style.fontSize = '0.85rem';
-                toast.style.fontWeight = '600';
-                toast.style.zIndex = '9999';
-                toast.style.boxShadow = '0 4px 15px rgba(0,0,0,0.15)';
-                toast.innerHTML = '🐾 Tụi con chưa thương lượng xong với bên bán hàng đâu ạ... Cô/chú chờ tụi con tí nhé!';
-                document.body.appendChild(toast);
-                setTimeout(() => {
-                  toast.remove();
-                }, 3500);
-
-                closeProductSheet();
               });
             }
           });
