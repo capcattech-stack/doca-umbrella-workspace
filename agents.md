@@ -89,3 +89,22 @@
     *   *ADR-036:* Refined UX by replacing input listener debounce scraper with a manual "Kiểm tra" button, auto-checking links before link database insertion if title or image fields are blank.
     *   *ADR-037:* Added device file upload support on product creation page, resizing selected images to 300x300 pixels (JPEG 0.85) using hidden HTML5 Canvas to keep db storage footprint minimal.
 
+## Feature 022: Quiz Game Lead Capture
+*   **Planning Date:** 2026-07-05
+*   **Status:** Success (Fully Implemented & Verified)
+*   **Description:** Designed a quiz game feature where users can answer a custom quiz page linked from social media. The shared link preview (og:image) displays the quiz question text directly. Submitting the answer triggers a modal asking for the user's email to unlock the correct answers and Tina's explanations. Leads are saved to Supabase `quiz_leads`.
+*   **Key Decisions:**
+    *   *ADR-038:* Astro Dynamic Routing SSG using getStaticPaths() for instant loading.
+    *   *ADR-039:* Pre-designed static PNG images for Open Graph previews to guarantee 100% scraper reliability.
+    *   *ADR-040:* Supabase database table `quiz_leads` for capturing leads.
+
+## Feature 023: Admin Dashboard & UTM Tracking
+*   **Planning Date:** 2026-07-05
+*   **Status:** In Progress (Planning Completed & Spec Validated)
+*   **Description:** Designed an Admin Dashboard at `/admin` (admin.capcat.vn) for viewing/editing quiz questions (moved to Supabase `quizzes` table) and tracking lead submissions. Toggled UTM tracking parameters (`utm_source`, `utm_medium`, `utm_campaign`) client-side to associate leads with marketing sources. Protected the dashboard using Google SSO (OAuth2) and database-level RBAC via an `admins` table.
+*   **Key Decisions:**
+    *   *ADR-041:* Google SSO authentication through Supabase Auth.
+    *   *ADR-042:* Admin authorization white-list using `admins` table and RLS policies.
+    *   *ADR-043:* Client-side UTM parsing and database column mapping in `quiz_leads`.
+
+

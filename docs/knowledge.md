@@ -64,3 +64,34 @@ To prevent Astro build-time compile errors for browser-specific objects:
 *   `80, 81, 82`: "mưa giông bất chợt"
 *   `95, 96, 99`: "sấm chớp bão bùng"
 *   *Default (Bình Hưng):* "trời mát mẻ"
+
+---
+
+## 6. Kiến Thức Dự Án (Knowledge Base) - Admin Dashboard & UTM Tracking
+
+### 6.1. Công nghệ áp dụng (Tech Stack)
+*   **Xác thực & SSO:** Supabase Auth Google Provider (Google SSO).
+*   **Cơ sở dữ liệu:** Supabase PostgreSQL.
+*   **Trình quản trị UI:** Astro (chế độ kết hợp Hybrid/SSR cho các trang `/admin` cần kiểm tra Session động, chế độ SSG cho các trang `/quiz/[slug]`).
+*   **Bộ icon:** **Phosphor Icons** (CDN). Sử dụng định dạng nét mảnh `ph-light` mặc định. [C003]
+
+### 6.2. Tiêu chuẩn viết code (Code Standards)
+*   **Định tuyến Admin:**
+    *   Trang login: `src/pages/admin/login.astro`
+    *   Dashboard quản lý câu hỏi: `src/pages/admin/quizzes.astro`
+    *   Dashboard xem leads: `src/pages/admin/leads.astro`
+*   **Đồng bộ Layout:** Tất cả trang trong `/admin` phải được bọc trong một layout chung `src/components/AdminLayout.astro` để quản lý phiên đăng nhập và giao diện nhất quán.
+*   **Tham số UTM:** Tên các tham số UTM phải tuân thủ chuẩn viết thường: `utm_source`, `utm_medium`, `utm_campaign`.
+
+### 6.3. Quy định bảo mật & Phân quyền (Security & Authorization Constraints)
+*   **Bảo vệ DB bằng RLS (Row Level Security):**
+    *   Bảng `quizzes`: Cho phép mọi người (Anon) đọc để hiển thị câu hỏi trên web. Nhưng quyền INSERT, UPDATE, DELETE phải kiểm tra email của user đăng nhập có khớp với email trong bảng `admins`.
+    *   Bảng `quiz_leads`: Cho phép mọi người (Anon) chèn (INSERT). Nhưng quyền SELECT phải bị khóa, chỉ cho phép vai trò admin.
+    *   Bảng `admins`: Chỉ cho phép đọc bởi admin hoặc qua database function bảo mật.
+*   **Kiểm tra phân quyền phía Client (Astro Edge/Middleware):** Trong Layout trang quản trị, phải kiểm tra trạng thái Session từ Supabase Auth. Nếu chưa đăng nhập hoặc email không có quyền quản trị viên, lập tức chuyển hướng về trang `/admin/login`.
+
+### 6.4. Danh sách cấm thực hiện (Never Do List)
+*   **Không bao giờ** phơi bày Supabase `service_role_key` trong code phía client (chỉ sử dụng `anon_key` ở client, và dùng RLS để bảo mật dữ liệu).
+*   **Không bao giờ** cho phép các email không thuộc bảng `admins` đọc danh sách lead trong bảng `quiz_leads` qua API client-side.
+*   **Không bao giờ** bỏ qua việc mã hóa hoặc dọn dẹp (sanitize) dữ liệu khi xuất file CSV từ bảng admin để tránh lỗ hổng CSV Injection.
+

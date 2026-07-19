@@ -45,3 +45,57 @@ This document contains the Architecture Decision Records (ADRs) for the live syn
 *   **Context:** On static pages, pre-rendered navigation bars will default to showing "Đăng nhập" (Guest state) before client-side JS finishes loading the active session, causing a visual flash.
 *   **Decision:** Pre-render the login container as an invisible/skeleton block by default (`opacity: 0` or `.loading-state`), then dynamically transition to the Guest button or User capsule once the Supabase auth state finishes client-side initialization.
 *   **Consequences:** Eliminates visual glitches (layout flash), resulting in a premium, fluid aesthetic feel.
+
+---
+
+## ADR-038: Tích hợp Google SSO qua Supabase Auth
+
+### Bối cảnh
+Chúng ta cần một giải pháp đăng nhập an toàn, tiện lợi cho quản trị viên mà không cần phát triển hệ thống lưu trữ mật khẩu, xác thực OTP phức tạp.
+
+### Quyết định
+Sử dụng **Google OAuth2 (SSO)** làm phương thức xác thực duy nhất cho trang quản trị `/admin`, được cấu hình thông qua cổng Supabase Auth.
+
+### Các giải pháp thay thế đã bị loại bỏ
+*   **Đăng nhập bằng Email/Password:** Bị loại bỏ vì tăng rủi ro bảo mật (như lộ mật khẩu), tăng chi phí bảo trì (quên mật khẩu, đổi mật khẩu) và trải nghiệm kém hơn.
+*   **Đăng nhập bằng mã OTP qua Email:** Tương đối tiện lợi nhưng có chi phí gửi email và độ trễ nhận mã.
+
+### Bằng chứng / Nguồn tham chiếu
+*   `S002`, `E002`, `C002`.
+
+### Hệ quả
+*   **Ưu điểm:** Độ bảo mật tuyệt đối từ Google, không cần quản lý mật khẩu trong DB, tiện dụng.
+*   **Nhược điểm:** Cần cấu hình Google Cloud Console (OAuth Client ID) và khai báo URI callback ở trang quản trị Supabase.
+
+---
+
+## ADR-039: Phân quyền quản trị viên thông qua Bảng Admins và RLS
+
+### Bối cảnh
+Đăng nhập Google SSO thành công chỉ xác nhận người dùng là chủ sở hữu của một tài khoản Google bất kỳ. Chúng ta cần một cơ chế phân quyền (Authorization) để chỉ cho phép những tài khoản Google được chỉ định được truy cập trang admin.
+
+### Quyết định
+Tạo bảng `public.admins` lưu danh sách trắng các email được cấp quyền. Trên cơ sở dữ liệu Supabase, viết chính sách RLS (Row Level Security) cho bảng `quizzes` và `quiz_leads` so khớp email của JWT token (`auth.jwt()->>'email'`) với email trong bảng `admins`.
+
+### Các giải pháp thay thế đã bị loại bỏ
+*   **Phân quyền hoàn toàn ở phía client (Astro logic):** Bị loại bỏ vì không an toàn. Nếu RLS trên database không bật, kẻ xấu có thể gọi trực tiếp API Supabase để đọc/ghi đè dữ liệu mà không cần thông qua giao diện Admin.
+
+### Bằng chứng / Nguồn tham chiếu
+*   `S003`, `E003`, `C003`.
+
+### Hệ quả
+*   **Ưu điểm:** Bảo mật ở mức cơ sở dữ liệu (Database-level security), chặn đứng các truy cập trái phép trực tiếp qua API. Dễ dàng thêm bớt quyền của admin bằng cách thêm/xóa email khỏi bảng `admins`.
+
+---
+
+## ADR-040: Định dạng UTM theo dõi nguồn tiếp thị
+
+### Bối cảnh
+Cần đo lường hiệu quả chuyển đổi từ các bài đăng trên Facebook Page, Facebook Group, Reels và YouTube.
+
+### Quyết định
+Sử dụng client-side script trên trang câu đố để đọc 3 tham số URL tiêu chuẩn: `utm_source`, `utm_medium`, và `utm_campaign`. Dữ liệu này được lưu cùng với bản ghi lead trong bảng `quiz_leads`.
+
+### Bằng chứng / Nguồn tham chiếu
+*   `S001`, `E001`, `C001`.
+

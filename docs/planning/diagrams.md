@@ -90,3 +90,99 @@ classDiagram
     }
     UserSession --> UserMetadata
 ```
+
+---
+
+## 4. Sơ đồ thành phần C4 - Admin Dashboard & UTM Tracking (C4 Component Diagram)
+
+```mermaid
+graph TD
+    User[Người dùng / Khách truy cập]
+    Admin[Quản trị viên / Marketer]
+    Google[Google Identity Service]
+    
+    subgraph DOCA Astro Web Application
+        QuizRoute[/quiz/slug]
+        AdminRoute[/admin/*]
+        AuthModule[Supabase Auth Integration]
+        UTMParser[UTM JS Parser]
+    end
+
+    subgraph Supabase Back-end
+        DB_Leads[(Bảng: quiz_leads)]
+        DB_Quizzes[(Bảng: quizzes)]
+        DB_Admins[(Bảng: admins)]
+    end
+
+    User -->|Xem trang chứa UTM| QuizRoute
+    QuizRoute -->|Đọc tham số UTM| UTMParser
+    User -->|Gửi câu trả lời| DB_Leads
+    
+    Admin -->|Truy cập trang quản trị| AdminRoute
+    AdminRoute -->|Chuyển hướng xác thực| AuthModule
+    AuthModule -->|Xác thực SSO| Google
+    AdminRoute -->|Đọc/Ghi câu hỏi| DB_Quizzes
+    AdminRoute -->|Xem & tải danh sách| DB_Leads
+    AuthModule -->|So khớp email| DB_Admins
+```
+
+## 5. Sơ đồ mô hình dữ liệu (ERD)
+
+```mermaid
+erDiagram
+    ADMINS {
+        int id PK
+        text email UK "Email của admin được duyệt"
+        timestamptz created_at
+    }
+
+    QUIZZES {
+        int id PK
+        text slug UK "Định danh URL câu đố"
+        text question "Nội dung câu hỏi"
+        jsonb options "Mảng 4 đáp án"
+        int correct_answer "Chỉ số đáp án đúng (0-3)"
+        text explanation "Lời giải nghĩa của Tina"
+        text og_image "Đường dẫn ảnh OG"
+        timestamptz created_at
+    }
+
+    QUIZ_LEADS {
+        int id PK
+        text email "Email của Lead"
+        text quiz_slug "Slug câu đố đối chiếu"
+        int selected_option "Chỉ số đáp án chọn"
+        text utm_source "Nguồn chiến dịch (fb, google, organic)"
+        text utm_medium "Phương tiện (post, cpc, reels)"
+        text utm_campaign "Tên chiến dịch"
+        timestamptz created_at
+    }
+
+    QUIZZES ||--o{ QUIZ_LEADS : "đối chiếu câu trả lời"
+```
+
+## 6. Quy trình đăng nhập Google SSO & Phân quyền (Sequence Diagram)
+
+```mermaid
+sequenceDiagram
+    actor Admin as Quản trị viên
+    participant Web as Trình duyệt (/admin)
+    participant Supabase as Supabase Client Auth
+    participant Google as Google OAuth Service
+    participant DB as Bảng admins
+
+    Admin->>Web: Nhấp "Đăng nhập với Google"
+    Web->>Supabase: signInWithOAuth(provider: 'google')
+    Supabase->>Google: Chuyển hướng đăng nhập Google
+    Google-->>Supabase: Trả về Token xác thực & Email (admin@capcat.vn)
+    Supabase->>DB: Truy vấn SELECT count(*) WHERE email = 'admin@capcat.vn'
+    alt Email được tìm thấy trong bảng admins
+        DB-->>Web: Trả về Số lượng > 0 (Hợp lệ)
+        Web-->>Admin: Mở khóa giao diện Dashboard quản trị
+    else Email không được tìm thấy
+        DB-->>Web: Trả về Số lượng = 0 (Không hợp lệ)
+        Web->>Supabase: Tự động chạy signOut()
+        Web-->>Admin: Hiển thị thông báo: "Email này không có quyền quản trị."
+    end
+```
+

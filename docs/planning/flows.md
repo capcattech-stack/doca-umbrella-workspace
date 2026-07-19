@@ -101,3 +101,55 @@ sequenceDiagram
         Nav->>Nav: Fade in Guest Button
     end
 ```
+
+---
+
+## 5. Quy trình trích xuất UTM và gửi kèm Lead Email
+
+Khi khách truy cập nhấp vào liên kết từ mạng xã hội có chứa UTM parameters:
+
+```mermaid
+sequenceDiagram
+    participant User as Khách truy cập
+    participant Web as Trình duyệt (/quiz/slug?utm_source=fb)
+    participant Memory as Window URL / SessionStorage
+    participant DB as Bảng quiz_leads (Supabase)
+
+    User->>Web: Truy cập liên kết câu đố
+    Web->>Web: Quét URL Search Params
+    alt Tìm thấy utm_source, utm_medium, utm_campaign
+        Web->>Memory: Ghi nhớ các giá trị UTM vào biến tạm
+    else URL không chứa UTM
+        Web->>Web: Bỏ qua / Thiết lập giá trị null
+    end
+    User->>Web: Điền email & Gửi câu trả lời
+    Web->>DB: Gửi POST /quiz_leads (email, answers, utm_source, utm_medium, utm_campaign)
+    DB-->>Web: Phản hồi thành công (201 Created)
+    Web-->>User: Mở khóa đáp án & Lời giải của Tina
+```
+
+---
+
+## 6. Quy trình Admin chỉnh sửa câu hỏi & Kích hoạt Webhook build lại trang tĩnh
+
+Khi quản trị viên thực hiện lưu chỉnh sửa một câu hỏi trắc nghiệm:
+
+```mermaid
+sequenceDiagram
+    actor Admin as Quản trị viên
+    participant Web as Dashboard (/admin/quizzes)
+    participant DB as Bảng quizzes (Supabase)
+    participant Webhook as Trình kích hoạt Netlify / Vercel Webhook
+    participant CI as CI/CD Pipeline Build Astro Static
+    
+    Admin->>Web: Sửa câu hỏi & Nhấp "Lưu"
+    Web->>DB: Thực hiện UPDATE table quizzes WHERE id = x
+    DB-->>Web: Trả về trạng thái Lưu thành công
+    Web->>Webhook: Gọi API POST Webhook build lại trang tĩnh
+    Webhook-->>Web: Nhận webhook thành công
+    Webhook->>CI: Kích hoạt Astro static build pipeline
+    CI->>DB: Fetch toàn bộ bảng quizzes mới nhất
+    CI->>CI: Build lại các trang tĩnh /quiz/*
+    CI-->>Admin: Cập nhật giao diện mới nhất cho tất cả người dùng
+```
+

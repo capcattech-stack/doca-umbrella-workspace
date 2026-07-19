@@ -45,3 +45,41 @@ This document details the UI design, states, and accessibility details for the C
 *   **Responsive layouts:**
     *   On desktop: Profile page displays as a two-column grid (Left: User card, Right: Pet grid).
     *   On mobile: Profile page collapses into a single vertical layout (User card stacked above Pet list).
+
+---
+
+## 4. Đặc tả Giao diện Bảng Điều Khiển Admin & UTM
+
+### 4.1. Giao diện trang đăng nhập quản trị `/admin/login`
+*   **Thiết kế:** Muji-minimalism cực tối giản. Container căn giữa màn hình trên nền Cozy Paper (`#F7F4EF`).
+*   **Thành phần:**
+    *   Logo Capcat nét mảnh (Stroke 1.7px) kèm tên thương hiệu.
+    *   Hộp chào mừng: "Bảng điều khiển quản trị Capcat".
+    *   Nút "Đăng nhập bằng tài khoản Google" (Google SSO) định dạng lớn, bo góc tròn 8px, viền mảnh màu xám nhạt, logo Google 4 màu căn giữa.
+    *   Trạng thái tải (Loading state): Hiển thị vòng xoay spinner mảnh khi đang kết nối OAuth.
+
+### 4.2. Bố cục Dashboard Quản trị `/admin/quizzes` và `/admin/leads`
+*   **Bố cục hai cột (Sidebar Layout):**
+    *   **Sidebar trái (Cố định):** Rộng `240px`, chứa logo và danh mục quản trị:
+        *   "Danh sách Câu đố" (icon: `ph-light ph-question`) - Link tới `/admin/quizzes`
+        *   "Dữ liệu Chuyển đổi (Leads)" (icon: `ph-light ph-envelope-open`) - Link tới `/admin/leads`
+        *   Nút "Trở lại trang chủ" và nút "Đăng xuất" đặt ở góc dưới cùng.
+    *   **Main Content (Phải):** Chiếm trọn không gian còn lại. Nền trắng Cozy Cloud (`#FAF8F5`).
+
+### 4.3. Bảng quản lý câu hỏi `/admin/quizzes`
+*   **Thành phần chính:**
+    *   Tiêu đề trang: "Quản lý câu hỏi trắc nghiệm".
+    *   Nút Matcha Green "Thêm câu đố mới" (góc phải trên).
+    *   Bảng dữ liệu (Table):
+        *   Cột: Ảnh OG preview | Câu hỏi | Slug | Ngày tạo | Hành động (Sửa, Xóa).
+        *   Hành động "Sửa" mở ra một Sidebar Drawer trượt từ cạnh phải màn hình (rộng 500px) chứa form điền: Câu hỏi, 4 đáp án (A, B, C, D), dropdown chọn đáp án đúng, Lời giải Tina, link ảnh OG, nút "Lưu thay đổi".
+        *   Hành động "Xóa" hiển thị popup cảnh báo xác nhận.
+
+### 4.4. Bảng danh sách email thu thập `/admin/leads`
+*   **Thành phần chính:**
+    *   Tiêu đề trang: "Dữ liệu Leads & UTM".
+    *   Nút Matcha Green "Xuất tệp CSV" (góc phải trên) để tải về toàn bộ danh sách lead.
+    *   Bảng dữ liệu:
+        *   Cột: Email | Tên câu hỏi | Lựa chọn | UTM Source | UTM Medium | UTM Campaign | Ngày đăng ký.
+        *   Phân trang (Pagination) ở góc dưới: Hiển thị 10 dòng mỗi trang, nút Next/Prev nét mảnh tinh tế.
+

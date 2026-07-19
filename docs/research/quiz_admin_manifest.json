@@ -1,0 +1,31 @@
+{
+  "run_id": "planning-20260705-2100",
+  "created_at": "2026-07-05T21:00:00Z",
+  "operator_prompt": "dựng 1 trang admin.capcat.vn để xem và chỉnh sửa nội dung các câu hổi cũng như kết quả câu trả lời. link có gắn UTM dể biết nguồn traffic. VD lấy link có UTM fb post lên facebook, user vào trả lời sẽ ghi nhận được nguồn . trang này phải login băng SSO GG và phân quyền",
+  "current_date": "2026-07-05",
+  "research_mode": "standard",
+  "required_output_files": [
+    "docs/prd.md",
+    "docs/tasks.md",
+    "docs/knowledge.md",
+    "docs/decisions.md",
+    "docs/memory.md",
+    "docs/planning/flows.md",
+    "docs/planning/screens.md",
+    "docs/planning/diagrams.md"
+  ],
+  "optional_output_files": [
+    "docs/research/sources.jsonl",
+    "docs/research/evidence.jsonl",
+    "docs/research/claims.jsonl",
+    "docs/research/contradictions.md",
+    "docs/research/research_manifest.json"
+  ],
+  "quality_gates": {
+    "minimum_sources": 3,
+    "minimum_primary_sources": 2,
+    "minimum_evidence_items": 3,
+    "major_claims_need_evidence": true,
+    "diagram_claims_need_evidence": true
+  }
+}
