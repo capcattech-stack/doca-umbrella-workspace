@@ -9,6 +9,7 @@ on:
 jobs:
   sync:
     runs-on: ubuntu-latest
+    environment: Production
 
     steps:
       - name: Checkout Code
@@ -35,11 +36,11 @@ jobs:
       - name: Run Drive to R2 Sync Script
         env:
           GD_SERVICE_ACCOUNT_JSON: ${{ secrets.GD_SERVICE_ACCOUNT_JSON }}
-          GD_FOLDER_ID: ${{ secrets.GD_FOLDER_ID }}
-          R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          GD_FOLDER_ID: ${{ vars.GD_FOLDER_ID }}
+          R2_ACCESS_KEY_ID: ${{ vars.R2_ACCESS_KEY_ID }}
           R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
-          R2_ENDPOINT: ${{ secrets.R2_ENDPOINT }}
-          R2_BUCKET_NAME: ${{ secrets.R2_BUCKET_NAME }}
-          R2_PUBLIC_DOMAIN: ${{ secrets.R2_PUBLIC_DOMAIN }}
+          R2_ENDPOINT: ${{ vars.R2_ENDPOINT }}
+          R2_BUCKET_NAME: ${{ vars.R2_BUCKET_NAME }}
+          R2_PUBLIC_DOMAIN: ${{ vars.R2_PUBLIC_DOMAIN }}
         run: |
           python doca-affiliate-web/scripts/sync_drive_to_r2.py
