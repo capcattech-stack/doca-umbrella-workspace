@@ -187,3 +187,15 @@ This list details the work steps to implement the live synchronized FM player, c
 *   **Description:** Chạy toàn bộ các ca kiểm thử E2E về luồng UTM, đăng nhập SSO phân quyền, quản trị và build webhook. Biên dịch thử dự án để kiểm tra lỗi TypeScript.
 *   **Verification Method:** Đảm bảo toàn bộ hệ thống hoạt động ổn định và build thành công không lỗi.
 
+---
+
+### TSK-036: Weather-based Curation & Japanese Vibe Stories (DEV)
+*   **ID:** `TSK-036`
+*   **Owner:** `alan-tech-lead`
+*   **Status:** `Completed`
+*   **Parallel-Safe:** `No`
+*   **Write Scope:** `doca-affiliate-web/scripts/sync_drive_to_r2.py`
+*   **Dependencies:** None
+*   **Description:** Cải tiến script `sync_drive_to_r2.py` để tích hợp API Open-Meteo dự báo thời tiết ngày mai, phân loại nhạc dựa trên tên thư mục chứa nhạc lưu trên Cloudflare R2, và sử dụng Gemini API để sinh truyện ngắn mang phong cách Nhật Bản lồng ghép tên các bài hát đang phát.
+*   **Verification Method:** Chạy thử nghiệm và kiểm tra xem `playlist.json` được cập nhật đè phần ngày mai thành công.
+

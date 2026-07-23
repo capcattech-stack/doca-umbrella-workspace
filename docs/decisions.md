@@ -99,3 +99,20 @@ Sử dụng client-side script trên trang câu đố để đọc 3 tham số U
 ### Bằng chứng / Nguồn tham chiếu
 *   `S001`, `E001`, `C001`.
 
+---
+
+## ADR-044: Weather-based Curation & Japanese Vibe Stories (DEV)
+
+### Bối cảnh
+Người dùng mong muốn DOCA FM trên môi trường DEV phát nhạc phù hợp với thời tiết ngày mai (thay vì lặp lại tuần hoàn tĩnh) và lời dẫn tựa của host Tina phải mang phong cách tiểu thuyết Nhật Bản nhưng lồng ghép khéo léo tên các bài hát đang phát.
+
+### Quyết định
+1. **Lấy thời tiết ngày mai:** Dùng API Open-Meteo để dự báo thời tiết tại khu vực Bình Hưng, TP.HCM cho ngày mai (T+1).
+2. **Phân loại nhạc dựa trên cấu trúc thư mục R2:** Kiểm tra đường dẫn URL của các file nhạc để phân biệt thể loại (Morning Tea, Deep Sleep, v.v.) rồi lọc bài hát phù hợp với nhóm thời tiết tương ứng (Mưa giông, Nắng nóng, Mát mẻ).
+3. **Gọi trực tiếp Gemini API trong Python:** Sử dụng module chuẩn `urllib.request` để gửi yêu cầu sinh truyện ngắn mang vibe tiểu thuyết Nhật Bản lồng ghép tên các bài hát trong slot phát và lời chào của Tina.
+4. **Cập nhật đè trước 1 ngày:** Chỉ cập nhật đè dữ liệu của ngày mai (`tomorrow_day_idx`) trong tệp `playlist.json` của R2 để đảm bảo các ngày còn lại hoạt động tuần hoàn bình thường.
+
+### Hệ quả
+*   **Ưu điểm:** Tự động hóa hoàn toàn việc soạn thảo danh sách phát và nội dung dẫn chuyện theo thời tiết và bài hát, mang lại trải nghiệm đậm chất nghệ thuật cho người nghe. Không phát sinh thư viện phụ thuộc Python.
+*   **Nhược điểm:** Phụ thuộc vào tính sẵn sàng của Gemini API (có cơ chế Fallback tĩnh để đảm bảo an toàn tuyệt đối).
+

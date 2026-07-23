@@ -30,6 +30,7 @@
 *   **`FR-004` (Weather Caching & Integration)**: The browser MUST fetch the current weather description for Bình Hưng, HCMC (coordinates `10.7222, 106.6783`) from Open-Meteo API.
 *   **`FR-005` (Tina the Cat Host)**: The host card MUST feature Tina and render her intro card with dynamic weather-aware greeting scripts.
 *   **`FR-006` (Japanese-Novel Stories)**: Each playlist configuration MUST include a `story_title` (in Japanese novel translation style) and a text `story` detailing why these tracks were selected.
+*   **`FR-006-DEV` (Weather-based Curation & Japanese Vibe Stories)**: Trên môi trường DEV, script đồng bộ `sync_drive_to_r2.py` chạy hàng ngày sẽ dự báo thời tiết ngày mai từ Open-Meteo API, chọn lọc 4 bài hát cho mỗi khung giờ (Sáng, Chiều, Tối) từ R2 theo nhóm thời tiết tương ứng với thư mục chứa nhạc, và dùng Gemini API để tự động sinh tiêu đề câu chuyện, lời tựa chứa tên bài hát (phong cách Nhật Bản) và lời dẫn của Tina để lưu đè vào ngày mai trong `playlist.json`.
 
 ### 4.2. SSO Login & User Profile
 *   **`FR-007` (Supabase Client Integration)**: The system MUST integrate the Supabase JS client SDK client-side to manage sessions, configuration, and OAuth tokens.
