@@ -9,3 +9,6 @@
 
 ## 📝 Tài liệu Quy hoạch & Báo cáo (Planning & Walkthrough)
 *   **Ngôn ngữ tài liệu:** Bắt buộc viết các file tài liệu quy hoạch, kế hoạch thực hiện (`implementation_plan.md`), danh sách nhiệm vụ (`task.md`), và báo cáo hoàn thành (`walkthrough.md`) bằng **tiếng Việt** để lập trình viên và người dùng dễ dàng kiểm soát và đánh giá các thay đổi của dự án.
+
+## 🐱 Thư viện Định danh Nhân vật (Doca House)
+*   **Tham chiếu:** Khi cần tạo ảnh, viết kịch bản, lời tựa (story) hoặc tạo nội dung liên quan tới các nhân vật trong nhà Doca (Linh, Tina, Latte, Muối, Pi's), bắt buộc tham khảo và tuân thủ các quy tắc nhất quán (consistency_rules) được định nghĩa trong file [character_identities.json](file:///Users/ricyuan/CAPCAT/docs/character_identities.json).

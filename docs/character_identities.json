@@ -1,0 +1,179 @@
+{
+  "file_type": "character_identity_library",
+  "version": "2.0",
+  "separation_rule": "This file stores identity only. It must not contain drawing style, lighting, palette, brushwork, rendering, or composition rules.",
+  "characters": {
+    "person_01": {
+      "type": "human",
+      "role": "main_character",
+      "names": ["Linh", "Lin", "tôi"],
+      "identity_lock": [
+        "female Vietnamese adult named Linh (also known as Lin or 'tôi')",
+        "soft oval face",
+        "long dark-brown hair",
+        "light warm skin tone",
+        "petite soft silhouette",
+        "gentle calm expression"
+      ],
+      "face": {
+        "shape": "soft oval",
+        "jawline": "rounded",
+        "chin": "small rounded",
+        "cheeks": "slightly full",
+        "eyes": "medium soft almond",
+        "eyebrows": "natural soft curve",
+        "nose": "small with rounded tip",
+        "mouth": "small with gentle neutral smile"
+      },
+      "hair": {
+        "color": "dark brown",
+        "length": "long",
+        "texture": "slightly wavy",
+        "parting": "slightly off-center",
+        "distinctive": "soft loose strands framing face"
+      },
+      "body": {
+        "build": "petite",
+        "shoulders": "narrow",
+        "height": "average"
+      },
+      "consistency_rules": [
+        "Keep long dark-brown hair.",
+        "Keep soft oval face.",
+        "Avoid sharp jawline.",
+        "Avoid glamorous heavy makeup.",
+        "Preserve calm gentle expression."
+      ]
+    },
+    "cat_01_tina": {
+      "type": "cat",
+      "name": "Tina",
+      "sex": "female",
+      "weight_kg": 3.5,
+      "breed": "Scottish Fold Longhair",
+      "identity_lock": [
+        "folded ears",
+        "long fluffy solid blue-gray fur",
+        "round face",
+        "large golden-yellow eyes",
+        "thick neck mane"
+      ],
+      "features": {
+        "ears": "small folded ears",
+        "eyes": "large round golden-yellow",
+        "nose": "small dark charcoal",
+        "fur": "long very fluffy solid blue-gray",
+        "body": "compact medium body",
+        "tail": "large plume tail"
+      },
+      "temperament": "very gentle, calm, quiet",
+      "consistency_rules": [
+        "Never draw upright ears.",
+        "Never draw short fur.",
+        "Keep solid blue-gray coat.",
+        "Keep warm golden-yellow eyes.",
+        "Preserve calm gentle expression."
+      ]
+    },
+    "cat_02_latte": {
+      "type": "cat",
+      "name": "Latte",
+      "sex": "male",
+      "weight_kg": 5.0,
+      "breed": "Domestic Longhair",
+      "identity_lock": [
+        "pure white long fur",
+        "left eye amber",
+        "right eye blue",
+        "pink nose",
+        "large fluffy tail"
+      ],
+      "features": {
+        "ears": "upright medium slightly pointed",
+        "left_eye": "amber",
+        "right_eye": "blue",
+        "nose": "light pink",
+        "fur": "long very fluffy solid white",
+        "body": "large solid but elegant",
+        "tail": "very large plume tail"
+      },
+      "consistency_rules": [
+        "Never swap eye colors.",
+        "Left eye must remain amber.",
+        "Right eye must remain blue.",
+        "Never add colored patches to fur.",
+        "Keep pink nose and long white coat."
+      ]
+    },
+    "cat_03_muoi": {
+      "type": "cat",
+      "name": "Muối",
+      "sex": "male",
+      "weight_kg": 5.0,
+      "breed": "Domestic Longhair",
+      "identity_lock": [
+        "pure white long fur",
+        "both eyes amber",
+        "pink nose",
+        "a tiny black spot on the left side of its pink nose wing",
+        "upright ears"
+      ],
+      "features": {
+        "ears": "upright medium slightly pointed",
+        "left_eye": "amber",
+        "right_eye": "amber",
+        "nose": "light pink with a tiny black spot on the left nose wing",
+        "fur": "long very fluffy solid white",
+        "body": "medium-large compact",
+        "tail": "large plume tail"
+      },
+      "consistency_rules": [
+        "Never remove the black spot on the left side of the nose wing.",
+        "Both eyes must remain amber.",
+        "Never generate heterochromia.",
+        "Keep long fluffy white fur.",
+        "Keep pink nose with a small black spot on its left side."
+      ]
+    },
+    "cat_04_pis": {
+      "type": "cat",
+      "name": "Pi's",
+      "sex": "female",
+      "weight_kg": 3.5,
+      "breed": "British Shorthair",
+      "identity_lock": [
+        "short plush solid blue-gray fur",
+        "upright ears",
+        "very round face",
+        "large amber eyes",
+        "compact body"
+      ],
+      "features": {
+        "ears": "small upright rounded-triangle ears",
+        "eyes": "large round golden amber",
+        "nose": "small dark gray",
+        "fur": "short dense plush solid blue-gray",
+        "body": "compact muscular medium body",
+        "tail": "medium plush tail"
+      },
+      "consistency_rules": [
+        "Never generate folded ears.",
+        "Never generate long fur.",
+        "Keep very round face.",
+        "Keep golden amber eyes.",
+        "Keep compact body proportions."
+      ]
+    }
+  },
+  "disambiguation_rules": {
+    "tina_vs_pis": [
+      "Tina has folded ears and long fur.",
+      "Pi's has upright ears and short plush fur."
+    ],
+    "latte_vs_muoi": [
+      "Latte has heterochromia: left amber, right blue.",
+      "Muối has two amber eyes and a small black spot on the left side of the pink nose."
+    ]
+  },
+  "character_usage_rule": "When generating an image, combine only the selected character entries with the separate Master Style DNA. Never let reference-photo realism override the Master Style DNA."
+}
