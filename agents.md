@@ -114,4 +114,10 @@
 *   **Key Decisions:**
     *   *ADR-044:* Single source of truth on Cloudflare R2 CDN (`PUBLIC_R2_PUBLIC_DOMAIN`) for all DOCA FM music assets.
     *   *ADR-045:* Direct fetch of `playlist.json` from R2 with offline fallback to hardcoded studio tracks when disconnected.
-
+## Feature 025: Kiosk Routing & Vercel Config Standardisation
+*   **Planning Date:** 2026-07-26
+*   **Status:** Success (Fully Implemented & Verified)
+*   **Description:** Resolved Vercel 404 errors for subpaths on the kiosk.capcat.vn domain. Simplified Vercel rewrite configuration to standard wildcards and removed obsolete duplicate directory `kios_capcat_web` from Git.
+*   **Key Decisions:**
+    *   *ADR-046:* Replaced complex negative lookahead Vercel rewrite regex with standard `/:path*` wildcard rewrite, relying on Vercel's native filesystem priority mechanism.
+    *   *ADR-047:* Removed leftovers and caches from the legacy folder `kios_capcat_web` to prevent build system confusion.
