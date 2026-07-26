@@ -107,4 +107,11 @@
     *   *ADR-042:* Admin authorization white-list using `admins` table and RLS policies.
     *   *ADR-043:* Client-side UTM parsing and database column mapping in `quiz_leads`.
 
+## Feature 024: 100% Cloudflare R2 Migration for DOCA FM
+*   **Planning Date:** 2026-07-26
+*   **Status:** Success (Fully Implemented & Verified)
+*   **Description:** Completely transitioned DOCA FM music file hosting and `playlist.json` metadata serving from hybrid Supabase Storage to 100% Cloudflare R2 CDN. Removed client-side Supabase audio storage fallback in `index.astro`, updated Python curation scripts to publish directly to Cloudflare R2 via `boto3`, freeing Supabase storage quotas exclusively for user profile & kiosk assets.
+*   **Key Decisions:**
+    *   *ADR-044:* Single source of truth on Cloudflare R2 CDN (`PUBLIC_R2_PUBLIC_DOMAIN`) for all DOCA FM music assets.
+    *   *ADR-045:* Direct fetch of `playlist.json` from R2 with offline fallback to hardcoded studio tracks when disconnected.
 
