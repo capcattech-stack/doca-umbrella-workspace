@@ -6,20 +6,86 @@ Tài liệu này xác định các quy chuẩn thiết kế, hệ thống Grid, 
 
 ## 1. Bảng Màu Hệ Thống (Color Palette)
 
-Hệ thống màu sắc tiếp tục kế thừa phong cách **Cozy Muji Minimalism** ấm áp, mộc mạc và được bổ sung thêm các sắc độ dành riêng cho các dịch vụ SSO bên thứ ba để đảm bảo khả năng nhận diện thương hiệu nhưng không phá vỡ tổng thể.
+Hệ thống màu sắc tuân thủ triết lý **Muji Minimalist** (Tối giản Nhật Bản): Nền chủ đạo là trắng giấy, các nút bấm và chữ chính màu đen than sắc nét, sử dụng màu Xanh Neon (#76C123) làm điểm nhấn nhận diện/quan trọng nhất. Các màu nhẹ nhàng khác đóng vai trò làm màu phối phụ (Healing).
 
-### 1.1. Màu Nền & Trung Tính (Neutral Warm)
-*   **Nền chính trang Profile**: `var(--cozy-bg-oatmeal)` (`#E8E3D6`) - Màu cát ấm Nhật Bản.
-*   **Thẻ thông tin (Cards/Modal)**: `var(--cozy-bg-pure)` (`#FBFAF6`) - Màu mây trắng sữa/vải thô Canvas.
-*   **Nền phụ/Khu vực phụ**: `var(--cozy-bg-beige)` (`#F4F1E9`) - Màu giấy ấm áp.
-*   **Đường viền/Phân cách**: `var(--cozy-border-light)` (`#D4CDBF`) - Màu cát Muji mảnh.
-*   **Chữ & Nút bấm chính**: `var(--cozy-text-obsidian)` (`#15170F`) - Màu mực Charcoal.
+### 1.1. Bảng màu cơ bản (Primitives)
+*   **Trắng Muji** (`white` | `#FFFFFF`): Nền chính sạch sẽ, khoáng đạt.
+*   **Đen Than Muji** (`deep-obsidian` | `#1C1C1E`): Chữ chính, nút bấm chính (High Contrast).
+*   **Xanh Neon Điểm Nhấn** (`neon-green` | `#76C123`): Nhận diện quan trọng, trạng thái nhấn mạnh, active chính.
+*   **Xám Yến Mạch** (`oatmeal-bg` | `#F8F9FA`): Nền phụ cho Card, Bottom Sheet.
+*   **Kem Sữa Muji** (`milk-beige` | `#F5F5F0`): Lớp nền phụ thứ hai, tạo cảm giác tactile ấm.
+*   **Kem Giấy Chữa Lành** (`paper-cream` | `#FDFBF7`): Nền nâng cao, dịu mắt.
+*   **Hồng Đào Ấm** (`sakura-pink` | `#FCAFAF`): Màu phối: Chỉ số cảm xúc, nhịp tim, nhạc Lo-fi.
+*   **Xanh Matcha** (`matcha-green` | `#8FA882`): Màu phối: Nhãn trạng thái thiên nhiên, an toàn.
+*   **Vàng Hổ Phách Nhạt** (`warm-amber` | `#FFF9C4`): Màu phối: Cảnh báo nhẹ, ghi chú ấm áp.
+*   **Cam Đào Boss** (`cat-peach` | `#FFD1BA`): Màu phối: Minh họa Boss Mèo, màu phụ dễ thương.
+*   **Xám Gợi Ý** (`hint-gray` | `#8C8C8C`): Chữ phụ, placeholder trong Input.
+*   **Viền Sáng** (`border-light` | `#EAEAEA`): Đường kẻ chia mảnh, viền nút phụ.
+*   **Viền Xám Ấm** (`border-subtle` | `#D2D2CC`): Viền các thẻ card phong cách vintage nhẹ.
 
-### 1.2. Màu Nhấn Đặc Trưng (Matcha & Sakura V2)
-*   **Matcha Green (Chủ đạo)**: `var(--cozy-green-matcha)` (`#8FBF4F`) - Xanh matcha ấm áp, dùng cho trạng thái tích cực hoặc hoạt động.
-*   **Sakura Pink (Nhấn)**: `var(--cozy-pink-sakura)` (`#F4ABBE`) - Hồng cánh đào ngọt ngào, dùng cho các nút tương tác nhẹ, biểu tượng thú cưng.
+### 1.2. Ánh xạ ngữ nghĩa (Semantic Aliases) cho 2 chế độ Sáng / Tối
+| Token Ngữ Nghĩa | Cozy Light (Sáng) | Cozy Dark (Tối) | Ứng Dụng Thực Tế |
+| :--- | :--- | :--- | :--- |
+| `color/bg/primary` | `white` (`#FFFFFF`) | `dark-slate` (`#0D0D0D`) | Nền chính của toàn app |
+| `color/bg/surface` | `oatmeal-bg` (`#F8F9FA`) | `ticket-charcoal` (`#1E1F24`) | Nền của các thẻ Card, Bottom Sheet |
+| `color/bg/elevated` | `paper-cream` (`#FDFBF7`) | `ticket-charcoal` (`#1E1F24`) | Nền Card nổi bật hoặc Dialog |
+| `color/text/primary` | `deep-obsidian` (`#1C1C1E`) | `white` (`#FFFFFF`) | Văn bản chính, tiêu đề |
+| `color/text/secondary` | `hint-gray` (`#8C8C8C`) | `border-subtle` (`#D2D2CC`) | Văn bản phụ, mô tả |
+| `color/text/hint` | `hint-gray` (`#8C8C8C`) | `hint-gray` (`#8C8C8C`) | Input placeholder |
+| `color/accent/identity` | `neon-green` (`#76C123`) | `neon-green` (`#76C123`) | Điểm nhấn thương hiệu, nút nhấn mạnh chính |
+| `color/accent/emotion` | `sakura-pink` (`#FCAFAF`) | `sakura-pink` (`#FCAFAF`) | Điểm nhấn cảm xúc (âm nhạc, nhịp tim) |
 
-### 1.3. Màu Thương Hiệu SSO (Third-Party Identity Colors)
+### 1.3. Nhóm màu chất liệu (Material Colors)
+Nhóm màu đặc biệt mô phỏng bề mặt vật liệu tự nhiên (Gỗ, Đất sét, Rêu phong, Đá sỏi) theo triết lý Muji:
+*   **Đen Than Mộc** (`#1F2022` / `#262626`): Màu than gỗ tự nhiên. Phối cho nét vẽ tay, icon nét mảnh hoặc khung kim loại tối.
+*   **Xanh Rêu Đá** (`#242A27` / `#1E2421`): Tông xanh lục sẫm tĩnh lặng. Phối cho các chi tiết rêu phong, nhãn phụ mang vibe sân vườn Nhật Bản.
+*   **Xám Đá Phiến** (`#242A27` / `#242831`): Xám xanh trầm ổn của đá sỏi mịn. Phối cho đường viền tủ sách hoặc các thanh ngăn vật lý.
+*   **Nâu Đất Nung** (`#20252E` / `#352F2B`): Màu đất sét nung lò gốm ấm áp. Phối cho các mảng khối Lofi, hình vẽ thủ công tạo độ ấm.
+
+### 1.4. Các Bộ Màu Phối Phụ & Quy Tắc Sử Dụng (Coordination Palettes & Heuristics)
+Để duy trì tính nhất quán của trải nghiệm chữa lành (Iyashikei) và giảm thiểu tải nhận thức (cognitive load) cho người dùng, dưới đây là đặc tả chi tiết của 8 bộ màu phối phụ cùng quy tắc sử dụng nghiêm ngặt cho từng bộ:
+
+#### 🟢 Nhóm WASABI (Wasabi Tươi Mát)
+*   **Wasabi 1** (`#a8d84e` - Tươi): Xanh lá non nhạt. Dùng làm nền phụ hoặc viền active cho các khu vực mang tính sinh thái, vườn tược.
+*   **Wasabi 2** (`#76c123` - Cay): Xanh Neon Điểm Nhấn chính của toàn app. Chỉ dùng làm điểm nhấn nhận diện thương hiệu đặc biệt hoặc trạng thái active quan trọng.
+*   **Wasabi 3** (`#4d8a10` - Đậm): Xanh lục đậm. Dùng cho các nút hoặc nét vẽ cần độ tương phản cao trên nền sáng.
+
+#### 🍵 Nhóm MATCHA (Matcha Sức Khỏe & Dinh Dưỡng)
+*   **Matcha 1** (`#a8cc6e` - Sữa): Xanh matcha sữa dịu mát. Dùng làm nền cho các thẻ thông tin về bữa ăn, thực đơn dinh dưỡng của Boss.
+*   **Matcha 2** (`#4a8a2e` - Cổ Điển): Xanh lá Matcha truyền thống. Biểu thị trạng thái sức khỏe tốt (Healthy/Healed), chỉ số ăn uống/vận động khoa học.
+*   **Matcha 3** (`#2d5a1b` - Tối): Xanh lá đậm trầm lắng. Dùng cho chữ hiển thị trên nền Matcha 1 hoặc các viền khung dinh dưỡng.
+
+#### 🌸 Nhóm SAKURA (Sakura Cảm Xúc & Trạng Thái Vui Vẻ)
+*   **Sakura 1** (`#fbbccc` - Ngọt): Hồng nhạt ngọt ngào. Dùng làm màu nền cho các thông báo chúc mừng, tin vui hoặc huy hiệu đặc biệt.
+*   **Sakura 2** (`#e8688a` - Hoa): Màu hoa anh đào nở rộ. Dùng cho trạng thái cảm xúc hạnh phúc của Boss hoặc làm điểm nhấn trang cá nhân.
+*   **Sakura 3** (`#c0305e` - Thâm): Hồng đỏ đậm đà. Dùng cho văn bản nổi bật hoặc icon yêu thích trong khối giao diện hệ Sakura.
+
+#### 💝 Nhóm SAKURA WARM (Hồng San Hô - Nhịp Đập Trái Tim & Lofi)
+*   **Warm 1** (`#fdd5c0` - Phấn): Hồng phấn ngả cam. Dùng làm nền cho khu vực phát nhạc Lofi thư giãn hoặc giao diện đĩa hát.
+*   **Warm 2** (`#fcafaf` - San Hô): Hồng Đào Ấm chính của nhịp tim. Chỉ dùng cho các tương tác gắn kết tình cảm trực tiếp giữa Sen và Boss (vuốt ve, chải lông, trò chuyện).
+*   **Warm 3** (`#e06868` - Đỏ Hồng): Đỏ hồng đất nung. Dùng làm cảnh báo/nút hủy/xóa khẩn cấp mang tính chất nhẹ nhàng, chữa lành (tránh dùng màu đỏ tươi gắt).
+
+#### 🍑 Nhóm PEACH (Cam Đào - Vật Phẩm & Vui Chơi)
+*   **Peach 1** (`#ffe8d6` - Bông): Cam đào nhạt như bông. Dùng làm màu nền cho hộp thoại của Pet hoặc các bóng bóng chat đối thoại.
+*   **Peach 2** (`#ffd1ba` - Tươi): Cam Đào Boss tươi. Làm màu nền đại diện cho đồ chơi, phụ kiện, hoặc các tương tác vui đùa của Boss.
+*   **Peach 3** (`#e8906a` - Chín): Cam đào sẫm. Dùng cho text hoặc các nét vẽ minh họa sketch mộc của vật phẩm.
+
+#### 🍯 Nhóm AMBER (Vàng Hổ Phách - Ghi Chú & Nhắc Nhở)
+*   **Amber 1** (`#fff9c4` - Nhạt): Vàng Hổ Phách Nhạt. Chỉ dùng làm màu nền cho các hộp thoại ghi chú (memo), nhật ký viết tay của Sen.
+*   **Amber 2** (`#f5c842` - Mật): Vàng mật ong. Dùng cho các huy hiệu thành tích vui chơi hoặc cúp lưu niệm của Boss.
+*   **Amber 3** (`#d4900a` - Đậm): Vàng đậm hổ phách khô. Dùng cho nhãn nhắc nhở lịch trình nhẹ nhàng (ví dụ: "Đến giờ đi dạo", "Lịch tiêm phòng sắp tới"). Luôn đi kèm chữ màu Đen Than Mộc.
+
+#### 🌌 Nhóm AI 藍 (Indigo - Chàm Tĩnh Lặng & Giao Diện Đêm)
+*   **Hanada 縹** (`#7aaec8` - Triều Đỉnh): Xanh lam nhạt của mây trời hừng đông. Làm nền phụ hoặc các khối phụ ở chế độ Cozy Dark.
+*   **Ai 藍** (`#1e4d7a` - Chàm): Xanh chàm đậm truyền thống. Dùng cho các nút hoặc trạng thái tĩnh mịch của giao diện đêm.
+*   **Kon 紺** (`#0f2a45` - Kimono): Xanh đen đại dương đêm. Dùng làm màu nền chính của giao diện tối (Cozy Dark).
+
+#### 🪵 Nhóm WABI (Wabi-Sabi - Vật Liệu & Đồ Gỗ Tự Nhiên)
+*   **Sugi 杉** (`#8b5e3c` - Sugi Wood): Màu gỗ tuyết tùng Nhật Bản. Làm viền tủ sách Lofi hoặc các nét vẽ nhà cửa mộc mạc.
+*   **Kogecha 焦茶** (`#4a2418` - Kogecha Tea): Màu nước trà đậm hoặc gỗ gụ. Dùng cho văn bản, nét vẽ outline, hoặc nét đổ bóng mộc của nội thất Lofi.
+*   **Kohaku 琥珀** (`#b8860a` - Amber Gem): Màu hổ phách thô tự nhiên. Phối cho các chi tiết kim loại vintage hoặc khuy bấm cổ của đĩa nhạc.
+
+### 1.5. Màu Thương Hiệu SSO (Third-Party Identity Colors)
 Để các nút đăng nhập SSO dễ nhận diện mà vẫn giữ tính tối giản:
 
 | Cổng SSO | Token Màu Nền (Background) | Token Màu Chữ / Icon | Ghi Chú Thiết Kế |

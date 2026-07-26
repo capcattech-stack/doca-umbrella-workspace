@@ -6,6 +6,12 @@
         *   Sử dụng lớp `ph-light` (ví dụ: `class="ph-light ph-paw"`) làm tiêu chuẩn mặc định để đồng bộ với quy chuẩn thiết kế nét mảnh `1.7px` của logo mới.
         *   Sử dụng lớp `ph-thin` cho các vùng giao diện đặc biệt tối giản.
         *   Sử dụng lớp `ph-fill` hoặc `ph-duotone` cho các trạng thái được chọn (Active) hoặc khi hover.
+*   **Muji Minimalist Color Palette:** Khi thiết kế hoặc viết CSS/Tailwind cho giao diện, bắt buộc tuân thủ hệ màu Muji Minimalist:
+    *   **Nền chủ đạo (Primary BG):** Trắng giấy (`#FFFFFF`).
+    *   **Nút bấm và chữ chính (Primary Text/Buttons):** Đen Than Muji (`#1C1C1E`) để tạo độ tương phản cao (High Contrast).
+    *   **Điểm nhấn nhận diện (Identity Accent):** Xanh Neon (`#76C123`) cho các tương tác quan trọng nhất, trạng thái active hoặc nút nhấn nhấn mạnh chính.
+    *   **Nền phụ (Surface BG):** Xám Yến Mạch (`#F8F9FA`) cho các thẻ Card, Bottom Sheet.
+    *   Các nhóm màu phụ Healing (Wasabi, Matcha, Sakura, Sakura Warm, Peach, Amber, Indigo/Ai, Wabi) và màu chất liệu tự nhiên phải tuân thủ nghiêm ngặt quy tắc sử dụng và định mức ngữ nghĩa trong tài liệu thiết kế [Brand Guidelines](file:///Users/ricyuan/CAPCAT/docs/BRAND_GUIDELINES.md).
 
 ## 📝 Tài liệu Quy hoạch & Báo cáo (Planning & Walkthrough)
 *   **Ngôn ngữ tài liệu:** Bắt buộc viết các file tài liệu quy hoạch, kế hoạch thực hiện (`implementation_plan.md`), danh sách nhiệm vụ (`task.md`), và báo cáo hoàn thành (`walkthrough.md`) bằng **tiếng Việt** để lập trình viên và người dùng dễ dàng kiểm soát và đánh giá các thay đổi của dự án.
