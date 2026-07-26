@@ -17,7 +17,7 @@ const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
   <div id="kiosk-landing-view" class="hidden">
     <main style="padding: 6rem 1.5rem; min-height: 70vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
       <div class="container" style="max-width: 600px; display: flex; flex-direction: column; gap: 2rem; align-items: center;">
-        <div style="font-size: 4.5rem; color: var(--cozy-green-matcha);"><i class="ph-light ph-storefront"></i></div>
+        <div style="font-size: 4.5rem; color: var(--cozy-accent-identity);"><i class="ph-light ph-storefront"></i></div>
         
         <div style="display: flex; flex-direction: column; gap: 0.5rem;">
           <h1 class="landing-title" style="color: var(--cozy-text-obsidian); font-weight: 800; line-height: 1.25;">Capcat Kiosk Platform</h1>
@@ -25,15 +25,15 @@ const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
         </div>
 
         <div class="welcome-box" style="background-color: var(--cozy-bg-pure); border: 1px solid var(--cozy-border-light); border-radius: 16px; padding: 2rem; box-shadow: var(--cozy-shadow-default); width: 100%; text-align: left; position: relative;">
-          <div style="position: absolute; top: 0; left: 0; width: 100%; height: 5px; background-color: var(--cozy-green-matcha-forest); border-radius: 16px 16px 0 0;"></div>
+          <div style="position: absolute; top: 0; left: 0; width: 100%; height: 5px; background-color: var(--cozy-accent-identity); border-radius: 16px 16px 0 0;"></div>
           <h3 style="font-size: 1.15rem; font-weight: 600; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem; color: var(--cozy-text-obsidian);">
-            <i class="ph-light ph-sparkles" style="color: var(--cozy-green-matcha-forest);"></i> Boss muốn tự mở góc Kiosk xinh?
+            <i class="ph-light ph-sparkles" style="color: var(--cozy-accent-identity);"></i> Boss muốn tự mở góc Kiosk xinh?
           </h3>
           <p style="font-size: 0.88rem; line-height: 1.6; color: var(--cozy-text-charcoal); margin-bottom: 1.25rem;">
             Nếu ba là nhà sáng tạo nội dung, blogger hoặc chủ nuôi thú cưng cá tính, ba có thể tự thiết lập một trang Kiosk cá nhân dạng <code class="whisper-mono" style="background-color: var(--cozy-bg-beige); padding: 2px 6px; border-radius: 4px;">kiosk.capcat.vn/ten-cua-ban</code> cực kỳ dễ dàng.
           </p>
           <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-            <a href="https://doca.pet/profile" target="_blank" class="btn-create" style="display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; background-color: var(--cozy-green-matcha-forest); color: #fff; border-radius: 8px; padding: 0.65rem 1rem; font-size: 0.85rem; font-weight: 600; width: 100%; transition: all 0.2s ease;">
+            <a href="https://doca.pet/profile" target="_blank" class="btn-create" style="display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; background-color: var(--cozy-text-obsidian); color: #fff; border-radius: 8px; padding: 0.65rem 1rem; font-size: 0.85rem; font-weight: 600; width: 100%; transition: all 0.2s ease;">
               Về nhà doca.pet tạo góc Kiosk thôi ba ơi! <i class="ph-light ph-arrow-right"></i>
             </a>
           </div>
@@ -49,7 +49,7 @@ const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
         
         <!-- TRẠNG THÁI LOADING -->
         <div id="kiosk-loading" class="text-center" style="padding: 6rem 0;">
-          <i class="ph-light ph-spinner-gap spin" style="font-size: 3rem; color: var(--cozy-green-matcha-forest); display: block; margin: 0 auto 1.5rem;"></i>
+          <i class="ph-light ph-spinner-gap spin" style="font-size: 3rem; color: var(--cozy-accent-identity); display: block; margin: 0 auto 1.5rem;"></i>
           <p class="whisper-mono">Đang tìm chiếc tủ Kiosk dễ thương...</p>
         </div>
 
@@ -623,7 +623,7 @@ const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
   .polaroid-frame {
     background: #FFFFFF;
     padding: 4px 4px 10px 4px;
-    box-shadow: 0 8px 24px rgba(139, 94, 60, 0.07);
+    box-shadow: 0 8px 24px rgba(28, 28, 30, 0.04);
     transform: rotate(-3deg);
     border: 1px solid var(--cozy-border-light);
     width: 100%;
@@ -637,7 +637,7 @@ const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
     aspect-ratio: 1 / 1;
     object-fit: cover;
     border-radius: 2px;
-    border: 1px solid rgba(139, 94, 60, 0.12);
+    border: 1px solid var(--cozy-border-light);
   }
 
   .content-right {
@@ -682,7 +682,7 @@ const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
   }
 
   .action-btn-buy {
-    background-color: var(--cozy-green-matcha-forest);
+    background-color: var(--cozy-text-obsidian);
     color: #FFFFFF;
     border-radius: 14px;
     height: 50px;
@@ -690,30 +690,31 @@ const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
     font-weight: 700;
     width: 100%;
     border: none;
-    box-shadow: 0 4px 12px rgba(74, 138, 46, 0.15);
+    box-shadow: 0 4px 12px rgba(28, 28, 30, 0.12);
     transition: all 0.2s ease;
   }
 
   .action-btn-buy:hover {
-    background-color: var(--cozy-green-matcha-dark);
+    background-color: var(--cozy-accent-identity);
+    color: var(--cozy-text-obsidian);
+    box-shadow: 0 4px 16px rgba(118, 193, 35, 0.25);
   }
 
   .action-btn-group {
-    background-color: #E2ECD2;
-    color: var(--cozy-green-matcha-dark);
+    background-color: var(--cozy-bg-pure);
+    color: var(--cozy-text-obsidian);
     border-radius: 14px;
     height: 50px;
     font-size: 0.95rem;
     font-weight: 700;
     width: 100%;
-    border: 1px solid rgba(74, 138, 46, 0.15);
+    border: 1px solid var(--cozy-border-light);
     transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .action-btn-group:hover {
-    background-color: var(--cozy-green-matcha);
-    color: var(--cozy-bg-pure);
-    border-color: var(--cozy-green-matcha);
+    background-color: var(--cozy-bg-beige);
+    border-color: var(--cozy-border-subtle);
   }
 
   .polaroid-frame img.placeholder-logo {
@@ -725,7 +726,8 @@ const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
 
   /* Landing styles */
   .btn-create:hover {
-    background-color: var(--cozy-green-matcha-dark);
+    background-color: var(--cozy-accent-identity) !important;
+    color: var(--cozy-text-obsidian) !important;
     transform: translateY(-1px);
   }
 
@@ -791,8 +793,8 @@ const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
   }
   .back-home-btn:hover {
     background-color: var(--cozy-bg-oatmeal);
-    border-color: var(--cozy-green-matcha-forest);
-    color: var(--cozy-green-matcha-forest);
+    border-color: var(--cozy-accent-identity);
+    color: var(--cozy-accent-identity);
   }
 
   .store-header {
@@ -817,20 +819,20 @@ const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
     left: 0;
     width: 100%;
     height: 6px;
-    background-color: var(--cozy-green-matcha-forest);
+    background-color: var(--cozy-accent-identity);
   }
   
   .store-avatar-box {
     width: 86px;
     height: 86px;
     border-radius: 50%;
-    background-color: var(--cozy-bg-cream-warm);
-    border: 2.5px solid var(--cozy-green-matcha-forest);
+    background-color: var(--cozy-bg-beige);
+    border: 2.5px solid var(--cozy-accent-identity);
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 2.5rem;
-    color: var(--cozy-green-matcha-forest);
+    color: var(--cozy-accent-identity);
     flex-shrink: 0;
     box-shadow: 0 2px 8px rgba(0,0,0,0.03);
     position: relative;
@@ -873,14 +875,14 @@ const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
     font-family: 'Inter', sans-serif;
     font-size: 0.68rem;
     font-weight: 700;
-    background-color: #E2ECD2;
-    color: var(--cozy-green-matcha-dark);
+    background-color: rgba(118, 193, 35, 0.08);
+    color: #4D8A10;
     padding: 3px 8px;
     border-radius: 20px;
     display: inline-flex;
     align-items: center;
     gap: 4px;
-    border: 1px solid rgba(74, 138, 46, 0.1);
+    border: 1px solid rgba(118, 193, 35, 0.15);
   }
 
   .status-dot {
@@ -946,7 +948,7 @@ const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
 
     #store-bio {
       text-align: left;
-      border-left: 2.5px solid var(--cozy-green-matcha-forest);
+      border-left: 2.5px solid var(--cozy-accent-identity);
       padding-left: 0.75rem;
     }
 

@@ -1,21 +1,32 @@
 :root {
   /* --- MÀU SẮC CHỦ ĐẠO MUJI MINIMAL --- */
-  --cozy-bg-pure: #FBFAF6;              /* Màu mây trắng sữa (Cloud) */
-  --cozy-bg-beige: #F4F1E9;             /* Màu giấy ấm áp (Paper) */
-  --cozy-bg-oatmeal: #E8E3D6;           /* Màu cát ấm (Sand) */
-  --cozy-text-obsidian: #15170F;        /* Màu mực Charcoal đậm */
-  --cozy-text-charcoal: #5C5E54;        /* Màu chữ phụ xám ấm */
-  --cozy-border-light: #D4CDBF;         /* Đường viền mảnh cát Muji */
+  --cozy-bg-pure: #FFFFFF;              /* Trắng Muji (Nền chính sạch sẽ, khoáng đạt) */
+  --cozy-bg-beige: #F5F5F0;             /* Kem Sữa Muji (Lớp nền phụ thứ hai, tạo cảm giác ấm) */
+  --cozy-bg-oatmeal: #F8F9FA;           /* Xám Yến Mạch (Nền phụ cho Card, Bottom Sheet) */
+  --cozy-bg-elevated: #FDFBF7;          /* Kem Giấy Chữa Lành (Nền nâng cao, dịu mắt) */
+  
+  --cozy-text-obsidian: #1C1C1E;        /* Đen Than Muji (Chữ chính, nút bấm chính - High Contrast) */
+  --cozy-text-charcoal: #8C8C8C;        /* Xám Gợi Ý (Chữ phụ, mô tả, placeholder) */
+  
+  --cozy-border-light: #EAEAEA;         /* Viền Sáng (Đường kẻ chia mảnh, viền nút phụ) */
+  --cozy-border-subtle: #D2D2CC;        /* Viền Xám Ấm (Viền card phong cách vintage nhẹ) */
 
-  /* Matcha Green */
-  --cozy-green-matcha: #8FBF4F;         /* Matcha Warm chủ đạo */
-  --cozy-green-matcha-forest: #4A8A2E;  /* Matcha Forest */
-  --cozy-green-matcha-dark: #1F3E12;    /* Matcha Dark */
-  --cozy-bg-cream-warm: #F5EDD5;        /* Nền kem Matcha */
+  /* Điểm nhấn nhận diện (Identity Accent) */
+  --cozy-accent-identity: #76C123;      /* Xanh Neon Điểm Nhấn chính */
+  
+  /* Màu phối phụ (Healing Coordination) */
+  --cozy-accent-emotion: #FCAFAF;       /* Hồng Đào Ấm (Chỉ số cảm xúc, nhịp tim, nhạc Lo-fi) */
+  --cozy-green-matcha: #8FA882;         /* Xanh Matcha (Nhãn trạng thái thiên nhiên, an toàn) */
+  --cozy-warm-amber: #FFF9C4;           /* Vàng Hổ Phách Nhạt (Cảnh báo nhẹ, ghi chú ấm áp) */
+  --cozy-cat-peach: #FFD1BA;            /* Cam Đào Boss (Minh họa Boss Mèo, màu phụ dễ thương) */
+
+  /* Chi tiết các nhóm màu Wasabi & Matcha cho tương thích ngược */
+  --cozy-green-matcha-forest: #4A8A2E;  /* Matcha 2 (Cổ Điển) */
+  --cozy-green-matcha-dark: #2D5A1B;    /* Matcha 3 (Tối) */
 
   /* Shadows */
-  --cozy-shadow-default: 0 4px 16px rgba(21, 23, 15, 0.02);
-  --cozy-shadow-hover: 0 8px 24px rgba(21, 23, 15, 0.04);
+  --cozy-shadow-default: 0 4px 16px rgba(28, 28, 30, 0.02);
+  --cozy-shadow-hover: 0 8px 24px rgba(28, 28, 30, 0.05);
 }
 
 /* RESET */
@@ -131,33 +142,33 @@ a {
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  border: 1px solid rgba(74, 138, 46, 0.15);
-  background-color: #E2ECD2;
-  color: var(--cozy-green-matcha-dark);
+  border: 1px solid var(--cozy-border-light);
+  background-color: var(--cozy-bg-pure);
+  color: var(--cozy-text-obsidian);
   cursor: pointer;
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .page-btn:hover:not(:disabled) {
-  background-color: var(--cozy-green-matcha);
-  color: var(--cozy-bg-pure);
-  border-color: var(--cozy-green-matcha);
+  background-color: var(--cozy-bg-beige);
+  color: var(--cozy-text-obsidian);
+  border-color: var(--cozy-border-subtle);
   transform: scale(1.08);
 }
 
 .page-btn:disabled {
   opacity: 0.35;
   cursor: not-allowed;
-  background-color: #F0F4E8;
-  color: #9CADA2;
-  border-color: rgba(0, 0, 0, 0.02);
+  background-color: var(--cozy-bg-oatmeal);
+  color: var(--cozy-text-charcoal);
+  border-color: var(--cozy-border-light);
 }
 
 .page-btn.active {
-  background-color: var(--cozy-green-matcha-forest);
+  background-color: var(--cozy-text-obsidian);
   color: var(--cozy-bg-pure);
-  border-color: var(--cozy-green-matcha-forest);
-  box-shadow: 0 4px 10px rgba(74, 138, 46, 0.25);
+  border-color: var(--cozy-text-obsidian);
+  box-shadow: 0 4px 10px rgba(28, 28, 30, 0.15);
 }
 
 .polaroid-card {
@@ -214,7 +225,7 @@ a {
 }
 
 .polaroid-btn {
-  background-color: var(--cozy-green-matcha-forest);
+  background-color: var(--cozy-text-obsidian);
   color: #fff;
   border: none;
   border-radius: 8px;
@@ -231,7 +242,8 @@ a {
 }
 
 .polaroid-btn:hover {
-  background-color: var(--cozy-green-matcha-dark);
+  background-color: var(--cozy-accent-identity);
+  color: var(--cozy-text-obsidian);
 }
 
 /* --- CARD SẢN PHẨM PHIÊN BẢN CHUẨN ĐỒNG BỘ VỚI AFFILIATE --- */
