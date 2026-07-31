@@ -95,3 +95,21 @@ To prevent Astro build-time compile errors for browser-specific objects:
 *   **Không bao giờ** cho phép các email không thuộc bảng `admins` đọc danh sách lead trong bảng `quiz_leads` qua API client-side.
 *   **Không bao giờ** bỏ qua việc mã hóa hoặc dọn dẹp (sanitize) dữ liệu khi xuất file CSV từ bảng admin để tránh lỗ hổng CSV Injection.
 
+---
+
+## 7. Quy chuẩn Kỹ thuật Thiết kế Layout Muji & Tối ưu Trải nghiệm (Maya UX Standards)
+
+### 7.1. Phòng ngừa CLS (Cumulative Layout Shift)
+*   Khi trượt mở form Namiya, bắt buộc sử dụng CSS transitions thông qua `max-height` (từ `0` đến một giá trị cố định, ví dụ `500px`) kết hợp với `opacity` và `overflow: hidden`. 
+*   Tránh thay đổi thuộc tính `display: none` sang `display: block` trực tiếp vì sẽ làm xê dịch layout đột ngột và làm tăng chỉ số CLS.
+
+### 7.2. Chuẩn Dễ tiếp cận (Accessibility - A11y)
+*   Các nút bấm thu gọn chỉ chứa icon (như nút giỏ hàng xe đẩy trên di động) bắt buộc phải khai báo thuộc tính `aria-label="Mua sản phẩm trên Shopee"` hoặc tương đương để trình đọc màn hình (Screen Reader) có thể đọc được.
+*   Thanh điều hướng Tab sản phẩm trên Mobile phải hỗ trợ điều khiển bằng phím mũi tên trái/phải (`Keyboard Navigation`) và có `role="tablist"`, các tab con có `role="tab"` và `aria-selected="true/false"`.
+
+### 7.3. Phân vùng CSS biến môi trường Muji (Design Tokens)
+*   Nền chính (Canvas): `--cozy-bg-pure: #FFFFFF`
+*   Chữ và nút chính: `--cozy-text-obsidian: #1C1C1E`
+*   Điểm nhấn: `--cozy-accent-identity: #76C123` (Xanh Neon)
+*   Nền phụ (Surface): `--cozy-bg-paper: #FAF8F5` hoặc Oatmeal `--cozy-bg-oatmeal: #F8F9FA`
+

@@ -153,3 +153,45 @@ sequenceDiagram
     CI-->>Admin: Cập nhật giao diện mới nhất cho tất cả người dùng
 ```
 
+---
+
+## 7. Quy trình tương tác trượt mở Hòm thư Namiya & Điền nhanh Google SSO
+
+Khi khách truy cập muốn gửi thư tâm sự ẩn danh:
+
+```mermaid
+sequenceDiagram
+    participant User as Người dùng (Sen)
+    participant Web as Trình duyệt (Homepage)
+    participant Sub as Supabase Auth SDK
+    
+    User->>Web: Click nút "Viết thư gửi gắm tâm sự ✉"
+    Web->>Web: Trượt mở form nhập liệu (CSS transition height/opacity)
+    User->>Web: Click nút Google SSO nhanh cạnh ô Email
+    Web->>Sub: signInWithOAuth(provider: 'google')
+    Sub-->>Web: Trả về thông tin email đã xác thực
+    Web->>Web: Tự động điền email vào input và hiển thị tích xanh (Verified)
+    User->>Web: Viết tâm sự & Click "Gửi thư vào Hòm Gỗ"
+    Web->>Web: Kích hoạt hoạt ảnh phong thư bay vào hòm gỗ
+    Web->>Web: Phát âm thanh chuông gió thành công (Audio R2)
+    Web->>User: Hiển thị thông báo "Thư đã được gửi đi 🌸"
+```
+
+---
+
+## 8. Quy trình chuyển Tab Kệ quà của mẹ không reload trang
+
+Khi người dùng lọc sản phẩm theo Boss:
+
+```mermaid
+sequenceDiagram
+    participant User as Người dùng (Sen)
+    participant Web as Trình duyệt (Homepage)
+    participant DOM as Lưới sản phẩm (Product Grid)
+    
+    User->>Web: Click Tab Boss (ví dụ: Latte - Thức ăn)
+    Web->>Web: Lọc danh sách sản phẩm từ cache Supabase đã fetch sẵn lúc build
+    Web->>DOM: Thay đổi danh sách thẻ sản phẩm (DOM Manipulation)
+    DOM->>DOM: Thực thi hiệu ứng thẻ Polaroid xoay nhẹ 2-3 độ
+    DOM-->>User: Hiển thị danh sách sản phẩm thức ăn của Latte
+```

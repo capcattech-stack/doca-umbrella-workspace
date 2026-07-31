@@ -36,3 +36,18 @@
 ### 5.3. Các vấn đề chưa giải quyết (Unresolved Issues)
 *   *Đồng bộ tự động CI/CD:* Khi admin sửa đổi câu đố trên Supabase, trang tĩnh người dùng sẽ không đổi ngay lập tức cho đến khi kích hoạt build lại trang (Rebuild). Cần nghiên cứu tích hợp Webhook kích hoạt build tự động (ví dụ Netlify/Vercel webhook) hoặc chuyển trang câu đố sang chế độ On-demand Rendering (ISR).
 
+---
+
+## 6. Bộ Nhớ Dự Án (Project Memory) - Tái Cấu Trúc Giao Diện Trang Chủ
+
+### 6.1. Các giả định được chấp thuận (Accepted Assumptions)
+*   **Nạp âm thanh chuông gió:** File âm thanh chuông gió nhẹ nhàng khi gửi thư Namiya thành công được host ổn định trên Cloudflare R2 công cộng để giảm tải băng thông cho máy chủ chính.
+*   **Kích thước hình ảnh tối ưu:** Các ảnh Polaroid sản phẩm được nén Canvas client-side xuống 300x300px trước khi tải lên, đảm bảo tốc độ tải mượt mà trên di động (Mobile-first).
+
+### 6.2. Ràng buộc lịch sử & Tính nhất quán (Historical Constraints)
+*   Quy định phối màu Muji Minimalist là bất di bất dịch, mọi sửa đổi layout đều phải kế thừa các class tiện ích trong `global.css` thay vì viết đè ad-hoc CSS.
+*   Các icon của Phosphor Icons phải giữ nguyên định dạng lớp `ph-light` nét mảnh.
+
+### 6.3. Các vấn đề chưa giải quyết (Unresolved Issues)
+*   *Trải nghiệm scroll-snap trên iOS:* Một số phiên bản cũ của Safari Mobile có thể gặp hiện tượng giật nhẹ khi vuốt Horizontal Carousel của Blog. Cần kiểm thử E2E kỹ lưỡng trên thiết bị iOS thật.
+

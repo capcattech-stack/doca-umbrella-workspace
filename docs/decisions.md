@@ -116,3 +116,47 @@ Người dùng mong muốn DOCA FM trên môi trường DEV phát nhạc phù h�
 *   **Ưu điểm:** Tự động hóa hoàn toàn việc soạn thảo danh sách phát và nội dung dẫn chuyện theo thời tiết và bài hát, mang lại trải nghiệm đậm chất nghệ thuật cho người nghe. Không phát sinh thư viện phụ thuộc Python.
 *   **Nhược điểm:** Phụ thuộc vào tính sẵn sàng của Gemini API (có cơ chế Fallback tĩnh để đảm bảo an toàn tuyệt đối).
 
+---
+
+## ADR-045: Cấu trúc Layout Trang Chủ theo Mô Hình Hành Trình AIDA
+
+### Bối cảnh
+Bố cục trang chủ hiện tại đặt Banner quảng cáo Kiosk ngay dưới trình phát nhạc DOCA FM, gây cảm giác thương mại hóa quá sớm cho người dùng mới truy cập, đồng thời mục Blog (Nhật ký lối sống) bị đẩy xuống quá sâu dưới đáy trang.
+
+### Quyết định
+Tái phân bổ vị trí các section theo mô hình phễu AIDA:
+1. **Attention:** Giữ Hero Section và DOCA FM Player ở đầu trang để thu hút bằng giai điệu chữa lành.
+2. **Interest:** Đưa Nhật ký lối sống (Blog) lên ngay dưới Player nhạc để người dùng tiếp thu các giá trị phi thương mại trước.
+3. **Desire:** Đặt Kệ quà của mẹ (Merchandising) dưới hòm thư để khơi gợi nhu cầu mua sắm đồ tốt cho Boss.
+4. **Action:** Di chuyển Banner Kiosk ("Mở sạp gỗ cùng Tina") xuống chân trang để kêu gọi hành động đăng ký Kiosk sau khi người dùng đã trải nghiệm trọn vẹn website.
+
+### Hệ quả
+*   **Ưu điểm:** Tạo dòng chảy tâm lý mượt mà, tăng độ thiện cảm và nâng cao tỷ lệ chuyển đổi đăng ký Kiosk lẫn mua sắm Affiliate.
+
+---
+
+## ADR-046: Trực quan hóa Kệ hàng bằng Tab nhân vật Doca House & Polaroid Modal
+
+### Bối cảnh
+"Kệ quà của mẹ" trưng bày danh sách sản phẩm nằm ngang cố định gây khó khăn cho việc phân loại đồ dùng của người dùng theo nhu cầu và làm loãng giao diện khi số lượng sản phẩm tăng lên.
+
+### Quyết định
+1. **Tích hợp Tab lọc nhân vật:** Chia sản phẩm thành 4 nhóm theo các Boss: Tina (Sách), Latte (Thức ăn), Muối (Đồ chơi), Pi's (Góc ngủ) hiển thị dưới dạng thanh Tab cuộn ngang trên mobile.
+2. **Lưới sản phẩm dynamic:** 2 cột trên Mobile (nút xe mua sắm thu gọn) và 4-5 cột trên Desktop.
+3. **Trải nghiệm chi tiết qua Modal Polaroid:** Bấm sản phẩm sẽ mở Bottom Sheet (Mobile) hoặc Modal Polaroid căn giữa màn hình với phông nền mờ blur (Desktop).
+
+### Hệ quả
+*   **Ưu điểm:** Giảm tải nhận thức (Cognitive Load) cho người dùng, tối giản giao diện trang chủ mà vẫn giới thiệu được nhiều sản phẩm hơn.
+
+---
+
+## ADR-047: Trải nghiệm Hòm thư Namiya ẩn dạng Drawer
+
+### Bối cảnh
+Form gửi thư Namiya tĩnh chiếm diện tích lớn trên trang chủ, làm giao diện trở nên thô ráp và giảm tính tò mò khám phá.
+
+### Quyết định
+Ẩn form nhập liệu đằng sau một hình vẽ line-art hòm thư gỗ và một nút bấm duy nhất `[Viết thư tâm sự ✉]`. Khi click, form nhập liệu sẽ trượt mở ra mượt mà ngay tại chỗ bằng CSS transition. Tích hợp đăng nhập Google điền email tự động 1 chạm để loại bỏ ma sát điền form (Friction Eradication).
+
+### Hệ quả
+*   **Ưu điểm:** Giao diện tinh tế, khơi gợi cảm giác tò mò và loại bỏ hoàn toàn ma sát nhập liệu trên Mobile.

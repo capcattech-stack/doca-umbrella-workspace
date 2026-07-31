@@ -119,5 +119,14 @@
 *   **Status:** Success (Fully Implemented & Verified)
 *   **Description:** Resolved Vercel 404 errors for subpaths on the kiosk.capcat.vn domain. Simplified Vercel rewrite configuration to standard wildcards and removed obsolete duplicate directory `kios_capcat_web` from Git.
 *   **Key Decisions:**
-    *   *ADR-046:* Replaced complex negative lookahead Vercel rewrite regex with standard `/:path*` wildcard rewrite, relying on Vercel's native filesystem priority mechanism.
-    *   *ADR-047:* Removed leftovers and caches from the legacy folder `kios_capcat_web` to prevent build system confusion.
+*       *ADR-046:* Replaced complex negative lookahead Vercel rewrite regex with standard `/:path*` wildcard rewrite, relying on Vercel's native filesystem priority mechanism.
+*       *ADR-047:* Removed leftovers and caches from the legacy folder `kios_capcat_web` to prevent build system confusion.
+
+## Feature 026: Tái Cấu Trúc Giao Diện Trang Chủ Theo Maya UX
+*   **Planning Date:** 2026-07-31
+*   **Status:** In Progress (Planning Completed & Spec Validated)
+*   **Description:** Tái cấu trúc bố cục trang chủ doca.capcat.vn theo mô hình phễu AIDA, tối ưu hóa thiết kế Mobile-first với Horizontal Swipe Carousel cho Blog, Tab điều hướng theo Boss cho Kệ quà và trượt mở thông minh cho Hòm thư Namiya.
+*   **Key Decisions:**
+    *   *ADR-045:* Cấu trúc layout trang chủ theo phễu AIDA (Hero & Audio Player -> Blog -> Hòm thư Namiya -> Kệ quà của mẹ -> Banner Kiosk).
+    *   *ADR-046:* Trực quan hóa Kệ quà của mẹ qua hệ thống Tabs (Tina, Latte, Muối, Pi's) hiển thị lưới 2 cột trên Mobile và 4-5 cột trên Desktop kèm Modal Polaroid.
+    *   *ADR-047:* Ẩn form Namiya mặc định đằng sau hình vẽ hòm thư gỗ tĩnh và nút bấm trượt mở nhằm giảm tải nhận thức (Cognitive Load).

@@ -186,3 +186,42 @@ sequenceDiagram
     end
 ```
 
+---
+
+## 7. Sơ đồ cấu trúc phân bố Layout Trang Chủ mới
+
+```mermaid
+graph TD
+    Index[index.astro - Trang chủ]
+    Index --> Hero[Hero Section & FM Player]
+    Index --> Blog[Lifestyle Blog - Swipe Carousel]
+    Index --> Namiya[NamiyaMailbox.astro - Hòm thư Namiya]
+    Index --> Curation[Product Section - Tabs tương tác]
+    Curation --> ProdCard[ProductCard.astro - Mini Polaroid]
+    Curation --> PolSheet[PolaroidSheet.astro - Bottom Sheet/Modal]
+    Index --> Banner[Kiosk Banner - Kêu gọi hành động cuối trang]
+```
+
+---
+
+## 8. Sơ đồ trạng thái Hòm thư Namiya (Namiya Mailbox State Diagram)
+
+```mermaid
+stateDiagram-v2
+    [*] --> Collapsed : Mặc định chỉ hiển thị Hòm thư gỗ Nhật
+    Collapsed --> Expanded : Click nút "Viết thư gửi gắm tâm sự"
+    
+    state Expanded {
+        [*] --> EmptyInput : Đợi nhập tâm sự (Nút gửi Disabled)
+        EmptyInput --> GoogleAutofill : Click Google SSO
+        GoogleAutofill --> EmailVerified : Email tự động điền & verified (tick xanh)
+        EmailVerified --> FormReady : Nhập tâm sự >= 10 ký tự
+        FormReady --> EmptyInput : Xóa nội dung
+    }
+
+    Expanded --> Sending : Click "Gửi thư vào Hòm Gỗ" (FormReady)
+    Sending --> SuccessAnim : Chạy hiệu ứng phong thư bay vào hòm
+    SuccessAnim --> WindChimePlay : Phát âm thanh chuông gió (Audio R2)
+    WindChimePlay --> SuccessMsg : Hiển thị thông báo gửi thành công
+    SuccessMsg --> Collapsed : Tự động đóng sau 3 giây hoặc click đóng
+```

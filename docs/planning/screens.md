@@ -83,3 +83,36 @@ This document details the UI design, states, and accessibility details for the C
         *   Cột: Email | Tên câu hỏi | Lựa chọn | UTM Source | UTM Medium | UTM Campaign | Ngày đăng ký.
         *   Phân trang (Pagination) ở góc dưới: Hiển thị 10 dòng mỗi trang, nút Next/Prev nét mảnh tinh tế.
 
+---
+
+## 5. Đặc tả Giao diện & Trạng thái UI Mới của Trang Chủ (Tái Cấu Trúc Layout)
+
+### 5.1. Nhật ký lối sống (Lifestyle Blog Section)
+*   **Trạng thái Mobile (Carousel):**
+    *   Chiều rộng card cố định khoảng `280px` - `300px`, hỗ trợ trượt ngang với `scroll-snap-type: x mandatory`.
+    *   Hiển thị tag phân mục màu nhạt ở góc trên bên trái, thời gian đọc ở góc trên bên phải.
+*   **Trạng thái Desktop (Grid):**
+    *   CSS Grid 3 cột, khoảng cách gap `24px`.
+    *   Hiệu ứng Hover: Card sản phẩm Polaroid xoay nhẹ `transform: rotate(2deg)`, bóng đổ nhạt lan rộng, tiêu đề chính xuất hiện gạch chân Neon `#76C123` bằng nét vẽ tay SVG.
+
+### 5.2. Kệ quà của mẹ (Product Curation Section)
+*   **Thanh điều hướng Tab:** 
+    *   Hiển thị 4 tab bo góc mềm mại: `[Sách của Tina]`, `[Pate của Latte]`, `[Đồ chơi của Muối]`, `[Góc ngủ của Pi's]`.
+    *   Tab đang chọn có màu nền Charcoal `#1C1C1E` và chữ màu trắng tinh khiết (High contrast).
+*   **Trạng thái Lưới sản phẩm:**
+    *   *Mobile:* 2 cột (`grid-cols-2`). Ảnh sản phẩm hiển thị dạng Polaroid vuông. Nút mua hàng thu gọn thành icon xe đẩy tròn đen `32x32px` đặt ở góc dưới cùng bên phải.
+    *   *Desktop:* 4 hoặc 5 cột.
+*   **Trạng thái Polaroid Detail View (Bottom Sheet / Modal):**
+    *   *Mobile:* Bottom Sheet trượt lên từ đáy màn hình, chiếm `65%` chiều cao màn hình, nền xám Oatmeal `#F8F9FA`. Có tay kéo (drag handle) mỏng ở trên.
+    *   *Desktop:* Modal Polaroid cố định ở trung tâm màn hình, bao quanh bởi một lớp phủ mờ (backdrop-filter: blur(8px)). Trình diễn ảnh sản phẩm Polaroid khổ lớn bên trái, mô tả chi tiết và nút "Mua sản phẩm" màu xanh Neon bên phải.
+
+### 5.3. Hộp thư nhỏ Namiya (Interactive Mailbox)
+*   **Trạng thái Mặc định (Collapsed):**
+    *   Chỉ hiển thị hình ảnh minh họa hòm thư gỗ và một nút bấm duy nhất `[Viết thư gửi gắm tâm sự ✉]`. 
+*   **Trạng thái Nhập liệu (Expanded Form):**
+    *   Khi click nút, vùng form trượt mở ra mượt mà sử dụng `transition: max-height 0.4s ease, opacity 0.4s ease`.
+    *   Ô nhập Email chứa biểu tượng Google SSO nhanh hình tròn ở mép phải. Sau khi click xác thực, ô Email chuyển sang chế độ read-only, hiển thị một tick xanh lục tròn "Đã xác thực" (`ph-fill ph-check-circle`).
+*   **Trạng thái Gửi thành công (Success Animation):**
+    *   Form ẩn đi nhanh chóng, thay thế bằng hoạt ảnh phong thư bay vào hòm gỗ.
+    *   Phát âm thanh chuông gió nhẹ nhàng, sau đó hiện thông báo: *"Thư của bạn đã được bỏ vào hòm gỗ Namiya. Tina sẽ gửi phản hồi sớm cho bạn qua hòm thư nhé! 🐾"*.
+

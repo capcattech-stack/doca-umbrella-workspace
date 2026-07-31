@@ -121,3 +121,47 @@ Bảng điều khiển `/admin` và luồng trích xuất UTM sẽ giải quyế
 *   *Câu hỏi:* Cách quản lý ảnh OG động khi tạo câu hỏi mới?
 *   *Chấp nhận rủi ro:* Khi admin tạo một câu đố hoàn toàn mới trên trang quản trị, họ cần tự thiết kế ảnh xem trước (1200x630px) chứa câu hỏi mới và tải lên máy chủ thông qua một nút tải ảnh lên (Upload file) của trang Admin (lưu vào Supabase Storage hoặc host CDN) rồi điền liên kết vào ô `ogImage`.
 
+---
+
+# Product Requirement Document (PRD): Tái Cấu Trúc Bố Cục Trang Chủ doca.capcat.vn theo Maya UX
+
+## 1. Mục tiêu sản phẩm (Product Goal)
+Tái cấu trúc bố cục trang chủ website `doca.capcat.vn` nhằm tối ưu hóa hành trình cảm xúc người dùng (AIDA), tăng cường khả năng tiếp cận trên thiết bị di động (Mobile-first) và gia tăng hiệu suất tiếp thị liên kết (Merchandising) mà không phá vỡ triết lý thiết kế tối giản của Muji.
+
+## 2. Câu chuyện người dùng (User Stories)
+*   `US-006 (Luồng trải nghiệm chữa lành mượt mà)`: Là một người dùng, tôi muốn đọc Nhật ký lối sống (Blog) ngay sau khi thư giãn với âm nhạc để tiếp thu các chia sẻ hữu ích trước khi đi sâu vào xem sản phẩm thương mại.
+*   `US-007 (Trực quan hóa giỏ hàng theo Boss)`: Là một người dùng, tôi muốn xem các sản phẩm trên Kệ quà được phân loại rõ ràng theo từng Boss (Tina, Latte, Muối, Pi's) để dễ dàng lựa chọn món đồ thích hợp.
+*   `US-008 (Tâm sự ẩn danh dễ dàng)`: Là một người dùng, tôi muốn viết thư tâm sự ẩn danh gửi ông già Namiya qua giao diện tối giản, chỉ hiện form nhập liệu khi tôi thực sự muốn viết, để giảm cảm giác bị thúc ép.
+*   `US-009 (Mở sạp Kiosk đúng thời điểm)`: Là một Creator, tôi muốn nhìn thấy lời kêu gọi mở Kiosk cá nhân ở cuối trang sau khi đã trải nghiệm toàn bộ tiện ích chữa lành của website.
+
+## 3. Yêu cầu tính năng (Functional Requirements)
+*   `FR-023`: **Tái phân bổ vị trí các Section**:
+    1. Hero Section + Weather intro + DOCA FM Player
+    2. Nhật ký lối sống (Lifestyle Blog) - Chuyển từ cuối lên
+    3. Hộp thư nhỏ Namiya (Namiya Mailbox)
+    4. Kệ quà của mẹ (Product Curation Section)
+    5. Kiosk Banner (Mở sạp gỗ cùng Tina) - Chuyển từ đầu xuống sát chân trang
+    6. Footer
+*   `FR-024`: **Tái thiết kế Nhật ký lối sống**:
+    *   *Mobile:* Carousel trượt ngang, hiển thị 1 card trọn vẹn và 15% card kế tiếp.
+    *   *Desktop:* Grid 3 cột. Di chuột làm ảnh Polaroid xoay nhẹ 2-3 độ, gạch chân tiêu đề màu Neon `#76C123`.
+*   `FR-025`: **Kệ quà của mẹ theo Boss**:
+    *   *Tabs:* Thêm tab tương tác: Tina (Sách), Latte (Thức ăn), Muối (Đồ chơi), Pi's (Góc ngủ).
+    *   *Lưới:* 2 cột trên Mobile, 4-5 cột trên Desktop.
+    *   *Mobile Action:* Rút gọn nút mua hàng thành một icon xe đẩy tròn đen ở góc phải dưới của card.
+    *   *Chi tiết:* Click sản phẩm mở Polaroid Bottom Sheet (Mobile) hoặc Modal Polaroid (Desktop).
+*   `FR-026`: **Tái thiết kế Hòm thư Namiya**:
+    *   *Mặc định:* Chỉ hiện hình vẽ hòm thư gỗ Nhật cổ điển và nút bấm `[Viết thư gửi gắm tâm sự ✉]`.
+    *   *Kích hoạt:* Click nút sẽ trượt mở form nhập liệu. Tích hợp nút điền email nhanh bằng Google SSO.
+    *   *Validation:* Nút gửi thư disabled cho đến khi input hợp lệ.
+    *   *Phản hồi:* Hoạt ảnh phong thư bay vào hòm kèm âm thanh chuông gió nhẹ nhàng khi gửi thành công.
+
+## 4. Yêu cầu phi chức năng (Non-Functional Requirements)
+*   `NFR-008`: **Tránh CLS (Cumulative Layout Shift)**: Không gây giật lag hoặc dịch chuyển bố cục trang đột ngột khi mở form Namiya hay chuyển tab sản phẩm.
+*   `NFR-009`: **A11y (Dễ tiếp cận)**: Điền đầy đủ `aria-label` cho nút xe mua sắm thu gọn và các tab icon.
+
+## 5. Tiêu chí nghiệm thu (Acceptance Criteria)
+*   `AC-011`: Given trang chủ được tải, when người dùng cuộn dưới Player nhạc, then Nhật ký lối sống hiển thị ngay lập tức.
+*   `AC-012`: Given Kệ quà của mẹ, when click chọn tab Boss Latte, then chỉ hiển thị các sản phẩm thức ăn tương ứng của Latte.
+*   `AC-013`: Given Hòm thư Namiya mặc định, when chưa click nút viết thư, then form nhập liệu bị ẩn hoàn toàn.
+

@@ -199,3 +199,79 @@ This list details the work steps to implement the live synchronized FM player, c
 *   **Description:** Cải tiến script `sync_drive_to_r2.py` để tích hợp API Open-Meteo dự báo thời tiết ngày mai, phân loại nhạc dựa trên tên thư mục chứa nhạc lưu trên Cloudflare R2, và sử dụng Gemini API để sinh truyện ngắn mang phong cách Nhật Bản lồng ghép tên các bài hát đang phát.
 *   **Verification Method:** Chạy thử nghiệm và kiểm tra xem `playlist.json` được cập nhật đè phần ngày mai thành công.
 
+---
+
+### TSK-037: Tái cấu trúc Layout và Thứ tự các Phân vùng trên Trang Chủ
+*   **ID:** `TSK-037`
+*   **Owner:** `benny-frontend-engineer`
+*   **Status:** `Pending`
+*   **Parallel-Safe:** `No`
+*   **Write Scope:** `doca-affiliate-web/src/pages/index.astro`
+*   **Dependencies:** None
+*   **Description:** Sắp xếp lại thứ tự Render của các Section trong file `index.astro` theo trình tự: Hero & DOCA FM -> Blog (Nhật ký lối sống) -> Namiya Mailbox -> Product Curation (Kệ quà của mẹ) -> Kiosk Banner -> Footer.
+*   **Verification Method:** Chạy server dev `npm run dev` và kiểm tra trực quan thứ tự các section trên trình duyệt.
+
+---
+
+### TSK-038: Tái thiết kế Section Nhật ký lối sống (Blog)
+*   **ID:** `TSK-038`
+*   **Owner:** `benny-frontend-engineer`
+*   **Status:** `Pending`
+*   **Parallel-Safe:** `Yes`
+*   **Write Scope:** `doca-affiliate-web/src/pages/index.astro`, `doca-affiliate-web/src/styles/`
+*   **Dependencies:** `TSK-037`
+*   **Description:** 
+    *   *Mobile:* Triển khai Horizontal Swipe Carousel sử dụng CSS flexbox `overflow-x-scroll` và snap points. Hiển thị 1 slide trọn vẹn và 15% slide kế tiếp.
+    *   *Desktop:* Layout CSS Grid 3 cột. Thêm CSS transition/transform làm ảnh Polaroid xoay nhẹ 2-3 độ khi hover và tiêu đề gạch chân Neon `#76C123`.
+*   **Verification Method:** Vuốt thử carousel trên thiết bị giả lập di động (Chrome DevTools Mobile mode) và hover các card blog trên Desktop.
+
+---
+
+### TSK-039: Triển khai Hệ thống Tabs cho Kệ quà của mẹ
+*   **ID:** `TSK-039`
+*   **Owner:** `benny-frontend-engineer`
+*   **Status:** `Pending`
+*   **Parallel-Safe:** `No`
+*   **Write Scope:** `doca-affiliate-web/src/pages/index.astro`, `doca-affiliate-web/src/components/ProductCard.astro`
+*   **Dependencies:** `TSK-037`
+*   **Description:** Tạo thanh Tab chọn ngang: Tina (sách), Latte (thức ăn), Muối (đồ chơi), Pi's (góc ngủ). Viết Javascript client-side lọc danh sách sản phẩm hiển thị dựa trên tab được kích hoạt. Lấy dữ liệu sản phẩm từ biến Supabase toàn cục.
+*   **Verification Method:** Click vào các Tab khác nhau và verify danh sách sản phẩm thay đổi ngay lập tức không bị load lại trang.
+
+---
+
+### TSK-040: Tái thiết kế Lưới sản phẩm & Polaroid Bottom Sheet
+*   **ID:** `TSK-040`
+*   **Owner:** `benny-frontend-engineer`
+*   **Status:** `Pending`
+*   **Parallel-Safe:** `Yes`
+*   **Write Scope:** `doca-affiliate-web/src/pages/index.astro`, `doca-affiliate-web/src/components/ProductCard.astro`, `doca-affiliate-web/src/components/PolaroidSheet.astro`
+*   **Dependencies:** `TSK-039`
+*   **Description:**
+    *   *Mobile Card:* Hiển thị grid 2 cột. Thay thế nút `SHOPEE` văn bản dài bằng icon xe mua sắm Phosphor (`ph-light ph-shopping-cart`) tròn nhỏ màu đen.
+    *   *Desktop Grid:* Hiển thị grid 4 hoặc 5 cột.
+    *   *Detail View:* Khi click sản phẩm, trượt lên Bottom Sheet (Mobile) hoặc mở Modal Polaroid căn giữa màn hình với phông nền blur (Desktop).
+*   **Verification Method:** Bấm chọn sản phẩm trên cả mobile và desktop, kiểm tra giao diện Polaroid Sheet và nút xe đẩy mua sắm.
+
+---
+
+### TSK-041: Tái thiết kế Hòm thư Namiya tương tác
+*   **ID:** `TSK-041`
+*   **Owner:** `benny-frontend-engineer`
+*   **Status:** `Pending`
+*   **Parallel-Safe:** `Yes`
+*   **Write Scope:** `doca-affiliate-web/src/pages/index.astro`, `doca-affiliate-web/src/components/NamiyaMailbox.astro`
+*   **Dependencies:** `TSK-037`
+*   **Description:** Thay thế form tĩnh bằng hình vẽ hòm thư gỗ Nhật và nút bấm. Khi click nút, dùng CSS transition mở form mượt mà. Tích hợp nút Google điền nhanh email cạnh input. Ràng buộc logic disabled nút gửi cho đến khi input hợp lệ.
+*   **Verification Method:** Click mở form, gõ nội dung, click Google SSO verify email điền tự động, verify nút gửi chuyển trạng thái active.
+
+---
+
+### TSK-042: Kiểm thử E2E & Tối ưu hóa CLS/A11y
+*   **ID:** `TSK-042`
+*   **Owner:** `ada-qa-agent`
+*   **Status:** `Pending`
+*   **Parallel-Safe:** `No`
+*   **Dependencies:** `TSK-038`, `TSK-040`, `TSK-041`
+*   **Description:** Đo lường chỉ số CLS (Cumulative Layout Shift) của trang chủ khi tương tác tabs và trượt mở form Namiya. Đảm bảo toàn bộ icon và nút bấm thu gọn có thẻ `aria-label` đầy đủ cho người khiếm thị.
+*   **Verification Method:** Chạy Audit Lighthouse trên Chrome và verify CLS < 0.1, chỉ số Accessibility > 90.
+

@@ -16,3 +16,6 @@
 {"claim_id":"cl_16","claim":"Supabase Auth supports client-side OAuth flow via signInWithOAuth with custom redirectTo configuration.","output_file":"docs/decisions.md","evidence_ids":["ev_16"],"status":"supported","risk":"low","notes":"Confirmed client-side auth mechanism."}
 {"claim_id":"cl_17","claim":"Zalo authentication conforms to standard OAuth2 protocols, enabling setup via Supabase Custom Identity Providers.","output_file":"docs/decisions.md","evidence_ids":["ev_17"],"status":"supported","risk":"medium","notes":"Zalo SSO feasibility check."}
 {"claim_id":"cl_18","claim":"Astro client-side script tags bypass build-time SSG errors for browser-specific objects like window or localstorage.","output_file":"docs/knowledge.md","evidence_ids":["ev_18"],"status":"supported","risk":"low","notes":"Prevents build failures for Supabase client usage."}
+{"claim_id":"cl_19","claim":"Applying CSS height and opacity transition on expanding forms reduces CLS to under 0.1.","output_file":"docs/knowledge.md","evidence_ids":["ev_19"],"status":"supported","risk":"low","notes":"Assures Google Web Vitals compliance."}
+{"claim_id":"cl_20","claim":"Keyboard support and ARIA standard roles for tabs ensure accessibility (A11y) compliance.","output_file":"docs/knowledge.md","evidence_ids":["ev_20"],"status":"supported","risk":"low","notes":"Assures a11y criteria match."}
+
