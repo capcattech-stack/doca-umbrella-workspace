@@ -229,6 +229,7 @@ const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
     }
 
     const supabase = createClient(supabaseUrl, supabaseAnonKey);
+    (window as any).supabase = supabase;
 
     // --- LOGIC GOOGLE AUTH & LEAD CAPTURE TRÊN NAVBAR ---
     const authContainer = document.getElementById('kiosk-nav-auth-container');
@@ -475,8 +476,8 @@ const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
             }
 
             // Gọi RPC tăng view_count của Kiosk trong Supabase
-            if (typeof (window as any).supabase === 'object' && typeof (window as any).supabase.rpc === 'function') {
-              (window as any).supabase.rpc('increment_kiosk_views', { kiosk_id_param: kiosk.id })
+            if (supabase && typeof supabase.rpc === 'function') {
+              supabase.rpc('increment_kiosk_views', { kiosk_id_param: kiosk.id })
                 .then(({ error }: any) => {
                   if (error) console.error('[Analytics] Lỗi tăng views_count:', error);
                 });
@@ -724,8 +725,8 @@ const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
                   }
 
                   // Gọi RPC tăng clicks_count của Link trong Supabase
-                  if (activeProductId && typeof (window as any).supabase === 'object' && typeof (window as any).supabase.rpc === 'function') {
-                    (window as any).supabase.rpc('increment_link_clicks', { link_id_param: activeProductId })
+                  if (activeProductId && supabase && typeof supabase.rpc === 'function') {
+                    supabase.rpc('increment_link_clicks', { link_id_param: activeProductId })
                       .then(({ error }: any) => {
                         if (error) console.error('[Analytics] Lỗi tăng clicks_count:', error);
                       });
