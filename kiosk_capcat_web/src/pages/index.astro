@@ -848,16 +848,16 @@ const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
 
   .store-header {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 1.25rem;
+    flex-direction: row;
+    align-items: flex-start;
+    text-align: left;
+    gap: 1rem;
     background-color: var(--cozy-bg-pure);
     border: 1px solid var(--cozy-border-light);
     border-radius: 16px;
-    padding: 1.75rem 1.5rem;
+    padding: 1.25rem 1rem;
     box-shadow: var(--cozy-shadow-default);
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
     position: relative;
     overflow: hidden;
   }
@@ -872,15 +872,15 @@ const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
   }
   
   .store-avatar-box {
-    width: 86px;
-    height: 86px;
+    width: 56px;
+    height: 56px;
     border-radius: 50%;
     background-color: var(--cozy-bg-beige);
-    border: 2.5px solid var(--cozy-accent-identity);
+    border: 2px solid var(--cozy-accent-identity);
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 2.5rem;
+    font-size: 1.5rem;
     color: var(--cozy-accent-identity);
     flex-shrink: 0;
     box-shadow: 0 2px 8px rgba(0,0,0,0.03);
@@ -898,109 +898,103 @@ const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
   .store-info-box {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
+    align-items: flex-start;
+    gap: 0.35rem;
     flex-grow: 1;
     min-width: 0;
     width: 100%;
   }
-
+ 
   .store-title-container {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    gap: 8px;
+    flex-wrap: wrap;
+    gap: 6px;
     width: 100%;
   }
   
   .store-info-box h1 {
-    font-size: 1.5rem;
+    font-size: 1.15rem;
     margin: 0;
     color: var(--cozy-text-obsidian);
     font-weight: 800;
   }
-
+ 
   #store-status-badge {
     font-family: 'Inter', sans-serif;
-    font-size: 0.68rem;
+    font-size: 0.65rem;
     font-weight: 700;
-    background-color: rgba(118, 193, 35, 0.08);
-    color: #4D8A10;
-    padding: 3px 8px;
+    background-color: rgba(95, 141, 78, 0.08);
+    color: var(--cozy-accent-identity);
+    padding: 2px 6px;
     border-radius: 20px;
     display: inline-flex;
     align-items: center;
-    gap: 4px;
-    border: 1px solid rgba(118, 193, 35, 0.15);
+    gap: 3px;
+    border: 1px solid rgba(95, 141, 78, 0.15);
   }
-
+ 
   .status-dot {
-    width: 6px;
-    height: 6px;
-    background-color: var(--cozy-green-matcha);
+    width: 5px;
+    height: 5px;
+    background-color: var(--cozy-accent-identity);
     border-radius: 50%;
     display: inline-block;
   }
   
   .store-info-box p {
-    font-size: 0.82rem;
+    font-size: 0.78rem;
     color: var(--cozy-text-charcoal);
     margin: 0;
   }
-
+ 
   #store-bio {
     font-family: 'Inter', sans-serif;
-    font-size: 0.88rem;
+    font-size: 0.8rem;
     color: var(--cozy-text-charcoal);
     font-style: italic;
-    line-height: 1.5;
-    margin: 0.25rem 0 0.5rem 0;
-    text-align: center;
+    line-height: 1.4;
+    margin: 0.15rem 0;
+    text-align: left;
     max-width: 600px;
     width: 100%;
+    border-left: 2px solid var(--cozy-accent-identity);
+    padding-left: 0.5rem;
   }
-
+ 
   .store-channel-wrapper {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     flex-wrap: wrap;
-    margin-top: 0.25rem;
-    justify-content: center;
+    margin-top: 0.15rem;
+    justify-content: flex-start;
   }
-
+ 
   /* Desktop Upgrades (768px+) */
   @media (min-width: 768px) {
     .store-header {
-      flex-direction: row;
-      align-items: flex-start;
-      text-align: left;
-      gap: 2rem;
-      padding: 2.5rem;
-      margin-bottom: 3rem;
+      gap: 1.5rem;
+      padding: 1.75rem 2rem;
+      margin-bottom: 2rem;
     }
-
-    .store-info-box {
-      align-items: flex-start;
+ 
+    .store-avatar-box {
+      width: 76px;
+      height: 76px;
+      font-size: 2rem;
     }
-
-    .store-title-container {
-      flex-direction: row;
-      align-items: center;
-      justify-content: flex-start;
-      gap: 10px;
-    }
-
+ 
     .store-info-box h1 {
-      font-size: 1.75rem;
+      font-size: 1.4rem;
     }
-
+ 
     #store-bio {
-      text-align: left;
-      border-left: 2.5px solid var(--cozy-accent-identity);
+      font-size: 0.85rem;
       padding-left: 0.75rem;
     }
-
+ 
     .store-channel-wrapper {
       justify-content: flex-start;
     }
