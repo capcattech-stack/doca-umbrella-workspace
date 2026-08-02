@@ -16,17 +16,17 @@ const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
       </button>
 
       <!-- Logo text ở bên trái trên Desktop, và Logo symbol ở giữa trên Mobile -->
-      <a href="https://doca.pet/" target="_blank" class="navbar-logo">
+      <a href="https://doca.capcat.vn/" target="_blank" class="navbar-logo">
         <!-- Logo Text (Desktop) -->
-        <span class="logo-text desktop-only">doca<span class="logo-dot">.</span>pet</span>
+        <span class="logo-text desktop-only">doca<span class="logo-dot">.</span>capcat.vn</span>
         <!-- Logo Symbol (Mobile) -->
         <img src="/images/brand/symbol-light.png" alt="Doca Logo" class="logo-symbol mobile-only" />
       </a>
       
       <!-- Menu Links (Desktop) -->
       <div class="navbar-links desktop-only">
-        <a href="https://doca.pet/music" target="_blank" class="nav-link">Music</a>
-        <a href="https://doca.pet/blog" target="_blank" class="nav-link">Blog</a>
+        <a href="https://doca.capcat.vn/music" target="_blank" class="nav-link">Music</a>
+        <a href="https://doca.capcat.vn/blog" target="_blank" class="nav-link">Blog</a>
       </div>
       
       <!-- Cổng Google Auth (Bên phải trên cả Mobile & Desktop) -->
@@ -37,8 +37,8 @@ const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
 
     <!-- Dropdown Menu dưới dạng Panel trượt (chỉ hiển thị trên Mobile khi active) -->
     <div id="kiosk-mobile-menu" class="kiosk-mobile-menu">
-      <a href="https://doca.pet/music" target="_blank" class="mobile-nav-link"><i class="ph-light ph-music-notes"></i> Music</a>
-      <a href="https://doca.pet/blog" target="_blank" class="mobile-nav-link"><i class="ph-light ph-article"></i> Blog</a>
+      <a href="https://doca.capcat.vn/music" target="_blank" class="mobile-nav-link"><i class="ph-light ph-music-notes"></i> Music</a>
+      <a href="https://doca.capcat.vn/blog" target="_blank" class="mobile-nav-link"><i class="ph-light ph-article"></i> Blog</a>
     </div>
   </nav>
 
@@ -68,8 +68,8 @@ const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
             Nếu ba là nhà sáng tạo nội dung, blogger hoặc chủ nuôi thú cưng cá tính, ba có thể tự thiết lập một trang Kiosk cá nhân dạng <code class="whisper-mono" style="background-color: var(--cozy-bg-beige); padding: 2px 6px; border-radius: 4px;">kiosk.capcat.vn/ten-cua-ban</code> cực kỳ dễ dàng.
           </p>
           <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-            <a href="https://doca.pet/profile" target="_blank" class="btn-create" style="display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; background-color: var(--cozy-text-obsidian); color: #fff; border-radius: 8px; padding: 0.65rem 1rem; font-size: 0.85rem; font-weight: 600; width: 100%; transition: all 0.2s ease;">
-              Về nhà doca.pet tạo góc Kiosk thôi ba ơi! <i class="ph-light ph-arrow-right"></i>
+            <a href="https://doca.capcat.vn/profile" target="_blank" class="btn-create" style="display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; background-color: var(--cozy-text-obsidian); color: #fff; border-radius: 8px; padding: 0.65rem 1rem; font-size: 0.85rem; font-weight: 600; width: 100%; transition: all 0.2s ease;">
+              Về nhà doca.capcat.vn tạo góc Kiosk thôi ba ơi! <i class="ph-light ph-arrow-right"></i>
             </a>
           </div>
         </div>
@@ -252,7 +252,7 @@ const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
         // Giao diện đã đăng nhập: hiển thị avatar dẫn tới trang hồ sơ cá nhân
         const avatarUrl = user.user_metadata?.avatar_url || 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=150';
         authContainer.innerHTML = `
-          <a href="https://doca.pet/profile" target="_blank" title="Xem hồ sơ cá nhân của bạn">
+          <a href="https://doca.capcat.vn/profile" target="_blank" title="Xem hồ sơ cá nhân của bạn">
             <img src="${avatarUrl}" alt="Avatar" class="kiosk-nav-avatar-img" />
           </a>
         `;
