@@ -372,3 +372,109 @@ a {
   background-color: rgba(238, 77, 45, 0.08);
 }
 
+/* --- GLOBAL NAVBAR TRÊN KIOSK --- */
+.kiosk-global-navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background-color: rgba(254, 253, 250, 0.85); /* Trắng Kem mờ */
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--cozy-border-light);
+  padding: 0.65rem 0;
+  width: 100%;
+}
+
+.kiosk-global-navbar .navbar-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.kiosk-global-navbar .navbar-logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.kiosk-global-navbar .logo-text {
+  font-family: 'Inter', sans-serif;
+  font-weight: 800;
+  font-size: 1.05rem;
+  color: var(--cozy-text-obsidian);
+  letter-spacing: -0.3px;
+}
+
+.kiosk-global-navbar .logo-dot {
+  color: var(--cozy-accent-identity);
+}
+
+.kiosk-global-navbar .navbar-links {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.kiosk-global-navbar .nav-link {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--cozy-text-obsidian);
+  opacity: 0.75;
+  transition: opacity 0.2s ease;
+  text-decoration: none;
+}
+
+.kiosk-global-navbar .nav-link:hover {
+  opacity: 1;
+  color: var(--cozy-accent-identity);
+}
+
+/* Auth Container */
+.kiosk-nav-auth-container {
+  display: flex;
+  align-items: center;
+}
+
+.kiosk-nav-google-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: var(--cozy-bg-oatmeal);
+  border: 1px solid var(--cozy-border-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.2s ease;
+  padding: 0;
+}
+
+.kiosk-nav-google-btn:hover {
+  background-color: var(--cozy-bg-pure);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  transform: scale(1.05);
+}
+
+.kiosk-nav-google-btn svg {
+  width: 15px;
+  height: 15px;
+}
+
+.kiosk-nav-avatar-img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid var(--cozy-accent-identity);
+  object-fit: cover;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.kiosk-nav-avatar-img:hover {
+  transform: scale(1.05);
+}
+
