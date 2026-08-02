@@ -390,13 +390,74 @@ a {
   justify-content: space-between;
   max-width: 800px;
   margin: 0 auto;
-  padding: 0 1.5rem;
+  padding: 0 1rem;
+  position: relative;
 }
 
+/* Ẩn hiện phần tử trên di động & desktop */
+.desktop-only {
+  display: none !important;
+}
+.mobile-only {
+  display: block !important;
+}
+
+@media (min-width: 768px) {
+  .desktop-only {
+    display: flex !important;
+  }
+  .kiosk-global-navbar .navbar-logo.desktop-only {
+    display: flex !important;
+  }
+  .mobile-only {
+    display: none !important;
+  }
+}
+
+/* Nút Hamburger bên trái (Mobile) */
+.kiosk-hamburger-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: var(--cozy-text-obsidian);
+  cursor: pointer;
+  padding: 0.25rem;
+  outline: none;
+  transition: opacity 0.2s ease;
+}
+.kiosk-hamburger-btn:hover {
+  opacity: 0.7;
+}
+
+@media (min-width: 768px) {
+  .kiosk-hamburger-btn {
+    display: none !important;
+  }
+}
+
+/* Logo & Symbol */
 .kiosk-global-navbar .navbar-logo {
   display: flex;
   align-items: center;
   text-decoration: none;
+}
+
+/* Trên mobile, căn giữa tuyệt đối cho logo symbol */
+@media (max-width: 767px) {
+  .kiosk-global-navbar .navbar-logo {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+.logo-symbol {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
 }
 
 .kiosk-global-navbar .logo-text {
@@ -430,6 +491,50 @@ a {
 .kiosk-global-navbar .nav-link:hover {
   opacity: 1;
   color: var(--cozy-accent-identity);
+}
+
+/* Dropdown Menu trượt cho Mobile */
+.kiosk-mobile-menu {
+  display: none;
+  flex-direction: column;
+  background-color: var(--cozy-bg-pure);
+  border-top: 1px solid var(--cozy-border-light);
+  border-bottom: 1px solid var(--cozy-border-light);
+  padding: 0.5rem 1rem;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  z-index: 999;
+}
+
+.kiosk-mobile-menu.active {
+  display: flex;
+}
+
+.mobile-nav-link {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--cozy-text-obsidian);
+  padding: 0.65rem 0.5rem;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-bottom: 1px solid rgba(0,0,0,0.02);
+  transition: all 0.2s ease;
+}
+
+.mobile-nav-link:last-child {
+  border-bottom: none;
+}
+
+.mobile-nav-link:hover {
+  color: var(--cozy-accent-identity);
+  background-color: var(--cozy-bg-oatmeal);
+  border-radius: 6px;
 }
 
 /* Auth Container */

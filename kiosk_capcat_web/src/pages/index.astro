@@ -10,18 +10,35 @@ const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
   <!-- Global Navbar trên Kiosk -->
   <nav class="kiosk-global-navbar">
     <div class="navbar-container">
+      <!-- Nút Hamburger bên trái (chỉ hiển thị trên Mobile) -->
+      <button id="kiosk-hamburger-btn" class="kiosk-hamburger-btn" aria-label="Mở menu">
+        <i class="ph-light ph-list"></i>
+      </button>
+
+      <!-- Logo text ở bên trái trên Desktop, và Logo symbol ở giữa trên Mobile -->
       <a href="https://doca.pet/" target="_blank" class="navbar-logo">
-        <span class="logo-text">doca<span class="logo-dot">.</span>pet</span>
+        <!-- Logo Text (Desktop) -->
+        <span class="logo-text desktop-only">doca<span class="logo-dot">.</span>pet</span>
+        <!-- Logo Symbol (Mobile) -->
+        <img src="https://doca.pet/images/brand/symbol-green.png" alt="Doca Logo" class="logo-symbol mobile-only" />
       </a>
       
-      <div class="navbar-links">
+      <!-- Menu Links (Desktop) -->
+      <div class="navbar-links desktop-only">
         <a href="https://doca.pet/music" target="_blank" class="nav-link">Music</a>
         <a href="https://doca.pet/blog" target="_blank" class="nav-link">Blog</a>
       </div>
       
+      <!-- Cổng Google Auth (Bên phải trên cả Mobile & Desktop) -->
       <div id="kiosk-nav-auth-container" class="kiosk-nav-auth-container">
         <!-- Tự động nạp bằng JS (Nút Google Auth hoặc Avatar) -->
       </div>
+    </div>
+
+    <!-- Dropdown Menu dưới dạng Panel trượt (chỉ hiển thị trên Mobile khi active) -->
+    <div id="kiosk-mobile-menu" class="kiosk-mobile-menu">
+      <a href="https://doca.pet/music" target="_blank" class="mobile-nav-link"><i class="ph-light ph-music-notes"></i> Music</a>
+      <a href="https://doca.pet/blog" target="_blank" class="mobile-nav-link"><i class="ph-light ph-article"></i> Blog</a>
     </div>
   </nav>
 
@@ -292,6 +309,29 @@ const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
       console.error('Lỗi khi lấy session cho Navbar:', err);
       renderAuthUI(null);
     });
+
+    // --- Xử lý Đóng Mở Hamburger Menu trên Mobile ---
+    const hamburgerBtn = document.getElementById('kiosk-hamburger-btn');
+    const mobileMenu = document.getElementById('kiosk-mobile-menu');
+
+    if (hamburgerBtn && mobileMenu) {
+      hamburgerBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        mobileMenu.classList.toggle('active');
+      });
+
+      // Click ra ngoài thì tự động đóng menu
+      document.addEventListener('click', (e) => {
+        if (!mobileMenu.contains(e.target as Node) && e.target !== hamburgerBtn) {
+          mobileMenu.classList.remove('active');
+        }
+      });
+      document.addEventListener('touchstart', (e) => {
+        if (!mobileMenu.contains(e.target as Node) && e.target !== hamburgerBtn) {
+          mobileMenu.classList.remove('active');
+        }
+      });
+    }
 
     const loadingEl = document.getElementById('kiosk-loading');
     const notFoundEl = document.getElementById('kiosk-not-found');
