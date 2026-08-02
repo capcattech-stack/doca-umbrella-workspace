@@ -1,28 +1,29 @@
 :root {
   /* --- MÀU SẮC CHỦ ĐẠO MUJI MINIMAL --- */
   --cozy-bg-pure: #FFFFFF;              /* Trắng Muji (Nền chính sạch sẽ, khoáng đạt) */
-  --cozy-bg-beige: #F5F5F0;             /* Kem Sữa Muji (Lớp nền phụ thứ hai, tạo cảm giác ấm) */
-  --cozy-bg-oatmeal: #F8F9FA;           /* Xám Yến Mạch (Nền phụ cho Card, Bottom Sheet) */
-  --cozy-bg-elevated: #FDFBF7;          /* Kem Giấy Chữa Lành (Nền nâng cao, dịu mắt) */
+  --cozy-bg-beige: #FAF9F6;             /* Kem Giấy Muji Cozy (Lớp nền phụ ấm áp, dịu mắt) */
+  --cozy-bg-oatmeal: #F5F5F0;           /* Xám Yến Mạch Muji (Nền phụ cho Card, Bottom Sheet) */
+  --cozy-bg-elevated: #FDFBF7;          /* Kem Nâng Cao (Tạo khối nhẹ dịu mắt) */
   
   --cozy-text-obsidian: #1C1C1E;        /* Đen Than Muji (Chữ chính, nút bấm chính - High Contrast) */
-  --cozy-text-charcoal: #8C8C8C;        /* Xám Gợi Ý (Chữ phụ, mô tả, placeholder) */
+  --cozy-text-charcoal: #7F7F7F;        /* Xám Gợi Ý (Chữ phụ, mô tả, placeholder) */
   
   --cozy-border-light: #EAEAEA;         /* Viền Sáng (Đường kẻ chia mảnh, viền nút phụ) */
   --cozy-border-subtle: #D2D2CC;        /* Viền Xám Ấm (Viền card phong cách vintage nhẹ) */
 
   /* Điểm nhấn nhận diện (Identity Accent) */
-  --cozy-accent-identity: #76C123;      /* Xanh Neon Điểm Nhấn chính */
+  --cozy-accent-identity: #5F8D4E;      /* Xanh Matcha Mộc Mạc ấm áp */
+  --cozy-accent-sakura: #E8A7A1;        /* Hồng Đào Sakura Ấm Áp Chữa Lành */
   
   /* Màu phối phụ (Healing Coordination) */
-  --cozy-accent-emotion: #FCAFAF;       /* Hồng Đào Ấm (Chỉ số cảm xúc, nhịp tim, nhạc Lo-fi) */
+  --cozy-accent-emotion: #E8A7A1;       /* Hồng Đào Ấm (Chỉ số cảm xúc, nhịp tim, nhạc Lo-fi) */
   --cozy-green-matcha: #8FA882;         /* Xanh Matcha (Nhãn trạng thái thiên nhiên, an toàn) */
   --cozy-warm-amber: #FFF9C4;           /* Vàng Hổ Phách Nhạt (Cảnh báo nhẹ, ghi chú ấm áp) */
   --cozy-cat-peach: #FFD1BA;            /* Cam Đào Boss (Minh họa Boss Mèo, màu phụ dễ thương) */
 
   /* Chi tiết các nhóm màu Wasabi & Matcha cho tương thích ngược */
-  --cozy-green-matcha-forest: #4A8A2E;  /* Matcha 2 (Cổ Điển) */
-  --cozy-green-matcha-dark: #2D5A1B;    /* Matcha 3 (Tối) */
+  --cozy-green-matcha-forest: #5F8D4E;  /* Matcha 2 (Cổ Điển) */
+  --cozy-green-matcha-dark: #3A5A2E;    /* Matcha 3 (Tối) */
 
   /* Shadows */
   --cozy-shadow-default: 0 4px 16px rgba(28, 28, 30, 0.02);
@@ -46,8 +47,8 @@ body {
 
 /* TYPOGRAPHY */
 h1 {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-weight: 600;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 800;
   font-size: 2.25rem;
   line-height: 1.25;
   margin-bottom: 0.5rem;

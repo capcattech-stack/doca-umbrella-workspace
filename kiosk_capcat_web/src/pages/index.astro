@@ -332,6 +332,14 @@ const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
               });
             }
 
+            // Gọi RPC tăng view_count của Kiosk trong Supabase
+            if (typeof (window as any).supabase === 'object' && typeof (window as any).supabase.rpc === 'function') {
+              (window as any).supabase.rpc('increment_kiosk_views', { kiosk_id_param: kiosk.id })
+                .then(({ error }: any) => {
+                  if (error) console.error('[Analytics] Lỗi tăng views_count:', error);
+                });
+            }
+
             // Chỉ dành cho mục đích test phân trang và giao diện lưới trên local dev:
             if (links && links.length > 0 && kiosName === 'test' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) {
               const baseLink = links[0];
@@ -473,7 +481,8 @@ const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
               const sheetPricePlatform = document.getElementById('sheet-price-platform');
               const sheetBuyNowBtn = document.getElementById('sheet-buy-now-btn') as HTMLButtonElement;
 
-              let activeProductUrl = '';
+               let activeProductUrl = '';
+              let activeProductId = '';
 
               function openProductSheet(card: HTMLElement) {
                 const url = card.getAttribute('data-url') || '';
@@ -481,8 +490,10 @@ const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
                 const image = card.getAttribute('data-image') || '';
                 const desc = card.getAttribute('data-desc') || '';
                 const platform = card.getAttribute('data-platform') || 'Shopee';
+                const id = card.getAttribute('data-id') || '';
 
                 activeProductUrl = url;
+                activeProductId = id;
 
                 // Trigger GA4 view_kiosk_product event
                 if (typeof (window as any).gtag === 'function') {
@@ -569,6 +580,15 @@ const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
                       affiliate_url: activeProductUrl
                     });
                   }
+
+                  // Gọi RPC tăng clicks_count của Link trong Supabase
+                  if (activeProductId && typeof (window as any).supabase === 'object' && typeof (window as any).supabase.rpc === 'function') {
+                    (window as any).supabase.rpc('increment_link_clicks', { link_id_param: activeProductId })
+                      .then(({ error }: any) => {
+                        if (error) console.error('[Analytics] Lỗi tăng clicks_count:', error);
+                      });
+                  }
+
                   window.open(activeProductUrl, '_blank');
                 }
               });
