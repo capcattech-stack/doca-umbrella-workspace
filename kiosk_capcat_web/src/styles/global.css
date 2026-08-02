@@ -439,42 +439,46 @@ a {
 }
 
 .kiosk-nav-google-btn {
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
-  background-color: var(--cozy-bg-oatmeal);
-  border: 1px solid var(--cozy-border-light);
+  background-color: var(--cozy-bg-pure);
+  border: 1.5px solid var(--cozy-border-light);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   outline: none;
-  transition: all 0.2s ease;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   padding: 0;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.03);
 }
 
 .kiosk-nav-google-btn:hover {
   background-color: var(--cozy-bg-pure);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-  transform: scale(1.05);
+  border-color: var(--cozy-accent-identity);
+  box-shadow: 0 3px 10px rgba(95, 141, 78, 0.12);
+  transform: translateY(-1px);
 }
 
 .kiosk-nav-google-btn svg {
-  width: 15px;
-  height: 15px;
+  width: 17px;
+  height: 17px;
 }
 
 .kiosk-nav-avatar-img {
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   border: 2px solid var(--cozy-accent-identity);
   object-fit: cover;
   cursor: pointer;
-  transition: transform 0.2s ease;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 6px rgba(95, 141, 78, 0.15);
 }
 
 .kiosk-nav-avatar-img:hover {
-  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(95, 141, 78, 0.25);
+  transform: translateY(-1px);
 }
 
