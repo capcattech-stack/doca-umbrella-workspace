@@ -323,6 +323,15 @@ const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
 
             if (gridEmptyEl) gridEmptyEl.classList.add('hidden');
 
+            // Trigger GA4 view_kiosk event
+            if (typeof (window as any).gtag === 'function') {
+              (window as any).gtag('event', 'view_kiosk', {
+                kiosk_name: kiosName,
+                kiosk_id: kiosk.id,
+                total_products: links ? links.length : 0
+              });
+            }
+
             // Chỉ dành cho mục đích test phân trang và giao diện lưới trên local dev:
             if (links && links.length > 0 && kiosName === 'test' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) {
               const baseLink = links[0];
@@ -475,6 +484,15 @@ const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
 
                 activeProductUrl = url;
 
+                // Trigger GA4 view_kiosk_product event
+                if (typeof (window as any).gtag === 'function') {
+                  (window as any).gtag('event', 'view_kiosk_product', {
+                    kiosk_name: kiosName,
+                    product_name: name,
+                    product_platform: platform
+                  });
+                }
+
                 if (sheetImg) {
                   sheetImg.src = image || "/images/brand/symbol-green.png";
                   if (!image) {
@@ -540,6 +558,17 @@ const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
               // Click nút Mua ngay
               sheetBuyNowBtn?.addEventListener('click', () => {
                 if (activeProductUrl) {
+                  // Trigger GA4 click_kiosk_affiliate_link event
+                  if (typeof (window as any).gtag === 'function') {
+                    const name = sheetTitle ? sheetTitle.textContent : '';
+                    const platform = sheetPricePlatform ? sheetPricePlatform.textContent : 'Shopee';
+                    (window as any).gtag('event', 'click_kiosk_affiliate_link', {
+                      kiosk_name: kiosName,
+                      product_name: name,
+                      product_platform: platform,
+                      affiliate_url: activeProductUrl
+                    });
+                  }
                   window.open(activeProductUrl, '_blank');
                 }
               });

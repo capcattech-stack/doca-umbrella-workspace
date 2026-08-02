@@ -10,6 +10,8 @@ const {
 	title = "Capcat Kiosk - Điểm Chạm Tiếp Thị Của Bạn", 
 	description = "Trang tiếp thị liên kết mộc mạc, đáng yêu và đầy tin cậy từ những nhà sáng tạo của gia đình Capcat."
 } = Astro.props;
+
+const googleAnalyticsId = import.meta.env.PUBLIC_GA_ID || 'G-0RCGZRPEGR';
 ---
 
 <!doctype html>
@@ -22,6 +24,19 @@ const {
 		<!-- SEO Meta Tags -->
 		<title>{title}</title>
 		<meta name="description" content={description} />
+
+		<!-- Google Analytics (GA4) -->
+		{googleAnalyticsId && (
+			<>
+				<script async src={`https://www.googletagmanager.com/gtag/js?id=${googleAnalyticsId}`}></script>
+				<script is:inline define:vars={{ googleAnalyticsId }}>
+					window.dataLayer = window.dataLayer || [];
+					function gtag(){dataLayer.push(arguments);}
+					gtag('js', new Date());
+					gtag('config', googleAnalyticsId);
+				</script>
+			</>
+		)}
 
 		<!-- Google Fonts -->
 		<link rel="preconnect" href="https://fonts.googleapis.com">
