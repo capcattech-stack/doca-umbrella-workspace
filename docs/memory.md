@@ -51,3 +51,18 @@
 ### 6.3. Các vấn đề chưa giải quyết (Unresolved Issues)
 *   *Trải nghiệm scroll-snap trên iOS:* Một số phiên bản cũ của Safari Mobile có thể gặp hiện tượng giật nhẹ khi vuốt Horizontal Carousel của Blog. Cần kiểm thử E2E kỹ lưỡng trên thiết bị iOS thật.
 
+---
+
+## 7. Bộ Nhớ Dự Án (Project Memory) - Phân hệ Ví Xu & Thanh toán
+
+### 7.1. Các giả định được chấp thuận (Accepted Assumptions)
+*   **Đồng bộ thời gian giao dịch:** Các sự kiện nạp tiền dựa trên mốc thời gian Unix Epoch của cổng thanh toán. Hệ thống chấp nhận lệch múi giờ tối đa 5 giây khi đối soát.
+*   **Idempotency Key TTL:** Redis lưu thông tin giao dịch (`txnId`) trong vòng 24 giờ là đủ để ngăn chặn các webhook gửi trùng lặp từ MoMo/ZaloPay.
+*   **Ủy quyền hóa đơn:** Việc xuất hóa đơn điện tử tổng cuối ngày được người dùng chấp nhận mặc định thông qua điều khoản dịch vụ (TOS), không cần xuất hóa đơn lẻ cho từng giao dịch 10k, 20k.
+
+### 7.2. Ràng buộc lịch sử & Tính nhất quán (Historical Constraints)
+*   **Khóa dòng ví bắt buộc (Row-Level Locking):** Bất kỳ lệnh viết mã nào liên quan đến trừ xu (Vd: mở khóa nội dung) hoặc cộng xu (nạp tiền) đều phải bọc trong Database Transaction và chạy khóa dòng (`SELECT FOR UPDATE`). Tuyệt đối không thực hiện cập nhật số dư bằng truy vấn thông thường để tránh Race Condition.
+*   **Tuyệt đối cấm giao dịch 2 chiều:** Không viết bất kỳ mã nguồn nào hỗ trợ rút xu ra tiền thật hoặc chuyển xu giữa các người dùng để đảm bảo tuân thủ Nghị định 72 của Chính phủ Việt Nam.
+
+### 7.3. Các vấn đề chưa giải quyết (Unresolved Issues)
+*   *Xử lý lỗi timeout webhook:* Nếu server chính bị sập hoặc quá tải đúng lúc ZaloPay/MoMo gọi webhook, đơn hàng sẽ bị treo ở trạng thái `PENDING`. Cần lập trình API đối soát chạy định kỳ mỗi 1 tiếng để tự động quét tìm và hoàn thành các đơn hàng này.

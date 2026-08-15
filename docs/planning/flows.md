@@ -195,3 +195,94 @@ sequenceDiagram
     DOM->>DOM: Thực thi hiệu ứng thẻ Polaroid xoay nhẹ 2-3 độ
     DOM-->>User: Hiển thị danh sách sản phẩm thức ăn của Latte
 ```
+
+---
+
+## 9. Quy trình nạp xu qua cổng ZaloPay/MoMo (Web to App)
+
+Khi người dùng thực hiện nạp xu thông qua giao diện ứng dụng:
+
+```mermaid
+sequenceDiagram
+    actor User as Người dùng
+    participant App as Trình duyệt (Client)
+    participant API as Backend (Astro API)
+    participant ZP as Cổng ZaloPay/MoMo
+    participant DB as Database (Postgres)
+    participant Redis as Redis Cache
+
+    User->>App: Chọn gói nạp & Nhấn "Thanh toán"
+    App->>API: POST /api/billing/recharge (packageId, userId)
+    API->>DB: Tạo đơn hàng nạp xu (status: PENDING)
+    API->>ZP: Gọi API tạo đơn hàng (createOrder) kèm Signature Key1
+    ZP-->>API: Trả về link thanh toán & mã QR
+    API-->>App: Trả về link & mã QR
+    App->>User: Hiển thị mã QR động trên Desktop (Hoặc deep link app trên Mobile)
+    User->>ZP: Quét mã & xác nhận thanh toán trên App ZaloPay/MoMo
+    ZP->>API: Gọi Webhook / Callback thông báo thành công (signature, data)
+    
+    note over API: Xử lý Webhook an toàn
+    API->>Redis: Kiểm tra Idempotency Key (txnId)
+    alt txnId đã xử lý
+        API-->>ZP: Phản hồi 200 OK ngay (bỏ qua bước dưới)
+    else txnId chưa xử lý
+        API->>Redis: Lưu txnId với TTL 24h
+        API->>DB: Bắt đầu Transaction
+        API->>DB: SELECT wallet FOR UPDATE (khóa dòng ví user)
+        API->>DB: Cập nhật đơn hàng (status: SUCCESS)
+        API->>DB: Ghi log +100 xu vào coin_transactions
+        API->>DB: Cập nhật wallets.balance = balance + 100
+        API->>DB: Kết thúc Transaction
+        API-->>ZP: Phản hồi 200 OK
+        API->>App: Thông báo real-time qua WebSockets / Server-Sent Events
+        App-->>User: Hiển thị thông báo "Nạp xu thành công! 🐾"
+    end
+```
+
+---
+
+## 10. Quy trình đối soát tự động hàng ngày cho Kế toán (Automated Reconciliation)
+
+Quy trình tự động hóa đối khớp doanh thu vào ban đêm:
+
+```mermaid
+sequenceDiagram
+    participant Cron as Hệ thống tác vụ (Cron Job)
+    participant API as Backend (Astro API)
+    participant ZP as API Đối soát ZaloPay/MoMo
+    participant DB as Database (Postgres)
+    participant Tele as Kênh cảnh báo (Telegram/Discord)
+
+    Cron->>API: Kích hoạt đối soát lúc 00:30 hàng ngày
+    API->>ZP: Lấy danh sách giao dịch thành công ngày hôm trước
+    ZP-->>API: Trả về danh sách mã giao dịch (momo_txn_id / zalopay_txn_id)
+    API->>DB: Truy vấn các đơn nạp xu thành công tương ứng
+    API->>API: Chạy thuật toán đối khớp chéo (Reconciliation Algorithm)
+    alt Phát hiện chênh lệch (Lệch số tiền, hoặc giao dịch ZaloPay báo thành công nhưng DB chưa ghi nhận)
+        API->>Tele: Gửi thông báo khẩn cấp cho Kế toán & Đội Kỹ thuật
+    else Đối khớp 100% khớp nhau
+        API->>DB: Ghi log đối soát ngày thành công (Reconciliation Log)
+    end
+```
+
+---
+
+## 11. Quy trình xuất hóa đơn điện tử tự động cuối ngày (Daily Automated E-Invoicing)
+
+Để tối ưu hóa thủ tục xuất hóa đơn thuế cho các giao dịch nạp xu lẻ:
+
+```mermaid
+sequenceDiagram
+    participant Cron as Hệ thống tác vụ (Cron Job)
+    participant API as Backend (Astro API)
+    participant DB as Database (Postgres)
+    participant Invoice as API Hóa đơn điện tử (Misa MeInvoice)
+
+    Cron->>API: Kích hoạt xuất hóa đơn tổng lúc 23:55 hàng ngày
+    API->>DB: Tính tổng doanh thu nạp xu thành công trong ngày
+    DB-->>API: Trả về tổng tiền (Ví dụ: 1,500,000đ)
+    API->>Invoice: Gửi yêu cầu POST /invoices (xuất 01 hóa đơn tổng ghi nhận doanh thu dịch vụ trong ngày)
+    Invoice->>Invoice: Xác thực & Ký số hóa đơn điện tử
+    Invoice-->>API: Trả về mã số hóa đơn & file PDF
+    API->>DB: Lưu thông tin hóa đơn vào bảng nhật ký thuế
+

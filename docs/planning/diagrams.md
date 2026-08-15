@@ -225,3 +225,154 @@ stateDiagram-v2
     WindChimePlay --> SuccessMsg : Hiển thị thông báo gửi thành công
     SuccessMsg --> Collapsed : Tự động đóng sau 3 giây hoặc click đóng
 ```
+
+---
+
+## 9. Sơ đồ cấu trúc C4 - Phân hệ Ví Xu & Thanh toán (C4 Component Diagram)
+
+Quy hoạch hệ thống Ví Xu kết nối các cổng thanh toán và công cụ kế toán:
+
+```mermaid
+graph TD
+    User[Người dùng / Khách mua xu]
+    Admin[Quản trị viên / Kế toán]
+    
+    subgraph Client Application (Astro Frontend)
+        UI_Profile[Trang Hồ sơ /profile]
+        UI_Wallet[Trang Nạp xu /profile/wallet]
+        UI_AdminBilling[Trang Admin Billing /admin/billing/*]
+    end
+
+    subgraph Backend API (Astro API Routes)
+        API_Recharge[/api/billing/recharge]
+        API_Webhook[/api/billing/webhook/*]
+        API_Report[/api/billing/report]
+        Core_Wallet[Core Wallet Service]
+        Order_Manager[Order Billing Service]
+        Provider_Adapter[Payment Providers Adapter]
+    end
+
+    subgraph Infrastructure
+        DB[(PostgreSQL Database)]
+        Redis[(Redis Idempotency Store)]
+    end
+
+    subgraph External Gateways
+        ZP[Cổng ZaloPay Open API]
+        Momo[Cổng MoMo Business API]
+        Invoice[API Hóa đơn Misa MeInvoice]
+    end
+
+    User -->|Xem số dư & nạp xu| UI_Profile
+    User -->|Chọn gói & thanh toán| UI_Wallet
+    UI_Wallet -->|Gọi API nạp| API_Recharge
+    
+    API_Recharge --> Order_Manager
+    Order_Manager --> Provider_Adapter
+    Provider_Adapter -->|Tạo yêu cầu thanh toán| ZP
+    Provider_Adapter -->|Tạo yêu cầu thanh toán| Momo
+
+    ZP -->|IPN Webhook| API_Webhook
+    Momo -->|IPN Webhook| API_Webhook
+    
+    API_Webhook --> Order_Manager
+    Order_Manager -->|Đối soát & Khóa ví| Redis
+    Order_Manager -->|Cập nhật & ghi nhận log| Core_Wallet
+    Core_Wallet -->|Database Transaction| DB
+
+    Admin -->|Đối soát & xem báo cáo| UI_AdminBilling
+    UI_AdminBilling -->|Yêu cầu báo cáo| API_Report
+    API_Report --> DB
+    
+    %% Tác vụ tự động
+    Cron[Cron Job Serverless] -->|Gom doanh thu & gọi xuất| Invoice
+    API_Report -->|Đẩy hóa đơn tổng| Invoice
+```
+
+---
+
+## 10. Sơ đồ thực thể cơ sở dữ liệu (ERD - Billing System)
+
+```mermaid
+erDiagram
+    USERS {
+        uuid id PK
+        string email
+        string name
+    }
+
+    WALLETS {
+        uuid id PK
+        uuid user_id FK
+        bigint balance "Số dư xu hiện có"
+        datetime updated_at
+    }
+
+    COIN_TRANSACTIONS {
+        uuid id PK
+        uuid wallet_id FK
+        uuid order_id FK "Null nếu tiêu dùng nội bộ"
+        bigint amount "Số xu biến động (Ví dụ: +100 hoặc -50)"
+        string type "RECHARGE, CONSUME, REFUND, ADJUST"
+        string description
+        datetime created_at
+    }
+
+    ORDERS {
+        uuid id PK
+        uuid user_id FK
+        string provider "MOMO, ZALOPAY, PAYOS"
+        string provider_tx_id "Mã giao dịch từ cổng thanh toán"
+        bigint amount_vnd "Số tiền VNĐ thực tế"
+        bigint coin_amount "Số xu quy đổi"
+        string status "PENDING, SUCCESS, FAILED"
+        datetime created_at
+    }
+
+    USERS ||--|| WALLETS : "sở hữu"
+    WALLETS ||--o{ COIN_TRANSACTIONS : "có lịch sử"
+    USERS ||--o{ ORDERS : "tạo hóa đơn"
+    ORDERS ||--|| COIN_TRANSACTIONS : "ghi nhận khi thành công"
+```
+
+---
+
+## 11. Sơ đồ trạng thái Giao dịch Thanh toán (Payment Transaction State Diagram)
+
+Mô tả vòng đời của đơn nạp tiền từ lúc khởi tạo đến khi xử lý cộng xu:
+
+```mermaid
+stateDiagram-v2
+    [*] --> Pending : User tạo đơn nạp xu (Đơn hàng ở trạng thái PENDING)
+    
+    state Pending {
+        [*] --> AwaitingPayment : Đang chờ khách hàng quét mã QR thanh toán
+        AwaitingPayment --> WebhookReceived : Webhook từ ZaloPay/MoMo gửi thông tin thành công
+        AwaitingPayment --> Expired : Quá 15 phút không thanh toán (Hết hạn mã QR)
+    }
+
+    Expired --> Failed : Đơn hàng thất bại (status: FAILED)
+    Failed --> [*]
+
+    state Processing {
+        WebhookReceived --> IdempotencyCheck : Kiểm tra trùng lặp trên Redis (txnId)
+        IdempotencyCheck --> DuplicateIgnored : Đơn đã xử lý -> Phản hồi 200 OK ngay cho Cổng
+        IdempotencyCheck --> DB_Transaction : Đơn chưa xử lý -> Bắt đầu DB Transaction
+        
+        state DB_Transaction {
+            [*] --> LockWallet : Chạy SELECT wallets FOR UPDATE
+            LockWallet --> UpdateOrderStatus : Chuyển status đơn sang SUCCESS
+            UpdateOrderStatus --> WriteCoinTx : Thêm dòng ghi nhận +Xu vào coin_transactions
+            WriteCoinTx --> UpdateBalance : wallets.balance = balance + amount
+            UpdateBalance --> [*]
+        }
+    }
+
+    DuplicateIgnored --> Success : Hoàn tất đơn hàng thành công (status: SUCCESS)
+    DB_Transaction --> Success : Commit Transaction thành công
+    DB_Transaction --> Rollback : Lỗi khi ghi DB -> Rollback dữ liệu
+    
+    Rollback --> Pending : Giữ đơn ở trạng thái PENDING để ZaloPay/MoMo gửi lại webhook sau
+    Success --> [*]
+```
+

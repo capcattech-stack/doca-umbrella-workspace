@@ -160,3 +160,57 @@ Form gửi thư Namiya tĩnh chiếm diện tích lớn trên trang chủ, làm 
 
 ### Hệ quả
 *   **Ưu điểm:** Giao diện tinh tế, khơi gợi cảm giác tò mò và loại bỏ hoàn toàn ma sát nhập liệu trên Mobile.
+
+---
+
+## ADR-048: Cấu trúc cơ sở dữ liệu Ví Xu dạng Sổ cái (Ledger Schema)
+
+### Bối cảnh
+Cần thiết kế cấu trúc dữ liệu lưu trữ số dư và lịch sử giao dịch xu của người dùng. Thiết kế thông thường là lưu trực tiếp cột `balance` trong bảng `users`, nhưng cách này không thể đối soát khi xảy ra chênh lệch dữ liệu hoặc có tranh chấp giao dịch.
+
+### Quyết định
+Tách riêng bảng `wallets` và bảng lịch sử giao dịch `coin_transactions` theo mô hình sổ cái kế toán (Double-entry Ledger). Số dư hiển thị thực tế của người dùng phải tương ứng với tổng các giao dịch cộng/trừ trong lịch sử.
+
+### Hệ quả
+*   **Ưu điểm:** Đảm bảo tính minh bạch, dễ dàng chạy đối soát tài chính khi có khiếu nại.
+*   **Nhược điểm:** Phải thực hiện ghi chép 2 bảng đồng thời, tăng số lượng câu lệnh SQL ghi DB.
+
+---
+
+## ADR-049: Khóa dòng ví (Row-level Lock) và Database Transaction
+
+### Bối cảnh
+Khi người dùng mua lượt nhạc hoặc nạp tiền và nhấn nút liên tục (hoặc do hacker spam API), hệ thống có thể gặp hiện tượng Race Condition (xử lý đồng thời nhiều request dẫn đến trừ xu sai hoặc cộng xu thừa).
+
+### Quyết định
+Mọi lệnh cập nhật số dư ví đều phải được bọc trong một Database Transaction và sử dụng truy vấn khóa dòng `SELECT ... FOR UPDATE` ví của người dùng trước khi ghi số dư mới.
+
+### Hệ quả
+*   **Ưu điểm:** Loại bỏ hoàn toàn lỗi Race Condition và Double Spending.
+*   **Nhược điểm:** Làm tăng độ trễ xử lý nhẹ và có nguy cơ nghẽn DB (Deadlock) nếu viết transaction không tối ưu. (Giải quyết bằng cách giữ thời gian chạy transaction ngắn nhất có thể).
+
+---
+
+## ADR-050: Sử dụng Redis chống xử lý trùng lặp Webhook (Idempotency Lock)
+
+### Bối cảnh
+Cổng thanh toán MoMo/ZaloPay có cơ chế tự động gửi lại (retry) Webhook thông báo thanh toán thành công nếu server của chúng ta phản hồi chậm hoặc lỗi mạng. Nếu không kiểm soát, người dùng sẽ được cộng xu nhiều lần cho cùng một hóa đơn.
+
+### Quyết định
+Sử dụng bộ nhớ cache Redis làm kho lưu trữ Idempotency Key. Khi nhận webhook, backend kiểm tra xem mã giao dịch `txnId` đã tồn tại trong Redis chưa. Nếu có, bỏ qua và phản hồi 200 OK ngay lập tức. Nếu chưa, set key với TTL 24h và bắt đầu xử lý cộng xu.
+
+### Hệ quả
+*   **Ưu điểm:** Ngăn chặn hoàn toàn việc cộng xu trùng lặp từ webhook của cổng thanh toán.
+
+---
+
+## ADR-051: Tự động xuất hóa đơn điện tử tổng cuối ngày
+
+### Bối cảnh
+Các đơn hàng nạp xu thường có giá trị nhỏ (10k, 20k) và phát sinh liên tục trong ngày. Nếu xuất hóa đơn điện tử lẻ cho từng đơn hàng sẽ tạo ra lượng lớn số hóa đơn gây tốn kém chi phí mua hóa đơn dịch vụ (Misa/Viettel) và gây quá tải cho bộ máy kế toán đối soát.
+
+### Quyết định
+Sử dụng tác vụ tự động (Cron Job) gom toàn bộ doanh thu nạp xu thành công trong ngày và gọi API cổng hóa đơn điện tử để xuất duy nhất **01 hóa đơn tổng** ghi nhận doanh thu dịch vụ trong ngày vào cuối ngày lúc 23:55.
+
+### Hệ quả
+*   **Ưu điểm:** Giảm số lượng hóa đơn điện tử cần mua từ hàng ngàn số xuống còn 365 số/năm. Đơn giản hóa tờ khai thuế GTGT hàng quý.

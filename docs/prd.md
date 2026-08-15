@@ -165,3 +165,43 @@ Tái cấu trúc bố cục trang chủ website `doca.capcat.vn` nhằm tối ư
 *   `AC-012`: Given Kệ quà của mẹ, when click chọn tab Boss Latte, then chỉ hiển thị các sản phẩm thức ăn tương ứng của Latte.
 *   `AC-013`: Given Hòm thư Namiya mặc định, when chưa click nút viết thư, then form nhập liệu bị ẩn hoàn toàn.
 
+---
+
+# Product Requirement Document (PRD): Hệ Thống Ví Xu, Thanh Toán ZaloPay/MoMo & Tự Động Hóa Kế Toán
+
+## 1. Mục tiêu sản phẩm (Product Goal)
+Xây dựng hệ thống quản lý ví xu nội bộ (Loyalty Coins) và cổng nạp tiền tự động (ZaloPay/MoMo Web-to-App) nhằm giúp người dùng có thể mua lượt sử dụng dịch vụ nội dung số trên nền tảng Doca Pet. Cung cấp bộ công cụ quản lý đối soát giao dịch và tự động hóa báo cáo thuế kế toán hằng ngày để giảm thiểu gánh nặng quản lý thủ công của đội ngũ vận hành.
+
+## 2. Câu chuyện người dùng (User Stories)
+*   `US-010 (Nạp xu quét mã)`: Là người dùng, tôi muốn chọn gói nạp xu và thanh toán quét mã QR tự động trên website, để tài khoản của tôi được cộng xu ngay lập tức sau khi thanh toán thành công.
+*   `US-011 (Xem ví trên Profile)`: Là người dùng, tôi muốn xem số dư xu hiện tại trên trang Hồ sơ cá nhân (`/profile`) để biết mình còn bao nhiêu xu.
+*   `US-012 (Lịch sử biến động)`: Là người dùng, tôi muốn xem lịch sử nạp xu và chi tiêu xu (mở khóa nhạc/blog) của mình để theo dõi chi tiết dòng tiền ảo.
+*   `US-013 (Đối soát kế toán)`: Là kế toán doanh nghiệp, tôi muốn xem báo cáo doanh thu theo ngày/tháng và có công cụ tự động đối soát lệch dòng tiền giữa hệ thống DB với báo cáo ngân hàng/MoMo để phát hiện lỗi kịp thời.
+*   `US-014 (Cấu hình gói nạp)`: Là admin, tôi muốn dễ dàng thay đổi giá tiền và số xu quy đổi của các gói nạp trực tiếp trên giao diện admin mà không cần can thiệp vào mã nguồn.
+*   `US-015 (Cộng/trừ xu thủ công)`: Là admin, tôi muốn có quyền cộng hoặc trừ xu trực tiếp cho một người dùng bất kỳ kèm theo lý do cụ thể khi có sự cố hệ thống hoặc đền bù khách hàng.
+
+## 3. Yêu cầu tính năng (Functional Requirements)
+*   `FR-027 (Khởi tạo Ví và Sổ cái)`: Hệ thống tự động tạo ví xu mặc định (số dư: 0) cho mỗi tài khoản người dùng đăng ký mới. Tạo các bảng ghi chép giao dịch `coin_transactions` và `payment_orders`.
+*   `FR-028 (Tích hợp API ZaloPay/MoMo)`: Xây dựng Endpoint `/api/billing/recharge` để gọi API ZaloPay/MoMo khởi tạo đơn nạp tiền, nhận link thanh toán/mã QR hiển thị trên client.
+*   `FR-029 (Cổng Callback Webhook)`: Xây dựng các Endpoint `/api/billing/webhook/momo` và `/api/billing/webhook/zalopay` để nhận kết quả thanh toán. Yêu cầu bắt buộc kiểm tra chữ ký số bảo mật (Signature).
+*   `FR-030 (Chống Race Condition & Trùng lặp)`: 
+    *   Hệ thống phải dùng Redis để lưu `txnId` chống xử lý webhook trùng lặp.
+    *   Các lệnh tăng/giảm xu trong DB phải chạy trong Database Transaction và khóa dòng ví (`SELECT FOR UPDATE`).
+*   **`FR-031 (Giao diện Ví user)`**: Tích hợp module ví xu trên trang `/profile`, và tạo trang `/profile/wallet` hiển thị lưới các gói nạp kèm Popup mã QR thanh toán.
+*   **`FR-032 (Dashboard Billing Admin)`**: Tạo trang `/admin/billing/transactions` hiển thị nhật ký giao dịch và công cụ cộng xu đền bù thủ công. Tạo trang `/admin/billing/packages` quản trị cấu hình các gói nạp.
+*   **`FR-033 (Đối soát tự động)`**: Tạo cron-job đối soát tự động lúc 00:30 hằng ngày và trang `/admin/billing/report` cho phép upload file đối soát CSV của MoMo để so khớp giao dịch bị lệch.
+*   **`FR-034 (Tự động hóa e-Invoice)`**: Tạo cron-job chạy lúc 23:55 hằng ngày tính tổng doanh thu trong ngày và gọi API cổng hóa đơn điện tử (Misa MeInvoice) xuất 01 hóa đơn tổng cho toàn bộ đơn lẻ trong ngày.
+
+## 4. Yêu cầu phi chức năng (Non-Functional Requirements)
+*   `NFR-010 (Tính nhất quán tài chính)`: Số dư trong ví phải luôn trùng khớp với tổng các dòng giao dịch cộng/trừ lịch sử. Tuyệt đối không để xảy ra chênh lệch.
+*   `NFR-011 (Thời gian phản hồi)`: Cổng webhook phản hồi trạng thái cho MoMo/ZaloPay trong vòng dưới 1 giây để tránh việc đối tác gửi lại request trùng lặp.
+*   `NFR-012 (An toàn bảo mật)`: Tuyệt đối không hỗ trợ tính năng chuyển xu giữa các tài khoản hoặc rút xu thành tiền mặt để tuân thủ pháp luật Việt Nam về tiền ảo và thanh toán.
+
+## 5. Tiêu chí nghiệm thu (Acceptance Criteria)
+*   `AC-014`: Người dùng quét mã và thanh toán thành công qua ZaloPay, tài khoản được cộng xu và hiển thị màn hình chúc mừng trong vòng dưới 5 giây mà không cần reload trang.
+*   `AC-015`: Webhook của MoMo/ZaloPay gọi lại lần thứ 2 với cùng 1 mã giao dịch, hệ thống chặn lại và trả về 200 OK ngay lập tức, không cộng xu lần 2.
+*   `AC-016`: Hai request trừ xu mua nhạc của cùng một user được gửi đồng thời, hệ thống xử lý tuần tự (row lock) đảm bảo số dư không bị âm hoặc bị trừ sai.
+*   `AC-017`: Tài khoản admin không hợp lệ truy cập vào các trang `/admin/billing/*` sẽ bị redirect về trang đăng nhập.
+*   `AC-018`: File đối soát của kế toán phát hiện lệch giao dịch sẽ tự động gửi thông báo đỏ cảnh báo qua Telegram nhóm vận hành.
+
+

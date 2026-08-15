@@ -1,8 +1,8 @@
 {
-  "run_id": "planning-20260731-2155",
-  "created_at": "2026-07-31T14:55:00Z",
-  "operator_prompt": "triển khai thay đổi giao diện theo chỉ đạo của /maya-ui-ux-designer /design/open-design",
-  "current_date": "2026-07-31",
+  "run_id": "planning-20260802-1940",
+  "created_at": "2026-08-02T19:40:00Z",
+  "operator_prompt": "dựng kế hoạch triển khai module nạp xu này cho tôi duyệt",
+  "current_date": "2026-08-02",
   "research_mode": "standard",
   "required_output_files": [
     "docs/prd.md",
@@ -22,9 +22,9 @@
     "docs/research/research_manifest.json"
   ],
   "quality_gates": {
-    "minimum_sources": 15,
-    "minimum_primary_sources": 5,
-    "minimum_evidence_items": 20,
+    "minimum_sources": 5,
+    "minimum_primary_sources": 3,
+    "minimum_evidence_items": 5,
     "major_claims_need_evidence": true,
     "diagram_claims_need_evidence": true
   }

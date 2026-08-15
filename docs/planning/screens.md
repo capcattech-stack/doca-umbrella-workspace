@@ -116,3 +116,59 @@ This document details the UI design, states, and accessibility details for the C
     *   Form ẩn đi nhanh chóng, thay thế bằng hoạt ảnh phong thư bay vào hòm gỗ.
     *   Phát âm thanh chuông gió nhẹ nhàng, sau đó hiện thông báo: *"Thư của bạn đã được bỏ vào hòm gỗ Namiya. Tina sẽ gửi phản hồi sớm cho bạn qua hòm thư nhé! 🐾"*.
 
+---
+
+## 6. Đặc tả Màn hình Ví Xu & Thanh toán (User Facing)
+
+### 6.1. Khối Ví Xu tại Trang Hồ sơ cá nhân (`/profile`)
+*   **Vị trí:** Đặt bên trong thẻ `profile-card` (nằm phía trên khối quản trị Kiosk).
+*   **Trạng thái giao diện:**
+    *   *Số dư:* Hiển thị số dư xu của người dùng hiện tại (ví dụ: `120 Xu`), đi kèm icon `ph-light ph-coins`.
+    *   *Nút "Nạp thêm xu":* Sử dụng class `.cozy-btn`, màu xanh Matcha Forest, dẫn tới trang `/profile/wallet`.
+    *   *Nút "Lịch sử":* Nút viền mảnh (outline), icon `ph-light ph-clock-counter-clockwise` mở Drawer lịch sử giao dịch.
+
+### 6.2. Trang chọn gói nạp xu (`/profile/wallet`)
+*   **Thiết kế:** Nền màu Cozy Paper `#F7F4EF`.
+*   **Bố cục danh sách gói nạp (Grid):**
+    *   Hiển thị danh sách các gói nạp xu (Ví dụ: 10,000đ = 100 Xu, 50,000đ = 500 Xu + tặng 50 Xu).
+    *   Các thẻ gói nạp có hiệu ứng hover xoay nhẹ polaroid và viền xanh Matcha khi click chọn.
+*   **Giao diện Modal Thanh toán (Desktop):**
+    *   Hiển thị mã QR động do ZaloPay/MoMo sinh ra kèm theo số tiền và hướng dẫn quét mã.
+    *   Hiển thị một đồng hồ đếm ngược thời hạn hiệu lực của mã QR (15 phút).
+    *   Có biểu tượng loading nhấp nháy mảnh biểu thị hệ thống đang kiểm tra trạng thái thanh toán tự động (auto-polling).
+*   **Giao diện chuyển hướng thanh toán (Mobile):**
+    *   Không hiện mã QR, hiển thị nút bấm nổi bật: `[Mở ứng dụng ZaloPay để thanh toán]`. Khi click sẽ kích hoạt deep link mở thẳng ZaloPay/MoMo trên máy điện thoại của user.
+
+### 6.3. Bảng Lịch sử giao dịch ví xu (Transaction History Drawer)
+*   Hiển thị dưới dạng một Drawer trượt từ cạnh phải màn hình (hoặc Bottom Sheet trên Mobile).
+*   Danh sách lịch sử hiển thị rõ:
+    *   *Giao dịch cộng (Nạp tiền, sự kiện):* Số xu màu xanh Matcha kèm dấu `+` (ví dụ: `+100 Xu`).
+    *   *Giao dịch trừ (Mở nhạc, mua đồ):* Số xu màu xám Charcoal kèm dấu `-` (ví dụ: `-50 Xu`).
+    *   *Nội dung và Thời gian:* Rõ ràng, dễ đọc.
+
+---
+
+## 7. Đặc tả Giao diện Quản trị & Đối soát Billing (Admin & Accountant Portal)
+
+Các trang quản lý billing được đặt bên trong bảng điều khiển `/admin` và được bọc bởi `AdminLayout.astro`:
+
+### 7.1. Trang Đối soát Giao dịch `/admin/billing/transactions`
+*   **Thành phần:**
+    *   Bảng nhật ký giao dịch chứa: Mã hóa đơn | Người dùng (Email) | Cổng thanh toán | Số tiền (VND) | Số xu đổi | Trạng thái (Thành công / Chờ thanh toán / Thất bại) | Ngày tạo.
+    *   Bộ lọc nhanh theo Trạng thái giao dịch và Cổng thanh toán (MoMo, ZaloPay, PayOS).
+    *   Nút "Cộng xu thủ công" (dành riêng cho Super Admin): Mở form điền Email người nhận, số xu, lý do cộng và mật khẩu phê duyệt.
+
+### 7.2. Trang Cấu hình Gói nạp `/admin/billing/packages`
+*   **Thành phần:**
+    *   Danh sách các gói nạp hiện có trên website dưới dạng thẻ danh sách.
+    *   Nút bật/tắt (Toggle) trạng thái hiển thị của gói nạp trên client.
+    *   Form chỉnh sửa giá tiền VND, số lượng xu nhận được và tỷ lệ khuyến mãi đi kèm.
+
+### 7.3. Trang Báo cáo Doanh thu cho Kế toán `/admin/billing/report`
+*   **Thành phần:**
+    *   Biểu đồ doanh thu dạng cột (Doanh thu VND nạp qua MoMo, ZaloPay).
+    *   Báo cáo ba chỉ số chính: Tổng dòng tiền nạp (VND), Tổng số xu phát hành, Tổng số xu tiêu dùng trong hệ thống.
+    *   Nút "Xuất báo cáo đối soát CSV/Excel" theo khoảng ngày đã chọn.
+    *   Khu vực Upload file CSV đối soát từ MoMo/ZaloPay Merchant để chạy thuật toán so khớp chéo tự động.
+
+

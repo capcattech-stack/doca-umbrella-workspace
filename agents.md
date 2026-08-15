@@ -130,3 +130,13 @@
     *   *ADR-045:* Cấu trúc layout trang chủ theo phễu AIDA (Hero & Audio Player -> Blog -> Hòm thư Namiya -> Kệ quà của mẹ -> Banner Kiosk).
     *   *ADR-046:* Trực quan hóa Kệ quà của mẹ qua hệ thống Tabs (Tina, Latte, Muối, Pi's) hiển thị lưới 2 cột trên Mobile và 4-5 cột trên Desktop kèm Modal Polaroid.
     *   *ADR-047:* Ẩn form Namiya mặc định đằng sau hình vẽ hòm thư gỗ tĩnh và nút bấm trượt mở nhằm giảm tải nhận thức (Cognitive Load).
+
+## Feature 027: Hệ Thống Ví Xu, Thanh Toán ZaloPay/MoMo & Tự Động Hóa Kế Toán
+*   **Planning Date:** 2026-08-02
+*   **Status:** In Progress (Planning Completed & Spec Validated)
+*   **Description:** Xây dựng hệ thống ví xu tích hợp nạp tiền tự động qua ZaloPay/MoMo (Web to App API). Thiết kế giao diện ví của người dùng tại trang `/profile`, trang nạp tiền tại `/profile/wallet`, cùng các trang đối soát quản trị `/admin/billing/*` cho Admin và Kế toán. Tích hợp tác vụ cron-job tự động đối soát giao dịch và xuất hóa đơn điện tử tổng hàng ngày qua API Misa MeInvoice.
+*   **Key Decisions:**
+    *   *ADR-048:* Cấu trúc cơ sở dữ liệu Ví Xu dạng Sổ cái (Ledger Schema) để lưu chi tiết nhật ký giao dịch.
+    *   *ADR-049:* Khóa dòng ví (Row-level Lock `SELECT FOR UPDATE`) và Database Transaction để loại bỏ Race Condition.
+    *   *ADR-050:* Sử dụng Redis Cache lưu trữ Idempotency Key ngăn chặn cộng xu trùng lặp từ webhook cổng thanh toán.
+    *   *ADR-051:* Tác vụ tự động gom doanh thu xuất 01 hóa đơn điện tử tổng cuối ngày qua API Misa để tối ưu hóa thuế và kế toán.

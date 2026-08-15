@@ -113,3 +113,26 @@ To prevent Astro build-time compile errors for browser-specific objects:
 *   Điểm nhấn: `--cozy-accent-identity: #76C123` (Xanh Neon)
 *   Nền phụ (Surface): `--cozy-bg-paper: #FAF8F5` hoặc Oatmeal `--cozy-bg-oatmeal: #F8F9FA`
 
+---
+
+## 8. Kiến Thức Kỹ Thuật (Knowledge Base) - Ví Xu & Cổng Thanh Toán
+
+### 8.1. Quy chuẩn phát triển Code (API Endpoints)
+*   **Đường dẫn API nạp/ví:**
+    *   Yêu cầu nạp xu: `/api/billing/recharge`
+    *   Nhận webhook MoMo: `/api/billing/webhook/momo`
+    *   Nhận webhook ZaloPay: `/api/billing/webhook/zalopay`
+    *   Nhận webhook PayOS (thử nghiệm): `/api/billing/webhook/payos`
+*   **Tham số bảo mật:** Đọc trực tiếp các biến môi trường `ZALOPAY_KEY1`, `ZALOPAY_KEY2`, `MOMO_SECRET_KEY` ở môi trường server-side, tuyệt đối không gửi các key này hoặc phơi bày qua API Client.
+
+### 8.2. Quy tắc đối soát và chống gian lận (Security & Fraud Prevention)
+*   **Xác thực Webhook:** Tất cả các webhook nhận được bắt buộc phải kiểm tra và so khớp chữ ký bảo mật (checksum/MAC) được sinh ra từ các thuật toán băm (HMAC-SHA256) sử dụng Secret Key do cổng thanh toán cung cấp.
+*   **Mã hóa Idempotency Key:** Key chống trùng lặp trên Redis phải được lưu theo định dạng: `idempotency:provider:txnId` (ví dụ: `idempotency:zalopay:123456789`). Key này có thời gian hết hạn (TTL) là 24 giờ.
+*   **Xử lý số thập phân:** Số tiền VND và số xu phải được lưu ở dạng số nguyên lớn (`BIGINT` hoặc `Numeric`) để tránh lỗi làm tròn dấu phẩy động (float) trong JS/TS.
+
+### 8.3. Danh sách cấm thực hiện (Never Do List)
+*   **KHÔNG BAO GIỜ** cập nhật số dư ví (`balance`) của người dùng mà không tạo bản ghi lịch sử tương ứng trong bảng `coin_transactions`. Hai hành động này bắt buộc phải đi cùng nhau trong một Database Transaction.
+*   **KHÔNG BAO GIỜ** tin tưởng tuyệt đối vào số tiền (`amount`) gửi từ client lên khi tạo yêu cầu nạp tiền. Client chỉ gửi lên `packageId`, server phải tự truy vấn DB để lấy số tiền thực tế cần thanh toán gửi sang MoMo/ZaloPay.
+*   **KHÔNG BAO GIỜ** lưu mật khẩu tài khoản merchant hay API keys trực tiếp trong mã nguồn đẩy lên Git.
+
+

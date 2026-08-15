@@ -275,3 +275,103 @@ This list details the work steps to implement the live synchronized FM player, c
 *   **Description:** Đo lường chỉ số CLS (Cumulative Layout Shift) của trang chủ khi tương tác tabs và trượt mở form Namiya. Đảm bảo toàn bộ icon và nút bấm thu gọn có thẻ `aria-label` đầy đủ cho người khiếm thị.
 *   **Verification Method:** Chạy Audit Lighthouse trên Chrome và verify CLS < 0.1, chỉ số Accessibility > 90.
 
+---
+
+### TSK-043: Tạo Cấu trúc Bảng dữ liệu Sổ cái (Ledger Schema)
+*   **ID:** `TSK-043`
+*   **Owner:** `alan-tech-lead`
+*   **Status:** `Pending`
+*   **Parallel-Safe:** `No`
+*   **Write Scope:** `doca-affiliate-web/src/pages/api/billing/schema.ts`
+*   **Dependencies:** None
+*   **Description:** Thiết kế và chạy các lệnh SQL / Drizzle Schema khởi tạo các bảng `wallets`, `coin_transactions`, và `orders`. Bật Row Level Security (RLS) để ngăn chặn truy cập trái phép.
+*   **Verification Method:** Kiểm tra cấu trúc các bảng trên cơ sở dữ liệu Supabase.
+
+---
+
+### TSK-044: Phát triển Core Engine Ví Xu (Wallet Ledger Service)
+*   **ID:** `TSK-044`
+*   **Owner:** `alan-tech-lead`
+*   **Status:** `Pending`
+*   **Parallel-Safe:** `No`
+*   **Write Scope:** `doca-affiliate-web/src/pages/api/billing/wallet-service.ts`
+*   **Dependencies:** `TSK-043`
+*   **Description:** Viết các hàm nghiệp vụ cộng/trừ xu. Bắt buộc bọc trong Database Transaction và thực hiện khóa dòng (`SELECT FOR UPDATE`) ví người dùng trước khi ghi số dư mới, bảo đảm tính nhất quán tài chính.
+*   **Verification Method:** Viết unit test chạy đồng thời 2 luồng trừ tiền và kiểm tra số dư cuối cùng khớp chuẩn.
+
+---
+
+### TSK-045: Viết bộ Driver kết nối Cổng ZaloPay & MoMo
+*   **ID:** `TSK-045`
+*   **Owner:** `alan-tech-lead`
+*   **Status:** `Pending`
+*   **Parallel-Safe:** `Yes` [P]
+*   **Write Scope:** `doca-affiliate-web/src/pages/api/billing/providers/`
+*   **Dependencies:** `TSK-044`
+*   **Description:** Cấu hình SDK/HTTP Request kết nối sang ZaloPay API (Web to App) và MoMo Business API. Tính toán chữ ký số bảo mật (Signature HMAC-SHA256) dựa trên Key1 của cổng.
+*   **Verification Method:** Chạy thử hàm tạo đơn hàng và nhận về thành công link thanh toán kèm QR Code của Sandbox ZaloPay/MoMo.
+
+---
+
+### TSK-046: Xây dựng Endpoint Webhook & Khóa Idempotency
+*   **ID:** `TSK-046`
+*   **Owner:** `benny-frontend-engineer`
+*   **Status:** `Pending`
+*   **Parallel-Safe:** `Yes` [P]
+*   **Write Scope:** `doca-affiliate-web/src/pages/api/billing/webhook/`
+*   **Dependencies:** `TSK-045`
+*   **Description:** Viết các route nhận callback từ ZaloPay/MoMo. Xác thực chữ ký số bằng Key2. Sử dụng Redis Cache để kiểm tra khóa chống xử lý trùng (Idempotency Key). Nếu hợp lệ, chuyển trạng thái đơn hàng sang thành công và cộng xu cho user.
+*   **Verification Method:** Dùng Postman giả lập gửi webhook MoMo trùng lặp 3 lần liên tiếp, đảm bảo hệ thống chỉ cộng xu đúng 1 lần duy nhất và trả về 200 OK.
+
+---
+
+### TSK-047: Tích hợp Ví Xu lên Hồ sơ & Trang nạp xu Client
+*   **ID:** `TSK-047`
+*   **Owner:** `benny-frontend-engineer`
+*   **Status:** `Pending`
+*   **Parallel-Safe:** `No`
+*   **Write Scope:** `doca-affiliate-web/src/pages/profile.astro`, `doca-affiliate-web/src/pages/profile/wallet.astro` [NEW]
+*   **Dependencies:** `TSK-046`
+*   **Description:** 
+    *   Thêm khối Ví Xu vào trang hồ sơ hiện tại, hiển thị số dư xu load từ DB và nút lịch sử.
+    *   Tạo trang nạp xu hiển thị lưới danh sách gói nạp, tích hợp popup hiển thị mã QR động trên desktop và nút deep-link mở app trên mobile.
+*   **Verification Method:** Truy cập trang `/profile` và thực hành quét mã thanh toán, kiểm tra xem số dư xu có tự động cập nhật thời gian thực không.
+
+---
+
+### TSK-048: Xây dựng Giao diện Admin Đối soát & Cấu hình Gói nạp
+*   **ID:** `TSK-048`
+*   **Owner:** `benny-frontend-engineer`
+*   **Status:** `Pending`
+*   **Parallel-Safe:** `Yes` [P]
+*   **Write Scope:** `doca-admin-web/src/pages/billing/` [NEW]
+*   **Dependencies:** `TSK-043`
+*   **Description:** Xây dựng trang `/admin/billing/transactions` để xem và cộng xu thủ công, trang `/admin/billing/packages` để sửa gói nạp. Phân quyền truy cập bằng Middleware so khớp bảng `admins`.
+*   **Verification Method:** Đăng nhập bằng tài khoản Kế toán và verify không bấm được nút cộng xu thủ công hay sửa gói nạp. Đăng nhập Super Admin và lưu cấu hình thành công.
+
+---
+
+### TSK-049: Tự động hóa Báo cáo đối soát & Xuất hóa đơn điện tử
+*   **ID:** `TSK-049`
+*   **Owner:** `alan-tech-lead`
+*   **Status:** `Pending`
+*   **Parallel-Safe:** `No`
+*   **Write Scope:** `doca-admin-web/src/pages/api/billing/report.ts` [NEW], các Cron Job script
+*   **Dependencies:** `TSK-048`
+*   **Description:**
+    *   Viết code xử lý file đối soát CSV do kế toán upload lên để so khớp tự động tìm giao dịch bị lệch.
+    *   Xây dựng Cron Job tự động chạy lúc 23:55 để tính tổng tiền nạp trong ngày và gọi API Misa MeInvoice xuất hóa đơn tổng.
+*   **Verification Method:** Chạy thử script cron-job và kiểm tra xem hóa đơn điện tử tổng có được tạo thành công trên hệ thống demo Misa hay không.
+
+---
+
+### TSK-050: Kiểm thử E2E & Nghiệm thu toàn hệ thống Ví Xu
+*   **ID:** `TSK-050`
+*   **Owner:** `ada-qa-agent`
+*   **Status:** `Pending`
+*   **Parallel-Safe:** `No`
+*   **Dependencies:** `TSK-044`, `TSK-046`, `TSK-047`, `TSK-049`
+*   **Description:** Chạy toàn bộ các ca kiểm thử E2E về luồng nạp xu, đối soát và xuất hóa đơn điện tử. Kiểm thử hiệu năng chịu tải khi có nhiều user nạp tiền đồng thời. Biên dịch thử dự án để kiểm tra lỗi TypeScript.
+*   **Verification Method:** Đảm bảo toàn bộ hệ thống hoạt động ổn định và build thành công không lỗi.
+
+
