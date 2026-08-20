@@ -1,2 +1,5 @@
 /capcat-ds/
 .DS_Store
+  
+# Sub-repositories inside apps/  
+apps/ 

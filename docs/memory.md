@@ -1,7 +1,7 @@
 # System Memory and Constraints - DOCA FM & SSO Integration
 
 ## 1. Known Blockers
-*   **None:** Supabase Auth is enabled on the configured project dashboard (`fkilmtcjyommdbtogmeo.supabase.co`).
+*   **None:** Supabase Auth is enabled on the configured project dashboard (`fkilmtcjyommdbtogmeo.supabase.co`).tks Ant
 
 ## 2. Accepted Assumptions
 *   **Clock Synchronization (FM)**: We assume the user's system clock is synchronized via NTP. A difference of 1-3 seconds in clocks is acceptable.

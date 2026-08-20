@@ -1,3 +1,23 @@
+# Capcat Multi-Repo Ecosystem & Agent Guidelines
+
+## 📦 Ecosystem Sub-Repositories (Danh ba Source Code)
+Du an Capcat duoc quan ly theo mo hinh **Umbrella Workspace**. Thu muc pps/ chua cac repository con doc lap.
+
+Khi lam viec voi du an, Agent va cac thanh vien tuan thu 2 co che:
+1. **Full Bootstrap (Keo tat ca)**: Khi duoc yeu cau setup toan bo du an, Agent se clone tat ca cac repository ben duoi vao pps/.
+2. **On-Demand / Lazy Loading (Keo theo yeu cau)**: Khi nguoi dung yeu cau lam viec voi mot service/app cu the ma thu muc tuong ung trong pps/ chua co tren may, Agent se tu dong tra cuu URL ben duoi va clone rieng repository do ve.
+
+### Danh sach Repositories:
+| Ten thu muc | Vai tro / Mo ta | Git Remote URL | Trang thai |
+| :--- | :--- | :--- | :--- |
+| pps/core-platforms | Backend Core NestJS Monorepo (Auth, PostgreSQL TypeORM, APIs) | git@gitlab.com:capcat_be/core_platforms.git | ✅ Da tich hop |
+| pps/payment-service | Backend Thanh toan (VietQR / MoMo / Webhook / Ledger) | *(Se cap nhat)* | ⏳ Sap them |
+| pps/mobile-app | App Flutter cho Sen & Boss | *(Se cap nhat)* | ⏳ Cho chuyen doi |
+| pps/web-portal | Web Portal Quan tri Admin (Chuyen tu doca-admin-web) | *(Se cap nhat)* | ⏳ Cho chuyen doi |
+| pps/web-landing | Web Landing Page & Affiliate (Chuyen tu doca-affiliate-web) | *(Se cap nhat)* | ⏳ Cho chuyen doi |
+
+---
+
 # Antigravity Agent Memory - DOCA FM Live Curation
 
 ## Feature 013: DOCA FM Live Sync & Weather Curation
