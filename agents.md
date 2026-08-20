@@ -11,7 +11,7 @@ When collaborating on the project, Agents and human engineers follow two synchro
 | Directory Path | Role & Technology | Git Remote URL | Status |
 | :--- | :--- | :--- | :--- |
 | apps/core-platforms | Core Backend NestJS Monorepo (Auth, PostgreSQL TypeORM, Core APIs) | git@gitlab.com:capcat_be/core_platforms.git | ✅ Integrated |
-| apps/coin-hub | Capcat Coin Hub (Virtual Economy, ZaloPay & Mock Inflow, Multi-Tenant Ledger) | *(To be provisioned)* | ⏳ In Progress |
+| apps/coin-hub | Doca Coin Hub (Virtual Economy, ZaloPay & Mock Inflow, Multi-Tenant Ledger) | *(To be provisioned)* | ⏳ In Progress |
 | apps/mobile-app | Mobile Client for Pet Owners (Flutter) | *(To be configured)* | ⏳ Pending Migration |
 | apps/web-portal | Admin & Creator Portal (Astro / Supabase) | *(To be configured)* | ⏳ Pending Migration |
 | apps/web-landing | Landing Page & Affiliate Hub (Astro SSG / Doca FM) | *(To be configured)* | ⏳ Pending Migration |
@@ -162,10 +162,10 @@ When collaborating on the project, Agents and human engineers follow two synchro
     *   *ADR-051:* Tác vụ tự động gom doanh thu xuất 01 hóa đơn điện tử tổng cuối ngày qua API Misa để tối ưu hóa thuế và kế toán.
 
 
-## Feature 015: Capcat Coin Hub (Virtual Economy & Ledger Platform)
+## Feature 015: Doca Coin Hub (Virtual Economy & Ledger Platform)
 *   **Planning Date:** 2026-08-20
 *   **Status:** Planned (Specification, ADRs, & Implementation Plan Approved)
-*   **Description:** Designed and architected Capcat Coin Hub (`apps/coin-hub`), an independent, multi-tenant-ready Virtual Economy, Payment Inflow (ZaloPay v2 & Mock Sandbox), and Immutable Ledger microservice built with NestJS v11, TypeORM (isolated PostgreSQL), and BullMQ (Redis).
+*   **Description:** Designed and architected Doca Coin Hub (`apps/coin-hub`), an independent, multi-tenant-ready Virtual Economy, Payment Inflow (ZaloPay v2 & Mock Sandbox), and Immutable Ledger microservice built with NestJS v11, TypeORM (isolated PostgreSQL), and BullMQ (Redis).
 *   **Key Decisions:**
     *   *ADR-022:* Standalone microservice on port `:3005` with isolated PostgreSQL and Redis connections.
     *   *ADR-023:* Universal polymorphic User Identity via nullable unique `email` and `phone` with auto-linking of guest quiz coins upon registration.

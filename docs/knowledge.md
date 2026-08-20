@@ -140,7 +140,7 @@ To prevent Astro build-time compile errors for browser-specific objects:
 
 ---
 
-# Architecture Knowledge Base - Capcat Coin Hub (`apps/coin-hub`)
+# Architecture Knowledge Base - Doca Coin Hub (`apps/coin-hub`)
 
 ## 1. Coin Hub Tech Stack & Framework Assumptions
 *   **Framework**: NestJS v11 (TypeScript, Fastify or Express engine).

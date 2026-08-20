@@ -290,7 +290,7 @@ sequenceDiagram
 
 ---
 
-# System and User Flows - Capcat Coin Hub (`apps/coin-hub`)
+# System and User Flows - Doca Coin Hub (`apps/coin-hub`)
 
 ## 1. Payment Inflow & Coin Recharge Flow (ZaloPay & Mock)
 
@@ -306,7 +306,7 @@ sequenceDiagram
     participant DB as PostgreSQL (Coin Hub DB)
 
     User->>Client: Select Coin Package (e.g. 10,000 VND = 100 Cá)
-    Client->>Hub: POST /api/v1/orders/create { tenant_id: 'capcat', email/phone, package_id, gateway }
+    Client->>Hub: POST /api/v1/orders/create { tenant_id: 'doca', email/phone, package_id, gateway }
     Hub->>DB: Find or create User & Wallet
     Hub->>DB: INSERT payment_orders (status: 'PENDING')
     Hub->>Gateway: Create Order (amount, order_id, HMAC)
@@ -348,9 +348,9 @@ sequenceDiagram
     participant DB as PostgreSQL (Coin Hub DB)
 
     User->>Client: Click "Unlock Tina Special Story" (Cost: 30 Cá)
-    Client->>Hub: POST /api/v1/wallets/spend { tenant_id: 'capcat', email/phone, amount: 30, service_ref: 'STORY_015' }
+    Client->>Hub: POST /api/v1/wallets/spend { tenant_id: 'doca', email/phone, amount: 30, service_ref: 'STORY_015' }
     Hub->>DB: BEGIN TRANSACTION
-    Hub->>DB: SELECT wallet FOR UPDATE WHERE user_id = ... AND tenant_id = 'capcat'
+    Hub->>DB: SELECT wallet FOR UPDATE WHERE user_id = ... AND tenant_id = 'doca'
     alt Balance < 30 Cá
         Hub->>DB: ROLLBACK
         Hub-->>Client: HTTP 400 "Insufficient Coin Balance"

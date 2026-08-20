@@ -176,7 +176,7 @@ Các trang quản lý billing được đặt bên trong bảng điều khiển 
 
 ---
 
-# Screen Inventory & UI States - Capcat Coin Hub
+# Screen Inventory & UI States - Doca Coin Hub
 
 ## 1. User-Facing Screens (Capcat Web & Mobile)
 

@@ -380,7 +380,7 @@ stateDiagram-v2
 
 ---
 
-# System Architecture Diagrams - Capcat Coin Hub (`apps/coin-hub`)
+# System Architecture Diagrams - Doca Coin Hub (`apps/coin-hub`)
 
 ## 1. C4 Container Diagram
 
@@ -392,7 +392,7 @@ graph TD
         Admin[Capcat Admin Portal - Astro :4325]
     end
 
-    subgraph CoinHub ["Capcat Coin Hub Microservice (:3005)"]
+    subgraph CoinHub ["Doca Coin Hub Microservice (:3005)"]
         API[NestJS REST API Controllers]
         OrderModule[Order & Gateway Module]
         WalletModule[Wallet & Ledger Module]

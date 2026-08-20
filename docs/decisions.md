@@ -218,9 +218,9 @@ Sử dụng tác vụ tự động (Cron Job) gom toàn bộ doanh thu nạp xu 
 
 ---
 
-# Architecture Decisions (ADR) - Capcat Coin Hub (`apps/coin-hub`)
+# Architecture Decisions (ADR) - Doca Coin Hub (`apps/coin-hub`)
 
-## ADR-022: Microservice Topology for Capcat Coin Hub
+## ADR-022: Microservice Topology for Doca Coin Hub
 *   **Context:** We need a robust virtual economy, payment gateway, and wallet ledger engine that serves Capcat today and can serve other company apps (English app, Comic app) tomorrow.
 *   **Decision:** Build `apps/coin-hub` as a standalone NestJS microservice running on port `:3005`, isolated from `apps/core-platforms` and web frontends.
 *   **Consequences:** Eliminates cross-service memory leaks; ensures high availability of financial ledger independently of backend domain refactorings.

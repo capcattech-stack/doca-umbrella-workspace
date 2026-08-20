@@ -70,7 +70,7 @@
 
 ---
 
-# System Memory & Constraints - Capcat Coin Hub (`apps/coin-hub`)
+# System Memory & Constraints - Doca Coin Hub (`apps/coin-hub`)
 
 ## 1. Microservice Ports & Networking
 *   **Coin Hub Port**: Runs on `http://localhost:3005` (API & Swagger at `/docs`).
@@ -79,6 +79,6 @@
 *   **Admin Web Port**: Runs on `http://localhost:4325`.
 
 ## 2. Accepted Assumptions & Constraints
-*   **Tenant Scoping**: All database tables enforce a `tenant_id` column, defaulting to `'capcat'` during Phase 1.
+*   **Tenant Scoping**: All database tables enforce a `tenant_id` column, defaulting to `'doca'` during Phase 1.
 *   **HKD Tax Compliance**: Physical currency (VND) collected across all tenants aggregates to a single merchant bank account for daily consolidated e-Invoice generation.
 *   **Local Test Ergonomics**: Developers can toggle `MOCK_GATEWAY_AUTO_SUCCESS=true` in `.env` to complete payment simulations without real bank credentials.

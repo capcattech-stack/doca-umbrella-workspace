@@ -209,10 +209,10 @@ Xây dựng hệ thống quản lý ví xu nội bộ (Loyalty Coins) và cổng
 
 ---
 
-# Feature 015: Capcat Coin Hub (Virtual Economy & Ledger Platform)
+# Feature 015: Doca Coin Hub (Virtual Economy & Ledger Platform)
 
 ## 1. Product Goal
-*   **Capcat Coin Hub (`apps/coin-hub`)**: Establish a dedicated, high-performance, and multi-tenant-ready Virtual Economy, Payment Inflow, and Ledger microservice.
+*   **Doca Coin Hub (`apps/coin-hub`)**: Establish a dedicated, high-performance, and multi-tenant-ready Virtual Economy, Payment Inflow, and Ledger microservice.
 *   **Virtual Currency (ICaaS)**: Provide an internal utility currency system (e.g. "Cá" / `FISH` for Capcat, "Sao" / `STAR` for English App) supporting dynamic package purchases, streak/quiz reward grants, feature unlock spending, and cross-tenant spend routing.
 *   **Payment Gateway Inflow**: Seamlessly integrate **ZaloPay** (App-to-App deep link for mobile, dynamic QR for web) and an internal **Mock Gateway** for 100% offline local testing.
 *   **Financial Integrity & Ledger Bookkeeping**: Prevent double-spending and race conditions through strict row-level locking (`SELECT FOR UPDATE`), BullMQ asynchronous queue-decoupled webhook callbacks, and immutable transaction audit trails.

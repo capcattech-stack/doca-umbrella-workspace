@@ -379,9 +379,9 @@ This list details the work steps to implement the live synchronized FM player, c
 
 ---
 
-# Implementation Task List - Capcat Coin Hub (`apps/coin-hub`)
+# Implementation Task List - Doca Coin Hub (`apps/coin-hub`)
 
-## Feature 015: Capcat Coin Hub
+## Feature 015: Doca Coin Hub
 
 ### TSK-COINHUB-001: Service Scaffold & NestJS Environment Bootstrap
 *   **ID:** `TSK-COINHUB-001`
