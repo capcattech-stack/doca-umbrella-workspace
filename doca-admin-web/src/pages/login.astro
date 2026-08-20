@@ -23,19 +23,21 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
       <h1 style="font-size: 19px; font-weight: 600; color: rgba(55, 53, 47, 0.9); margin: 0 0 6px 0; letter-spacing: -0.01em;">Doca Workspace</h1>
       <div style="font-family: 'Space Mono', monospace; font-size: 11.5px; color: rgba(55, 53, 47, 0.4); margin-bottom: 20px;">"Góc vận hành nhỏ gọn"</div>
       
-      <p style="font-size: 13px; color: rgba(55, 53, 47, 0.6); line-height: 1.5; margin: 0 0 28px 0;">Vui lòng kết nối tài khoản Google SSO được cấp quyền để truy cập hệ thống quản lý.</p>
+      <p style="font-size: 13px; color: rgba(55, 53, 47, 0.6); line-height: 1.5; margin: 0 0 28px 0;">Vui lòng kết nối tài khoản Google SSO hoặc dùng Sandbox để truy cập hệ thống quản lý.</p>
 
-      <!-- Google Login Button - Notion Style -->
-      <button id="dev-sandbox-login-btn" type="button" style="width: 100%; display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-family: inherit; font-size: 13px; font-weight: 600; padding: 10px 16px; border-radius: 3px; border: 1px solid #76c123; background: #76c123; color: #ffffff; cursor: pointer; transition: all 0.15s ease; margin-bottom: 12px; box-shadow: 0 2px 6px rgba(118, 193, 35, 0.25);">
-        <i class="ph-bold ph-lightning" style="font-size: 15px;"></i>
-        <span>Vào Thẳng Admin (Dev Sandbox Bypass)</span>
+      <!-- Dev Sandbox Direct Access Button -->
+      <button id="dev-sandbox-login-btn" type="button" style="width: 100%; display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-family: inherit; font-size: 13.5px; font-weight: 600; padding: 11px 16px; border-radius: 3px; border: 1px solid #76c123; background: #76c123; color: #ffffff; cursor: pointer; transition: all 0.15s ease; margin-bottom: 14px; box-shadow: 0 2px 8px rgba(118, 193, 35, 0.3);">
+        <i class="ph-bold ph-lightning" style="font-size: 16px;"></i>
+        <span>⚡ Vào Thẳng Admin (Dev Sandbox Bypass)</span>
       </button>
 
-      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 14px;">
         <div style="flex: 1; height: 1px; background: rgba(55, 53, 47, 0.1);"></div>
-        <span style="font-size: 11px; color: rgba(55, 53, 47, 0.4); text-transform: uppercase;">hoặc SSO Google</span>
+        <span style="font-size: 11px; color: rgba(55, 53, 47, 0.4); text-transform: uppercase;">hoặc Đăng Nhập SSO</span>
         <div style="flex: 1; height: 1px; background: rgba(55, 53, 47, 0.1);"></div>
       </div>
+
+      <!-- Google Login Button - Notion Style -->
       <button id="google-login-btn" class="notion-login-btn-action" style="width: 100%; display: inline-flex; align-items: center; justify-content: center; gap: 10px; font-family: inherit; font-size: 13.5px; font-weight: 500; padding: 10px 16px; border-radius: 3px; border: 1px solid rgba(55, 53, 47, 0.16); background: #ffffff; color: rgba(55, 53, 47, 0.85); cursor: pointer; transition: all 0.1s ease; box-shadow: 0 1px 2px rgba(15, 15, 15, 0.05);">
         <svg viewBox="0 0 24 24" width="16" height="16" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0;">
           <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
@@ -58,126 +60,143 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
   </main>
 </Layout>
 
-<!-- CLIENT-SIDE OAUTH SCRIPT -->
+<!-- CLIENT-SIDE SCRIPT -->
 <script>
   import { createClient } from '@supabase/supabase-js';
 
-  document.addEventListener('DOMContentLoaded', async () => {
-    const supabaseUrl = window.PUBLIC_SUPABASE_URL || '';
-    const supabaseKey = window.PUBLIC_SUPABASE_ANON_KEY || '';
-    
-    if (!supabaseUrl || !supabaseKey) {
-      showError("Thiếu cấu hình Supabase URL hoặc Anon Key.");
-      return;
-    }
-
-    const supabase = createClient(supabaseUrl, supabaseKey);
-
+  document.addEventListener('DOMContentLoaded', () => {
     const loginBtn = document.getElementById('google-login-btn');
+    const devLoginBtn = document.getElementById('dev-sandbox-login-btn');
     const statusContainer = document.getElementById('auth-status-container');
     const statusAlert = document.getElementById('auth-status-alert');
     const statusText = document.getElementById('auth-status-text');
 
-    const checkUserSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      
-      if (session) {
-        showLoading("Đang xác thực quyền truy cập...");
-        const email = session.user.email;
-
-        try {
-          const res = await fetch(`${supabaseUrl}/rest/v1/admins?email=eq.${encodeURIComponent(email)}&select=id`, {
-            headers: {
-              'apikey': supabaseKey,
-              'Authorization': `Bearer ${session.access_token}`
-            }
-          });
-
-          if (res.ok) {
-            const admins = await res.json();
-            if (admins.length > 0) {
-              showSuccess("Đăng nhập thành công! Đang chuyển hướng...");
-              localStorage.setItem('doca_admin_session', JSON.stringify({
-                email,
-                access_token: session.access_token,
-                expires_at: session.expires_at
-              }));
-              setTimeout(() => {
-                window.location.href = '/quizzes';
-              }, 1000);
-              return;
-            }
-          }
-        } catch (err) {
-          console.error("Lỗi xác minh danh sách admin", err);
-        }
-
-        await supabase.auth.signOut();
-        localStorage.removeItem('doca_admin_session');
-        showError("Tài khoản này không nằm trong danh sách trắng Admin.");
-      }
-    };
-
-    checkUserSession();
-
-    const devLoginBtn = document.getElementById('dev-sandbox-login-btn');
-    if (devLoginBtn) {
-      devLoginBtn.addEventListener('click', () => {
-        localStorage.setItem('doca_admin_session', JSON.stringify({
-          email: 'admin-dev@doca.pet',
-          access_token: 'mock_sandbox_dev_token',
-          expires_at: Math.floor(Date.now() / 1000) + 86400 * 30
-        }));
-        showSuccess("Đã kích hoạt Dev Admin Session! Đang chuyển hướng sang /billing...");
-        setTimeout(() => {
-          window.location.href = '/billing';
-        }, 400);
-      });
-    }
-
-    loginBtn.addEventListener('click', async () => {
-      showLoading("Đang mở liên kết đăng nhập...");
-      
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider: 'google',
-        options: {
-          redirectTo: `${window.location.origin}/login`
-        }
-      });
-
-      if (error) {
-        showError("Không thể kết nối Google SSO: " + error.message);
-      }
-    });
-
     function showLoading(msg) {
+      if (!statusContainer || !statusAlert || !statusText) return;
       statusContainer.style.display = 'block';
       statusAlert.style.backgroundColor = 'rgba(55, 53, 47, 0.03)';
       statusAlert.style.borderColor = 'rgba(55, 53, 47, 0.08)';
       statusAlert.style.color = 'rgba(55, 53, 47, 0.65)';
       statusText.innerHTML = `<i class="ph-light ph-circle-notch spinner-icon"></i> ${msg}`;
-      loginBtn.setAttribute('disabled', 'true');
-      loginBtn.style.opacity = '0.6';
+      if (loginBtn) {
+        loginBtn.setAttribute('disabled', 'true');
+        loginBtn.style.opacity = '0.6';
+      }
     }
 
     function showError(msg) {
+      if (!statusContainer || !statusAlert || !statusText) return;
       statusContainer.style.display = 'block';
       statusAlert.style.backgroundColor = 'rgba(211, 47, 47, 0.05)';
       statusAlert.style.borderColor = 'rgba(211, 47, 47, 0.15)';
       statusAlert.style.color = '#c72f2f';
       statusText.innerHTML = `<i class="ph-light ph-warning-circle" style="font-size: 15px;"></i> ${msg}`;
-      loginBtn.removeAttribute('disabled');
-      loginBtn.style.opacity = '1';
+      if (loginBtn) {
+        loginBtn.removeAttribute('disabled');
+        loginBtn.style.opacity = '1';
+      }
     }
 
     function showSuccess(msg) {
+      if (!statusContainer || !statusAlert || !statusText) return;
       statusContainer.style.display = 'block';
       statusAlert.style.backgroundColor = 'rgba(46, 125, 50, 0.05)';
       statusAlert.style.borderColor = 'rgba(46, 125, 50, 0.15)';
       statusAlert.style.color = '#2e7d32';
       statusText.innerHTML = `<i class="ph-light ph-check-circle" style="font-size: 15px;"></i> ${msg}`;
-      loginBtn.setAttribute('disabled', 'true');
-      loginBtn.style.opacity = '0.6';
+      if (loginBtn) {
+        loginBtn.setAttribute('disabled', 'true');
+        loginBtn.style.opacity = '0.6';
+      }
+    }
+
+    // 1. Dev Sandbox Login Handler (ALWAYS ACTIVE - No Supabase required)
+    if (devLoginBtn) {
+      devLoginBtn.addEventListener('click', () => {
+        const session = {
+          email: 'admin-dev@doca.pet',
+          access_token: 'mock_sandbox_dev_token',
+          expires_at: Math.floor(Date.now() / 1000) + 86400 * 365
+        };
+        localStorage.setItem('doca_admin_session', JSON.stringify(session));
+        showSuccess("Đã kích hoạt quyền Admin! Đang chuyển hướng sang /billing...");
+        setTimeout(() => {
+          window.location.href = '/billing';
+        }, 300);
+      });
+    }
+
+    // 2. Supabase Google SSO Handler (Only if Supabase env vars exist)
+    const supabaseUrl = window.PUBLIC_SUPABASE_URL || '';
+    const supabaseKey = window.PUBLIC_SUPABASE_ANON_KEY || '';
+
+    if (supabaseUrl && supabaseKey) {
+      const supabase = createClient(supabaseUrl, supabaseKey);
+
+      const checkUserSession = async () => {
+        const { data: { session } } = await supabase.auth.getSession();
+        
+        if (session) {
+          showLoading("Đang xác thực quyền truy cập...");
+          const email = session.user.email;
+
+          try {
+            const res = await fetch(`${supabaseUrl}/rest/v1/admins?email=eq.${encodeURIComponent(email)}&select=id`, {
+              headers: {
+                'apikey': supabaseKey,
+                'Authorization': `Bearer ${session.access_token}`
+              }
+            });
+
+            if (res.ok) {
+              const admins = await res.json();
+              if (admins.length > 0) {
+                showSuccess("Đăng nhập thành công! Đang chuyển hướng...");
+                localStorage.setItem('doca_admin_session', JSON.stringify({
+                  email,
+                  access_token: session.access_token,
+                  expires_at: session.expires_at
+                }));
+                setTimeout(() => {
+                  window.location.href = '/billing';
+                }, 800);
+                return;
+              }
+            }
+          } catch (err) {
+            console.error("Lỗi xác minh danh sách admin", err);
+          }
+
+          await supabase.auth.signOut();
+          localStorage.removeItem('doca_admin_session');
+          showError("Tài khoản này không nằm trong danh sách trắng Admin.");
+        }
+      };
+
+      checkUserSession();
+
+      if (loginBtn) {
+        loginBtn.addEventListener('click', async () => {
+          showLoading("Đang mở liên kết đăng nhập...");
+          const { error } = await supabase.auth.signInWithOAuth({
+            provider: 'google',
+            options: {
+              redirectTo: `${window.location.origin}/login`
+            }
+          });
+
+          if (error) {
+            showError("Không thể kết nối Google SSO: " + error.message);
+          }
+        });
+      }
+    } else {
+      // If no Supabase configured, clicking Google SSO informs user to use sandbox
+      if (loginBtn) {
+        loginBtn.addEventListener('click', () => {
+          showError("Máy local chưa cấu hình biến môi trường Supabase SSO. Vui lòng bấm nút 'Vào Thẳng Admin (Dev Sandbox Bypass)' ở trên để truy cập.");
+        });
+      }
     }
   });
 </script>

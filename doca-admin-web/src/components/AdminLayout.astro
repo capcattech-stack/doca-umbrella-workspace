@@ -269,12 +269,12 @@ const geminiApiKey = import.meta.env.PUBLIC_GEMINI_API_KEY || '';
 			});
 		});
 
-		const supabase = createClient(supabaseUrl, supabaseKey);
+		const supabase = (supabaseUrl && supabaseKey) ? createClient(supabaseUrl, supabaseKey) : null;
 
 		const logoutBtn = document.getElementById('admin-logout-btn');
 		logoutBtn?.addEventListener('click', async () => {
 			if (confirm("Cô/chú có thực sự muốn đăng xuất?")) {
-				await supabase.auth.signOut();
+				if (supabase) { try { await supabase.auth.signOut(); } catch(e){} }
 				localStorage.removeItem('doca_admin_session');
 				window.location.replace('/login');
 			}
