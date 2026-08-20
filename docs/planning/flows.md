@@ -286,3 +286,80 @@ sequenceDiagram
     Invoice-->>API: Trả về mã số hóa đơn & file PDF
     API->>DB: Lưu thông tin hóa đơn vào bảng nhật ký thuế
 
+
+
+---
+
+# System and User Flows - Capcat Coin Hub (`apps/coin-hub`)
+
+## 1. Payment Inflow & Coin Recharge Flow (ZaloPay & Mock)
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor User as User (Sen / Mobile / Web)
+    participant Client as Client App (Astro / Flutter)
+    participant Hub as Coin Hub API (:3005)
+    participant Gateway as Payment Gateway (ZaloPay / Mock)
+    participant Queue as BullMQ (Redis)
+    participant Worker as Ledger Worker
+    participant DB as PostgreSQL (Coin Hub DB)
+
+    User->>Client: Select Coin Package (e.g. 10,000 VND = 100 Cá)
+    Client->>Hub: POST /api/v1/orders/create { tenant_id: 'capcat', email/phone, package_id, gateway }
+    Hub->>DB: Find or create User & Wallet
+    Hub->>DB: INSERT payment_orders (status: 'PENDING')
+    Hub->>Gateway: Create Order (amount, order_id, HMAC)
+    Gateway-->>Hub: Return order_url, qr_code, app_trans_token
+    Hub-->>Client: Return Order Response (QR code + Deep link)
+    
+    alt Desktop Web
+        Client->>User: Display Dynamic QR Code Modal
+        User->>Gateway: Scan QR code with ZaloPay App & Confirm Pay
+    else Mobile App
+        Client->>User: App-to-App Deep Link Redirect
+        User->>Gateway: Authorize Payment in ZaloPay App
+    end
+
+    Gateway->>Hub: POST /api/v1/webhooks/zalopay (callback data + mac)
+    Hub->>Hub: Verify HMAC-SHA256 signature
+    Hub->>Queue: Enqueue job { order_id, gateway_trans_id, amount }
+    Hub-->>Gateway: HTTP 200 { return_code: 1, return_message: 'success' } (<50ms)
+
+    Queue->>Worker: Pick job 'ledger-credit-job'
+    Worker->>DB: BEGIN TRANSACTION
+    Worker->>DB: SELECT wallet FOR UPDATE (Row Lock)
+    Worker->>DB: UPDATE payment_orders SET status = 'SUCCESS'
+    Worker->>DB: INSERT coin_transactions (+100 Cá, type: 'RECHARGE')
+    Worker->>DB: UPDATE wallets SET balance = balance + 100
+    Worker->>DB: COMMIT TRANSACTION
+    Worker->>Client: Emit Realtime Noti / Client Polls GET /orders/:id/status
+    Client->>User: Display "Nạp Cá Thành Công!" & Update Balance Box
+```
+
+## 2. Coin Spend & Feature Unlock Flow
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor User as User (Sen)
+    participant Client as Capcat Client App
+    participant Hub as Coin Hub API (:3005)
+    participant DB as PostgreSQL (Coin Hub DB)
+
+    User->>Client: Click "Unlock Tina Special Story" (Cost: 30 Cá)
+    Client->>Hub: POST /api/v1/wallets/spend { tenant_id: 'capcat', email/phone, amount: 30, service_ref: 'STORY_015' }
+    Hub->>DB: BEGIN TRANSACTION
+    Hub->>DB: SELECT wallet FOR UPDATE WHERE user_id = ... AND tenant_id = 'capcat'
+    alt Balance < 30 Cá
+        Hub->>DB: ROLLBACK
+        Hub-->>Client: HTTP 400 "Insufficient Coin Balance"
+        Client->>User: Prompt "Số dư không đủ! Nạp thêm Cá"
+    else Balance >= 30 Cá
+        Hub->>DB: INSERT coin_transactions (-30 Cá, type: 'SPEND', source_ref: 'STORY_015')
+        Hub->>DB: UPDATE wallets SET balance = balance - 30
+        Hub->>DB: COMMIT TRANSACTION
+        Hub-->>Client: HTTP 200 { success: true, remaining_balance: 70 }
+        Client->>User: Unlock Feature & Render Content
+    end
+```

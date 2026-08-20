@@ -376,3 +376,123 @@ stateDiagram-v2
     Success --> [*]
 ```
 
+
+
+---
+
+# System Architecture Diagrams - Capcat Coin Hub (`apps/coin-hub`)
+
+## 1. C4 Container Diagram
+
+```mermaid
+graph TD
+    subgraph Clients ["Client Layer"]
+        Web[Capcat Web / Doca FM - Astro :4321]
+        Mobile[Capcat Mobile App - Flutter]
+        Admin[Capcat Admin Portal - Astro :4325]
+    end
+
+    subgraph CoinHub ["Capcat Coin Hub Microservice (:3005)"]
+        API[NestJS REST API Controllers]
+        OrderModule[Order & Gateway Module]
+        WalletModule[Wallet & Ledger Module]
+        QueueProducer[Webhook Ingestion Producer]
+        QueueWorker[BullMQ Ledger Processor]
+    end
+
+    subgraph Storage ["Storage Layer"]
+        Postgres[("PostgreSQL DB (COIN_HUB_DB)")]
+        Redis[("Redis (BullMQ & Idempotency)")]
+    end
+
+    subgraph Gateways ["External Gateways"]
+        ZaloPay[ZaloPay API & Webhook Server]
+        MockGW[Internal Mock Gateway Simulator]
+    end
+
+    Web -->|Create Order / Spend| API
+    Mobile -->|Create Order / Spend| API
+    Admin -->|Reconcile & Packages| API
+
+    API --> OrderModule
+    API --> WalletModule
+    OrderModule --> ZaloPay
+    OrderModule --> MockGW
+
+    ZaloPay -->|Webhook| API
+    MockGW -->|Webhook| API
+    API --> QueueProducer
+    QueueProducer --> Redis
+    Redis --> QueueWorker
+    QueueWorker --> Postgres
+    WalletModule --> Postgres
+```
+
+## 2. Relational Database Schema (PostgreSQL ERD)
+
+```mermaid
+erDiagram
+    users ||--o{ wallets : "owns"
+    users ||--o{ payment_orders : "places"
+    wallets ||--o{ coin_transactions : "records"
+    coin_packages ||--o{ payment_orders : "contains"
+
+    users {
+        uuid id PK
+        string email UK "nullable"
+        string phone UK "nullable"
+        string status "ACTIVE | BLOCKED"
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    wallets {
+        uuid id PK
+        uuid user_id FK
+        string tenant_id "capcat | english_app"
+        string currency_code "FISH | STAR"
+        decimal balance "15,2"
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    coin_packages {
+        uuid id PK
+        string tenant_id
+        string name
+        decimal amount_vnd
+        decimal coin_amount
+        int bonus_percentage
+        boolean is_active
+        int sort_order
+    }
+
+    payment_orders {
+        uuid id PK
+        uuid user_id FK
+        uuid package_id FK
+        string tenant_id
+        decimal amount_vnd
+        decimal coin_amount
+        string gateway "ZALOPAY | MOCK"
+        string status "PENDING | SUCCESS | FAILED | EXPIRED"
+        string gateway_trans_id
+        string idempotency_key UK
+        text order_url
+        text qr_code
+        timestamp expires_at
+    }
+
+    coin_transactions {
+        uuid id PK
+        uuid wallet_id FK
+        string tenant_id
+        decimal amount
+        decimal balance_before
+        decimal balance_after
+        string type "RECHARGE | SPEND | BONUS | MANUAL_CREDIT"
+        string source_ref
+        jsonb metadata
+        timestamp created_at
+    }
+```

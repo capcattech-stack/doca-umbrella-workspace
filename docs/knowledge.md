@@ -136,3 +136,28 @@ To prevent Astro build-time compile errors for browser-specific objects:
 *   **KHÔNG BAO GIỜ** lưu mật khẩu tài khoản merchant hay API keys trực tiếp trong mã nguồn đẩy lên Git.
 
 
+
+
+---
+
+# Architecture Knowledge Base - Capcat Coin Hub (`apps/coin-hub`)
+
+## 1. Coin Hub Tech Stack & Framework Assumptions
+*   **Framework**: NestJS v11 (TypeScript, Fastify or Express engine).
+*   **Database**: PostgreSQL 15+ via TypeORM with strict connection pool isolation.
+*   **Queue & Cache**: Redis 7+ via BullMQ and ioredis.
+*   **Payment Gateways**:
+    *   **ZaloPay v2**: HMAC SHA-256 signature verification, `app_id`, `key1` (request), `key2` (callback).
+    *   **Mock Gateway**: Sandbox emulator with instant success webhook triggering for local developer ergonomics.
+
+## 2. Financial Ledger & Security Rules
+*   **No Floating-Point Math**: All monetary amounts (VND and Coins) MUST be stored as `DECIMAL(15,2)` in database and parsed with strict decimal precision.
+*   **Row-Level Locking**: Every balance deduction or credit MUST acquire an exclusive row lock using `SELECT ... FOR UPDATE` within a database transaction to eliminate race conditions.
+*   **Idempotency Guarantee**: All order creation and webhook callbacks must check and store an Idempotency key in Redis with a 24-hour TTL.
+*   **HMAC Callback Verification**: Every webhook payload MUST be cryptographically validated before enqueueing. Unverified callbacks must be rejected with HTTP 400.
+*   **Asynchronous Webhook Processing**: Webhook controllers must never perform heavy DB work synchronously. They must enqueue to BullMQ and return HTTP 200 within 50ms.
+
+## 3. "Never Do" List
+*   **NEVER** delete records from `coin_transactions`. It is an append-only, immutable audit trail.
+*   **NEVER** update `wallet.balance` directly without writing a corresponding row in `coin_transactions`.
+*   **NEVER** store plain payment credentials in Git. All secrets must reside in `.env`.

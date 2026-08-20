@@ -214,3 +214,33 @@ Sử dụng tác vụ tự động (Cron Job) gom toàn bộ doanh thu nạp xu 
 
 ### Hệ quả
 *   **Ưu điểm:** Giảm số lượng hóa đơn điện tử cần mua từ hàng ngàn số xuống còn 365 số/năm. Đơn giản hóa tờ khai thuế GTGT hàng quý.
+
+
+---
+
+# Architecture Decisions (ADR) - Capcat Coin Hub (`apps/coin-hub`)
+
+## ADR-022: Microservice Topology for Capcat Coin Hub
+*   **Context:** We need a robust virtual economy, payment gateway, and wallet ledger engine that serves Capcat today and can serve other company apps (English app, Comic app) tomorrow.
+*   **Decision:** Build `apps/coin-hub` as a standalone NestJS microservice running on port `:3005`, isolated from `apps/core-platforms` and web frontends.
+*   **Consequences:** Eliminates cross-service memory leaks; ensures high availability of financial ledger independently of backend domain refactorings.
+
+## ADR-023: Universal User Identity with Email and Phone Auto-Linking
+*   **Context:** Web leads and SSO users are identified by Email, whereas Mobile App and Core Backend users are identified by Phone number.
+*   **Decision:** The Coin Hub `users` table uses nullable unique `email` and nullable unique `phone` with constraint `CHECK (email IS NOT NULL OR phone IS NOT NULL)`. An auto-link endpoint coalesces temporary guest wallets upon registration.
+*   **Consequences:** Seamless user experience across web quizzes and mobile app without requiring central SSO on Day 1.
+
+## ADR-024: BullMQ Queue-Decoupled Webhook Processing and Row Locking
+*   **Context:** Webhook callbacks from payment gateways must respond in <500ms to avoid retries, but ledger balance updates require strict relational locking.
+*   **Decision:** Webhooks verify HMAC signatures, push the payload into a Redis BullMQ queue, and return HTTP 200 immediately. A background worker processes the job with `SELECT wallet FOR UPDATE` in a PostgreSQL transaction.
+*   **Consequences:** Guaranteed 0% gateway timeout rate; eliminates race conditions and double-spending.
+
+## ADR-025: Dedicated PostgreSQL Database and Independent Redis Store
+*   **Context:** Financial ledger tables require strict transactional isolation and dedicated migration lifecycles.
+*   **Decision:** Provision a separate PostgreSQL database (`COIN_HUB_DATABASE_URL`) and Redis instance (`COIN_HUB_REDIS_URL`) for `apps/coin-hub`.
+*   **Consequences:** Database failures or migrations in `core-platforms` do not interrupt the payment ledger.
+
+## ADR-026: Strategy Pattern for Gateway Adapters (Mock Sandbox + ZaloPay)
+*   **Context:** We need to develop and test E2E payment flows offline immediately while integrating production ZaloPay.
+*   **Decision:** Define a polymorphic `PaymentGatewayInterface` with a built-in `MockGatewayAdapter` (instant QR and sandbox testing) and `ZaloPayGatewayAdapter` (HMAC SHA-256 App-to-App & Dynamic QR).
+*   **Consequences:** 100% testable locally without waiting for merchant registration approvals; ready for MoMo, VietQR, and PayOS expansion.

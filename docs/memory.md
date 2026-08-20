@@ -66,3 +66,19 @@
 
 ### 7.3. Các vấn đề chưa giải quyết (Unresolved Issues)
 *   *Xử lý lỗi timeout webhook:* Nếu server chính bị sập hoặc quá tải đúng lúc ZaloPay/MoMo gọi webhook, đơn hàng sẽ bị treo ở trạng thái `PENDING`. Cần lập trình API đối soát chạy định kỳ mỗi 1 tiếng để tự động quét tìm và hoàn thành các đơn hàng này.
+
+
+---
+
+# System Memory & Constraints - Capcat Coin Hub (`apps/coin-hub`)
+
+## 1. Microservice Ports & Networking
+*   **Coin Hub Port**: Runs on `http://localhost:3005` (API & Swagger at `/docs`).
+*   **Core Platforms Port**: Runs on `http://localhost:3000`.
+*   **Affiliate Web Port**: Runs on `http://localhost:4321`.
+*   **Admin Web Port**: Runs on `http://localhost:4325`.
+
+## 2. Accepted Assumptions & Constraints
+*   **Tenant Scoping**: All database tables enforce a `tenant_id` column, defaulting to `'capcat'` during Phase 1.
+*   **HKD Tax Compliance**: Physical currency (VND) collected across all tenants aggregates to a single merchant bank account for daily consolidated e-Invoice generation.
+*   **Local Test Ergonomics**: Developers can toggle `MOCK_GATEWAY_AUTO_SUCCESS=true` in `.env` to complete payment simulations without real bank credentials.

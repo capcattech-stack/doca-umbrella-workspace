@@ -172,3 +172,33 @@ Các trang quản lý billing được đặt bên trong bảng điều khiển 
     *   Khu vực Upload file CSV đối soát từ MoMo/ZaloPay Merchant để chạy thuật toán so khớp chéo tự động.
 
 
+
+
+---
+
+# Screen Inventory & UI States - Capcat Coin Hub
+
+## 1. User-Facing Screens (Capcat Web & Mobile)
+
+*   **View:** `/profile` (Profile Wallet Box)
+    *   **State Authenticated:** Displays current coin balance with Phosphor icon `ph-light ph-coins` (e.g. "150 Cá").
+    *   **Action Button (Primary):** "Nạp thêm Cá" (Matcha Green) -> navigates to `/profile/wallet`.
+    *   **Action Button (Secondary):** "Lịch sử giao dịch" -> opens transaction drawer.
+
+*   **View:** `/profile/wallet` (Coin Package Selector & Checkout Modal)
+    *   **Package Grid:** Responsive grid (3 columns Desktop, 2 columns Mobile) displaying package cards with bonus tags.
+    *   **Desktop Checkout Modal:** Cozy modal overlay displaying dynamic ZaloPay / Mock QR code with polling/socket auto-completion.
+    *   **Mobile Checkout:** Triggers direct app-to-app ZaloPay deep link.
+
+*   **View:** `/profile/history` (Transaction History Drawer)
+    *   **List Items:** Infinite scroll list showing `+` (Matcha green) for recharges and `-` (Charcoal) for spent coins, with timestamps and transaction descriptions.
+
+## 2. Admin Management Screens (`doca-admin-web`)
+
+*   **Route:** `/admin/payment/orders` (Transaction & Order Audit)
+    *   **Filters:** Date range, Gateway (`ZALOPAY` | `MOCK`), Status (`PENDING`, `SUCCESS`, `FAILED`), Email/Phone search.
+    *   **Action:** "Tra cứu ZaloPay" button to query gateway status API for pending/stuck transactions.
+    *   **Action:** "Bù xu thủ công" button with required audit reason modal.
+
+*   **Route:** `/admin/payment/packages` (Package & Promo Management)
+    *   **Actions:** Create/Edit package, set VNĐ pricing, coin amounts, bonus percentage, and toggle active status.

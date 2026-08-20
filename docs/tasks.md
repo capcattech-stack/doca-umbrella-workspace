@@ -375,3 +375,90 @@ This list details the work steps to implement the live synchronized FM player, c
 *   **Verification Method:** Đảm bảo toàn bộ hệ thống hoạt động ổn định và build thành công không lỗi.
 
 
+
+
+---
+
+# Implementation Task List - Capcat Coin Hub (`apps/coin-hub`)
+
+## Feature 015: Capcat Coin Hub
+
+### TSK-COINHUB-001: Service Scaffold & NestJS Environment Bootstrap
+*   **ID:** `TSK-COINHUB-001`
+*   **Owner:** `alan-tech-lead`
+*   **Status:** `Pending`
+*   **Parallel-Safe:** `No`
+*   **Write Scope:** `apps/coin-hub/package.json`, `apps/coin-hub/tsconfig.json`, `apps/coin-hub/src/main.ts`
+*   **Dependencies:** None
+*   **Description:** Initialize NestJS v11 microservice with TypeORM, BullMQ, ioredis, class-validator, and Swagger UI at `/docs`.
+*   **Verification Method:** Run `npm run build` and ensure clean compilation.
+
+### TSK-COINHUB-002: PostgreSQL Entities & Database Migration
+*   **ID:** `TSK-COINHUB-002`
+*   **Owner:** `david-systems-architect`
+*   **Status:** `Pending`
+*   **Parallel-Safe:** `No`
+*   **Write Scope:** `apps/coin-hub/src/entities/*.ts`
+*   **Dependencies:** `TSK-COINHUB-001`
+*   **Description:** Implement entities: `User`, `Wallet`, `CoinPackage`, `PaymentOrder`, `CoinTransaction`.
+*   **Verification Method:** Connect to PostgreSQL and verify schema tables creation.
+
+### TSK-COINHUB-003: Gateway Adapter Engine (Mock & ZaloPay)
+*   **ID:** `TSK-COINHUB-003`
+*   **Owner:** `marcus-ai-orchestrator`
+*   **Status:** `Pending`
+*   **Parallel-Safe:** `Yes [P]`
+*   **Write Scope:** `apps/coin-hub/src/modules/gateways/*`
+*   **Dependencies:** `TSK-COINHUB-001`
+*   **Description:** Implement `PaymentGatewayInterface`, `MockGatewayAdapter`, and `ZaloPayGatewayAdapter` with HMAC SHA-256 signature verification and QR generator.
+*   **Verification Method:** Run unit tests in `zalopay.gateway.spec.ts` and `mock.gateway.spec.ts`.
+
+### TSK-COINHUB-004: Wallet & Ledger Service with Row Locking
+*   **ID:** `TSK-COINHUB-004`
+*   **Owner:** `david-systems-architect`
+*   **Status:** `Pending`
+*   **Parallel-Safe:** `No`
+*   **Write Scope:** `apps/coin-hub/src/modules/wallet/*`
+*   **Dependencies:** `TSK-COINHUB-002`
+*   **Description:** Implement balance querying, spend transactions with `SELECT FOR UPDATE`, and auto-merging guest wallets.
+*   **Verification Method:** Run concurrency test asserting zero negative balances.
+
+### TSK-COINHUB-005: Order Management & Webhook Ingestion
+*   **ID:** `TSK-COINHUB-005`
+*   **Owner:** `sophia-product-manager`
+*   **Status:** `Pending`
+*   **Parallel-Safe:** `No`
+*   **Write Scope:** `apps/coin-hub/src/modules/order/*`, `apps/coin-hub/src/modules/webhook/*`
+*   **Dependencies:** `TSK-COINHUB-003`, `TSK-COINHUB-004`
+*   **Description:** Expose order creation APIs, generate payment URLs/QRs, and ingest webhooks with HMAC validation.
+*   **Verification Method:** Test order creation endpoint and mock callback.
+
+### TSK-COINHUB-006: BullMQ Queue Worker for Ledger Processing
+*   **ID:** `TSK-COINHUB-006`
+*   **Owner:** `alan-tech-lead`
+*   **Status:** `Pending`
+*   **Parallel-Safe:** `No`
+*   **Write Scope:** `apps/coin-hub/src/modules/queue/*`
+*   **Dependencies:** `TSK-COINHUB-005`
+*   **Description:** Implement BullMQ processor to consume webhook jobs, execute atomic DB transactions, update order status to `SUCCESS`, and credit wallet balance.
+*   **Verification Method:** Trigger webhook and verify queue job completion and wallet balance increase.
+
+### TSK-COINHUB-007: Admin Reconciliation & Package Management APIs
+*   **ID:** `TSK-COINHUB-007`
+*   **Owner:** `sophia-product-manager`
+*   **Status:** `Pending`
+*   **Parallel-Safe:** `Yes [P]`
+*   **Write Scope:** `apps/coin-hub/src/modules/admin/*`
+*   **Dependencies:** `TSK-COINHUB-004`, `TSK-COINHUB-005`
+*   **Description:** Provide endpoints for order reconciliation, package CRUD, transaction listing, and manual coin credit.
+*   **Verification Method:** Call admin endpoints via Swagger and verify responses.
+
+### TSK-COINHUB-008: End-to-End Integration & Verification Suite
+*   **ID:** `TSK-COINHUB-008`
+*   **Owner:** `ada-qa-agent`
+*   **Status:** `Pending`
+*   **Parallel-Safe:** `No`
+*   **Write Scope:** `apps/coin-hub/test/*`
+*   **Dependencies:** `TSK-COINHUB-001` through `TSK-COINHUB-007`
+*   **Description:** Implement comprehensive E2E integration test simulating user recharge -> webhook -> ledger credit -> spend -> balance audit.
+*   **Verification Method:** Execute `npm run test:e2e` and achieve 100% pass rate.

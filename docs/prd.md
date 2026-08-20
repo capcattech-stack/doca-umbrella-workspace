@@ -205,3 +205,46 @@ Xây dựng hệ thống quản lý ví xu nội bộ (Loyalty Coins) và cổng
 *   `AC-018`: File đối soát của kế toán phát hiện lệch giao dịch sẽ tự động gửi thông báo đỏ cảnh báo qua Telegram nhóm vận hành.
 
 
+
+
+---
+
+# Feature 015: Capcat Coin Hub (Virtual Economy & Ledger Platform)
+
+## 1. Product Goal
+*   **Capcat Coin Hub (`apps/coin-hub`)**: Establish a dedicated, high-performance, and multi-tenant-ready Virtual Economy, Payment Inflow, and Ledger microservice.
+*   **Virtual Currency (ICaaS)**: Provide an internal utility currency system (e.g. "Cá" / `FISH` for Capcat, "Sao" / `STAR` for English App) supporting dynamic package purchases, streak/quiz reward grants, feature unlock spending, and cross-tenant spend routing.
+*   **Payment Gateway Inflow**: Seamlessly integrate **ZaloPay** (App-to-App deep link for mobile, dynamic QR for web) and an internal **Mock Gateway** for 100% offline local testing.
+*   **Financial Integrity & Ledger Bookkeeping**: Prevent double-spending and race conditions through strict row-level locking (`SELECT FOR UPDATE`), BullMQ asynchronous queue-decoupled webhook callbacks, and immutable transaction audit trails.
+
+## 2. Problem Statement
+*   **Split-brain Ledger Risk**: Embedding coin logic directly into individual web/app frontends or siloed databases leads to fragmented balances, double-spend vulnerabilities, and lack of cross-app loyalty synergy.
+*   **Slow Webhook Timeouts**: Synchronous database transactions during payment gateway callbacks risk HTTP timeouts under high load.
+*   **Extensibility Gap**: Future applications (English learning, comic reader) would require rewriting the payment/wallet engine from scratch if not built with multi-tenant abstractions from day one.
+
+## 3. User Stories
+### 3.1. End User (Sen / Pet Owner)
+*   **As a User (Sen):** I want to purchase Coin packs (e.g. 10,000 VND = 100 Cá) via ZaloPay quickly on both Desktop (scanning QR) and Mobile (one-tap App-to-App redirect).
+*   **As a User (Sen):** I want my earned promotional coins (from Quiz/Affiliate) to automatically link to my account as soon as I sign up with my email/phone.
+*   **As a User (Sen):** I want to view my real-time coin balance and complete transaction history on my profile page.
+*   **As a User (Sen):** I want to spend coins seamlessly to unlock premium pet care advice, book clinic appointments, or access Doca FM exclusive content.
+
+### 3.2. Platform Administrator & Accountant
+*   **As an Admin:** I want to manage coin packages, discount percentages, and promotional bonus tiers dynamically from the Admin Portal without code redeployment.
+*   **As an Accountant:** I want an audit dashboard to reconcile discrepancies between ZaloPay transactions and internal database orders, with the ability to query ZaloPay API or manually credit coins with audit logs.
+*   **As a Business Owner (HKD):** I want a daily aggregate revenue report ready for automated e-Invoice generation (Misa MeInvoice / Viettel SInvoice).
+
+## 4. Functional Requirements
+*   **FR-COIN-001 (Universal Identity)**: Support user lookup and auto-creation via Email and/or Phone number.
+*   **FR-COIN-002 (Package Management)**: Dynamic CRUD for coin packages with pricing, coin amount, and promo percentage.
+*   **FR-COIN-003 (Payment Order Creation)**: Generate payment orders returning dynamic QR code, payment URL, and deep links.
+*   **FR-COIN-004 (Queue Webhook Processing)**: Verify gateway HMAC signature, enqueue callback payload into BullMQ, and immediately return HTTP 200 (<50ms).
+*   **FR-COIN-005 (Immutable Ledger)**: Atomically update wallet balance with `balance_before`, `amount`, and `balance_after` recorded in `coin_transactions`.
+*   **FR-COIN-006 (Spend & Deduction)**: Validate balance sufficiency, apply row locks, and record spend transactions.
+*   **FR-COIN-007 (Admin Reconciliation)**: Support manual status reconciliation, gateway query fallback, and audit logging.
+
+## 5. Non-Functional Requirements
+*   **NFR-COIN-001 (Concurrency Safety)**: Zero double-spending risk using `SELECT FOR UPDATE` row locks in PostgreSQL transactions.
+*   **NFR-COIN-002 (Idempotency)**: All webhook notifications and order creation requests enforce a 24-hour Idempotency key stored in Redis.
+*   **NFR-COIN-003 (Precision)**: All financial calculations use `DECIMAL(15,2)` in PostgreSQL (no floating-point rounding errors).
+*   **NFR-COIN-004 (Decoupling)**: Standalone microservice running on port `:3005` with isolated PostgreSQL and Redis connections.
