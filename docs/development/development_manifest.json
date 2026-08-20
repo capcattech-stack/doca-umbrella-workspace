@@ -1,0 +1,24 @@
+{
+  "topology": "epic_first",
+  "version": "v31",
+  "epics": [
+    {
+      "id": "E-001-doca-coin-hub",
+      "title": "Doca Coin Hub - Virtual Economy & Ledger Service",
+      "status": "In_Progress",
+      "owner": "alan-tech-lead",
+      "modules": [
+        "M-001-001-coin-hub-backend"
+      ],
+      "features": [
+        "F-001-001-virtual-economy-ledger"
+      ],
+      "pages": [
+        "P-001-001-admin-billing-portal"
+      ],
+      "tasks": [
+        "T-001-001-001-backend-scaffold-and-ledger"
+      ]
+    }
+  ]
+}
