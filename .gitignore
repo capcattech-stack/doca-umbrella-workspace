@@ -2,4 +2,9 @@
 .DS_Store
   
 # Sub-repositories inside apps/  
-apps/ 
+apps/
+
+# Safety Precaution: Phong ngua ro ri secrets/keys cuc bo (Luu y: khong dung .env chung o thu muc goc)
+.env
+.env.*
+!.env.example
