@@ -228,214 +228,73 @@ stateDiagram-v2
 
 ---
 
-## 9. Sơ đồ cấu trúc C4 - Phân hệ Ví Xu & Thanh toán (C4 Component Diagram)
+## 9. Sơ đồ kiến trúc C4 - Doca Coin Hub (`apps/coin-hub`)
 
-Quy hoạch hệ thống Ví Xu kết nối các cổng thanh toán và công cụ kế toán:
-
-```mermaid
-graph TD
-    User[Người dùng / Khách mua xu]
-    Admin[Quản trị viên / Kế toán]
-    
-    subgraph Client Application (Astro Frontend)
-        UI_Profile[Trang Hồ sơ /profile]
-        UI_Wallet[Trang Nạp xu /profile/wallet]
-        UI_AdminBilling[Trang Admin Billing /admin/billing/*]
-    end
-
-    subgraph Backend API (Astro API Routes)
-        API_Recharge[/api/billing/recharge]
-        API_Webhook[/api/billing/webhook/*]
-        API_Report[/api/billing/report]
-        Core_Wallet[Core Wallet Service]
-        Order_Manager[Order Billing Service]
-        Provider_Adapter[Payment Providers Adapter]
-    end
-
-    subgraph Infrastructure
-        DB[(PostgreSQL Database)]
-        Redis[(Redis Idempotency Store)]
-    end
-
-    subgraph External Gateways
-        ZP[Cổng ZaloPay Open API]
-        Momo[Cổng MoMo Business API]
-        Invoice[API Hóa đơn Misa MeInvoice]
-    end
-
-    User -->|Xem số dư & nạp xu| UI_Profile
-    User -->|Chọn gói & thanh toán| UI_Wallet
-    UI_Wallet -->|Gọi API nạp| API_Recharge
-    
-    API_Recharge --> Order_Manager
-    Order_Manager --> Provider_Adapter
-    Provider_Adapter -->|Tạo yêu cầu thanh toán| ZP
-    Provider_Adapter -->|Tạo yêu cầu thanh toán| Momo
-
-    ZP -->|IPN Webhook| API_Webhook
-    Momo -->|IPN Webhook| API_Webhook
-    
-    API_Webhook --> Order_Manager
-    Order_Manager -->|Đối soát & Khóa ví| Redis
-    Order_Manager -->|Cập nhật & ghi nhận log| Core_Wallet
-    Core_Wallet -->|Database Transaction| DB
-
-    Admin -->|Đối soát & xem báo cáo| UI_AdminBilling
-    UI_AdminBilling -->|Yêu cầu báo cáo| API_Report
-    API_Report --> DB
-    
-    %% Tác vụ tự động
-    Cron[Cron Job Serverless] -->|Gom doanh thu & gọi xuất| Invoice
-    API_Report -->|Đẩy hóa đơn tổng| Invoice
-```
-
----
-
-## 10. Sơ đồ thực thể cơ sở dữ liệu (ERD - Billing System)
-
-```mermaid
-erDiagram
-    USERS {
-        uuid id PK
-        string email
-        string name
-    }
-
-    WALLETS {
-        uuid id PK
-        uuid user_id FK
-        bigint balance "Số dư xu hiện có"
-        datetime updated_at
-    }
-
-    COIN_TRANSACTIONS {
-        uuid id PK
-        uuid wallet_id FK
-        uuid order_id FK "Null nếu tiêu dùng nội bộ"
-        bigint amount "Số xu biến động (Ví dụ: +100 hoặc -50)"
-        string type "RECHARGE, CONSUME, REFUND, ADJUST"
-        string description
-        datetime created_at
-    }
-
-    ORDERS {
-        uuid id PK
-        uuid user_id FK
-        string provider "MOMO, ZALOPAY, PAYOS"
-        string provider_tx_id "Mã giao dịch từ cổng thanh toán"
-        bigint amount_vnd "Số tiền VNĐ thực tế"
-        bigint coin_amount "Số xu quy đổi"
-        string status "PENDING, SUCCESS, FAILED"
-        datetime created_at
-    }
-
-    USERS ||--|| WALLETS : "sở hữu"
-    WALLETS ||--o{ COIN_TRANSACTIONS : "có lịch sử"
-    USERS ||--o{ ORDERS : "tạo hóa đơn"
-    ORDERS ||--|| COIN_TRANSACTIONS : "ghi nhận khi thành công"
-```
-
----
-
-## 11. Sơ đồ trạng thái Giao dịch Thanh toán (Payment Transaction State Diagram)
-
-Mô tả vòng đời của đơn nạp tiền từ lúc khởi tạo đến khi xử lý cộng xu:
-
-```mermaid
-stateDiagram-v2
-    [*] --> Pending : User tạo đơn nạp xu (Đơn hàng ở trạng thái PENDING)
-    
-    state Pending {
-        [*] --> AwaitingPayment : Đang chờ khách hàng quét mã QR thanh toán
-        AwaitingPayment --> WebhookReceived : Webhook từ ZaloPay/MoMo gửi thông tin thành công
-        AwaitingPayment --> Expired : Quá 15 phút không thanh toán (Hết hạn mã QR)
-    }
-
-    Expired --> Failed : Đơn hàng thất bại (status: FAILED)
-    Failed --> [*]
-
-    state Processing {
-        WebhookReceived --> IdempotencyCheck : Kiểm tra trùng lặp trên Redis (txnId)
-        IdempotencyCheck --> DuplicateIgnored : Đơn đã xử lý -> Phản hồi 200 OK ngay cho Cổng
-        IdempotencyCheck --> DB_Transaction : Đơn chưa xử lý -> Bắt đầu DB Transaction
-        
-        state DB_Transaction {
-            [*] --> LockWallet : Chạy SELECT wallets FOR UPDATE
-            LockWallet --> UpdateOrderStatus : Chuyển status đơn sang SUCCESS
-            UpdateOrderStatus --> WriteCoinTx : Thêm dòng ghi nhận +Xu vào coin_transactions
-            WriteCoinTx --> UpdateBalance : wallets.balance = balance + amount
-            UpdateBalance --> [*]
-        }
-    }
-
-    DuplicateIgnored --> Success : Hoàn tất đơn hàng thành công (status: SUCCESS)
-    DB_Transaction --> Success : Commit Transaction thành công
-    DB_Transaction --> Rollback : Lỗi khi ghi DB -> Rollback dữ liệu
-    
-    Rollback --> Pending : Giữ đơn ở trạng thái PENDING để ZaloPay/MoMo gửi lại webhook sau
-    Success --> [*]
-```
-
-
-
----
-
-# System Architecture Diagrams - Doca Coin Hub (`apps/coin-hub`)
-
-## 1. C4 Container Diagram
+Hệ thống Ví Xu & Sổ cái Vi mô độc lập, xử lý luồng nạp ZaloPay, thanh toán nội bộ và quản trị đối soát:
 
 ```mermaid
 graph TD
-    subgraph Clients ["Client Layer"]
-        Web[Capcat Web / Doca FM - Astro :4321]
-        Mobile[Capcat Mobile App - Flutter]
-        Admin[Capcat Admin Portal - Astro :4325]
+    subgraph Client_Layer ["Client Layer"]
+        CapcatWeb["Doca Web / Doca FM (Astro :4321)"]
+        CapcatAdmin["Doca Admin Portal (Astro :4325)"]
+        CapcatMobile["Doca Mobile App (Flutter)"]
+    end
+
+    subgraph External_Gateways ["External Gateways"]
+        ZaloPay["ZaloPay API & Webhook Server"]
+        MockGateway["Internal Mock Gateway Simulator"]
     end
 
     subgraph CoinHub ["Doca Coin Hub Microservice (:3005)"]
-        API[NestJS REST API Controllers]
-        OrderModule[Order & Gateway Module]
-        WalletModule[Wallet & Ledger Module]
-        QueueProducer[Webhook Ingestion Producer]
-        QueueWorker[BullMQ Ledger Processor]
+        Controllers["NestJS REST API Controllers"]
+        OrderService["Order & Gateway Module"]
+        WalletService["Wallet & Ledger Module"]
+        WebhookController["Webhook Ingestion Producer"]
+        LedgerWorker["BullMQ Ledger Processor"]
     end
 
-    subgraph Storage ["Storage Layer"]
-        Postgres[("PostgreSQL DB (COIN_HUB_DB)")]
-        Redis[("Redis (BullMQ & Idempotency)")]
+    subgraph Storage_Layer ["Storage Layer"]
+        PostgresDB[("PostgreSQL DB (COIN_HUB_DB)")]
+        RedisStore[("Redis (BullMQ & Idempotency)")]
     end
 
-    subgraph Gateways ["External Gateways"]
-        ZaloPay[ZaloPay API & Webhook Server]
-        MockGW[Internal Mock Gateway Simulator]
-    end
+    %% Client Interactions
+    CapcatWeb -->|Create Order / Spend| Controllers
+    CapcatAdmin -->|Reconcile & Packages| Controllers
+    CapcatMobile -->|Create Order / Spend| Controllers
 
-    Web -->|Create Order / Spend| API
-    Mobile -->|Create Order / Spend| API
-    Admin -->|Reconcile & Packages| API
+    %% Controller Routing
+    Controllers --> OrderService
+    Controllers --> WalletService
 
-    API --> OrderModule
-    API --> WalletModule
-    OrderModule --> ZaloPay
-    OrderModule --> MockGW
+    %% Gateway Integrations
+    OrderService -->|Initiate Payment| ZaloPay
+    OrderService -->|Mock Sandbox| MockGateway
 
-    ZaloPay -->|Webhook| API
-    MockGW -->|Webhook| API
-    API --> QueueProducer
-    QueueProducer --> Redis
-    Redis --> QueueWorker
-    QueueWorker --> Postgres
-    WalletModule --> Postgres
+    %% Webhook & Asynchronous Queue
+    ZaloPay -->|Instant Callback| WebhookController
+    MockGateway -->|Mock Callback| WebhookController
+    WebhookController -->|Enqueue Job <50ms| RedisStore
+    RedisStore -->|Consume Event| LedgerWorker
+
+    %% Database Ledger Operations
+    LedgerWorker -->|SELECT FOR UPDATE & Credit| PostgresDB
+    WalletService -->|SELECT FOR UPDATE & Spend| PostgresDB
+    OrderService -->|CRUD Orders & Packages| PostgresDB
 ```
 
-## 2. Relational Database Schema (PostgreSQL ERD)
+---
+
+## 10. Sơ đồ thực thể cơ sở dữ liệu quan hệ (PostgreSQL ERD - Doca Coin Hub)
+
+Mô hình Sổ cái kế toán kép bất biến, bảo vệ toàn vẹn tài chính:
 
 ```mermaid
 erDiagram
-    users ||--o{ wallets : "owns"
-    users ||--o{ payment_orders : "places"
-    wallets ||--o{ coin_transactions : "records"
-    coin_packages ||--o{ payment_orders : "contains"
+    users ||--o{ wallets : owns
+    users ||--o{ payment_orders : places
+    wallets ||--o{ coin_transactions : records
+    coin_packages ||--o{ payment_orders : contains
 
     users {
         uuid id PK
@@ -449,19 +308,19 @@ erDiagram
     wallets {
         uuid id PK
         uuid user_id FK
-        string tenant_id "capcat | english_app"
-        string currency_code "FISH | STAR"
-        decimal balance "15,2"
+        string tenant_id "default 'doca'"
+        string currency_code "default 'FISH'"
+        decimal balance "15, 2"
         timestamp created_at
         timestamp updated_at
     }
 
     coin_packages {
         uuid id PK
-        string tenant_id
+        string tenant_id "default 'doca'"
         string name
-        decimal amount_vnd
-        decimal coin_amount
+        decimal amount_vnd "12, 2"
+        decimal coin_amount "12, 2"
         int bonus_percentage
         boolean is_active
         int sort_order
@@ -471,28 +330,42 @@ erDiagram
         uuid id PK
         uuid user_id FK
         uuid package_id FK
-        string tenant_id
-        decimal amount_vnd
-        decimal coin_amount
-        string gateway "ZALOPAY | MOCK"
+        string tenant_id "default 'doca'"
+        decimal amount_vnd "12, 2"
+        decimal coin_amount "12, 2"
+        string gateway "ZALOPAY | MOCK | MOMO"
         string status "PENDING | SUCCESS | FAILED | EXPIRED"
         string gateway_trans_id
         string idempotency_key UK
-        text order_url
-        text qr_code
         timestamp expires_at
+        timestamp created_at
     }
 
     coin_transactions {
         uuid id PK
         uuid wallet_id FK
-        string tenant_id
-        decimal amount
-        decimal balance_before
-        decimal balance_after
+        string tenant_id "default 'doca'"
+        decimal amount "15, 2"
+        decimal balance_before "15, 2"
+        decimal balance_after "15, 2"
         string type "RECHARGE | SPEND | BONUS | MANUAL_CREDIT"
-        string source_ref
+        string source_ref "Order ID or Service Ref"
         jsonb metadata
         timestamp created_at
     }
+```
+
+---
+
+## 11. Sơ đồ trạng thái Giao dịch Nạp Xu (Payment Order Lifecycle)
+
+```mermaid
+stateDiagram-v2
+    [*] --> PENDING: User chọn gói & tạo đơn
+    PENDING --> SUCCESS: Webhook hợp lệ & BullMQ cộng Cá
+    PENDING --> FAILED: Người dùng hủy / Lỗi thanh toán
+    PENDING --> EXPIRED: Quá hạn thanh toán (>15 phút)
+    SUCCESS --> [*]
+    FAILED --> [*]
+    EXPIRED --> [*]
 ```

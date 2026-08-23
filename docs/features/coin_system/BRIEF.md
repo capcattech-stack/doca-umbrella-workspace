@@ -1,3 +1,9 @@
+> [!CAUTION]
+> **TÀI LIỆU ĐÃ ĐƯỢC NÂNG CẤP & THAY THẾ (SUPERSEDED)**
+> Tài liệu phác thảo cũ này đã được nâng cấp thành **Doca Coin Hub**. Vui lòng xem tài liệu chuẩn tại [Document/CoinHub/PRODUCT_BRIEF.md](../../../Document/CoinHub/PRODUCT_BRIEF.md) và [docs/prd.md](../../prd.md).
+
+---
+
 # BRIEF: HỆ THỐNG QUẢN LÝ VÍ XU & NẠP TIỀN QUA MOMO
 
 Tài liệu này ghi lại tóm tắt yêu cầu nghiệp vụ (Brief), kiến trúc hệ thống và quy hoạch phát triển cho tính năng **Ví Xu và Nạp Xu tự động** tích hợp cổng thanh toán MoMo (hoặc PayOS/VietQR) dành cho dự án CAPCAT/Doca Pet.

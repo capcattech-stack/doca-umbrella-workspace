@@ -1,3 +1,10 @@
+> [!CAUTION]
+> **TÀI LIỆU ĐÃ ĐƯỢC NÂNG CẤP & THAY THẾ (SUPERSEDED)**
+> Tài liệu `CoinSystem` này là bản phác thảo ý tưởng ban đầu và **HIỆN ĐÃ ĐƯỢC NÂNG CẤP TOÀN DIỆN THÀNH `Document/CoinHub/PRODUCT_BRIEF.md`**.
+> Để tránh xung đột và nhầm lẫn kiến trúc, toàn bộ team và các Agent vui lòng đọc và sử dụng tài liệu chuẩn chính thức tại: [Document/CoinHub/PRODUCT_BRIEF.md](../CoinHub/PRODUCT_BRIEF.md).
+
+---
+
 # PRODUCT BRIEF: HỆ THỐNG VÍ CÁ (XU) & THANH TOÁN TỰ ĐỘNG (WEB & APP)
 
 Tài liệu đặc tả sản phẩm này quy hoạch **Hệ thống Quản lý Ví Cá (Xu) và Nạp Cá tự động** dùng chung (Core Module) cho toàn bộ hệ sinh thái của Capcat / Doca Pet bao gồm nền tảng Web (`doca.capcat.vn`), các ứng dụng di động (Mobile App iOS/Android) và Zalo Mini App.
