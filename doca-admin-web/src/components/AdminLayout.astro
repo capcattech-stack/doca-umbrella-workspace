@@ -35,20 +35,7 @@ const geminiApiKey = import.meta.env.PUBLIC_GEMINI_API_KEY || '';
 		<!-- SCRIPT CHẶN LOCK SỚM -->
 		<script is:inline>
 			(function() {
-				const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-				let sessionStr = localStorage.getItem('doca_admin_session');
-				
-				// Tự động cấp quyền Dev Sandbox trên localhost nếu chưa có session SSO
-				if (!sessionStr && isLocal) {
-					const devSession = {
-						email: 'admin-local@doca.pet',
-						access_token: 'dev_mock_sandbox_token',
-						expires_at: Math.floor(Date.now() / 1000) + 86400 * 365
-					};
-					localStorage.setItem('doca_admin_session', JSON.stringify(devSession));
-					sessionStr = JSON.stringify(devSession);
-				}
-
+				const sessionStr = localStorage.getItem('doca_admin_session');
 				if (!sessionStr) {
 					window.location.replace('/login');
 					return;
