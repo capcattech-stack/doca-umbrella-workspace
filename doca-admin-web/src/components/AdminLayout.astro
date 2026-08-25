@@ -113,6 +113,33 @@ const geminiApiKey = import.meta.env.PUBLIC_GEMINI_API_KEY || '';
 						</div>
 					</div>
 
+					<!-- Cấp 1: Nhóm Tài Chính & Ví Cá (Doca Coin Hub) -->
+					<div class="notion-menu-group">
+						<div class="notion-group-title active-group">
+							<i class="ph-light ph-caret-down notion-toggle-icon"></i>
+							<i class="ph-light ph-wallet"></i>
+							<span>Tài Chính & Ví Cá</span>
+						</div>
+						<div class="notion-group-items">
+							<a href="/billing/orders" class="notion-nav-item" id="nav-billing-orders">
+								<i class="ph-light ph-receipt"></i>
+								<span>Đơn Nạp & Đối Soát</span>
+							</a>
+							<a href="/billing/packages" class="notion-nav-item" id="nav-billing-packages">
+								<i class="ph-light ph-package"></i>
+								<span>Bảng Giá & Gói Cá</span>
+							</a>
+							<a href="/billing/ledger" class="notion-nav-item" id="nav-billing-ledger">
+								<i class="ph-light ph-book-open-text"></i>
+								<span>Sổ Cái Biến Động</span>
+							</a>
+							<a href="/billing/accounting" class="notion-nav-item" id="nav-billing-accounting">
+								<i class="ph-light ph-chart-line-up"></i>
+								<span>Kế Toán & Báo Cáo Thuế</span>
+							</a>
+						</div>
+					</div>
+
 					<!-- Cấp 1: Nhóm Blog (Dự phòng tương lai) -->
 					<div class="notion-menu-group">
 						<div class="notion-group-title">
@@ -231,6 +258,14 @@ const geminiApiKey = import.meta.env.PUBLIC_GEMINI_API_KEY || '';
 			document.getElementById('nav-leads')?.classList.add('active');
 		} else if (path.includes('/kiosks')) {
 			document.getElementById('nav-kiosks')?.classList.add('active');
+		} else if (path === '/billing' || path.includes('/billing/orders')) {
+			document.getElementById('nav-billing-orders')?.classList.add('active');
+		} else if (path.includes('/billing/packages')) {
+			document.getElementById('nav-billing-packages')?.classList.add('active');
+		} else if (path.includes('/billing/ledger')) {
+			document.getElementById('nav-billing-ledger')?.classList.add('active');
+		} else if (path.includes('/billing/accounting')) {
+			document.getElementById('nav-billing-accounting')?.classList.add('active');
 		}
 
 		// Tải trạng thái Sidebar ẩn/hiện từ LocalStorage

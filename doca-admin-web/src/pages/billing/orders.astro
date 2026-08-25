@@ -1,0 +1,264 @@
+---
+import AdminLayout from '../../components/AdminLayout.astro';
+---
+
+<AdminLayout title="Tài Chính & Ví Cá | Doca Coin Hub">
+  <div class="billing-page-container">
+    <!-- Header -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 16px;">
+      <div>
+        <h2 style="font-size: 18px; font-weight: 700; color: var(--notion-text-main); margin: 0 0 4px 0; display: flex; align-items: center; gap: 8px;">
+          <i class="ph-light ph-receipt" style="color: var(--doca-forest);"></i> Đơn Nạp & Đối Soát Cổng
+        </h2>
+        <p style="font-size: 13px; color: var(--notion-text-light); margin: 0;">
+          Theo dõi toàn bộ đơn nạp tiền từ ZaloPay, MoMo, Mock Sandbox và đối soát trạng thái đơn treo
+        </p>
+      </div>
+      <div style="display: flex; gap: 8px;">
+        <button id="btn-refresh-orders" class="notion-btn">
+          <i class="ph-light ph-arrows-clockwise"></i> Làm mới dữ liệu
+        </button>
+      </div>
+    </div>
+
+    <!-- Stats Bar -->
+    <div class="stats-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 24px;">
+      <div class="stat-card" style="background: #ffffff; border: 1px solid var(--notion-border); border-radius: var(--notion-radius); padding: 16px;">
+        <div style="font-size: 12px; color: var(--notion-text-light); margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
+          <i class="ph-light ph-currency-circle-dollar" style="font-size: 16px; color: var(--doca-forest);"></i> TỔNG DOANH THU NẠP
+        </div>
+        <div id="stat-total-revenue" style="font-size: 20px; font-weight: 700; color: var(--notion-text-main);">-- đ</div>
+      </div>
+
+      <div class="stat-card" style="background: #ffffff; border: 1px solid var(--notion-border); border-radius: var(--notion-radius); padding: 16px;">
+        <div style="font-size: 12px; color: var(--notion-text-light); margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
+          <i class="ph-light ph-fish-simple" style="font-size: 16px; color: #ff9900;"></i> CÁ ĐANG LƯU HÀNH
+        </div>
+        <div id="stat-circulating-coins" style="font-size: 20px; font-weight: 700; color: var(--notion-text-main);">-- Cá</div>
+      </div>
+
+      <div class="stat-card" style="background: #ffffff; border: 1px solid var(--notion-border); border-radius: var(--notion-radius); padding: 16px;">
+        <div style="font-size: 12px; color: var(--notion-text-light); margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
+          <i class="ph-light ph-check-circle" style="font-size: 16px; color: var(--doca-forest);"></i> ĐƠN THÀNH CÔNG
+        </div>
+        <div id="stat-success-count" style="font-size: 20px; font-weight: 700; color: var(--doca-forest);">--</div>
+      </div>
+
+      <div class="stat-card" style="background: #ffffff; border: 1px solid var(--notion-border); border-radius: var(--notion-radius); padding: 16px;">
+        <div style="font-size: 12px; color: var(--notion-text-light); margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
+          <i class="ph-light ph-hourglass" style="font-size: 16px; color: #e67e22;"></i> ĐƠN CHỜ (PENDING)
+        </div>
+        <div id="stat-pending-count" style="font-size: 20px; font-weight: 700; color: #e67e22;">--</div>
+      </div>
+    </div>
+
+    <!-- Filter Bar -->
+    <div style="display: flex; gap: 12px; margin-bottom: 16px; align-items: center; flex-wrap: wrap;">
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <label style="font-size: 12px; font-weight: 600; color: var(--notion-text-light);">Trạng thái:</label>
+        <select id="filter-order-status" class="notion-input" style="width: 150px; font-size: 12px; padding: 4px 8px;">
+          <option value="">Tất cả trạng thái</option>
+          <option value="SUCCESS">SUCCESS (Thành công)</option>
+          <option value="PENDING">PENDING (Đang chờ)</option>
+          <option value="FAILED">FAILED (Thất bại)</option>
+          <option value="EXPIRED">EXPIRED (Hết hạn)</option>
+        </select>
+      </div>
+
+      <div style="margin-left: auto; display: flex; align-items: center; gap: 8px;">
+        <input type="text" id="input-search-order" class="notion-input" placeholder="Tìm theo email, sđt, mã đơn..." style="width: 240px; font-size: 12px;" />
+      </div>
+    </div>
+
+    <!-- Orders Table -->
+    <div class="notion-table-wrapper">
+      <table class="notion-table">
+        <thead>
+          <tr>
+            <th>Mã Đơn</th>
+            <th>Khách Hàng</th>
+            <th>Gói Nạp</th>
+            <th>Giá Tiền</th>
+            <th>Cá Nhận</th>
+            <th>Cổng TT</th>
+            <th>Trạng Thái</th>
+            <th>Thời Gian</th>
+            <th style="text-align: right;">Hành Động</th>
+          </tr>
+        </thead>
+        <tbody id="orders-table-body">
+          <tr>
+            <td colspan="9" style="text-align: center; color: var(--notion-text-light); padding: 32px;">
+              Đang tải danh sách đơn nạp...
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 16px;">
+      <span id="page-info" style="font-size: 12px; color: var(--notion-text-light);">Hiển thị 0 đơn</span>
+      <div style="display: flex; gap: 6px;">
+        <button id="btn-prev-page" class="notion-btn" style="font-size: 11.5px; padding: 4px 10px;" disabled>
+          <i class="ph-light ph-caret-left"></i> Trang trước
+        </button>
+        <button id="btn-next-page" class="notion-btn" style="font-size: 11.5px; padding: 4px 10px;" disabled>
+          Trang sau <i class="ph-light ph-caret-right"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const COIN_HUB_API = 'http://localhost:3005';
+    const ADMIN_API_KEY = 'doca_admin_secret_key_2026';
+
+    const authHeaders = {
+      'Content-Type': 'application/json',
+      'x-api-key': ADMIN_API_KEY,
+    };
+
+    let currentPage = 1;
+    const limit = 20;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      async function loadSummary() {
+        try {
+          const res = await fetch(`${COIN_HUB_API}/api/v1/admin/summary?tenant_id=doca`, { headers: authHeaders });
+          if (res.ok) {
+            const data = await res.json();
+            const statRev = document.getElementById('stat-total-revenue');
+            const statCoins = document.getElementById('stat-circulating-coins');
+            if (statRev) statRev.innerText = (data.total_revenue_vnd || 0).toLocaleString('vi-VN') + ' đ';
+            if (statCoins) statCoins.innerText = (data.total_coins_in_circulation || 0).toLocaleString('vi-VN') + ' Cá';
+          }
+        } catch (e) {
+          console.warn('Lỗi kết nối summary Coin Hub API');
+        }
+      }
+
+      async function loadOrders() {
+        const tbody = document.getElementById('orders-table-body');
+        if (!tbody) return;
+
+        const status = (document.getElementById('filter-order-status') as HTMLSelectElement)?.value || '';
+        const search = (document.getElementById('input-search-order') as HTMLInputElement)?.value.trim().toLowerCase() || '';
+
+        try {
+          const res = await fetch(`${COIN_HUB_API}/api/v1/admin/orders?tenant_id=doca&page=${currentPage}&limit=${limit}${status ? '&status=' + status : ''}`, { headers: authHeaders });
+          if (res.ok) {
+            const data = await res.json();
+            let items = data.items || [];
+
+            // Client-side quick search filter
+            if (search) {
+              items = items.filter((o: any) => 
+                (o.id && o.id.toLowerCase().includes(search)) ||
+                (o.user?.email && o.user.email.toLowerCase().includes(search)) ||
+                (o.user?.phone && o.user.phone.includes(search)) ||
+                (o.gateway && o.gateway.toLowerCase().includes(search))
+              );
+            }
+
+            // Update stats
+            const successCount = (data.items || []).filter((o: any) => o.status === 'SUCCESS').length;
+            const pendingCount = (data.items || []).filter((o: any) => o.status === 'PENDING').length;
+            const statSuccess = document.getElementById('stat-success-count');
+            const statPending = document.getElementById('stat-pending-count');
+            if (statSuccess) statSuccess.innerText = String(successCount);
+            if (statPending) statPending.innerText = String(pendingCount);
+
+            if (items.length === 0) {
+              tbody.innerHTML = '<tr><td colspan="9" style="text-align: center; padding: 28px; color: var(--notion-text-light);">Không tìm thấy đơn hàng nào.</td></tr>';
+              return;
+            }
+
+            tbody.innerHTML = items.map((order: any) => `
+              <tr>
+                <td><code style="font-family: 'Space Mono', monospace; font-size: 11px; background: rgba(0,0,0,0.04); padding: 2px 4px; border-radius: 3px;">${order.id.slice(0, 8)}...</code></td>
+                <td>
+                  <div style="font-weight: 500;">${order.user?.email || order.user?.phone || 'Khách vãng lai'}</div>
+                </td>
+                <td><b>${order.package?.name || 'Gói nạp'}</b></td>
+                <td><b>${Number(order.amountVnd).toLocaleString('vi-VN')} đ</b></td>
+                <td><span style="color: var(--doca-forest); font-weight: 600;">+${Number(order.coinAmount)} Cá</span></td>
+                <td>
+                  <span style="padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: 600; background: rgba(21,23,15,0.06);">
+                    ${order.gateway}
+                  </span>
+                </td>
+                <td>
+                  <span style="padding: 2px 8px; border-radius: 12px; font-size: 11px; font-weight: 600; background: ${order.status === 'SUCCESS' ? 'rgba(118, 193, 35, 0.15)' : (order.status === 'PENDING' ? 'rgba(230, 126, 34, 0.15)' : 'rgba(21, 23, 15, 0.08)')}; color: ${order.status === 'SUCCESS' ? 'var(--doca-forest)' : (order.status === 'PENDING' ? '#d35400' : 'var(--notion-text-main)')};">
+                    ${order.status === 'SUCCESS' ? '● Thành công' : (order.status === 'PENDING' ? '⏳ Đang chờ' : order.status)}
+                  </span>
+                </td>
+                <td style="font-size: 11.5px; color: var(--notion-text-light);">${new Date(order.createdAt).toLocaleString('vi-VN')}</td>
+                <td style="text-align: right;">
+                  <button class="notion-btn btn-reconcile" data-id="${order.id}" style="font-size: 11px; padding: 3px 8px;">
+                    <i class="ph-light ph-arrows-clockwise"></i> Đối soát
+                  </button>
+                </td>
+              </tr>
+            `).join('');
+
+            // Pagination text
+            const pageInfo = document.getElementById('page-info');
+            if (pageInfo) pageInfo.innerText = `Trang ${currentPage} / Tổng ${data.total || items.length} đơn`;
+
+            // Gán sự kiện Đối Soát
+            document.querySelectorAll('.btn-reconcile').forEach(btn => {
+              btn.addEventListener('click', async (e) => {
+                const target = e.currentTarget as HTMLElement;
+                const orderId = target.dataset.id;
+                if (!orderId) return;
+
+                target.innerHTML = `<i class="ph-light ph-spinner spin"></i> Đang tra...`;
+                (target as HTMLButtonElement).disabled = true;
+
+                try {
+                  const recRes = await fetch(`${COIN_HUB_API}/api/v1/admin/orders/${orderId}/reconcile`, {
+                    method: 'POST',
+                    headers: authHeaders,
+                  });
+                  const recData = await recRes.json();
+                  if (recRes.ok) {
+                    alert(`Kết quả đối soát đơn ${orderId.slice(0, 8)}:\n- Trạng thái DB: ${recData.current_status}\n- Cổng phản hồi: ${JSON.stringify(recData.gateway_status)}\n- Khớp trạng thái: ${recData.is_matched ? 'ĐÃ KHỚP' : 'CHƯA KHỚP'}`);
+                    loadOrders();
+                    loadSummary();
+                  } else {
+                    alert('Lỗi đối soát: ' + (recData.message || 'Không thể đối soát'));
+                  }
+                } catch (err: any) {
+                  alert('Lỗi kết nối Coin Hub: ' + err.message);
+                } finally {
+                  target.innerHTML = `<i class="ph-light ph-arrows-clockwise"></i> Đối soát`;
+                  (target as HTMLButtonElement).disabled = false;
+                }
+              });
+            });
+          }
+        } catch (e) {
+          tbody.innerHTML = '<tr><td colspan="9" style="text-align: center; padding: 24px; color: #d32f2f;">Chưa kết nối được Backend Coin Hub (:3005).</td></tr>';
+        }
+      }
+
+      document.getElementById('btn-refresh-orders')?.addEventListener('click', () => {
+        loadOrders();
+        loadSummary();
+      });
+
+      document.getElementById('filter-order-status')?.addEventListener('change', () => {
+        currentPage = 1;
+        loadOrders();
+      });
+
+      document.getElementById('input-search-order')?.addEventListener('input', () => {
+        loadOrders();
+      });
+
+      loadSummary();
+      loadOrders();
+    });
+  </script>
+</AdminLayout>
