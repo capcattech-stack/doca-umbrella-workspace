@@ -49,7 +49,7 @@ import AdminLayout from '../../components/AdminLayout.astro';
 
       <div class="notion-card" style="padding: 16px; border: 1px solid var(--notion-border); border-radius: var(--notion-radius); background: #ffffff;">
         <div style="font-size: 12px; color: var(--notion-text-light); margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
-          <i class="ph-light ph-fish" style="color: var(--doca-forest); font-size: 15px;"></i> Cá Phát Hành Đã Bơm
+          <i class="ph-light ph-fish" style="color: var(--doca-forest); font-size: 15px;"></i> Cá Đang Lưu Hành
         </div>
         <div id="stat-total-coins" style="font-size: 22px; font-weight: 700; color: var(--notion-text-main);">0 Cá</div>
       </div>
@@ -182,7 +182,7 @@ import AdminLayout from '../../components/AdminLayout.astro';
             const revEl = document.getElementById('stat-total-revenue');
             const coinEl = document.getElementById('stat-total-coins');
             if (revEl) revEl.innerText = Number(summary.total_revenue_vnd || 0).toLocaleString('vi-VN') + ' đ';
-            if (coinEl) coinEl.innerText = Number(summary.circulating_coins || 0).toLocaleString('vi-VN') + ' Cá';
+            if (coinEl) coinEl.innerText = Number(summary.circulating_coins ?? summary.total_coins_in_circulation ?? 0).toLocaleString('vi-VN') + ' Cá';
           }
         } catch (e) {
           console.warn('[Summary] Cannot fetch stats', e);
