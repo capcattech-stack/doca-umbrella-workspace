@@ -124,7 +124,7 @@ import AdminLayout from '../../components/AdminLayout.astro';
   </div>
 
   <script>
-    const COIN_HUB_API = 'http://localhost:3005';
+    const COIN_HUB_API = import.meta.env.PUBLIC_COIN_HUB_API_URL || 'http://localhost:3005';
     const ADMIN_API_KEY = 'doca_admin_secret_key_2026';
 
     const authHeaders = {
