@@ -1,8 +1,9 @@
 /capcat-ds/
 .DS_Store
   
-# Sub-repositories inside apps/  
-apps/
+# Sub-repositories inside apps/ (Keep README registry tracked)
+/apps/*
+!/apps/README.md
 
 # Safety Precaution: Phong ngua ro ri secrets/keys cuc bo (Luu y: khong dung .env chung o thu muc goc)
 .env
