@@ -161,8 +161,16 @@ When collaborating on the project, Agents and human engineers follow two synchro
     *   *ADR-050:* Sử dụng Redis Cache lưu trữ Idempotency Key ngăn chặn cộng xu trùng lặp từ webhook cổng thanh toán.
     *   *ADR-051:* Tác vụ tự động gom doanh thu xuất 01 hóa đơn điện tử tổng cuối ngày qua API Misa để tối ưu hóa thuế và kế toán.
 
+## Feature 028: Công Cụ Tạo Link Shopee Affiliate 1-Chạm Trên Trang Sản Phẩm
+*   **Planning Date:** 2026-08-30
+*   **Status:** Success (Fully Implemented & Verified)
+*   **Description:** Xây dựng công cụ chuyển đổi và tạo link Shopee Affiliate 1-chạm tích hợp ngay đầu trang Sản phẩm (`/product`) của `doca-affiliate-web`. Hệ thống tự động giải mã các dạng link rút gọn (`shp.ee`, `shope.ee`, `s.shopee.vn`), bóc tách thông tin sản phẩm và gắn mã Shopee Partner ID/Sub ID (Universal tracking hoặc Shopee Open API). Hỗ trợ nút Dán từ Clipboard, Sao chép 1-chạm, Popup quét QR Code, modal cấu hình mã affiliate cá nhân và lưu lịch sử 5 link gần nhất trên `localStorage`.
+*   **Key Decisions:**
+    *   *ADR-052:* Tích hợp API Endpoint `/api/shopee/convert` hỗ trợ 2 cơ chế (Shopee Open API GraphQL hoặc Universal Tracking Link Builder).
+    *   *ADR-053:* Bóc tách linh hoạt ShopID và ItemID từ mọi cấu trúc URL Shopee (`/product/shopId/itemId`, `/{slug}-i.shopId.itemId`, `/opaanlp/shopId/itemId`).
+    *   *ADR-054:* Thiết kế giao diện Muji Minimalist tinh gọn trên component `ShopeeAffiliateTool.astro` với đầy đủ tính năng Clipboard API, QR Code, Tag chips và lưu trữ LocalStorage.
 
-## Feature 015: Doca Coin Hub (Virtual Economy & Ledger Platform)
+## Feature 029: Doca Coin Hub (Virtual Economy & Ledger Platform)
 *   **Planning Date:** 2026-08-20
 *   **Status:** Planned (Specification, ADRs, & Implementation Plan Approved)
 *   **Description:** Designed and architected Doca Coin Hub (`apps/coin-hub`), an independent, multi-tenant-ready Virtual Economy, Payment Inflow (ZaloPay v2 & Mock Sandbox), and Immutable Ledger microservice built with NestJS v11, TypeORM (isolated PostgreSQL), and BullMQ (Redis).
